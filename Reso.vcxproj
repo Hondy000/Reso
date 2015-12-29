@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\GameSource\GameSystem.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Private\BaseObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Private\Task\TaskSystem.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\Renderer\Basic\BaseRenderDeviceManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\Renderer\Basic\RendererManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\Renderer\DirectX\ver.11\CDirectX11Adapter.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\Renderer\DirectX\ver.11\CDirectX11DeviceContext.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\Renderer\DirectX\ver.11\DirectX11RenderDeviceManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\Renderer\DirectX\ver.11\CDirectX11SwapChain.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\GraphicsTypes.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\Renderer\DirectX\ver.11\GeometryBuffers.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Input\Private\DirectX\DirectInput.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Math\Private\DirectXMath.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Platform\Windows\BaseWindow.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Platform\Windows\WinMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\GameSource\GameSystem.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\Actor\ActorInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\BaseObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\Common.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\DirectX11Common.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\DirectX11Types.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\HFTypes.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\Level\LevelInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\Task\TaskInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\Task\TaskSystem.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\GraphicsTypes.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\DirectX\ver.11\DirectX11RenderDeviceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\Basic\BaseRenderDeviceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\Basic\CBaseRenderDeviceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\Basic\CRendererManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\Basic\RendererManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\DirectX\ver.11\CDirectX11Adapter.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\DirectX\ver.11\CDirectX11DeviceContext.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\DirectX\ver.11\CDirectX11RenderDeviceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\DirectX\ver.11\CDirectX11SwapChain.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\Renderer\DirectX\ver.11\GeometryBuffers.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Input\Public\InputInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Input\Public\InputManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Input\Public\DierctX\DirectInput.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Math\Public\DirectXMath.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Math\Public\BasicMath.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Math\Public\HFMath.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Platform\Windows\BaseWindow.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{827B7004-BF47-4CA5-9B32-B30B408FEDAC}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Reso</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="DirectX11.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="DirectX11.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="DirectX11.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="DirectX11.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
