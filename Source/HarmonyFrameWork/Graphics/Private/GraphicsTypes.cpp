@@ -2,7 +2,7 @@
 
 namespace HFGraphics 
 {
-	void MeshData::CreatePolygonIndex(std::vector<UINT>& indices)
+	void SubMeshData::CreatePolygonIndex(std::vector<UINT>& indices)
 	{
 		if (uvIndexArray.size() != porygonIndexArray.size())
 		{
@@ -29,7 +29,7 @@ namespace HFGraphics
 																									* @return	The new position element.
 																									**************************************************************************************************/
 
-	void MeshData::CreatePositionElement(std::vector<HFVECTOR3>& positions)
+	void SubMeshData::CreatePositionElement(std::vector<HFVECTOR3>& positions)
 	{
 		if (uvIndexArray.size() != porygonIndexArray.size())
 		{
@@ -55,7 +55,7 @@ namespace HFGraphics
 																									* @return	The new tex element.
 																									**************************************************************************************************/
 
-	void MeshData::CreateTexElement(std::vector<HFVECTOR2>& texcoords)
+	void SubMeshData::CreateTexElement(std::vector<HFVECTOR2>& texcoords)
 	{
 		switch (uvMappingMode)
 		{
@@ -194,7 +194,7 @@ namespace HFGraphics
 																									* @return	The new normal element.
 																									**************************************************************************************************/
 
-	void MeshData::CreateNormalElement(std::vector<HFVECTOR3>& normals)
+	void SubMeshData::CreateNormalElement(std::vector<HFVECTOR3>& normals)
 	{
 		switch (normalMappingMode)
 		{
@@ -326,19 +326,18 @@ namespace HFGraphics
 	}
 
 	/**********************************************************************************************//**
-																									* @fn	const std::vector<HFVECTOR4>& MESH_BASE_DATA::CreateMaterialVec4Element(MATERIAL::MATERIAL_ELEMENT elem)
-																									*
-																									* @brief	Creates material std::vector 4 element.
-																									*
-																									* @author	Kazuyuki Honda
-																									* @date	2015/11/04
-																									*
-																									* @param	elem	The element.
-																									*
-																									* @return	The new material std::vector 4 element.
-																									**************************************************************************************************/
+	 * @fn	void SubMeshData::CreateMaterialVec4Element(std::vector<HFVECTOR4>& materials, MATERIAL_ELEMENT elem)
+	 *
+	 * @brief	Creates material std::vector 4 element.
+	 *
+	 * @author	Kazuyuki Honda
+	 * @date	2015/11/04
+	 *
+	 * @param [in,out]	materials	The materials.
+	 * @param	elem			 	The element.
+	 **************************************************************************************************/
 
-	void MeshData::CreateMaterialVec4Element(std::vector<HFVECTOR4>& materials, MATERIAL_ELEMENT elem)
+	void SubMeshData::CreateMaterialVec4Element(std::vector<HFVECTOR4>& materials, MATERIAL_ELEMENT elem)
 	{
 		switch (materialMappingMode)
 		{

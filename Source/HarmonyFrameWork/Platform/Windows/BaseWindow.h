@@ -17,14 +17,14 @@ class BaseWindow
 {
 public:
 
-	BaseWindow(CONST HINSTANCE hInst, CONST HWND hWndParent, CONST BOOL isFullWindow);
+	BaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow);
 	virtual ~BaseWindow();
 	virtual void Initialize(void);
 	void Finalize(void);
 
 	void SetWindowHandlePointer(HWND hWnd, LPVOID ptr)
 	{
-		SetWindowLong(hWnd, GWL_USERDATA, (LONG)ptr);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)ptr);
 	}
 
 	HWND GetHWND(void)
@@ -35,13 +35,13 @@ public:
 
 	virtual	LRESULT	CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	HRESULT CreateMyWindow(CONST HWND, CONST BOOL);
-	HRESULT RegisterWindow(CONST HINSTANCE);
+	BOOL CreateMyWindow(const HWND, const BOOL);
+	BOOL RegisterWindow(const HINSTANCE);
 	void TransactMessage(void);
 
 public:
-	bool m_isMainWindow;
-	bool m_isWindowDestory;
+	BOOL m_isMainWindow;
+	BOOL m_isWindowDestory;
 
 	// Access the WindowWidth
 	LONG GetWindowWidth(void) const { return(m_windowWidth); };

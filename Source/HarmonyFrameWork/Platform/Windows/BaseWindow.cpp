@@ -11,7 +11,7 @@
 LONG	BaseWindow::stNowWindowCount = 0;
 
 /**********************************************************************************************//**
- * @fn	CBaseWindow::CBaseWindow(CONST HINSTANCE hInst, CONST HWND hWndParent, CONST BOOL isFullWindow)
+ * @fn	CBaseWindow::CBaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow)
  *
  * @brief	&lt; フルウィンドウで生成.
  *
@@ -23,7 +23,7 @@ LONG	BaseWindow::stNowWindowCount = 0;
  * @param	isFullWindow	The is full window.
  **************************************************************************************************/
 
-BaseWindow::BaseWindow(CONST HINSTANCE hInst, CONST HWND hWndParent, CONST BOOL isFullWindow)
+BaseWindow::BaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow)
 {
 	if (isFullWindow)
 	{
@@ -152,10 +152,11 @@ void	BaseWindow::Finalize()
 LRESULT	CALLBACK	BaseWindow::CommonWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	//ポインタ取得
-	BaseWindow* pMenuWindow = (BaseWindow*)GetWindowLong(hWnd, GWL_USERDATA);
+	BaseWindow* pMenuWindow = (BaseWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 	//ポインタ取得
-	if (pMenuWindow) {
+	if (pMenuWindow) 
+	{
 		//オーバーライドしたウィンドウプロシージャの処理
 		return pMenuWindow->WndProc(hWnd, msg, wParam, lParam);
 	}
@@ -186,7 +187,7 @@ LRESULT	CALLBACK	BaseWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 	{
 	case WM_CREATE:
 	{
-		srand((unsigned int)time(0));
+		srand((UINT)time(0));
 	}
 	break;
 	case WM_TIMER:
@@ -216,7 +217,7 @@ LRESULT	CALLBACK	BaseWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 	}
 }
 
-inline	HRESULT	BaseWindow::RegisterWindow(CONST HINSTANCE hInst)
+inline	BOOL	BaseWindow::RegisterWindow(const HINSTANCE hInst)
 {
 	//Windows登録情報
 	m_wcex.cbSize = sizeof(WNDCLASSEX);
@@ -241,7 +242,7 @@ inline	HRESULT	BaseWindow::RegisterWindow(CONST HINSTANCE hInst)
 	return	S_OK;
 }
 
-HRESULT	BaseWindow::CreateMyWindow(CONST HWND hWndParent, CONST BOOL isFullWindow)
+BOOL	BaseWindow::CreateMyWindow(const HWND hWndParent, const BOOL isFullWindow)
 {
 	DWORD dwStyle = 0;
 	SHORT nWidth, nHeight;

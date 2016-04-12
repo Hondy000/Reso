@@ -5,12 +5,11 @@
  **************************************************************************************************/
 
 #include "GameSystem.h"
-#include "../../../GameDev2015Winter/Source/HarmonyFrame/Windows/CBaseWindow.h"
-#include "../HarmonyFrameWork/Graphics/Public/Renderer/Basic/RendererManager.h"
-#include "../HarmonyFrameWork/Input/Public/InputManager.h"
-#include "../HarmonyFrameWork/Core/Public/Task/TaskSystem.h"
-
-bool GameSystem::isEnd = 0;
+#include "..\HarmonyFrameWork\Input\Public\InputManager.h"
+#include "..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
+#include "..\HarmonyFrameWork\Core\Task\Public\TaskSystem.h"
+#include "..\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h"
+BOOL GameSystem::isEnd = 0;
 
 /**********************************************************************************************//**
  * @fn	CGameMain::CGameMain()
@@ -21,10 +20,12 @@ bool GameSystem::isEnd = 0;
  * @date	2015/06/17
  **************************************************************************************************/
 
-bool GameSystem::Update()
+BOOL GameSystem::Update()
 {
 	return true;
 }
+
+
 void GameSystem::Reset()
 {
 }
@@ -47,7 +48,7 @@ GameSystem::~GameSystem()
 }
 
 /**********************************************************************************************//**
- * @fn	void CGameMain::Init(bool isFull,int width,int height)
+ * @fn	void CGameMain::Init(BOOL isFull,int width,int height)
  *
  * @brief	Initialises this object.
  *
@@ -59,19 +60,21 @@ GameSystem::~GameSystem()
  * @param	height	The height.
  **************************************************************************************************/
 
-bool GameSystem::Init()
+BOOL GameSystem::Init()
 {
-	HWND hWnd = GetActiveWindow();
+	m_levelManager = std::make_shared<LevelManager>();
 	RendererManager::GetInstance()->Setup();
 	sRENDER_DEVICE_MANAGER->Setup();
-
-	//CAudioManager::GetInstance()->Init();
-	InputManager::GetInstance()->Setup();
-	//m_spSceneManager = std::shared_ptr<SceneManager>(new SceneManager);
-	timeBeginPeriod(1);				//タイマーの精度を1msに設定
-	execLastTime = timeGetTime();
-	//ActorFactory::GetInstance()->Create<TestScene>(scene);
 	
+	InputManager::GetInstance()->Setup();
+	sINPUT->Setup();
+	std::shared_ptr<DeferredRenderingManager> deferredRender = std::make_shared<DeferredRenderingManager>();
+	sTASK_SYSTEM->RegisterTask("deferredRender",deferredRender);
+	m_levelManager->Init();
+#ifdef WINDOWS
+	
+#endif // WINDOWS
+
 	return true;
 }
 
@@ -91,29 +94,9 @@ void GameSystem::TransitionState()
 
 void GameSystem::GameMain(void)
 {
-	timeBeginPeriod(1);				//タイマーの精度を1msに設定
-
-	while (true)
+	while(isEnd == false)
 	{
-		currentTime = timeGetTime();
-		if (currentTime - execLastTime > 1000 / 60)
-		{
-#ifdef DEBUG
-
-			//printf("%d fps\n",1000/( currentTime - execLastTime));
-
-#endif
-			sRENDER_DEVICE_MANAGER->Clear();
-			execLastTime = currentTime;
-			TaskSystem::GetInstance()->Update();
-			TaskSystem::GetInstance()->Draw();
-		//	Draw();
-		}
-
-		if (GetAsyncKeyState(VK_ESCAPE) & 0x8000 || isEnd == true)
-		{
-			break;
-		}
-		}
-	timeEndPeriod(1);							// タイマの分解能力もとに戻す
+		sTASK_SYSTEM->Update();
+		sTASK_SYSTEM->Render();
 	}
+}

@@ -1,16 +1,17 @@
 #pragma once
 #include <mutex>
 #include "../HarmonyFrameWork/Core/Public/Common.h"
-#include "../HarmonyFrameWork/Core/Public/Level/LevelInterface.h"
+#include "../HarmonyFrameWork/Core/Level/Public/LevelInterface.h"
+#include "../HarmonyFrameWork/Core/Level/Public/LevelManager.h"
 
 
 class GameSystem
 {
 public:
 	virtual ~GameSystem();
-	static bool isEnd;
+	static BOOL isEnd;
 	static std::mutex s_mutex;
-	bool Init();
+	BOOL Init();
 
 	static GameSystem* GetInstance(void)
 	{
@@ -20,16 +21,14 @@ public:
 
 	void GameMain(void);
 	void TransitionState();
-	bool Update();
-	bool Draw();
+	BOOL Update();
 	void Reset();
 
 private:
 	GameSystem();
-	//std::shared_ptr< SceneManager> m_spSceneManager;
-	DWORD execLastTime;
-	DWORD currentTime;
-	std::shared_ptr<ILevel> m_spScene;
+	unsigned long execLastTime;
+	unsigned long currentTime;
+	std::shared_ptr<LevelManager> m_levelManager;
 	
 #ifdef DEBUG
 	FILE *fp;

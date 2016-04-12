@@ -4,7 +4,8 @@
 #include <vector>
 #include <list>
 
-namespace HFGraphics {
+namespace HFGraphics 
+{
 #define HF_SEMANTICS_POSITION (1)
 #define HF_SEMANTICS_NORMAL (HF_SEMANTICS_POSITION << 1)
 #define HF_SEMANTICS_TEXCOORD0 (HF_SEMANTICS_NORMAL << 1)
@@ -20,6 +21,11 @@ namespace HFGraphics {
 #define HF_D3D11_GEOMETRY_SHADER (HF_D3D11_DOMAIN_SHADER << 1) 
 #define HF_D3D11_PIXEL_SHADER (HF_D3D11_GEOMETRY_SHADER << 1)
 #define HF_D3D11_COMPUTE_SHADER (HF_D3D11_PIXEL_SHADER << 1)
+
+#define HF_DEFERRED_RENDERING_SHADER (0)
+#define HF_LIGHTING_PATH_OF_DEFERRED_RENDERING ((DWORD_MAX>>1))
+#define HF_POST_DEFERRED_RENDERING_SHADER ((DWORD_MAX>>1)+1)
+
 
 	enum class MAPPING_MODE
 	{
@@ -51,9 +57,9 @@ namespace HFGraphics {
 		HFVECTOR3 specular;
 		HFVECTOR3 emissive;
 		HFVECTOR3 bump;
-		float reflectivity;	  // 反射率
-		float shininess;	  // 輝度
-		float transparency;	  // 透明度
+		FLOAT reflectivity;	  // 反射率
+		FLOAT shininess;	  // 輝度
+		FLOAT transparency;	  // 透明度
 		std::string ambientFileName;
 		std::string diffuseFileName;
 		std::string specularFileName;
@@ -104,9 +110,8 @@ namespace HFGraphics {
 		REFERENCE_MODE uvReference;
 	};
 
-	struct MeshData
+	struct SubMeshData
 	{
-
 		std::string name;
 		std::vector<HFVECTOR3> vertexPositionArray;
 		std::vector<UINT> porygonIndexArray;
@@ -136,5 +141,13 @@ namespace HFGraphics {
 		void CreateMaterialVec4Element(std::vector<HFVECTOR4>&, MATERIAL_ELEMENT);
 
 		void CreateTexElement(std::vector<HFVECTOR2>&);
+	};
+
+	struct MeshData
+	{
+
+		std::string name;
+		std::vector<std::shared_ptr<SubMeshData>> submeshArray;
+
 	};
 };

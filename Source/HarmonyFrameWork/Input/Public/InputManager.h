@@ -1,18 +1,23 @@
 #pragma once
 #include "../../Core/Public/Common.h"
 #include "InputInterface.h"
-#ifdef DIRECTX
-#include "DierctX\DirectInput.h"
+#ifdef DIRECTX						 
+#include "DirectInput.h"
 #endif
 
-#define sINPUT (InputManager::GetInstance()->GetInput())
+#ifdef DIRECTX 
+
+#define sINPUT (std::dynamic_pointer_cast<DirectInput>(InputManager::GetInstance()->GetInput()))
+
+#endif // DIRECTX 
+
 
 class InputManager
 {
 public:
 	~InputManager() {};
 
-	HFRESULT Setup(void)
+	BOOL Setup(void)
 	{
 #ifdef DIRECTX
 		m_spInput = std::shared_ptr<DirectInput>(new DirectInput);
