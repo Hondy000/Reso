@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>C:\work\DirectXTex\DirectXTex;C:\work\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <LibraryWPath>$(LibraryWPath)</LibraryWPath>
+    <LibraryPath>C:\work\DirectXTex\DirectXTex\Bin\Desktop_2015_Win10\x64\Release;C:\work\DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>DirectXTex.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
