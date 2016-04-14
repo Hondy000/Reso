@@ -96,6 +96,7 @@ void GameSystem::GameMain(void)
 {
 	while(isEnd == false)
 	{
+		sINPUT->Update();
 		sTASK_SYSTEM->Update();
 		sTASK_SYSTEM->Render();
 	}

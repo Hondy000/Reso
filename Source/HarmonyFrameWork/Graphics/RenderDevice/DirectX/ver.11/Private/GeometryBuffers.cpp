@@ -138,7 +138,7 @@ BOOL GeometryBuffers::Setup(int bufferCount, int textureWidth, int textureHeight
 
 	// Setup the description of the shader resource view.
 	shaderResourceViewDesc.Format = textureDesc.Format;
-	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
 	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
 	shaderResourceViewDesc.Texture2D.MipLevels = 1;
 

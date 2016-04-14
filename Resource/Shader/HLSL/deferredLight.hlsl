@@ -49,12 +49,13 @@ struct SpotLight
 /////////////
 // GLOBALS //
 /////////////
-Texture2D colorTexture : register(t0);
-Texture2D positionTexture : register(t1);
-Texture2D normalTexture : register(t2);
-Texture2D ambientTexture : register(t3);
-Texture2D emissiveTexture : register(t4);
-Texture2D specularTexture : register(t5);
+
+Texture2DMS <float4, 8> colorTexture : register(t0);
+Texture2DMS <float4, 8> positionTexture : register(t1);
+Texture2DMS <float4, 8> normalTexture : register(t2);
+Texture2DMS <float4, 8> ambientTexture : register(t3);
+Texture2DMS <float4, 8> emissiveTexture : register(t4);
+Texture2DMS <float4, 8> specularTexture : register(t5);
 
 
 
@@ -75,10 +76,13 @@ class cDeferredLight :iBaseLight
 		float lightIntensity;
 		float4 outputColor;
 
+		float2	pixsize;
+		int sampleCnt;
+		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 
-		colors = colorTexture.Sample(SampleTypePoint, input.tex);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0,0);
 
-		normals = normalTexture.Sample(SampleTypePoint, input.tex);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
 		lightDir = -lightDirection;
 
@@ -99,7 +103,10 @@ class cAlbedoLight :iBaseLight
 	{
 		float4 colors;
 		float4 outputColor;
-		colors = colorTexture.Sample(SampleTypePoint, input.tex);
+		float2	pixsize;
+		int sampleCnt;
+		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 		outputColor = colors;//saturate(normals * lightIntensity);
 
 		return outputColor;
@@ -114,8 +121,11 @@ class cPositionLight :iBaseLight
 	{
 		float4 postiions;
 		float4 outputColor;
+		float2	pixsize;
+		int sampleCnt;
+		positionTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 
-		postiions = positionTexture.Sample(SampleTypePoint, input.tex);
+		postiions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 		outputColor = postiions;
 
 		return outputColor;
@@ -131,7 +141,10 @@ class cNormalLight :iBaseLight
 	{
 		float4 normals;
 		float4 outputColor;
-		normals = normalTexture.Sample(SampleTypePoint, input.tex);
+		float2	pixsize;
+		int sampleCnt;
+		normalTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 		outputColor = normals;//saturate(normals * lightIntensity);
 
 		return outputColor;
@@ -156,12 +169,15 @@ class cPointLight :iBaseLight
 		float lightIntensity;
 		float4 outputColor;
 
+		float2	pixsize;
+		int sampleCnt;
+		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 
-		colors = colorTexture.Sample(SampleTypePoint, input.tex);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
-		positions = positionTexture.Sample(SampleTypePoint, input.tex);
+		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
-		normals = normalTexture.Sample(SampleTypePoint, input.tex);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 		lightDir = -lightDirection.xyz;
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
@@ -199,11 +215,14 @@ class cSpotLight : iBaseLight
 		float4 outputColor;
 
 
-		colors = colorTexture.Sample(SampleTypePoint, input.tex);
+		float2	pixsize;
+		int sampleCnt;
+		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
-		positions = positionTexture.Sample(SampleTypePoint, input.tex);
+		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
-		normals = normalTexture.Sample(SampleTypePoint, input.tex);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 		lightDir = -lightDirection.xyz;
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
@@ -250,20 +269,23 @@ class cAllLight : iBaseLight
 		float4 outputColor;
 
 
+		float2	pixsize;
+		int sampleCnt;
+		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 		// アルベドを取得
-		colors = colorTexture.Sample(SampleTypePoint, input.tex);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
 		// 位置を取得
-		positions = positionTexture.Sample(SampleTypePoint, input.tex);
+		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
 		// 法線を取得
-		normals = normalTexture.Sample(SampleTypePoint, input.tex);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 		
-		ambient = ambientTexture.Sample(SampleTypePoint, input.tex);
+		ambient = ambientTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
-		emissive = emissiveTexture.Sample(SampleTypePoint, input.tex);
+		emissive = emissiveTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 		
-		specular = specularTexture.Sample(SampleTypePoint, input.tex);
+		specular = specularTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
 
 		
 		lightDir = -lightDirection.xyz;

@@ -132,9 +132,11 @@ public:
 
 public:
 
-	FLOAT x;
-	FLOAT y;
-	FLOAT z;
+	union 
+	{
+		float vec[3];
+		FLOAT x,y,z;
+	};
 } HFVECTOR3, *LPHFVECTOR3;
 
 
@@ -172,8 +174,12 @@ public:
 	BOOL operator != (const HFVECTOR4&) const;
 
 public:
-#endif //__cplusplus
-	FLOAT x, y, z, w;
+#endif //__cplusplus   
+	union
+	{
+		float vec[4];
+		FLOAT x, y, z,w;
+	};
 } HFVECTOR4, *LPHFVECTOR4;
 
 

@@ -207,7 +207,7 @@ void DirectX11RenderDeviceManager::ClearScreen(void)
 	HRESULT hr = E_FAIL;
 	HFMATRIX matWorld, matView, matProj, matWVP;
 
-	FLOAT ClearColor[4] = { 0.3f, 0.3f, 0.8f, 1.0f };
+	FLOAT ClearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 	// バックバッファをクリア
 	m_cpImmediateContext->ClearRenderTargetView(m_cpRenderTargetView.Get(), ClearColor);
@@ -358,7 +358,7 @@ BOOL DirectX11RenderDeviceManager::CreateDevice(BOOL DirectX11Only)
 
 	// デバイス作成時に使用するビデオカードの性能一覧
 	// D3D_FEATURE_LEVEL
-	D3D_FEATURE_LEVEL FeatureLevel[] = {
+	D3D_FEATURE_LEVEL featureLevel[] = {
 		D3D_FEATURE_LEVEL_11_0,  // Direct3D 11.0 SM 5
 		D3D_FEATURE_LEVEL_10_1,  // Direct3D 10.1 SM 4
 		D3D_FEATURE_LEVEL_10_0,  // Direct3D 10.0 SM 4
@@ -370,12 +370,15 @@ BOOL DirectX11RenderDeviceManager::CreateDevice(BOOL DirectX11Only)
 
 	// ビデオカードがDirectX11およびシェーダーモデル5をサポートする環境でのみ実行可能
 	if (DirectX11Only == TRUE)
+	{
 		featureCnt = 1;
+	}
 
 	// ビデオカードがサポートするDirect3Dおよびシェーダーモデルのバージョンを上位から自動選択
 	else
-		featureCnt = sizeof(FeatureLevel) / sizeof(D3D_FEATURE_LEVEL);
-
+	{
+		featureCnt = sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL);
+	}
 #if defined(DEBUG) || defined(_DEBUG)
 
 	// デバッグコンパイルの場合、デバッグレイヤーを有効にする。
@@ -384,20 +387,24 @@ BOOL DirectX11RenderDeviceManager::CreateDevice(BOOL DirectX11Only)
 #else
 	UINT createDeviceFlag = 0;
 #endif
-	hr = D3D11CreateDevice(
-		m_spAdapter->GetAdapter().Get(),
-		D3D_DRIVER_TYPE_UNKNOWN,
-		NULL,
-		createDeviceFlag,
-		FeatureLevel,
-		featureCnt,
-		D3D11_SDK_VERSION,
-		m_cpD3DDevice.GetAddressOf(),
-		&m_FeatureLevel,
-		m_cpImmediateContext.GetAddressOf());
+	hr = D3D11CreateDevice
+		(
+			m_spAdapter->GetAdapter().Get(),
+			D3D_DRIVER_TYPE_UNKNOWN,
+			NULL,
+			createDeviceFlag,
+			featureLevel,
+			featureCnt,
+			D3D11_SDK_VERSION,
+			m_cpD3DDevice.GetAddressOf(),
+			&m_FeatureLevel,
+			m_cpImmediateContext.GetAddressOf()
+		);
 
-	if (FAILED(hr)) goto EXIT;
-
+	if (FAILED(hr))
+	{
+		goto EXIT;
+	}
 	// アダプターの情報を取得
 	// DXGI_ADAPTER_DESC
 	DXGI_ADAPTER_DESC desc;
@@ -427,14 +434,15 @@ BOOL DirectX11RenderDeviceManager::CreateDevice(BOOL DirectX11Only)
 		break;
 	}
 	if (SUCCEEDED(hr))
-
+	{
 		//	OutputMsg(_T("ビデオカード"), s, _T("ОＫ"));
 		//else
-			//OutputMsg(_T("ビデオカード"), s, _T("ＮＧ"));
+		//OutputMsg(_T("ビデオカード"), s, _T("ＮＧ"));
 
 		//OutputMsg(_T("デバイス作成"), _T(""), _T("完了"));
 
 		hr = S_OK;
+	}
 EXIT:
 
 	return hr;

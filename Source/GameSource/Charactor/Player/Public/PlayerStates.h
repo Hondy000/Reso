@@ -34,13 +34,13 @@ private:
 };
 
 
-class PlayerCruiseMoveState
+class PlayerMoveState
 	:
 	public IState
 {
 public:
-	PlayerCruiseMoveState() {};
-	~PlayerCruiseMoveState() {};
+	PlayerMoveState() {};
+	~PlayerMoveState() {};
 	void Enter();
 	void Execute();
 	void Exit();
@@ -50,13 +50,13 @@ protected:
 private:
 };
 
-class PlayerAcccelerationMoveState
+class PlayerStopState
 	:
 	public IState
 {
 public:
-	PlayerAcccelerationMoveState() {};
-	~PlayerAcccelerationMoveState() {};
+	PlayerStopState() {};
+	~PlayerStopState() {};
 	void Enter();
 	void Execute();
 	void Exit();
@@ -79,4 +79,5 @@ public:
 	std::shared_ptr<IState> GetNewState(void);
 protected:
 private:
+
 };

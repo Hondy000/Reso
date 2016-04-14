@@ -74,7 +74,7 @@ BOOL TaskSystem::Render()
 
 	for (auto it = m_spDrawList.begin(); it != m_spDrawList.end(); it++)
 	{
-		//(*it)->Command();
+		(*it)->Command();
 	}
 	sRENDER_DEVICE_MANAGER->EndRender();
 	m_spDrawList.clear();

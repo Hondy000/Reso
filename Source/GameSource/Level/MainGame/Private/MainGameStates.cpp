@@ -11,10 +11,10 @@ using namespace std;
 // game start
 void MainGameStartState::Enter()
 {
-	//shared_ptr<PlayerActor> player = make_shared<PlayerActor>();
-	//TaskSystem::GetInstance()->RegisterTask("palyer", player);
-	//m_wpTask.lock()->RegisterVariable("palyer", player);
-	//player->GetTransform()->SetPosition(HFVECTOR3(0, 0, 50));
+	shared_ptr<PlayerActor> player = make_shared<PlayerActor>();
+	TaskSystem::GetInstance()->RegisterTask("palyer", player);
+	m_wpTask.lock()->RegisterVariable("palyer", player);
+	player->GetTransform()->SetPosition(HFVECTOR3(0, 0, 50));
 
 	std::list<std::shared_ptr<EnemyActor>> m_manageEnemyList;
 	m_wpTask.lock()->RegisterVariable("enemyList", m_manageEnemyList);

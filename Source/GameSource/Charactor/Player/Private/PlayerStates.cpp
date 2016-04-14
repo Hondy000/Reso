@@ -10,11 +10,7 @@ using namespace std;
 
 void PlayerAliveBeingState::Enter()
 {
-
-	m_wpTask.lock()->RegisterVariable("m_velocity", 0.0f);
-	m_wpTask.lock()->RegisterVariable("m_direction", HFVECTOR3(0,1,1));
-	m_wpTask.lock()->RegisterVariable("m_accceleration", 0.002f);
-	RegisterState(std::make_shared<PlayerCruiseMoveState>(),m_wpTask.lock());
+	RegisterState(std::make_shared<PlayerMoveState>(),m_wpTask.lock());
 }
 
 void PlayerAliveBeingState::Execute()
@@ -52,14 +48,32 @@ std::shared_ptr<IState> PlayerDeadBeingState::GetNewState(void)
 	return std::make_shared<PlayerDeadBeingState>();
 }
 
-void PlayerCruiseMoveState::Enter()
+void PlayerMoveState::Enter()
 {
 
 }
 
 
-void PlayerCruiseMoveState::Execute()
+void PlayerMoveState::Execute()
 {
+	HFVECTOR3 moveDirection;
+	if(sINPUT->IsHoldKeyboard(DIK_W))
+	{
+		moveDirection.z += 1;
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_A))
+	{
+		moveDirection.x -= 1;
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_S))
+	{
+		moveDirection.z -= 1;
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_D))
+	{
+		moveDirection.x += 1;
+	}
+
 	/*
 	if (*m_wpTask.lock()->GetVariable<FLOAT>("m_velocity")->GetValue() < 5)
 	{
@@ -77,34 +91,34 @@ void PlayerCruiseMoveState::Execute()
 	  */
 }
 
-void PlayerCruiseMoveState::Exit()
+void PlayerMoveState::Exit()
 {
 
 }
 
-std::shared_ptr<IState> PlayerCruiseMoveState::GetNewState(void)
+std::shared_ptr<IState> PlayerMoveState::GetNewState(void)
 {
-	return std::make_shared<PlayerAcccelerationMoveState>();
+	return std::make_shared<PlayerStopState>();
 }
 
-void PlayerAcccelerationMoveState::Enter()
-{
-
-}
-
-void PlayerAcccelerationMoveState::Execute()
+void PlayerStopState::Enter()
 {
 
 }
 
-void PlayerAcccelerationMoveState::Exit()
+void PlayerStopState::Execute()
 {
 
 }
 
-std::shared_ptr<IState> PlayerAcccelerationMoveState::GetNewState(void)
+void PlayerStopState::Exit()
 {
-	return std::make_shared<PlayerCruiseMoveState>();
+
+}
+
+std::shared_ptr<IState> PlayerStopState::GetNewState(void)
+{
+	return std::make_shared<PlayerMoveState>();
 }
 
 void PlayerDecelerationMoveState::Enter()
@@ -124,5 +138,5 @@ void PlayerDecelerationMoveState::Exit()
 
 std::shared_ptr<IState> PlayerDecelerationMoveState::GetNewState(void)
 {
-	return std::make_shared<PlayerDecelerationMoveState>();
+	return std::make_shared<PlayerStopState>();
 }
