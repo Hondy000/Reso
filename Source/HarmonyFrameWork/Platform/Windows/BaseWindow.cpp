@@ -1,27 +1,27 @@
 /**********************************************************************************************//**
- * @file	CBaseWindow.cpp
- *
- * @brief	Implements the base Windows Form.
- **************************************************************************************************/
+																								* @file	CBaseWindow.cpp
+																								*
+																								* @brief	Implements the base Windows Form.
+																								**************************************************************************************************/
 
 #include"BaseWindow.h"
 #include <tchar.h>
 
- //静的メンバの初期化
+																								//静的メンバの初期化
 LONG	BaseWindow::stNowWindowCount = 0;
 
 /**********************************************************************************************//**
- * @fn	CBaseWindow::CBaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow)
- *
- * @brief	&lt; フルウィンドウで生成.
- *
- * @author	Kazuyuki
- * @date	2015/06/17
- *
- * @param	hInst			The instance.
- * @param	hWndParent  	The window parent.
- * @param	isFullWindow	The is full window.
- **************************************************************************************************/
+																								* @fn	CBaseWindow::CBaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow)
+																								*
+																								* @brief	&lt; フルウィンドウで生成.
+																								*
+																								* @author	Kazuyuki
+																								* @date	2015/06/17
+																								*
+																								* @param	hInst			The instance.
+																								* @param	hWndParent  	The window parent.
+																								* @param	isFullWindow	The is full window.
+																								**************************************************************************************************/
 
 BaseWindow::BaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow)
 {
@@ -55,13 +55,13 @@ BaseWindow::BaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL 
 }
 
 /**********************************************************************************************//**
- * @fn	CBaseWindow::~CBaseWindow()
- *
- * @brief	&lt; デストラクタ.
- *
- * @author	Kazuyuki
- * @date	2015/06/17
- **************************************************************************************************/
+																								* @fn	CBaseWindow::~CBaseWindow()
+																								*
+																								* @brief	&lt; デストラクタ.
+																								*
+																								* @author	Kazuyuki
+																								* @date	2015/06/17
+																								**************************************************************************************************/
 
 BaseWindow::~BaseWindow()
 {
@@ -80,13 +80,13 @@ BaseWindow::~BaseWindow()
 }
 
 /**********************************************************************************************//**
- * @fn	void CBaseWindow::Initialize()
- *
- * @brief	Initializes this object.
- *
- * @author	Kazuyuki
- * @date	2015/06/17
- **************************************************************************************************/
+																								* @fn	void CBaseWindow::Initialize()
+																								*
+																								* @brief	Initializes this object.
+																								*
+																								* @author	Kazuyuki
+																								* @date	2015/06/17
+																								**************************************************************************************************/
 
 void BaseWindow::Initialize()
 {
@@ -108,13 +108,13 @@ void BaseWindow::Initialize()
 }
 
 /**********************************************************************************************//**
- * @fn	void CBaseWindow::Finalize()
- *
- * @brief	Finalizes this object.
- *
- * @author	Kazuyuki
- * @date	2015/06/17
- **************************************************************************************************/
+																								* @fn	void CBaseWindow::Finalize()
+																								*
+																								* @brief	Finalizes this object.
+																								*
+																								* @author	Kazuyuki
+																								* @date	2015/06/17
+																								**************************************************************************************************/
 
 void	BaseWindow::Finalize()
 {
@@ -134,20 +134,20 @@ void	BaseWindow::Finalize()
 }
 
 /**********************************************************************************************//**
- * @fn	LRESULT CALLBACK CBaseWindow::CommonWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
- *
- * @brief	Common window proc.
- *
- * @author	Kazuyuki
- * @date	2015/06/17
- *
- * @param	hWnd  	Handle of the window.
- * @param	msg   	The message.
- * @param	wParam	The wParam field of the message.
- * @param	lParam	The lParam field of the message.
- *
- * @return	A CALLBACK.
- **************************************************************************************************/
+																								* @fn	LRESULT CALLBACK CBaseWindow::CommonWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+																								*
+																								* @brief	Common window proc.
+																								*
+																								* @author	Kazuyuki
+																								* @date	2015/06/17
+																								*
+																								* @param	hWnd  	Handle of the window.
+																								* @param	msg   	The message.
+																								* @param	wParam	The wParam field of the message.
+																								* @param	lParam	The lParam field of the message.
+																								*
+																								* @return	A CALLBACK.
+																								**************************************************************************************************/
 
 LRESULT	CALLBACK	BaseWindow::CommonWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -155,7 +155,7 @@ LRESULT	CALLBACK	BaseWindow::CommonWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 	BaseWindow* pMenuWindow = (BaseWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
 	//ポインタ取得
-	if (pMenuWindow) 
+	if (pMenuWindow)
 	{
 		//オーバーライドしたウィンドウプロシージャの処理
 		return pMenuWindow->WndProc(hWnd, msg, wParam, lParam);
@@ -166,20 +166,20 @@ LRESULT	CALLBACK	BaseWindow::CommonWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 }
 
 /**********************************************************************************************//**
- * @fn	LRESULT CALLBACK CBaseWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
- *
- * @brief	Window proc.
- *
- * @author	Kazuyuki
- * @date	2015/06/17
- *
- * @param	hWnd  	Handle of the window.
- * @param	msg   	The message.
- * @param	wParam	The wParam field of the message.
- * @param	lParam	The lParam field of the message.
- *
- * @return	A CALLBACK.
- **************************************************************************************************/
+																								* @fn	LRESULT CALLBACK CBaseWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+																								*
+																								* @brief	Window proc.
+																								*
+																								* @author	Kazuyuki
+																								* @date	2015/06/17
+																								*
+																								* @param	hWnd  	Handle of the window.
+																								* @param	msg   	The message.
+																								* @param	wParam	The wParam field of the message.
+																								* @param	lParam	The lParam field of the message.
+																								*
+																								* @return	A CALLBACK.
+																								**************************************************************************************************/
 
 LRESULT	CALLBACK	BaseWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -224,7 +224,7 @@ inline	BOOL	BaseWindow::RegisterWindow(const HINSTANCE hInst)
 	m_wcex.style = CS_HREDRAW | CS_VREDRAW;
 	m_wcex.hInstance = hInst;
 	m_wcex.lpszClassName = (_T("dev"));
-	m_wcex.lpfnWndProc = (WNDPROC)BaseWindow::CommonWndProc;
+	m_wcex.lpfnWndProc = BaseWindow::CommonWndProc;
 	m_wcex.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
 	m_wcex.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 	m_wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
@@ -261,12 +261,15 @@ BOOL	BaseWindow::CreateMyWindow(const HWND hWndParent, const BOOL isFullWindow)
 	}
 
 	RECT rc = { 0, 0, nWidth, nHeight };
-	AdjustWindowRectEx(&rc, dwStyle, FALSE, WS_EX_OVERLAPPEDWINDOW);
+	::SetRect(&rc, 0, 0, nWidth, nHeight);
+
+	//AdjustWindowRectEx(&rc, dwStyle, FALSE, WS_EX_OVERLAPPEDWINDOW);
+	::AdjustWindowRect(&rc, dwStyle, FALSE);
 
 	//ウィンドウ作成
 	m_hWnd = CreateWindow(
 		m_wcex.lpszClassName,
-		_T("dev"),
+		m_wcex.lpszClassName,
 		dwStyle,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -289,8 +292,8 @@ BOOL	BaseWindow::CreateMyWindow(const HWND hWndParent, const BOOL isFullWindow)
 	m_isMainWindow = (hWndParent == nullptr) ? TRUE : FALSE;
 
 	//ウィンドウ表示・更新
-	ShowWindow(m_hWnd, SW_SHOWNORMAL);
-	UpdateWindow(m_hWnd);
+	//ShowWindow(m_hWnd, SW_SHOWNORMAL);
+	//UpdateWindow(m_hWnd);
 
 	return	S_OK;
 }
@@ -307,7 +310,7 @@ void BaseWindow::TransactMessage(void)
 	}
 }
 
-void BaseWindow::ChangeWindowSize(LONG x,LONG y)
+void BaseWindow::ChangeWindowSize(LONG x, LONG y)
 {
 	// クライアント領域のサイズからウィンドウサイズを設定
 	RECT    rect = { 0, 0, x, y };

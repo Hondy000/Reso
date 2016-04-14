@@ -19,8 +19,12 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment( lib, "Shlwapi.lib" ) // PathFileExists などの API 関数を使いたい
 #pragma comment( lib, "winmm.lib" )   // timeGetTime を使いたい	 
+#ifdef DIRECTXTEX		
 #pragma comment(lib,"DirectXTex.lib")	
+#endif
+#ifdef DIRECTXTK
 #pragma comment(lib,"DirectXTK.lib")	 			
+#endif
 #pragma comment(lib,"d3dcompiler.lib")
 #define STRICT              // 型チェックを厳密に行う
 #define WIN32_LEAN_AND_MEAN // ヘッダーからあまり使われない関数を除く
@@ -33,7 +37,9 @@
 #include <dxgi.h>		 	  
 #include <Winstring.h>
 #include <d3dcompiler.h>   
+#ifdef DIRECTXTEX
 #include <DirectXTex.h>
+#endif
 #include <dinput.h>
 #include <XInput.h>
 #include <tchar.h>

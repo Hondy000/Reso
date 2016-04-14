@@ -2,11 +2,11 @@
 #include <math.h>
 #ifdef DIRECTX
 
-#include "DirectXMath.h"  
-#include <SimpleMath.h>	   	   
+#include "DirectXMath.h"   	   
 
 #endif
 #ifdef DIRECTXTK   
+#include <SimpleMath.h>	  
 
 #endif // WINDOWS10
 
@@ -98,7 +98,7 @@ typedef struct HFVECTOR3
 public:
 	HFVECTOR3() {};
 	HFVECTOR3(const HFVECTOR3&);
-#if DIRECTX
+#if DIRECTXTK
 	HFVECTOR3(const DirectX::SimpleMath::Vector3&);
 #endif
 	HFVECTOR3(FLOAT x, FLOAT y, FLOAT z);
@@ -125,7 +125,7 @@ public:
 	BOOL operator != (const HFVECTOR3&) const;
 
 	// cast
-#if DIRECTX
+#if DIRECTXTK
 	operator DirectX::SimpleMath::Vector3 ();
 #endif
 	
@@ -191,7 +191,7 @@ public:
 		FLOAT _21, FLOAT _22, FLOAT _23, FLOAT _24,
 		FLOAT _31, FLOAT _32, FLOAT _33, FLOAT _34,
 		FLOAT _41, FLOAT _42, FLOAT _43, FLOAT _44);
-#ifdef DIRECTX
+#ifdef DIRECTXTK
 	HFMATRIX(DirectX::SimpleMath::Matrix mat)
 	{
 		this->_11 = mat._11;

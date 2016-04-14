@@ -10,8 +10,58 @@
 #include <time.h>
 
 #include <Windows.h>
+#include <memory>
 
-#define	_Include_CBaseWindow_h_
+#define	_Include_CBaseWindow_h_	   
+class BaseWindow;
+class WindowManager
+{
+private:
+
+	WindowManager() {};
+public:
+	static WindowManager* GetInstance()
+	{
+		static WindowManager instance;
+		return &instance;
+	}
+	~WindowManager()
+	{
+	};
+
+	bool Setup(HINSTANCE hInst)
+	{
+		m_hInstance = hInst;
+		return true;
+	}
+
+	bool CreateMainWindow(bool isfullscreen)
+	{
+		m_mainWindow = std::make_shared<BaseWindow>(m_hInstance, nullptr, isfullscreen);
+		if (m_mainWindow)
+		{
+			 return true;
+		}
+		else
+		{
+			 return false;
+		}
+	}
+
+	std::shared_ptr<BaseWindow> GetMainWindow() const
+	{
+		return m_mainWindow;
+	}
+
+	void SetMainWindow(std::shared_ptr<BaseWindow> _val)
+	{
+		m_mainWindow = _val;
+	}
+
+private:
+	std::shared_ptr<BaseWindow>m_mainWindow;
+	HINSTANCE m_hInstance;
+};
 
 class BaseWindow
 {
