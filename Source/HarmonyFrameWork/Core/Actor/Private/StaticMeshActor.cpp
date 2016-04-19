@@ -11,7 +11,8 @@ StaticMeshActor::~StaticMeshActor()
 
 BOOL StaticMeshActor::Init()
 {
-	return false;
+	IActor::Init();
+	return true;
 }
 
 BOOL StaticMeshActor::Update()

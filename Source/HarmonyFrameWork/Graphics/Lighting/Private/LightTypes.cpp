@@ -25,7 +25,7 @@ FLOAT HFGraphics::DirectinalLight::GetDistance(HFVECTOR3 pos)
 FLOAT HFGraphics::PointLight::GetDistance(HFVECTOR3 pos)
 {
 	FLOAT distance;
-	distance = HFVec3Length(&HFVECTOR3(HFVECTOR3(pram.position.x, pram.position.y, pram.position.z) - pos));
+	distance = HFVec3Length(HFVECTOR3(HFVECTOR3(pram.position.x, pram.position.y, pram.position.z) - pos));
 	return distance;
 }
 
@@ -33,6 +33,6 @@ FLOAT HFGraphics::PointLight::GetDistance(HFVECTOR3 pos)
 FLOAT HFGraphics::SpotLight::GetDistance(HFVECTOR3 pos)
 {
 	FLOAT distance;
-	distance = HFVec3Length(&HFVECTOR3(HFVECTOR3(pram.position.x, pram.position.y, pram.position.z) - pos));
+	distance = HFVec3Length(HFVECTOR3(HFVECTOR3(pram.position.x, pram.position.y, pram.position.z) - pos));
 	return distance;
 }

@@ -315,7 +315,7 @@ BOOL DirectInput::IsReleaseMouse(HF_MOUSE_ENUM button)
  * @return	The mouse axis x coordinate.
  **************************************************************************************************/
 
-LONG DirectInput::IsMouseAxisX(void)
+LONG DirectInput::MouseAxisX(void)
 {
 	return infoMouse.lX;
 }

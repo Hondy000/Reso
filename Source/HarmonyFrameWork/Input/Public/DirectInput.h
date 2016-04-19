@@ -19,7 +19,7 @@ public:
 
 	BOOL IsHoldMouse(HF_MOUSE_ENUM);
 	BOOL IsReleaseMouse(HF_MOUSE_ENUM);
-	LONG IsMouseAxisX(void);
+	LONG MouseAxisX(void);
 	LONG IsMouseAxisY(void);
 	INT IsMouseWheel(void);
 

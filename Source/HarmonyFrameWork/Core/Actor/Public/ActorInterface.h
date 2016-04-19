@@ -22,7 +22,10 @@ public:
 	void SortTaskByPriority();
 	BOOL UpdateAllTask();
 	// Access the Transform
-	const std::shared_ptr< Transform>& GetTransform(void) const		{ return(m_transform);		};
+	const std::shared_ptr< Transform>& GetTransform(void) const
+	{
+		return(m_transform);
+	};
 	void SetTransform(const std::shared_ptr< Transform>& transform)	{ m_transform = transform;	};
 
 	// Access the PreviousTransform

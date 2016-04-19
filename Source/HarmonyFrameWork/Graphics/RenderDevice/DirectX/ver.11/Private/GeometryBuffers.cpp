@@ -138,7 +138,7 @@ BOOL GeometryBuffers::Setup(int bufferCount, int textureWidth, int textureHeight
 
 	// Setup the description of the shader resource view.
 	shaderResourceViewDesc.Format = textureDesc.Format;
-	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+	shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
 	shaderResourceViewDesc.Texture2D.MipLevels = 1;
 
@@ -187,6 +187,25 @@ void GeometryBuffers::SetRenderTargets(Microsoft::WRL::ComPtr<ID3D11DeviceContex
 	deviceContext->RSSetViewports(1, &m_viewport);
 
 	return;
+}
+
+void GeometryBuffers::CleanUpRenderTargets()
+{
+	for (int i = 0; i < m_bufferCount; i++)
+	{
+		m_shaderResourceViewArray[i]->GetSharderResorceView().Reset();
+
+
+	}	
+	
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->OMSetRenderTargets(0,NULL, NULL);
+
+	for (int i = 0; i < m_bufferCount; i++)
+	{
+		m_shaderResourceViewArray[i]->SetSharderResorceView(sRENDER_DEVICE_MANAGER->GetSRViewFromRTView(m_renderTargetViewArray[i]));
+
+	}
+
 }
 
 /**********************************************************************************************//**

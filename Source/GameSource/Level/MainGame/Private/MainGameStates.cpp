@@ -4,6 +4,7 @@
 #include "../../../../HarmonyFrameWork/Graphics/Lighting/Public/LightManager.h"
 #include "../../../Charactor/Enemy/Public/EnemyActor.h"
 #include "../Public/MainGame.h"
+#include "..\..\..\..\HarmonyFrameWork\Core\Actor\Public\StaticMeshActor.h"
 
 using namespace std;
 
@@ -14,7 +15,11 @@ void MainGameStartState::Enter()
 	shared_ptr<PlayerActor> player = make_shared<PlayerActor>();
 	TaskSystem::GetInstance()->RegisterTask("palyer", player);
 	m_wpTask.lock()->RegisterVariable("palyer", player);
-	player->GetTransform()->SetPosition(HFVECTOR3(0, 0, 50));
+	shared_ptr<StaticMeshActor > spStage = make_shared<StaticMeshActor >();
+	spStage->LoadMesh("Resource/Mesh/TestStage.hfm");
+	TaskSystem::GetInstance()->RegisterTask("stage",spStage);
+	
+	player->GetTransform()->SetPosition(HFVECTOR3(0, 0, 0));
 
 	std::list<std::shared_ptr<EnemyActor>> m_manageEnemyList;
 	m_wpTask.lock()->RegisterVariable("enemyList", m_manageEnemyList);

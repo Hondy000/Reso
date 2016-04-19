@@ -2,8 +2,8 @@
 #include "../../Public/Common.h"
 #include "../../Public/IBaseObject.h"
 #include "StateHolder.h"
-#define GET_TASK_VARIABLE_VALUE_PTR(typeName,varName)  (m_wpTask.lock()->GetVariable<typeName>(varName)->GetValue())
-#define GET_TASK_VARIABLE_VALUE(typeName,varName)  (*(m_wpTask.lock()->GetVariable<typeName>(varName)->GetValue()))
+#define GET_TASK_VAR_PTR(spTask,typeName,varName)  (spTask->GetVariable<typeName>(varName)->GetValue())
+#define GET_TASK_VAR(spTask,typeName,varName)  (*(spTask->GetVariable<typeName>(varName)->GetValue()))
 
 class IBaseTask;
 

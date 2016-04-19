@@ -200,6 +200,14 @@ BOOL DeferredShader::Render()
 	return result;
 }
 
+BOOL DeferredShader::PostProcessOfRender()
+{
+	Microsoft::WRL::ComPtr< ID3D11RenderTargetView> pNullRTV[7];
+
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->OMSetRenderTargets(7, pNullRTV[0].ReleaseAndGetAddressOf(), NULL);
+	return true;
+}
+
 /**********************************************************************************************//**
  * @fn	BOOL DeferredShader::PreRenderProcess ( std::shared_ptr<CBaseObject> spPram )
  *

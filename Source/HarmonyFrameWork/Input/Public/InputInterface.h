@@ -28,7 +28,7 @@ public:
 
 	virtual BOOL IsHoldMouse(HF_MOUSE_ENUM) = 0;
 	virtual BOOL IsReleaseMouse(HF_MOUSE_ENUM) = 0;
-	virtual LONG IsMouseAxisX(void) = 0;
+	virtual LONG MouseAxisX(void) = 0;
 	virtual LONG IsMouseAxisY(void) = 0;
 	virtual INT IsMouseWheel(void) = 0;
 

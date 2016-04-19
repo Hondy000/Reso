@@ -80,9 +80,9 @@ class cDeferredLight :iBaseLight
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 
-		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0,0);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0, 0);
 
-		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
 		lightDir = -lightDirection;
 
@@ -106,7 +106,7 @@ class cAlbedoLight :iBaseLight
 		float2	pixsize;
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
-		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 		outputColor = colors;//saturate(normals * lightIntensity);
 
 		return outputColor;
@@ -144,7 +144,7 @@ class cNormalLight :iBaseLight
 		float2	pixsize;
 		int sampleCnt;
 		normalTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
-		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 		outputColor = normals;//saturate(normals * lightIntensity);
 
 		return outputColor;
@@ -173,11 +173,11 @@ class cPointLight :iBaseLight
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 
-		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
-		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
-		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 		lightDir = -lightDirection.xyz;
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
@@ -218,11 +218,11 @@ class cSpotLight : iBaseLight
 		float2	pixsize;
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
-		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
-		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
-		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 		lightDir = -lightDirection.xyz;
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
@@ -273,21 +273,21 @@ class cAllLight : iBaseLight
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 		// アルベドを取得
-		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
 		// 位置を取得
-		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
 		// 法線を取得
-		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
-		
-		ambient = ambientTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
-		emissive = emissiveTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
-		
-		specular = specularTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y),0);
+		ambient = ambientTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
-		
+		emissive = emissiveTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+		specular = specularTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+
 		lightDir = -lightDirection.xyz;
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
@@ -304,7 +304,7 @@ class cAllLight : iBaseLight
 			outputColor.xyz += colors.xyz * max(pointLight[i].color.xyz * at * step(len, pointLight[i].range) * dot(LD, normals), 0);
 
 		}
-		
+
 		for (int i = 0; i < 6; i++)
 		{
 			lightDir = spotLight[i].position.xyz - positions.xyz;

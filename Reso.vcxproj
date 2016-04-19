@@ -23,7 +23,6 @@
     <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyActor.h" />
     <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyManager.h" />
     <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyStates.h" />
-    <ClInclude Include="Source\GameSource\Charactor\Player\Private\TestVariableFunc.h" />
     <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerActor.h" />
     <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerStates.h" />
     <ClInclude Include="Source\GameSource\Charactor\Public\CharactorActor.h" />
@@ -39,6 +38,8 @@
     <ClInclude Include="Source\GameSource\Level\TestLevel\Public\TestLevel.h" />
     <ClInclude Include="Source\GameSource\Level\Title\Public\Title.h" />
     <ClInclude Include="Source\GameSource\Level\Title\Public\TitleStates.h" />
+    <ClInclude Include="Source\GameSource\Weapon\Public\MachineGun.h" />
+    <ClInclude Include="Source\GameSource\Weapon\Public\IBaseWeapon.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\ActorInterface.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\CameraActor.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\SpawnActor.h" />
@@ -148,6 +149,8 @@
     <ClCompile Include="Source\GameSource\Level\TestLevel\Private\TestLevel.cpp" />
     <ClCompile Include="Source\GameSource\Level\Title\Private\Title.cpp" />
     <ClCompile Include="Source\GameSource\Level\Title\Private\TitleStates.cpp" />
+    <ClCompile Include="Source\GameSource\Weapon\Private\IBaseWeapon.cpp" />
+    <ClCompile Include="Source\GameSource\Weapon\Private\MachineGun.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\ActorInterface.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\CameraActor.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\SpawnActor.cpp" />
@@ -261,6 +264,7 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="DirectX11_Win10_Desktop_VS2015_Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -287,7 +291,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>DIRECTX;DIRECTX11</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X86</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -303,7 +307,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PreprocessorDefinitions>DIRECTX;DIRECTX11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -318,7 +322,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>DIRECTX;DIRECTX11</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X86</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -336,7 +340,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>DIRECTX;DIRECTX11</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>

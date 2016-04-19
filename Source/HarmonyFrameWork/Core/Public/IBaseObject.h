@@ -2,7 +2,12 @@
 #include "Common.h"
 #include "VariableInterface.h"
 
+#ifdef X86
 typedef uint32_t GLOBAL_ID;	// オブジェクトID
+#endif
+#ifdef X64
+typedef uint64_t GLOBAL_ID;	// オブジェクトID
+#endif
 class IBaseObject
 	
 {

@@ -26,6 +26,7 @@ public:
 	// 描画するコンテキストを設定
 	void SetRenderTargets(Microsoft::WRL::ComPtr<ID3D11DeviceContext>);
 
+	void CleanUpRenderTargets();
 	// コンテキストをクリア
 	void ClearRenderTargets
 		(

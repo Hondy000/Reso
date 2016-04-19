@@ -984,6 +984,12 @@ public:
 	{
 		return(m_spSwapChain);
 	};
+	// Access the CpD3DDebug
+	Microsoft::WRL::ComPtr< ID3D11Debug> GetCpD3DDebug(void) 
+	{
+		return(m_cpD3DDebug);
+	};
+
 private:
 
 	/**********************************************************************************************//**
@@ -1006,7 +1012,9 @@ private:
 	/** @brief	Direct3D 初期化後、実際に採用されたフィーチャーレベル。. */
 	D3D_FEATURE_LEVEL       m_FeatureLevel;
 	/** @brief	Direct3D11 デバイス。. */
-	Microsoft::WRL::ComPtr< ID3D11Device >         m_cpD3DDevice;
+	Microsoft::WRL::ComPtr< ID3D11Device >         m_cpD3DDevice; 
+
+	Microsoft::WRL::ComPtr< ID3D11Debug> m_cpD3DDebug;
 	/** @brief	Direct3D11 デバイスコンテキスト。. */
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext>    m_cpImmediateContext;
 	/** @brief	レンダリングターゲットビュー. */

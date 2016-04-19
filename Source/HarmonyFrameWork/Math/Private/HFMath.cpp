@@ -773,9 +773,9 @@ HFVECTOR2* HFVec2TransformCoord(HFVECTOR2 *pOut, const HFVECTOR2 *pV, const HFMA
 // inline
 
 FLOAT HFVec3Length
-(const HFVECTOR3 *pV)
+( HFVECTOR3 pV)
 {
-	return sqrt(pV->x*pV->x + pV->y*pV->y + pV->z * pV->z);
+	return sqrt(pV.x*pV.x + pV.y*pV.y + pV.z * pV.z);
 };
 
 FLOAT HFVec3LengthSq
@@ -790,14 +790,16 @@ FLOAT HFVec3Dot
 	return pV1->x * pV2->x + pV1->y * pV2->y + pV1->z * pV2->z;
 };
 
-HFVECTOR3* HFVec3Cross
-(HFVECTOR3 *pOut, const HFVECTOR3 *pV1, const HFVECTOR3 *pV2)
+HFVECTOR3 HFVec3Cross
+( HFVECTOR3 pV1,  HFVECTOR3 pV2)
 {
-	pOut->x = pV1->y *pV2->z - pV1->z *pV2->y;
-	pOut->y = pV1->z *pV2->x - pV1->x *pV2->z;
-	pOut->z = pV1->x *pV2->y - pV1->y *pV2->x;
-	return pOut;
+	HFVECTOR3 outV;
+	outV.x = pV1.y *pV2.z - pV1.z *pV2.y;
+	outV.y = pV1.z *pV2.x - pV1.x *pV2.z;
+	outV.z = pV1.x *pV2.y - pV1.y *pV2.x;
+	return outV;
 };
+
 
 HFVECTOR3* HFVec3Add
 (HFVECTOR3 *pOut, const HFVECTOR3 *pV1, const HFVECTOR3 *pV2)
@@ -855,15 +857,13 @@ HFVECTOR3* HFVec3Lerp
 	return pOut;
 };
 
-HFVECTOR3*  HFVec3Normalize
-(HFVECTOR3 *pOut, const HFVECTOR3 *pV)
+HFVECTOR3  HFVec3Normalize
+(const HFVECTOR3 pV)
 {
-	if (pOut&& pV)
-	{
-		FLOAT sum = HFVec3Length(pV);
-		*pOut = *pV / sum;
-	}
-	return pOut;
+	HFVECTOR3 vOut;
+	FLOAT sum = HFVec3Length(pV);
+	vOut = pV / sum;
+	return vOut;
 };
 
 // Hermite interpolation between position V1, tangent T1 (when s == 0)
@@ -1371,7 +1371,7 @@ HFMATRIX*  HFMatrixRotationZ
 
 HFMATRIX * HFMatrixRotationYawPitchRoll(HFMATRIX *pOut, FLOAT Yaw, FLOAT Pitch, FLOAT Roll)
 {
-	return HFMatrixRotationX(HFMatrixRotationX(HFMatrixRotationX(pOut, Yaw), Yaw), Yaw);
+	return HFMatrixRotationY(HFMatrixRotationX(HFMatrixRotationZ(pOut, Yaw), Yaw), Yaw);
 
 }
 
@@ -1381,9 +1381,9 @@ HFMATRIX*  HFMatrixLookAtRH
 	const HFVECTOR3 *pUp)
 {
 	HFVECTOR3 temp;
-	HFVECTOR3 zaxis = *HFVec3Normalize(&temp, &HFVECTOR3(*pEye - *pAt));
-	HFVECTOR3 xaxis = *HFVec3Normalize(&temp, HFVec3Cross(&temp, (pUp), &zaxis));
-	HFVECTOR3 yaxis = *HFVec3Cross(&temp, &zaxis, &xaxis);
+	HFVECTOR3 zaxis = HFVec3Normalize(HFVECTOR3(*pEye - *pAt));
+	HFVECTOR3 xaxis = HFVec3Normalize(HFVec3Cross((*pUp), zaxis));
+	HFVECTOR3 yaxis = HFVec3Cross(zaxis,xaxis);
 	*pOut = HFMATRIX
 		(
 			xaxis.x, yaxis.x, zaxis.x, 0,
@@ -1400,9 +1400,9 @@ HFMATRIX*  HFMatrixLookAtLH
 	const HFVECTOR3 *pUp)
 {
 	HFVECTOR3 temp;
-	HFVECTOR3 zaxis = *HFVec3Normalize(&temp, &HFVECTOR3(*pAt - *pEye));
-	HFVECTOR3 xaxis = *HFVec3Normalize(&temp,HFVec3Cross(&temp,(pUp), &zaxis));
-	HFVECTOR3 yaxis = *HFVec3Cross(&temp, &zaxis, &xaxis);
+	HFVECTOR3 zaxis = HFVec3Normalize((*pAt - *pEye));
+	HFVECTOR3 xaxis = HFVec3Normalize(HFVec3Cross((*pUp), zaxis));
+	HFVECTOR3 yaxis = HFVec3Cross(zaxis, xaxis);
 	*pOut = HFMATRIX
 		(
 			xaxis.x, yaxis.x, zaxis.x, 0,
@@ -1477,6 +1477,28 @@ HFMATRIX*  HFMatrixPerspectiveFovLH
 	*pOut = ret;
 	return pOut;
 };
+
+HFVECTOR3 HFMatrixEulerAngles(HFMATRIX inMat)
+{
+	HFVECTOR3 outVec;							   double threshold = 0.001;
+
+	if (abs(inMat.m[2][1] - 1.0) < threshold) { // inMat[2],[1] = sin(x) = 1‚ÌŽž
+		outVec.x = HF_PI / 2;
+		outVec.y = 0;
+		outVec.z = atan2(inMat.m[1][0], inMat.m[0][0]);
+	}
+	else if (abs(inMat.m[2][1] + 1.0) < threshold) { // inMat[2],[1] = sin(x) = -1‚ÌŽž
+		outVec.x = -HF_PI / 2;
+		outVec.y = 0;
+		outVec.z = atan2(inMat.m[1][0], inMat.m[0][0]);
+	}
+	else {
+		outVec.x = asin(inMat.m[2][1]);
+		outVec.y = atan2(-inMat.m[2][0], inMat.m[2][2]);
+		outVec.z = atan2(-inMat.m[0][1], inMat.m[1][1]);
+	}
+	return outVec;
+}
 /*
 
 

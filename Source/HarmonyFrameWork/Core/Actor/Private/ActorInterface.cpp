@@ -43,7 +43,7 @@ BOOL IActor::RegisterCompornent(const std::string& compornentName, std::shared_p
 		pair<string, shared_ptr<ICompornent>> compornentPair;
 		compornentPair.first = compornentName;
 		compornentPair.second = compornent;
-		compornent->SetParentActorGlobalID(m_globalID);
+		compornent->SetParentActorGlobalID(IBaseTask::GetTaskId());
 		compornent->SetParentActor(shared_from_this());
 		m_compornentMap.insert(compornentPair);
 		m_taskList.push_back(compornent);

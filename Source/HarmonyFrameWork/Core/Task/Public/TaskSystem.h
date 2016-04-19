@@ -26,6 +26,7 @@ public:
 
 
 	BOOL Render();
+	BOOL SearchByTaskID(DWORD m_id, std::shared_ptr<IBaseTask>& sptask);
 
 	template<class T> BOOL SearchGroupByType(std::list<std::shared_ptr<T>>typeList)
 	{
@@ -53,7 +54,6 @@ public:
 		return false;
 	}
 
-	BOOL SearchByTaskID(DWORD m_id, std::shared_ptr<IBaseTask>sptask);
 	BOOL SearchByTaskName(const std::string& name, std::shared_ptr<IBaseTask> sptask);
 	std::shared_ptr<IBaseTask> SearchByTaskName(const std::string& name);
 private:

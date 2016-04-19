@@ -188,6 +188,15 @@ BOOL LightShaderOfDeferredRender::PostProcessOfRender()
 {
 	// Turn the Z buffer back on now that all 2D rendering has completed.
 	sRENDER_DEVICE_MANAGER->TurnZBufferOn();
+	Microsoft::WRL::ComPtr< ID3D11RenderTargetView> pNullRTV[7];
+
+	ID3D11ShaderResourceView *const pSRV[7] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 7, pSRV);
+
+	ID3D11RenderTargetView* pView[1] = { NULL };
+
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->OMSetRenderTargets(1, pView, NULL); 
+	//sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->CleanUpRenderTargets();
 	return S_OK;
 }
 
@@ -252,30 +261,12 @@ BOOL LightShaderOfDeferredRender::InitializeShader
 	// Get a count of the elements in the layout.
 	numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
-	if(FAILED(
-		sRENDER_DEVICE_MANAGER->CreateVertexShaderFromFile(m_cpVertexShader, vsFilename,
+	sRENDER_DEVICE_MANAGER->CreateVertexShaderFromFile(m_cpVertexShader, vsFilename,
 		"LightVertexShader",
-		"vs_5_0", m_spVertexLayout->GetMain(), polygonLayout, numElements)
-		)
-		)
-	{
-		return false;
-	}
+		"vs_5_0", m_spVertexLayout->GetMain(), polygonLayout, numElements);
 
-	if(FAILED(
-		sRENDER_DEVICE_MANAGER->CreatePixelShaderFromFile(
-			m_cpPixelShader,
-			m_cpPSClassLinkage,
-			psFilename, 
-			"LightPixelShader",
-			"ps_5_0",
-			true
-			)
-		)
-		)
-	{
-		return false;
-	}
+	sRENDER_DEVICE_MANAGER->CreatePixelShaderFromFile(m_cpPixelShader, m_cpPSClassLinkage, psFilename, "LightPixelShader", "ps_5_0",true);
+
 	// Create a texture sampler state description.
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -390,7 +381,7 @@ BOOL LightShaderOfDeferredRender::SetShaderParameters
 	// Set shader texture resources in the pixel shader.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(0)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(1, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(1)->GetSharderResorceView().GetAddressOf());
-	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(2, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(2)->GetSharderResorceView().GetAddressOf());
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(2, 1,sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(2)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(3, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(3)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(4, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(4)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(5, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(5)->GetSharderResorceView().GetAddressOf());

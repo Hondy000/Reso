@@ -25,6 +25,7 @@ protected:
 		:
 		m_isUsage(true),m_isDestroy(false)
 	{
+		Init();
 	};
 	BOOL m_isUsage;	// タスク有効フラグ（trueでないとタスクが働かないとします）
 	BOOL m_isDestroy;	// 消去フラグ

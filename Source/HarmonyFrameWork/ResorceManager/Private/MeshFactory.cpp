@@ -96,7 +96,8 @@ std::shared_ptr<Mesh> MeshFactory::Create(const std::string & path)
 		mesh->GetSubMeshArray()[i]->GetMaterial()->SetSpecular(HFVECTOR4(1.0f, 0.1f, 1.0f, 1));
 
 		std::shared_ptr<BaseTexture2D> diffuseTexture;
-		diffuseTexture = Texture2DManager::GetInstance()->Get(data->submeshArray[i]->materialArray[i].diffuseFileName);
+		diffuseTexture = Texture2DManager::GetInstance()->Get(data->submeshArray[i]->materialArray[0].diffuseFileName);
+	
 		mesh->GetSubMeshArray()[i]->GetMaterial()->SetDiffuseTexture(diffuseTexture);
 
 

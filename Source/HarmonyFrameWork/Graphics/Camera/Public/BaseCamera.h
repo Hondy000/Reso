@@ -138,6 +138,33 @@ public:
 		isFollow = flag;
 	}
 
+
+	std::weak_ptr<IBaseTask> GetFollowObject() const
+	{
+		return m_wpFollowObject;
+	}
+
+	void SetFollowObject(std::shared_ptr<IBaseTask> _val);
+
+
+	std::weak_ptr<IBaseTask> GetViewObject() const
+	{
+		return m_wpViewObject;
+	}
+
+	void SetViewObject(std::shared_ptr<IBaseTask> _val);
+
+
+	HFVECTOR3 GetViewObjectOffset() const
+	{
+		return m_viewObjectOffset;
+	}
+
+	void SetViewObjectOffset(HFVECTOR3 _val)
+	{
+		m_viewObjectOffset = _val;
+	}
+
 protected:
 	FLOAT m_aspect;
 	FLOAT m_nearClip;
@@ -146,17 +173,18 @@ protected:
 
 	HFVECTOR3 m_upVector;
 	HFVECTOR3 m_cameraPosition;
-	HFVECTOR3 m_distanceFromFollowTarget;	// 追従対象からの距離
 	HFVECTOR3 m_viewVector;	// 視点ベクトル
 	HFVECTOR3 m_rotation;
 
 	/** @brief	追従オブジェクトの位置オフセット. */
-	HFVECTOR3 m_followObjectOffset;
-	/** @brief	注視オブジェクトの位置オフセット. */
+	HFVECTOR3 m_distanceFromFollowTarget;
+	/** @brief	注視オブジェクトのオフセット. */
 	HFVECTOR3 m_viewObjectOffset;
 
 	/** @brief	カメラがオブジェクトを追従するかのフラグ. */
 	BOOL isFollow;
 	/** @brief	カメラのオブジェクトを中止するかのフラグ. */
 	BOOL isView;
+	std::weak_ptr<IBaseTask> m_wpFollowObject;
+	std::weak_ptr<IBaseTask> m_wpViewObject;
 };

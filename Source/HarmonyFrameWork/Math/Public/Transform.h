@@ -6,13 +6,13 @@ interface IPosition
 {
 
 protected:
-	std::shared_ptr<Variable<HFVECTOR3>> m_position;		// 現在位置
+	HFVECTOR3 m_position;		// 現在位置
 
 public:
 	IPosition()
+		:
+		m_position(HFVECTOR3(0, 0, 0))
 	{
-		m_position = std::make_shared<Variable<HFVECTOR3>>();
-		m_position->SetValue(HFVECTOR3());
 	}
 	virtual ~IPosition() {};
 
@@ -109,59 +109,55 @@ class Transform
 public:
 	Transform()
 	{
-		if (m_position->GetValue())
-		{
-			m_position->SetValue(HFVECTOR3(0, 0, 0));
-		}
 	};
 	~Transform(){};
 
 	void SetPositionX(FLOAT x)
 	{
-		m_position->SetValue(HFVECTOR3(x, m_position->GetValue()->y, m_position->GetValue()->z));
+		m_position=(HFVECTOR3(x, m_position.y, m_position.z));
 	};
 	
 	void SetPositionY(FLOAT y)
 	{
-		m_position->SetValue(HFVECTOR3(m_position->GetValue()->x, y, m_position->GetValue()->z));
+		m_position=(HFVECTOR3(m_position.x, y, m_position.z));
 	};
 
 	void SetPositionZ(FLOAT z)
 	{
-		m_position->SetValue(HFVECTOR3(m_position->GetValue()->x, m_position->GetValue()->y,z));
+		m_position=(HFVECTOR3(m_position.x, m_position.y,z));
 	};
 	
 	void SetPosition(FLOAT x, FLOAT y, FLOAT z)
 	{
-		m_position->SetValue(HFVECTOR3(x, y, z));
+		m_position=(HFVECTOR3(x, y, z));
 	};
 
 	void SetPosition(HFVECTOR3 _position)
 	{
-		m_position->SetValue(_position);
+		m_position=(_position);
 	};
 
 	FLOAT GetPositionX()
 	{
-		return m_position->GetValue()->x;
+		return m_position.x;
 	};
 	FLOAT GetPositionY()
 	{
-		return m_position->GetValue()->y;
+		return m_position.y;
 	};
 	FLOAT GetPositionZ()
 	{
-		return m_position->GetValue()->z;
+		return m_position.z;
 	};
 	HFVECTOR3 GetPosition()
 	{
-		return *m_position->GetValue();
+		return m_position;
 	};
 
 	HFMATRIX GetTranslationMatrix()
 	{
 		HFMATRIX trans;
-		HFMatrixTranslation(&trans, m_position->GetValue()->x, m_position->GetValue()->y, m_position->GetValue()->z);
+		HFMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
 		return trans;
 	};
 

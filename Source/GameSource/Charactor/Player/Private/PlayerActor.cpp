@@ -11,10 +11,16 @@ BOOL PlayerActor::Init()
 	CharactorActor::Init();
 	shared_ptr<CameraCompornent> cameraCompornent = make_shared<CameraCompornent>();
 	RegisterCompornent(typeid(CameraCompornent).name() , cameraCompornent);
+	cameraCompornent->SetDistanceFromFollowTarget(HFVECTOR3(0, 75, 0));
+	cameraCompornent->SetViewObjectOffset(HFVECTOR3(0, 1, 0));
+	cameraCompornent->SetUpVector(HFVECTOR3(0, 0, 1));
+	cameraCompornent->SetFollowObject(shared_from_this());
+	cameraCompornent->SetViewObject(shared_from_this());
+
 	auto it = m_compornentMap.find(typeid(StaticMeshCompornent).name());
 	if(it != m_compornentMap.end())
 	{
-		if(dynamic_pointer_cast<StaticMeshCompornent>(it->second)->LoadMesh("Resource/Mesh/Sphere.hfm"))
+		if(dynamic_pointer_cast<StaticMeshCompornent>(it->second)->LoadMesh("Resource/Mesh/PlayerSphere.hfm"))
 		{
 		}
 		dynamic_pointer_cast<StaticMeshCompornent>(it->second)->GetTransform()->SetPosition(0, 0, 0);
@@ -27,13 +33,6 @@ BOOL PlayerActor::Init()
 
 BOOL PlayerActor::Update()
 {
-	static FLOAT rot = 0;
-	rot += 0.01;
-	auto it = m_compornentMap.find(typeid(StaticMeshCompornent).name());
-	if (it != m_compornentMap.end())
-	{
-		dynamic_pointer_cast<StaticMeshCompornent>(it->second)->GetTransform()->SetRotation(0,rot, 0);
-	}
 	UpdateState(shared_from_this());
 	UpdateAllTask();
 	

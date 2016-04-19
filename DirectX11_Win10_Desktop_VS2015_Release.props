@@ -10,7 +10,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <PreprocessorDefinitions>DIRECTX;DIRECTX11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;DIRECTXTK;DIRECTXTEX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>DirectXTex.lib;DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>

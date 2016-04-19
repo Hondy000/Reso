@@ -82,10 +82,7 @@ public:
 
 	BOOL Render();
 
-	BOOL PostProcessOfRender()
-	{
-		return S_OK;
-	};
+	BOOL PostProcessOfRender();
 private:
 
 	int m_indexCount;

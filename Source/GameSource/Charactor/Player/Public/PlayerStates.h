@@ -34,13 +34,13 @@ private:
 };
 
 
-class PlayerMoveState
+class PlayerMaxVelocityMoveState
 	:
 	public IState
 {
 public:
-	PlayerMoveState() {};
-	~PlayerMoveState() {};
+	PlayerMaxVelocityMoveState() {};
+	~PlayerMaxVelocityMoveState() {};
 	void Enter();
 	void Execute();
 	void Exit();
@@ -49,6 +49,41 @@ public:
 protected:
 private:
 };
+
+class PlayerAcccelerationMoveState
+	:
+	public IState
+{
+public:
+	PlayerAcccelerationMoveState() {};
+	~PlayerAcccelerationMoveState() {};
+	void Enter();
+	void Execute();
+	void Exit();
+
+	std::shared_ptr<IState> GetNewState(void);
+protected:
+private:
+};		   
+
+class PlayerDecelerationMoveState
+	:
+	public IState
+{
+public:
+	PlayerDecelerationMoveState() {};
+	~PlayerDecelerationMoveState() {};
+	void Enter();
+	void Execute();
+	void Exit();
+
+	std::shared_ptr<IState> GetNewState(void);
+protected:
+private:
+	bool m_isChangeStopState;
+	bool m_isChangeAcccelerationMoveState;
+};
+
 
 class PlayerStopState
 	:
@@ -64,14 +99,17 @@ public:
 	std::shared_ptr<IState> GetNewState(void);
 protected:
 private:
-};		   
-class PlayerDecelerationMoveState
+};
+
+	 /*
+
+class PlayerUnShotState
 	:
 	public IState
 {
 public:
-	PlayerDecelerationMoveState() {};
-	~PlayerDecelerationMoveState() {};
+	PlayerUnShotState() {};
+	~PlayerUnShotState() {};
 	void Enter();
 	void Execute();
 	void Exit();
@@ -79,5 +117,53 @@ public:
 	std::shared_ptr<IState> GetNewState(void);
 protected:
 private:
-
 };
+
+class PlayerShotState
+	:
+	public IState
+{
+public:
+	PlayerShotState() {};
+	~PlayerShotState() {};
+	void Enter();
+	void Execute();
+	void Exit();
+
+	std::shared_ptr<IState> GetNewState(void);
+protected:
+private:
+};
+
+class PlayerUseBombState
+	:
+	public IState
+{
+public:
+	PlayerUseBombState() {};
+	~PlayerUseBombState() {};
+	void Enter();
+	void Execute();
+	void Exit();
+
+	std::shared_ptr<IState> GetNewState(void);
+protected:
+private:
+};
+
+
+class PlayerUnUseBombState
+	:
+	public IState
+{
+public:
+	PlayerUnUseBombState() {};
+	~PlayerUnUseBombState() {};
+	void Enter();
+	void Execute();
+	void Exit();
+
+	std::shared_ptr<IState> GetNewState(void);
+protected:
+private:
+};	   */

@@ -81,7 +81,7 @@ BOOL TaskSystem::Render()
 	return true;
 }
 
-BOOL TaskSystem::SearchByTaskID(DWORD m_id, std::shared_ptr<IBaseTask>sptask)
+BOOL TaskSystem::SearchByTaskID(DWORD m_id, std::shared_ptr<IBaseTask>&sptask)
 {
 	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end(); it++)
 	{

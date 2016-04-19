@@ -132,11 +132,9 @@ public:
 
 public:
 
-	union 
-	{
-		float vec[3];
-		FLOAT x,y,z;
-	};
+	FLOAT x;
+	FLOAT y;
+	FLOAT z;
 } HFVECTOR3, *LPHFVECTOR3;
 
 
@@ -174,12 +172,8 @@ public:
 	BOOL operator != (const HFVECTOR4&) const;
 
 public:
-#endif //__cplusplus   
-	union
-	{
-		float vec[4];
-		FLOAT x, y, z,w;
-	};
+#endif //__cplusplus
+	FLOAT x, y, z, w;
 } HFVECTOR4, *LPHFVECTOR4;
 
 
@@ -201,23 +195,23 @@ public:
 	HFMATRIX(DirectX::SimpleMath::Matrix mat)
 	{
 		this->_11 = mat._11;
-		this->_12 = mat._12;
-		this->_13 = mat._13;
-		this->_14 = mat._14;
+		this->_12 = mat._21;
+		this->_13 = mat._31;
+		this->_14 = mat._41;
 
-		this->_21 = mat._21;
+		this->_21 = mat._12;
 		this->_22 = mat._22;
-		this->_23 = mat._23;
-		this->_24 = mat._24;
+		this->_23 = mat._32;
+		this->_24 = mat._42;
 
-		this->_31 = mat._31;
-		this->_32 = mat._32;
+		this->_31 = mat._13;
+		this->_32 = mat._23;
 		this->_33 = mat._33;
-		this->_34 = mat._34;
+		this->_34 = mat._43;
 
-		this->_41 = mat._41;
-		this->_42 = mat._42;
-		this->_43 = mat._43;
+		this->_41 = mat._14;
+		this->_42 = mat._24;
+		this->_43 = mat._34;
 		this->_44 = mat._44;
 	};
 #endif
@@ -285,6 +279,15 @@ typedef struct HFQUATERNION
 public:
 	HFQUATERNION() {}
 	HFQUATERNION(FLOAT x, FLOAT y, FLOAT z, FLOAT w);
+#ifdef DIRECTXTK
+	HFQUATERNION(DirectX::SimpleMath::Quaternion q)
+	{
+		this->x = q.x;
+		this->y = q.y;
+		this->z = q.z;
+		this->w = q.w;
+	};
+#endif
 
 	// assignment operators
 	HFQUATERNION& operator += (const HFQUATERNION&);
@@ -407,7 +410,7 @@ inline HFVECTOR2*  HFVec2TransformCoord
 // inline
 
 FLOAT HFVec3Length
-(const HFVECTOR3 *pV);
+( HFVECTOR3 pV);
 
 FLOAT HFVec3LengthSq
 (const HFVECTOR3 *pV);
@@ -415,9 +418,8 @@ FLOAT HFVec3LengthSq
 FLOAT HFVec3Dot
 (const HFVECTOR3 *pV1, const HFVECTOR3 *pV2);
 
-HFVECTOR3* HFVec3Cross
-(HFVECTOR3 *pOut, const HFVECTOR3 *pV1, const HFVECTOR3 *pV2);
 
+HFVECTOR3 HFVec3Cross(HFVECTOR3 pV1, HFVECTOR3 pV2);
 HFVECTOR3* HFVec3Add
 (HFVECTOR3 *pOut, const HFVECTOR3 *pV1, const HFVECTOR3 *pV2);
 
@@ -440,8 +442,8 @@ HFVECTOR3* HFVec3Lerp
 (HFVECTOR3 *pOut, const HFVECTOR3 *pV1, const HFVECTOR3 *pV2,
 	FLOAT s);
 
-HFVECTOR3*  HFVec3Normalize
-(HFVECTOR3 *pOut, const HFVECTOR3 *pV);
+HFVECTOR3  HFVec3Normalize
+( HFVECTOR3 pV);
 
 // Hermite interpolation between position V1, tangent T1 (when s == 0)
 // and position V2, tangent T2 (when s == 1).
@@ -635,6 +637,7 @@ HFMATRIX*  HFMatrixPerspectiveFovLH
 (HFMATRIX *pOut, FLOAT fovy, FLOAT Aspect, FLOAT zn, FLOAT zf);
 
 
+HFVECTOR3 HFMatrixEulerAngles(HFMATRIX inMat);
 // Build an ortho projection matrix. (right-handed)
 HFMATRIX*  HFMatrixOrthoRH
 (HFMATRIX *pOut, FLOAT w, FLOAT h, FLOAT zn, FLOAT zf);
