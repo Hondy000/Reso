@@ -101,7 +101,6 @@ protected:
 private:
 };
 
-	 /*
 
 class PlayerUnShotState
 	:
@@ -166,4 +165,4 @@ public:
 	std::shared_ptr<IState> GetNewState(void);
 protected:
 private:
-};	   */
+};	   

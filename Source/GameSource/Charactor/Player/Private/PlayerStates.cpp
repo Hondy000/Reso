@@ -23,7 +23,7 @@ void PlayerAliveBeingState::Enter()
 	m_wpTask.lock()->RegisterVariable("m_accceleration", 0.002f);
 	m_wpTask.lock()->RegisterVariable("m_deceleration", 0.002f);
 	m_wpTask.lock()->RegisterVariable("m_maxVelocity", 0.2f);
-	//m_wpTask.lock()->RegisterVariable("m_weapon", make_shared<MachineGun>());
+	//m_wpTask.lock()->RegisterVariable<IbaseWeapon>("m_weapon", make_shared<MachineGun>());
 	RegisterState(std::make_shared<PlayerStopState>(), m_wpTask.lock());
 	//RegisterState(std::make_shared<PlayerUnShotState>(), m_wpTask.lock());
 	//RegisterState(std::make_shared<PlayerUnUseBombState>(), m_wpTask.lock());
@@ -359,7 +359,6 @@ std::shared_ptr<IState> PlayerStopState::GetNewState(void)
 	return std::make_shared<PlayerAcccelerationMoveState>();
 }
 
-/*
 void PlayerUnShotState::Enter()
 {
 
@@ -368,13 +367,13 @@ void PlayerUnShotState::Enter()
 void PlayerUnShotState::Execute()
 {
 	if (sINPUT->IsHoldMouse(HFM_LEFT))
-	{
-		if (
-			GET_TASK_VAR_PTR(m_wpTask.lock(), IBaseWeapon, "m_weapon")->IsEnableUse()
-			)
-		{
-			m_isChangeState = true;
-		}
+ 	{
+// 		if (
+// 			GET_TASK_VAR_PTR(m_wpTask.lock(), IBaseWeapon, "m_weapon")->IsEnableUse()
+// 			)
+// 		{
+// 			m_isChangeState = true;
+// 		}
 	}
 }
 
@@ -395,8 +394,8 @@ void PlayerShotState::Enter()
 
 void PlayerShotState::Execute()
 {
-	GET_TASK_VAR_PTR(m_wpTask.lock(), IBaseWeapon, "m_weapon")->Use();
-	m_isChangeState = true;
+// 	GET_TASK_VAR_PTR(m_wpTask.lock(), IBaseWeapon, "m_weapon")->Use();
+// 	m_isChangeState = true;
 }
 
 void PlayerShotState::Exit()
@@ -449,4 +448,4 @@ std::shared_ptr<IState> PlayerUnUseBombState::GetNewState(void)
 {
 	return std::make_shared<PlayerUnUseBombState>();
 }
-		  */
+		  
