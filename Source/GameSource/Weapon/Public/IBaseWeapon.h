@@ -1,5 +1,5 @@
 #pragma once
-/*
+
 #include "..\..\..\HarmonyFrameWork\Core\State\Public\StateHolder.h"
 #include "..\..\..\HarmonyFrameWork\Core\Task\Public\TaskInterface.h"
 
@@ -20,4 +20,3 @@ public:
 private:
 
 };
-  */

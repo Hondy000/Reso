@@ -367,7 +367,7 @@ void PlayerUnShotState::Enter()
 void PlayerUnShotState::Execute()
 {
 	if (sINPUT->IsHoldMouse(HFM_LEFT))
- 	{
+	{
 // 		if (
 // 			GET_TASK_VAR_PTR(m_wpTask.lock(), IBaseWeapon, "m_weapon")->IsEnableUse()
 // 			)

@@ -1,4 +1,4 @@
-/*
+
 #include "..\Public\IBaseWeapon.h"
 #include "..\..\..\HarmonyFrameWork\Core\State\Public\IState.h"
 
@@ -26,4 +26,4 @@ bool IBaseWeapon::IsEnableUse()
 
 IBaseWeapon::~IBaseWeapon()
 {
-} */
+}
