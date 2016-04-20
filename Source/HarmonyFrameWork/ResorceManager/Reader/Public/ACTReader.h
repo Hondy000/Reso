@@ -13,12 +13,12 @@ public:
 	~ACTReader()
 	{
 	};
-	BOOL Read(const std::string& path, const std::shared_ptr<IActor> object);
+	bool Read(const std::string& path, const std::shared_ptr<IActor> object);
 
-	BOOL ReadState();
-	BOOL ReadCompornent();
-	BOOL ReadTask();
-	BOOL ReadVar();
+	bool ReadState();
+	bool ReadCompornent();
+	bool ReadTask();
+	bool ReadVar();
 
 private:
 	int m_offsetIndex;

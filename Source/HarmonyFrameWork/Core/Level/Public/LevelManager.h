@@ -10,8 +10,8 @@ class LevelManager
 public:
 	LevelManager() {};
 	~LevelManager(){};
-	BOOL Init();
-	BOOL Update();
+	bool Init();
+	bool Update();
 	void Reset();
 
 private:

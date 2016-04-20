@@ -12,12 +12,12 @@ protected:
 	IBaseLevel();
 public:
 	virtual ~IBaseLevel();
-	BOOL Init();
-	virtual BOOL Update() = 0;
-	BOOL IsChangeLevel();
+	bool Init();
+	virtual bool Update() = 0;
+	bool IsChangeLevel();
 
 	const std::string& GetChangeLevelType(void);
 
 private:
-	void SetChangeLevelType(const std::string& changeLevelType);
+	void SetChangeLevelType( std::string& changeLevelType);
 };

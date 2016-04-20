@@ -12,8 +12,8 @@ public:
 	{
 	};
 	virtual ~CharactorActor() {};
-	BOOL Init();
-	virtual BOOL Update() = 0;
+	bool Init();
+	virtual bool Update() = 0;
 
 protected:
 };

@@ -45,11 +45,11 @@ LineShader::~LineShader()
 {
 }
 
-BOOL LineShader::Setup()
+bool LineShader::Setup()
 {
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
-	BOOL result;
+	bool result;
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
 	Microsoft::WRL::ComPtr<ID3D10Blob> vertexShaderBuffer;
 	Microsoft::WRL::ComPtr<ID3D10Blob> pixelShaderBuffer;
@@ -129,7 +129,7 @@ void LineShader::Destroy()
 
 
 /**********************************************************************************************//**
-																								* @fn	BOOL DeferredLineShader::Render()
+																								* @fn	bool DeferredLineShader::Render()
 																								*
 																								* @brief	Renders this object.
 																								*
@@ -137,12 +137,12 @@ void LineShader::Destroy()
 																								* @date	2015/11/04
 																								* @atention	バッファは事前にContextに入れておく
 																								*
-																								* @return	A BOOL.
+																								* @return	A bool.
 																								**************************************************************************************************/
 
-BOOL LineShader::Render()
+bool LineShader::Render()
 {
-	BOOL result = E_FAIL;
+	bool result = E_FAIL;
 
 	// Set the vertex input layout.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetInputLayout(m_spVertexLayout->GetMain().Get());
@@ -162,7 +162,7 @@ BOOL LineShader::Render()
 }
 
 /**********************************************************************************************//**
-																								* @fn	BOOL DeferredLineShader::PreRenderProcess ( std::shared_ptr<CBaseObject> spPram )
+																								* @fn	bool DeferredLineShader::PreRenderProcess ( std::shared_ptr<CBaseObject> spPram )
 																								*
 																								* @brief	Pre render process.
 																								*
@@ -171,12 +171,12 @@ BOOL LineShader::Render()
 																								*
 																								* @param	spPram	The sp pram.
 																								*
-																								* @return	A BOOL.
+																								* @return	A bool.
 																								**************************************************************************************************/
 
-BOOL LineShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+bool LineShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
 {
-	BOOL result;
+	bool result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	UINT bufferNumber;
 

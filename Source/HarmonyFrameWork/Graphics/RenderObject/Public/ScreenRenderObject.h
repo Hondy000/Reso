@@ -8,7 +8,7 @@ class ScreenRenderObject
 public:
 	ScreenRenderObject();
 	~ScreenRenderObject();
-	BOOL Init();
+	bool Init();
 private:
 
 };

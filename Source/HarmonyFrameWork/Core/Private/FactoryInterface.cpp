@@ -1,4 +1,10 @@
-﻿#include "../Public/FactoryInterface.h"
+﻿/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Core\Private\FactoryInterface.cpp
+ *
+ * @brief	Implements the factory interface class.
+ **************************************************************************************************/
+
+#include "../Public/FactoryInterface.h"
 
 namespace Factorys
 {

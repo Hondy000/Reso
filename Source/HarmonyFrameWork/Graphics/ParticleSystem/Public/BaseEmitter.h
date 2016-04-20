@@ -39,7 +39,7 @@ protected:
 	std::shared_ptr<ConstantBuffer> m_pInputBuffer;
 
 	// パーティクルのパラメータ
-	std::list<std::shared_ptr<BaseParticle>> m_pParticleList;
+	std::list<std::shared_ptr<IBaseParticle>> m_pParticleList;
 
 	// パーティクルの数
 	UINT m_numMaxParticles;
@@ -63,20 +63,20 @@ protected:
 	FLOAT m_variationLife;
 	FLOAT m_velocity;
 	FLOAT m_gravity;
-	BOOL isSquare;
+	bool isSquare;
 	// パーティクルの初期化
-	BOOL Init();
+	bool Init();
 	void Reset();
-	void ResetParticle(std::shared_ptr<BaseParticle> particle);
-	BOOL isEmit;
-	BOOL isLoop;
+	void ResetParticle(std::shared_ptr<IBaseParticle> particle);
+	bool isEmit;
+	bool isLoop;
 public:
 
-	BOOL Update();
+	bool Update();
 
 	// 初期化
 
-	BOOL Setup(UINT NumParticles, UINT time, HFVECTOR2 ParticleSize, FLOAT ParticleRenderRange, TCHAR pTextureFileNames[]);
+	bool Setup(UINT NumParticles, UINT time, HFVECTOR2 ParticleSize, FLOAT ParticleRenderRange, TCHAR pTextureFileNames[]);
 
 	void SetStartMAXPosition(HFVECTOR3 pos);
 	void SetStartMAXSize(HFVECTOR2 size);
@@ -100,8 +100,8 @@ public:
 	void SetVariationAngle(FLOAT angle);
 
 	void SetGravity(FLOAT g);
-	void SetIsEmit(BOOL emit);
-	void SetIsLoopt(BOOL emit);
+	void SetIsEmit(bool emit);
+	void SetIsLoopt(bool emit);
 	void SetWindDirection(HFVECTOR3 emit);
 
 

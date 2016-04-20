@@ -7,20 +7,20 @@
 #include "../Public/DirectX11SwapChain.h"
 
 /**********************************************************************************************//**
-  * @fn	CDirectX11SwapChain::CDirectX11SwapChain()
-  *
-  * @brief	Default constructor.
-  *
-  * @author	Kazuyuki Honda
-  * @date	2015/08/02
-  **************************************************************************************************/
+ * @fn	DirectX11SwapChain::DirectX11SwapChain()
+ *
+ * @brief	Default constructor.
+ *
+ * @author	Kazuyuki Honda
+ * @date	2015/08/02
+ **************************************************************************************************/
 
 DirectX11SwapChain::DirectX11SwapChain()
 {
 }
 
 /**********************************************************************************************//**
- * @fn	CDirectX11SwapChain::~CDirectX11SwapChain()
+ * @fn	DirectX11SwapChain::~DirectX11SwapChain()
  *
  * @brief	Destructor.
  *
@@ -33,7 +33,7 @@ DirectX11SwapChain::~DirectX11SwapChain()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11SwapChain::CreateSwapChain( DXGI_MODE_DESC* pDisplayMode, BOOL MultisampleEnabled )
+ * @fn	HRESULT DirectX11SwapChain::CreateSwapChain( DXGI_MODE_DESC* pDisplayMode, bool MultisampleEnabled, HWND hWnd )
  *
  * @brief	Creates swap chain.
  *
@@ -42,13 +42,14 @@ DirectX11SwapChain::~DirectX11SwapChain()
  *
  * @param [in,out]	pDisplayMode	If non-null, the display mode.
  * @param	MultisampleEnabled  	true to enable, false to disable the multisample.
+ * @param	hWnd					Handle of the window.
  *
  * @return	The new swap chain.
  **************************************************************************************************/
 
 HRESULT DirectX11SwapChain::CreateSwapChain(
 	DXGI_MODE_DESC* pDisplayMode,
-	BOOL MultisampleEnabled,
+	bool MultisampleEnabled,
 	HWND hWnd
 	)
 {

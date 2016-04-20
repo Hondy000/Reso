@@ -21,7 +21,7 @@ public:
 		return m_name;
 	}
 
-	virtual BOOL Load(const std::string& path)
+	virtual bool Load(const std::string& path)
 	{
 		return E_FAIL;
 	}

@@ -10,7 +10,7 @@ public:
 	virtual ~IBaseTexture() {};
 #ifdef DIRECTX11
 
-	virtual BOOL CreateShaderResource()
+	virtual bool CreateShaderResource()
 	{
 
 		return E_FAIL;//;Factorys::ComShaderRenderViewFactory::GetInstance()->CreateShaderResourceView(m_cpTexture, m_cpSharderResorceView);

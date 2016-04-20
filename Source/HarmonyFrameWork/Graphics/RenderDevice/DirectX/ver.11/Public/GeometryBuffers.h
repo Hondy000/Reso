@@ -14,7 +14,7 @@ public:
 	~GeometryBuffers();
 
 	// セットアップ
-	BOOL Setup
+	bool Setup
 		(
 			int bufferCount,
 			int textureWidth,

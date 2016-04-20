@@ -18,17 +18,17 @@ public:
 		return &instance;
 	}
 
-	BOOL RegisterTask(const std::string& name, std::shared_ptr<IBaseTask> task);
+	bool RegisterTask(const std::string& name, std::shared_ptr<IBaseTask> task);
 
-	BOOL RegisterRenderCommand(std::shared_ptr<RenderCommand> task);
+	bool RegisterRenderCommand(std::shared_ptr<RenderCommand> task);
 
-	BOOL Update();
+	bool Update();
 
 
-	BOOL Render();
-	BOOL SearchByTaskID(DWORD m_id, std::shared_ptr<IBaseTask>& sptask);
+	bool Render();
+	bool SearchByTaskID(GLOBAL_ID m_id, std::shared_ptr<IBaseTask>& sptask);
 
-	template<class T> BOOL SearchGroupByType(std::list<std::shared_ptr<T>>typeList)
+	template<class T> bool SearchGroupByType(std::list<std::shared_ptr<T>>typeList)
 	{
 		for (auto it = m_spTaskList.begin(); it != m_spTaskList.end(); it++)
 		{
@@ -41,7 +41,7 @@ public:
 		return false;
 	}
 
-	template<class T> BOOL SearchGroupByType(std::vector<std::shared_ptr<IBaseTask>> typeArray)
+	template<class T> bool SearchGroupByType(std::vector<std::shared_ptr<IBaseTask>> typeArray)
 	{
 		for (auto it = m_spTaskList.begin(); it != m_spTaskList.end(); it++)
 		{
@@ -54,7 +54,7 @@ public:
 		return false;
 	}
 
-	BOOL SearchByTaskName(const std::string& name, std::shared_ptr<IBaseTask> sptask);
+	bool SearchByTaskName(const std::string& name, std::shared_ptr<IBaseTask> sptask);
 	std::shared_ptr<IBaseTask> SearchByTaskName(const std::string& name);
 private:
 	// システム側で前位置を一括更新

@@ -47,7 +47,7 @@ DirectX11RenderDeviceManager::~DirectX11RenderDeviceManager()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::Setup(void)
+ * @fn	bool CDirectX11RenderDeviceManager::Setup(void)
  *
  * @brief	Initialises this object.
  *
@@ -57,7 +57,7 @@ DirectX11RenderDeviceManager::~DirectX11RenderDeviceManager()
  * @return	A long.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::Setup(void)
+bool DirectX11RenderDeviceManager::Setup(void)
 {
 	HRESULT hr = S_OK;
 
@@ -95,7 +95,7 @@ BOOL DirectX11RenderDeviceManager::Setup(void)
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::InitD3D11( DXGI_MODE_DESC* pDisplayMode, BOOL Windowed, BOOL DirectX11Only, BOOL MultisampleEnabled, BOOL UseDepthBuffer )
+ * @fn	bool CDirectX11RenderDeviceManager::InitD3D11( DXGI_MODE_DESC* pDisplayMode, bool Windowed, bool DirectX11Only, bool MultisampleEnabled, bool UseDepthBuffer )
  *
  * @brief	ウィンドウの作成 および Direct3Dの初期化.
  *
@@ -111,12 +111,12 @@ BOOL DirectX11RenderDeviceManager::Setup(void)
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::InitD3D11(
+bool DirectX11RenderDeviceManager::InitD3D11(
 	DXGI_MODE_DESC* pDisplayMode,
-	BOOL Windowed,
-	BOOL DirectX11Only,
-	BOOL MultisampleEnabled,
-	BOOL UseDepthBuffer
+	bool Windowed,
+	bool DirectX11Only,
+	bool MultisampleEnabled,
+	bool UseDepthBuffer
 	)
 {
 	HRESULT hr = E_FAIL;
@@ -261,17 +261,17 @@ void DirectX11RenderDeviceManager::EndRender(void)
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::SetUpDeferredRenderer()
+ * @fn	bool CDirectX11RenderDeviceManager::SetUpDeferredRenderer()
  *
  * @brief	Sets up the deferred renderer.
  *
  * @author	Kazuyuki Honda
  * @date	2015/11/04
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
  /*
-BOOL CDirectX11RenderDeviceManager::SetUpDeferredRenderer()
+bool CDirectX11RenderDeviceManager::SetUpDeferredRenderer()
 {
 //	m_deferredRenderer = std::shared_ptr<DirectX11DeferredRenderer>(new DirectX11DeferredRenderer);
 //	m_deferredRenderer->Setup();
@@ -279,7 +279,7 @@ BOOL CDirectX11RenderDeviceManager::SetUpDeferredRenderer()
 }	  */
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::GetDisplayMode()
+ * @fn	bool CDirectX11RenderDeviceManager::GetDisplayMode()
  *
  * @brief	デフォルトディスプレイのモードを列挙する.
  *
@@ -289,7 +289,7 @@ BOOL CDirectX11RenderDeviceManager::SetUpDeferredRenderer()
  * @return	The display mode.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::GetDisplayMode()
+bool DirectX11RenderDeviceManager::GetDisplayMode()
 {
 	HRESULT hr = E_FAIL;
 	IDXGIOutput* pOutput = NULL;
@@ -343,7 +343,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateDevice(BOOL DirectX11Only)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateDevice(bool DirectX11Only)
  *
  * @brief	デバイスの作成.
  *
@@ -355,7 +355,7 @@ EXIT:
  * @return	The new device.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateDevice(BOOL DirectX11Only)
+bool DirectX11RenderDeviceManager::CreateDevice(bool DirectX11Only)
 {
 	HRESULT hr = E_FAIL;
 
@@ -455,7 +455,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateRenderTargetView()
+ * @fn	bool CDirectX11RenderDeviceManager::CreateRenderTargetView()
  *
  * @brief	レンダリングターゲットビューの作成.
  *
@@ -465,7 +465,7 @@ EXIT:
  * @return	The new render target view.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateRenderTargetView()
+bool DirectX11RenderDeviceManager::CreateRenderTargetView()
 {
 	HRESULT hr = E_FAIL;
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = NULL;
@@ -490,7 +490,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateDepthStencilView()
+ * @fn	bool CDirectX11RenderDeviceManager::CreateDepthStencilView()
  *
  * @brief	深度ステンシルビューの作成.
  *
@@ -500,7 +500,7 @@ EXIT:
  * @return	The new depth stencil view.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateDepthStencilView()
+bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 {
 	HRESULT hr = E_FAIL;
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = NULL;
@@ -599,7 +599,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateViewport()
+ * @fn	bool CDirectX11RenderDeviceManager::CreateViewport()
  *
  * @brief	ビューポートの作成.
  *
@@ -609,7 +609,7 @@ EXIT:
  * @return	The new viewport.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateViewport()
+bool DirectX11RenderDeviceManager::CreateViewport()
 {
 	HRESULT hr = E_FAIL;
 
@@ -641,7 +641,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::SetWindowAssociation()
+ * @fn	bool CDirectX11RenderDeviceManager::SetWindowAssociation()
  *
  * @brief	ウィンドウアソシエーション.
  *
@@ -651,7 +651,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::SetWindowAssociation()
+bool DirectX11RenderDeviceManager::SetWindowAssociation()
 {
 	HRESULT hr = E_FAIL;
 	IDXGIFactory* pFactory = NULL;
@@ -678,7 +678,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::SetDefaultRasterize()
+ * @fn	bool CDirectX11RenderDeviceManager::SetDefaultRasterize()
  *
  * @brief	デフォルトのラスタライザを設定.
  *
@@ -688,7 +688,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::SetDefaultRasterize()
+bool DirectX11RenderDeviceManager::SetDefaultRasterize()
 {
 	HRESULT hr = E_FAIL;
 
@@ -732,7 +732,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::SetDefaultDepthStencilState()
+ * @fn	bool CDirectX11RenderDeviceManager::SetDefaultDepthStencilState()
  *
  * @brief	デフォルトの深度ステンシルステートを設定.
  *
@@ -742,7 +742,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::SetDefaultDepthStencilState()
+bool DirectX11RenderDeviceManager::SetDefaultDepthStencilState()
 {
 	HRESULT hr = E_FAIL;
 
@@ -812,7 +812,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT Height)
+ * @fn	bool CDirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT Height)
  *
  * @brief	表示モードの切り替えを最適化 DXGI の概要.
  *
@@ -825,7 +825,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT Height)
+bool DirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT Height)
 {
 	HRESULT hr = E_FAIL;
 
@@ -870,7 +870,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::ChangeWindowMode()
+ * @fn	bool CDirectX11RenderDeviceManager::ChangeWindowMode()
  *
  * @brief	表示モードを切り替える.
  *
@@ -880,7 +880,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::ChangeWindowMode()
+bool DirectX11RenderDeviceManager::ChangeWindowMode()
 {
 	HRESULT hr = E_FAIL;
 
@@ -927,7 +927,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateBuffer( Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag, D3D11_BIND_FLAG BindFlag )
+ * @fn	bool CDirectX11RenderDeviceManager::CreateBuffer( Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag, D3D11_BIND_FLAG BindFlag )
  *
  * @brief	頂点、インデックス、定数バッファを作成する.
  *
@@ -943,7 +943,7 @@ EXIT:
  * @return	The new buffer.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateBuffer(
+bool DirectX11RenderDeviceManager::CreateBuffer(
 	Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer,
 	void* pData,
 	size_t size,
@@ -1009,7 +1009,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateVertexBuffer( Microsoft::WRL::ComPtr< ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag )
+ * @fn	bool CDirectX11RenderDeviceManager::CreateVertexBuffer( Microsoft::WRL::ComPtr< ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag )
  *
  * @brief	頂点バッファを作成する.
  *
@@ -1024,7 +1024,7 @@ EXIT:
  * @return	The new vertex buffer.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateVertexBuffer(
+bool DirectX11RenderDeviceManager::CreateVertexBuffer(
 	Microsoft::WRL::ComPtr< ID3D11Buffer>& pBuffer,
 	void* pData,
 	size_t size,
@@ -1035,7 +1035,7 @@ BOOL DirectX11RenderDeviceManager::CreateVertexBuffer(
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateIndexBuffer( Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag )
+ * @fn	bool CDirectX11RenderDeviceManager::CreateIndexBuffer( Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag )
  *
  * @brief	インデックスバッファを作成する.
  *
@@ -1050,7 +1050,7 @@ BOOL DirectX11RenderDeviceManager::CreateVertexBuffer(
  * @return	The new index buffer.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateIndexBuffer(
+bool DirectX11RenderDeviceManager::CreateIndexBuffer(
 	Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer,
 	void* pData,
 	size_t size,
@@ -1061,7 +1061,7 @@ BOOL DirectX11RenderDeviceManager::CreateIndexBuffer(
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateConstantBuffer( Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag )
+ * @fn	bool CDirectX11RenderDeviceManager::CreateConstantBuffer( Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag )
  *
  * @brief	定数バッファを作成する.
  *
@@ -1076,7 +1076,7 @@ BOOL DirectX11RenderDeviceManager::CreateIndexBuffer(
  * @return	The new constant buffer.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateConstantBuffer(
+bool DirectX11RenderDeviceManager::CreateConstantBuffer(
 	Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer,
 	void* pData,
 	size_t size,
@@ -1087,7 +1087,7 @@ BOOL DirectX11RenderDeviceManager::CreateConstantBuffer(
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateShaderResourceViewArray( TCHAR* pTextureFileNames[], UINT NumTextures, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSRVView)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateShaderResourceViewArray( TCHAR* pTextureFileNames[], UINT NumTextures, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSRVView)
  *
  * @brief	テクスチャーファイルからシェーダーリソースビュー配列を作成する.
  *
@@ -1101,7 +1101,7 @@ BOOL DirectX11RenderDeviceManager::CreateConstantBuffer(
  * @return	The new shader resource view array.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateShaderResourceViewArray(
+bool DirectX11RenderDeviceManager::CreateShaderResourceViewArray(
 	const std::string pTextureFileNames[],
 	UINT NumTextures,
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSRVView)
@@ -1200,7 +1200,7 @@ BOOL DirectX11RenderDeviceManager::CreateShaderResourceViewArray(
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT ID3D11VertexShader** pVertexShader, IN TCHAR pSrcFile[], IN CHAR pFunctionName[], IN CHAR pProfile[], OUT ID3D11InputLayout** g_pLayout, IN D3D11_INPUT_ELEMENT_DESC pLayoutDesc[], UINT NumElements)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT ID3D11VertexShader** pVertexShader, IN TCHAR pSrcFile[], IN CHAR pFunctionName[], IN CHAR pProfile[], OUT ID3D11InputLayout** g_pLayout, IN D3D11_INPUT_ELEMENT_DESC pLayoutDesc[], UINT NumElements)
  *
  * @brief	頂点シェーダーをファイルから作成する.
  *
@@ -1218,7 +1218,7 @@ BOOL DirectX11RenderDeviceManager::CreateShaderResourceViewArray(
  * @return	The new vertex shader from file.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT Microsoft::WRL::ComPtr< ID3D11VertexShader>& pVertexShader,
+bool DirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT Microsoft::WRL::ComPtr< ID3D11VertexShader>& pVertexShader,
 	IN HFString pSrcFile, IN HFString pFunctionName, IN HFString pProfile,
 	OUT Microsoft::WRL::ComPtr< ID3D11InputLayout>& g_pLayout,
 	IN D3D11_INPUT_ELEMENT_DESC pLayoutDesc[], UINT NumElements)
@@ -1282,7 +1282,7 @@ BOOL DirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT Microsoft::WRL
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateVertexShaderFromMemory(ID3D11VertexShader** pVertexShader, const BYTE* pShader, size_t size, OUT ID3D11InputLayout** g_pLayout, IN D3D11_INPUT_ELEMENT_DESC pLayoutDesc[], UINT NumElements)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateVertexShaderFromMemory(ID3D11VertexShader** pVertexShader, const BYTE* pShader, size_t size, OUT ID3D11InputLayout** g_pLayout, IN D3D11_INPUT_ELEMENT_DESC pLayoutDesc[], UINT NumElements)
  *
  * @brief	頂点シェーダーをヘッダファイルから作成する.
  *
@@ -1299,7 +1299,7 @@ BOOL DirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT Microsoft::WRL
  * @return	The new vertex shader from memory.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateVertexShaderFromMemory(Microsoft::WRL::ComPtr< ID3D11VertexShader>& cpVertexShader,
+bool DirectX11RenderDeviceManager::CreateVertexShaderFromMemory(Microsoft::WRL::ComPtr< ID3D11VertexShader>& cpVertexShader,
 	const BYTE* pShader, size_t size,
 	OUT Microsoft::WRL::ComPtr< ID3D11InputLayout>& g_pLayout,
 	IN D3D11_INPUT_ELEMENT_DESC pLayoutDesc[], UINT NumElements)
@@ -1320,7 +1320,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateHullShaderFromFile(ID3D11HullShader** pHullShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[])
+ * @fn	bool CDirectX11RenderDeviceManager::CreateHullShaderFromFile(ID3D11HullShader** pHullShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[])
  *
  * @brief	ハルシェーダーをファイルから作成する.
  *
@@ -1335,7 +1335,7 @@ EXIT:
  * @return	The new hull shader from file.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateHullShaderFromFile(ID3D11HullShader** pHullShader,
+bool DirectX11RenderDeviceManager::CreateHullShaderFromFile(ID3D11HullShader** pHullShader,
 	HFString pSrcFile,
 	HFString pFunctionName,
 	HFString pProfile)
@@ -1370,7 +1370,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateHullShaderFromMemory(ID3D11HullShader** pHullShader, const BYTE* pShader, size_t size)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateHullShaderFromMemory(ID3D11HullShader** pHullShader, const BYTE* pShader, size_t size)
  *
  * @brief	ハルシェーダーをメモリから作成する.
  *
@@ -1384,7 +1384,7 @@ EXIT:
  * @return	The new hull shader from memory.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateHullShaderFromMemory(ID3D11HullShader** pHullShader, const BYTE* pShader, size_t size)
+bool DirectX11RenderDeviceManager::CreateHullShaderFromMemory(ID3D11HullShader** pHullShader, const BYTE* pShader, size_t size)
 {
 	HRESULT hr = E_FAIL;
 
@@ -1398,7 +1398,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateDomainShaderFromFile(ID3D11DomainShader** pDomainShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[])
+ * @fn	bool CDirectX11RenderDeviceManager::CreateDomainShaderFromFile(ID3D11DomainShader** pDomainShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[])
  *
  * @brief	ドメインシェーダーをファイルから作成する.
  *
@@ -1413,7 +1413,7 @@ EXIT:
  * @return	The new domain shader from file.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateDomainShaderFromFile(ID3D11DomainShader** pDomainShader,
+bool DirectX11RenderDeviceManager::CreateDomainShaderFromFile(ID3D11DomainShader** pDomainShader,
 	HFString pSrcFile,
 	HFString pFunctionName,
 	HFString pProfile)
@@ -1449,7 +1449,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateDomainShaderFromMemory(ID3D11DomainShader** pDomainShader, const BYTE* pShader, size_t size)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateDomainShaderFromMemory(ID3D11DomainShader** pDomainShader, const BYTE* pShader, size_t size)
  *
  * @brief	ドメインシェーダーをメモリから作成する.
  *
@@ -1463,7 +1463,7 @@ EXIT:
  * @return	The new domain shader from memory.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateDomainShaderFromMemory(ID3D11DomainShader** pDomainShader, const BYTE* pShader, size_t size)
+bool DirectX11RenderDeviceManager::CreateDomainShaderFromMemory(ID3D11DomainShader** pDomainShader, const BYTE* pShader, size_t size)
 {
 	HRESULT hr = E_FAIL;
 
@@ -1477,7 +1477,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateGeometryShaderFromFile(ID3D11GeometryShader** pGeometryShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[])
+ * @fn	bool CDirectX11RenderDeviceManager::CreateGeometryShaderFromFile(ID3D11GeometryShader** pGeometryShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[])
  *
  * @brief	ジオメトリシェーダーをファイルから作成する.
  *
@@ -1492,7 +1492,7 @@ EXIT:
  * @return	The new geometry shader from file.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateGeometryShaderFromFile(ID3D11GeometryShader** pGeometryShader,
+bool DirectX11RenderDeviceManager::CreateGeometryShaderFromFile(ID3D11GeometryShader** pGeometryShader,
 	HFString pSrcFile,
 	HFString pFunctionName,
 	HFString pProfile)
@@ -1539,7 +1539,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateGeometryShaderFromMemory(ID3D11GeometryShader** pGeometryShader, const BYTE* pShader, size_t size)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateGeometryShaderFromMemory(ID3D11GeometryShader** pGeometryShader, const BYTE* pShader, size_t size)
  *
  * @brief	ジオメトリシェーダーをメモリから作成する.
  *
@@ -1553,7 +1553,7 @@ EXIT:
  * @return	The new geometry shader from memory.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateGeometryShaderFromMemory(ID3D11GeometryShader** pGeometryShader, const BYTE* pShader, size_t size)
+bool DirectX11RenderDeviceManager::CreateGeometryShaderFromMemory(ID3D11GeometryShader** pGeometryShader, const BYTE* pShader, size_t size)
 {
 	HRESULT hr = E_FAIL;
 
@@ -1567,7 +1567,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromFile( ID3D11GeometryShader** pGeometryShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[], const D3D11_SO_DECLARATION_ENTRY *pSODeclaration, UINT NumEntries, const UINT *pBufferStrides, UINT NumStrides)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromFile( ID3D11GeometryShader** pGeometryShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[], const D3D11_SO_DECLARATION_ENTRY *pSODeclaration, UINT NumEntries, const UINT *pBufferStrides, UINT NumStrides)
  *
  * @brief	ストリーミング出力バッファーへの書き込みが可能なジオメトリ シェーダーをファイルから作成する.
  *
@@ -1586,7 +1586,7 @@ EXIT:
  * @return	The new geometry shader with stream output from file.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromFile(
+bool DirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromFile(
 	ID3D11GeometryShader** pGeometryShader,
 	HFString pSrcFile, HFString pFunctionName, HFString pProfile,
 	const D3D11_SO_DECLARATION_ENTRY *pSODeclaration,
@@ -1634,7 +1634,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromMemory( ID3D11GeometryShader** pGeometryShader, const BYTE* pShader, size_t size, const D3D11_SO_DECLARATION_ENTRY *pSODeclaration, UINT NumEntries, const UINT *pBufferStrides, UINT NumStrides)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromMemory( ID3D11GeometryShader** pGeometryShader, const BYTE* pShader, size_t size, const D3D11_SO_DECLARATION_ENTRY *pSODeclaration, UINT NumEntries, const UINT *pBufferStrides, UINT NumStrides)
  *
  * @brief	ストリーミング出力バッファーへの書き込みが可能なジオメトリ シェーダーをメモリから作成する.
  *
@@ -1652,7 +1652,7 @@ EXIT:
  * @return	The new geometry shader with stream output from memory.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromMemory(
+bool DirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromMemory(
 	ID3D11GeometryShader** pGeometryShader,
 	const BYTE* pShader, size_t size,
 	const D3D11_SO_DECLARATION_ENTRY *pSODeclaration,
@@ -1682,7 +1682,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreatePixelShaderFromFile(ID3D11PixelShader** pPixelShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[] )
+ * @fn	bool CDirectX11RenderDeviceManager::CreatePixelShaderFromFile(ID3D11PixelShader** pPixelShader, TCHAR pSrcFile[], CHAR pFunctionName[], CHAR pProfile[] )
  *
  * @brief	ピクセルシェーダーをファイルから作成する.
  *
@@ -1697,12 +1697,12 @@ EXIT:
  * @return	The new pixel shader from file.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreatePixelShaderFromFile(Microsoft::WRL::ComPtr<ID3D11PixelShader>& pPixelShader,
+bool DirectX11RenderDeviceManager::CreatePixelShaderFromFile(Microsoft::WRL::ComPtr<ID3D11PixelShader>& pPixelShader,
 	Microsoft::WRL::ComPtr< ID3D11ClassLinkage>& cpPSClassLinkage
 	,
 	HFString pSrcFile,
 	HFString pFunctionName,
-	HFString pProfile ,BOOL isLinkage
+	HFString pProfile ,bool isLinkage
 	)
 {
 	HRESULT hr = E_FAIL;
@@ -1767,7 +1767,7 @@ BOOL DirectX11RenderDeviceManager::CreatePixelShaderFromFile(Microsoft::WRL::Com
 	return hr;
 }
 
-BOOL DirectX11RenderDeviceManager::SetupGeometryBuffer()
+bool DirectX11RenderDeviceManager::SetupGeometryBuffer()
 {
 	m_spDeferredBuffer = std::shared_ptr<GeometryBuffers>(new GeometryBuffers);
 	return m_spDeferredBuffer->Setup(7, m_screenSize.x, m_screenSize.y, 10000, 1);
@@ -1860,7 +1860,7 @@ OutputShaderErrorMessage(
 	return;
 }
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreatePixelShaderFromMemory(ID3D11PixelShader** pPixelShader, const BYTE* pShader, size_t size)
+ * @fn	bool CDirectX11RenderDeviceManager::CreatePixelShaderFromMemory(ID3D11PixelShader** pPixelShader, const BYTE* pShader, size_t size)
  *
  * @brief	ピクセルシェーダーをヘッダファイルから作成する.
  *
@@ -1874,7 +1874,7 @@ OutputShaderErrorMessage(
  * @return	The new pixel shader from memory.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreatePixelShaderFromMemory(Microsoft::WRL::ComPtr<ID3D11PixelShader>& pPixelShader, const BYTE* pShader, size_t size)
+bool DirectX11RenderDeviceManager::CreatePixelShaderFromMemory(Microsoft::WRL::ComPtr<ID3D11PixelShader>& pPixelShader, const BYTE* pShader, size_t size)
 {
 	HRESULT hr = E_FAIL;
 
@@ -2025,7 +2025,7 @@ D3D11_RENDER_TARGET_BLEND_DESC DirectX11RenderDeviceManager::GetMultipleBlendDes
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::SetBlendState(D3D11_RENDER_TARGET_BLEND_DESC BlendStateArray[], UINT NumBlendState, BOOL AlphaToCoverageEnable)
+ * @fn	bool CDirectX11RenderDeviceManager::SetBlendState(D3D11_RENDER_TARGET_BLEND_DESC BlendStateArray[], UINT NumBlendState, bool AlphaToCoverageEnable)
  *
  * @brief	ブレンドステートを設定する.
  *
@@ -2039,7 +2039,7 @@ D3D11_RENDER_TARGET_BLEND_DESC DirectX11RenderDeviceManager::GetMultipleBlendDes
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::SetBlendState(D3D11_RENDER_TARGET_BLEND_DESC BlendStateArray[], UINT NumBlendState, BOOL AlphaToCoverageEnable)
+bool DirectX11RenderDeviceManager::SetBlendState(D3D11_RENDER_TARGET_BLEND_DESC BlendStateArray[], UINT NumBlendState, bool AlphaToCoverageEnable)
 {
 	HRESULT hr = E_FAIL;
 
@@ -2098,7 +2098,7 @@ D3D11_RENDER_TARGET_BLEND_DESC DirectX11RenderDeviceManager::GetFontBlendState()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateSamplerState(ID3D11SamplerState** ppSamplerState, D3D11_FILTER Filter, UINT MaxAnisotropy)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateSamplerState(ID3D11SamplerState** ppSamplerState, D3D11_FILTER Filter, UINT MaxAnisotropy)
  *
  * @brief	標準サンプラーステートを作成する.
  *
@@ -2112,7 +2112,7 @@ D3D11_RENDER_TARGET_BLEND_DESC DirectX11RenderDeviceManager::GetFontBlendState()
  * @return	The new sampler state.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateSamplerState(Microsoft::WRL::ComPtr< ID3D11SamplerState>& cpSamplerState, D3D11_FILTER Filter, UINT MaxAnisotropy)
+bool DirectX11RenderDeviceManager::CreateSamplerState(Microsoft::WRL::ComPtr< ID3D11SamplerState>& cpSamplerState, D3D11_FILTER Filter, UINT MaxAnisotropy)
 {
 	HRESULT hr = E_FAIL;
 
@@ -2138,7 +2138,7 @@ BOOL DirectX11RenderDeviceManager::CreateSamplerState(Microsoft::WRL::ComPtr< ID
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::SetDepthStencilState(BOOL DepthEnable, D3D11_DEPTH_WRITE_MASK DepthWriteEnabled)
+ * @fn	bool CDirectX11RenderDeviceManager::SetDepthStencilState(bool DepthEnable, D3D11_DEPTH_WRITE_MASK DepthWriteEnabled)
  *
  * @brief	深度ステンシルステートの中で設定変更頻度が高そうなパラメータを設定する.
  *
@@ -2151,7 +2151,7 @@ BOOL DirectX11RenderDeviceManager::CreateSamplerState(Microsoft::WRL::ComPtr< ID
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::SetDepthStencilState(BOOL DepthEnable, D3D11_DEPTH_WRITE_MASK DepthWriteEnabled)
+bool DirectX11RenderDeviceManager::SetDepthStencilState(bool DepthEnable, D3D11_DEPTH_WRITE_MASK DepthWriteEnabled)
 {
 	HRESULT hr = E_FAIL;
 
@@ -2255,7 +2255,7 @@ ComPtr< ID3D11ShaderResourceView> DirectX11RenderDeviceManager::GetSRViewFromDep
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateRenderTargetView(ID3D11RenderTargetView** ppRTView, D3DXVECTOR2* pRTViewSize, DXGI_FORMAT Format)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateRenderTargetView(ID3D11RenderTargetView** ppRTView, D3DXVECTOR2* pRTViewSize, DXGI_FORMAT Format)
  *
  * @brief	シェーダーにバインド可能なレンダーターゲットビューを作成する.
  *
@@ -2269,7 +2269,7 @@ ComPtr< ID3D11ShaderResourceView> DirectX11RenderDeviceManager::GetSRViewFromDep
  * @return	The new render target view.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& ppRTView, HFVECTOR2* pRTViewSize, DXGI_FORMAT Format)
+bool DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& ppRTView, HFVECTOR2* pRTViewSize, DXGI_FORMAT Format)
 {
 	HRESULT hr;
 	hr = CreateRenderTargetView(ppRTView, pRTViewSize, Format, 1);
@@ -2277,7 +2277,7 @@ BOOL DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11RenderDeviceManager::CreateRenderTargetView(ID3D11RenderTargetView** ppRTView, D3DXVECTOR2* pRTViewSize, DXGI_FORMAT Format, UINT MipLevels)
+ * @fn	bool CDirectX11RenderDeviceManager::CreateRenderTargetView(ID3D11RenderTargetView** ppRTView, D3DXVECTOR2* pRTViewSize, DXGI_FORMAT Format, UINT MipLevels)
  *
  * @brief	シェーダーにバインド可能なレンダーターゲットビューを作成する.
  *
@@ -2292,7 +2292,7 @@ BOOL DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr
  * @return	The new render target view.
  **************************************************************************************************/
 
-BOOL DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& ppRTView, HFVECTOR2* pRTViewSize, DXGI_FORMAT Format, UINT MipLevels)
+bool DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& ppRTView, HFVECTOR2* pRTViewSize, DXGI_FORMAT Format, UINT MipLevels)
 {
 	HRESULT hr = E_FAIL;
 

@@ -1,4 +1,10 @@
-﻿#include "../public/VariableInterface.h"
+﻿/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Core\Private\VariableInterface.cpp
+ *
+ * @brief	Implements the variable interface class.
+ **************************************************************************************************/
+
+#include "../public/VariableInterface.h"
 #include "..\..\Utility\Public\HFString.h"
 
 /*
@@ -10,7 +16,7 @@ void  S32_Assignment(std::shared_ptr<Variable<INT>> VariableA, std::shared_ptr<I
 void  U32_Assignment(std::shared_ptr<Variable<UINT>> VariableA, std::shared_ptr<IVariable> iVariableB);
 void  F32_Assignment(std::shared_ptr<Variable<FLOAT>> VariableA, std::shared_ptr<IVariable> iVariableB);
 void  F64_Assignment(std::shared_ptr<Variable<DOUBLE>> VariableA, std::shared_ptr<IVariable> iVariableB);
-void  BOOL_Assignment(std::shared_ptr<Variable<BOOL>> VariableA, std::shared_ptr<IVariable> iVariableB);
+void  BOOL_Assignment(std::shared_ptr<Variable<bool>> VariableA, std::shared_ptr<IVariable> iVariableB);
 void  VEC2_Assignment(std::shared_ptr<Variable<HFVECTOR2>> VariableA, std::shared_ptr<IVariable> iVariableB);
 void  VEC3_Assignment(std::shared_ptr<Variable<HFVECTOR3>> VariableA, std::shared_ptr<IVariable> iVariableB);
 void  VEC4_Assignment(std::shared_ptr<Variable<HFVECTOR4>> VariableA, std::shared_ptr<IVariable> iVariableB);
@@ -48,7 +54,7 @@ void Assignment(std::shared_ptr<IVariable>iVariableA, std::shared_ptr<IVariable>
 		F64_Assignment(std::dynamic_pointer_cast<Variable<DOUBLE>>(iVariableA), iVariableB);
 		break;
 	case VAR_TYPE_BOOL:
-		BOOL_Assignment(std::dynamic_pointer_cast<Variable<BOOL>>(iVariableA), iVariableB);
+		BOOL_Assignment(std::dynamic_pointer_cast<Variable<bool>>(iVariableA), iVariableB);
 		break;
 	case VAR_TYPE_VEC2:
 		VEC2_Assignment(std::dynamic_pointer_cast<Variable<HFVECTOR2>>(iVariableA), iVariableB);
@@ -117,9 +123,9 @@ void  F64_Assignment(std::shared_ptr<Variable<DOUBLE>> VariableA, std::shared_pt
 {
 	VariableA->SetValue(std::dynamic_pointer_cast<Variable<DOUBLE>>(iVariableB)->GetValue());
 };
-void  BOOL_Assignment(std::shared_ptr<Variable<BOOL>> VariableA, std::shared_ptr<IVariable> iVariableB)
+void  BOOL_Assignment(std::shared_ptr<Variable<bool>> VariableA, std::shared_ptr<IVariable> iVariableB)
 {
-	VariableA->SetValue(std::dynamic_pointer_cast<Variable<BOOL>>(iVariableB)->GetValue());
+	VariableA->SetValue(std::dynamic_pointer_cast<Variable<bool>>(iVariableB)->GetValue());
 };
 void  VEC2_Assignment(std::shared_ptr<Variable<HFVECTOR2>> VariableA, std::shared_ptr<IVariable> iVariableB)
 {
@@ -179,7 +185,7 @@ void  F64_Assignment(std::shared_ptr<Variable<DOUBLE>> VariableA, DOUBLE  iVaria
 {
 	VariableA->SetValue(iVariableB);
 };
-void  BOOL_Assignment(std::shared_ptr<Variable<BOOL>> VariableA, BOOL  iVariableB)
+void  BOOL_Assignment(std::shared_ptr<Variable<bool>> VariableA, bool  iVariableB)
 {
 	VariableA->SetValue(iVariableB);
 };
@@ -210,7 +216,7 @@ void  STR_Assignment(std::shared_ptr<Variable<HFString>> VariableA, HFString  iV
 
 
 /*
-BOOL Equality(std::shared_ptr<IVariable>iVariableA, std::shared_ptr<IVariable>iVariableB)
+bool Equality(std::shared_ptr<IVariable>iVariableA, std::shared_ptr<IVariable>iVariableB)
 {
 
 } 

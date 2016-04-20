@@ -2,20 +2,23 @@
 
 #include "..\..\..\HarmonyFrameWork\Core\State\Public\StateHolder.h"
 #include "..\..\..\HarmonyFrameWork\Core\Task\Public\TaskInterface.h"
+#include "..\..\..\HarmonyFrameWork\Core\Public\Common.h"
 
 class IBaseWeapon
 	:
 	public 
-	IBaseTask,
-	IStateHolder,
-	inheritable_enable_shared_from_this<IBaseWeapon>
+	virtual IBaseTask,
+	public inheritable_enable_shared_from_this<IBaseTask>,
+	public IStateHolder
 {
 public:
 	IBaseWeapon();
 	virtual~IBaseWeapon();
-	virtual BOOL Init() = 0;
-	virtual bool Use() = 0;
+	bool Init();
+	virtual void Use() = 0;
 	bool IsEnableUse();
+	bool Update();
+	void Reset() {};
 
 private:
 

@@ -13,11 +13,11 @@ DefaultSpriteShader::~DefaultSpriteShader()
 {
 }
 
-BOOL DefaultSpriteShader::Setup()
+bool DefaultSpriteShader::Setup()
 {
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
-	BOOL result;
+	bool result;
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
 	Microsoft::WRL::ComPtr<ID3D10Blob> vertexShaderBuffer;
 	Microsoft::WRL::ComPtr<ID3D10Blob> pixelShaderBuffer;
@@ -96,7 +96,7 @@ void DefaultSpriteShader::Destroy()
 {
 }
 
-BOOL DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+bool DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
 {
 	HRESULT hr;
 	hr = E_FAIL;
@@ -158,7 +158,7 @@ BOOL DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std
 }
 
 
-BOOL DefaultSpriteShader::Render()
+bool DefaultSpriteShader::Render()
 {
 	HRESULT hr;
 	hr = E_FAIL;
@@ -174,7 +174,7 @@ BOOL DefaultSpriteShader::Render()
 	return hr;
 }
 
-BOOL DefaultSpriteShader::PostProcessOfRender()
+bool DefaultSpriteShader::PostProcessOfRender()
 {
 	HRESULT hr;
 	hr = E_FAIL;

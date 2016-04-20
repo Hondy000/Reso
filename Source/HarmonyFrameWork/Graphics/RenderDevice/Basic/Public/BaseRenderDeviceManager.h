@@ -23,7 +23,7 @@ public:
 	BaseRenderDeviceManager();
 	virtual ~BaseRenderDeviceManager() {};
 
-	virtual BOOL Setup(void) = 0;
+	virtual bool Setup(void) = 0;
 
 	virtual void ClearScreen(void) = 0;	// ‰æ–Ê‚ÌClear
 

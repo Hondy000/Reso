@@ -1,16 +1,29 @@
+/**=================================================================================================
+ * @file Source\HarmonyFrameWork\Graphics\ParticleSystem\Public\BaseParticle.h
+ *
+ * Declares the base particle class.
+ *===============================================================================================**/
+
 #pragma once
 #include "../../RenderObject/Public/BaseRenderObject.h"
 
-class BaseParticle
+/**=================================================================================================
+ * A base particle.
+ *
+ * @author Kazuyuki
+ *===============================================================================================**/
+
+class IBaseParticle
 	:
-	public BaseRenderObject
+	public IBaseTask
 {
 public:
-	BaseParticle()
+	IBaseParticle()
 	{
+		Init();
 	};
 
-	virtual~BaseParticle()
+	virtual~IBaseParticle()
 	{
 	};
 

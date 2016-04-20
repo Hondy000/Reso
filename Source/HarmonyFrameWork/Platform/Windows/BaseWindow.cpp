@@ -11,7 +11,7 @@
 LONG	BaseWindow::stNowWindowCount = 0;
 
 /**********************************************************************************************//**
-																								* @fn	CBaseWindow::CBaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow)
+																								* @fn	CBaseWindow::CBaseWindow(const HINSTANCE hInst, const HWND hWndParent, const bool isFullWindow)
 																								*
 																								* @brief	&lt; フルウィンドウで生成.
 																								*
@@ -23,7 +23,7 @@ LONG	BaseWindow::stNowWindowCount = 0;
 																								* @param	isFullWindow	The is full window.
 																								**************************************************************************************************/
 
-BaseWindow::BaseWindow(const HINSTANCE hInst, const HWND hWndParent, const BOOL isFullWindow)
+BaseWindow::BaseWindow(const HINSTANCE hInst, const HWND hWndParent, const bool isFullWindow)
 {
 	if (isFullWindow)
 	{
@@ -217,7 +217,7 @@ LRESULT	CALLBACK	BaseWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 	}
 }
 
-inline	BOOL	BaseWindow::RegisterWindow(const HINSTANCE hInst)
+inline	bool	BaseWindow::RegisterWindow(const HINSTANCE hInst)
 {
 	//Windows登録情報
 	m_wcex.cbSize = sizeof(WNDCLASSEX);
@@ -242,7 +242,7 @@ inline	BOOL	BaseWindow::RegisterWindow(const HINSTANCE hInst)
 	return	S_OK;
 }
 
-BOOL	BaseWindow::CreateMyWindow(const HWND hWndParent, const BOOL isFullWindow)
+bool	BaseWindow::CreateMyWindow(const HWND hWndParent, const bool isFullWindow)
 {
 	DWORD dwStyle = 0;
 	SHORT nWidth, nHeight;

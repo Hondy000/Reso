@@ -8,7 +8,7 @@ class IndexBuffer
 public:
 	IndexBuffer(){};
 	virtual~IndexBuffer() {};
-	BOOL SetData(void* pIn, size_t dataSize, int count, BaseBuffer::ACCESS_FLAG access_flag) ;
+	bool SetData(void* pIn, size_t dataSize, int count, BaseBuffer::ACCESS_FLAG access_flag) ;
 
 	// Access the IndexCount
 	int GetIndexCount(void) const

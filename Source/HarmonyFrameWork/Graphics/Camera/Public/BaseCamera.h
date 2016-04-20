@@ -27,7 +27,7 @@ public:
 
 	virtual~BaseCamera() {};
 
-	BOOL Init(void);
+	bool Init(void);
 
 	void Reset() {};
 	// Access the Aspect
@@ -102,7 +102,7 @@ public:
 		m_viewVector = viewPosition;
 	};
 
-	BOOL Update(void);
+	bool Update(void);
 	virtual void UpdateViewMatrix();
 	virtual void UpdateProjectionMatrix();
 
@@ -128,12 +128,12 @@ public:
 		m_distanceFromFollowTarget = vec;
 	}
 
-	void SetIsView(BOOL flag)
+	void SetIsView(bool flag)
 	{
 		isView = flag;
 	}
 
-	void SetIsFollow(BOOL flag)
+	void SetIsFollow(bool flag)
 	{
 		isFollow = flag;
 	}
@@ -182,9 +182,9 @@ protected:
 	HFVECTOR3 m_viewObjectOffset;
 
 	/** @brief	カメラがオブジェクトを追従するかのフラグ. */
-	BOOL isFollow;
+	bool isFollow;
 	/** @brief	カメラのオブジェクトを中止するかのフラグ. */
-	BOOL isView;
+	bool isView;
 	std::weak_ptr<IBaseTask> m_wpFollowObject;
 	std::weak_ptr<IBaseTask> m_wpViewObject;
 };

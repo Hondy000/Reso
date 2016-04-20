@@ -53,7 +53,7 @@ namespace DirectX
     };
 
     // Standard version
-    BOOL CreateDDSTextureFromMemory( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromMemory( _In_ ID3D11Device* d3dDevice,
                                         _In_reads_bytes_(ddsDataSize) const uint8_t* ddsData,
                                         _In_ size_t ddsDataSize,
                                         _Outptr_opt_ ID3D11Resource** texture,
@@ -62,7 +62,7 @@ namespace DirectX
                                         _Out_opt_ DDS_ALPHA_MODE* alphaMode = nullptr
                                       );
 
-    BOOL CreateDDSTextureFromFile( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromFile( _In_ ID3D11Device* d3dDevice,
                                       _In_z_ const wchar_t* szFileName,
                                       _Outptr_opt_ ID3D11Resource** texture,
                                       _Outptr_opt_ ID3D11ShaderResourceView** textureView,
@@ -71,7 +71,7 @@ namespace DirectX
                                     );
 
     // Standard version with optional auto-gen mipmap support
-    BOOL CreateDDSTextureFromMemory( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromMemory( _In_ ID3D11Device* d3dDevice,
                                         _In_opt_ ID3D11DeviceContext* d3dContext,
                                         _In_reads_bytes_(ddsDataSize) const uint8_t* ddsData,
                                         _In_ size_t ddsDataSize,
@@ -81,7 +81,7 @@ namespace DirectX
                                         _Out_opt_ DDS_ALPHA_MODE* alphaMode = nullptr
                                       );
 
-    BOOL CreateDDSTextureFromFile( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromFile( _In_ ID3D11Device* d3dDevice,
                                       _In_opt_ ID3D11DeviceContext* d3dContext,
                                       _In_z_ const wchar_t* szFileName,
                                       _Outptr_opt_ ID3D11Resource** texture,
@@ -91,7 +91,7 @@ namespace DirectX
                                     );
 
     // Extended version
-    BOOL CreateDDSTextureFromMemoryEx( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromMemoryEx( _In_ ID3D11Device* d3dDevice,
                                           _In_reads_bytes_(ddsDataSize) const uint8_t* ddsData,
                                           _In_ size_t ddsDataSize,
                                           _In_ size_t maxsize,
@@ -99,27 +99,27 @@ namespace DirectX
                                           _In_ UINT bindFlags,
                                           _In_ UINT cpuAccessFlags,
                                           _In_ UINT miscFlags,
-                                          _In_ BOOL forceSRGB,
+                                          _In_ bool forceSRGB,
                                           _Outptr_opt_ ID3D11Resource** texture,
                                           _Outptr_opt_ ID3D11ShaderResourceView** textureView,
                                           _Out_opt_ DDS_ALPHA_MODE* alphaMode = nullptr
                                       );
 
-    BOOL CreateDDSTextureFromFileEx( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromFileEx( _In_ ID3D11Device* d3dDevice,
                                         _In_z_ const wchar_t* szFileName,
                                         _In_ size_t maxsize,
                                         _In_ D3D11_USAGE usage,
                                         _In_ UINT bindFlags,
                                         _In_ UINT cpuAccessFlags,
                                         _In_ UINT miscFlags,
-                                        _In_ BOOL forceSRGB,
+                                        _In_ bool forceSRGB,
                                         _Outptr_opt_ ID3D11Resource** texture,
                                         _Outptr_opt_ ID3D11ShaderResourceView** textureView,
                                         _Out_opt_ DDS_ALPHA_MODE* alphaMode = nullptr
                                     );
 
     // Extended version with optional auto-gen mipmap support
-    BOOL CreateDDSTextureFromMemoryEx( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromMemoryEx( _In_ ID3D11Device* d3dDevice,
                                           _In_opt_ ID3D11DeviceContext* d3dContext,
                                           _In_reads_bytes_(ddsDataSize) const uint8_t* ddsData,
                                           _In_ size_t ddsDataSize,
@@ -128,13 +128,13 @@ namespace DirectX
                                           _In_ UINT bindFlags,
                                           _In_ UINT cpuAccessFlags,
                                           _In_ UINT miscFlags,
-                                          _In_ BOOL forceSRGB,
+                                          _In_ bool forceSRGB,
                                           _Outptr_opt_ ID3D11Resource** texture,
                                           _Outptr_opt_ ID3D11ShaderResourceView** textureView,
                                           _Out_opt_ DDS_ALPHA_MODE* alphaMode = nullptr
                                       );
 
-    BOOL CreateDDSTextureFromFileEx( _In_ ID3D11Device* d3dDevice,
+    bool CreateDDSTextureFromFileEx( _In_ ID3D11Device* d3dDevice,
                                         _In_opt_ ID3D11DeviceContext* d3dContext,
                                         _In_z_ const wchar_t* szFileName,
                                         _In_ size_t maxsize,
@@ -142,7 +142,7 @@ namespace DirectX
                                         _In_ UINT bindFlags,
                                         _In_ UINT cpuAccessFlags,
                                         _In_ UINT miscFlags,
-                                        _In_ BOOL forceSRGB,
+                                        _In_ bool forceSRGB,
                                         _Outptr_opt_ ID3D11Resource** texture,
                                         _Outptr_opt_ ID3D11ShaderResourceView** textureView,
                                         _Out_opt_ DDS_ALPHA_MODE* alphaMode = nullptr

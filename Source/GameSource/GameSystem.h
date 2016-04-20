@@ -9,9 +9,9 @@ class GameSystem
 {
 public:
 	virtual ~GameSystem();
-	static BOOL isEnd;
+	static bool isEnd;
 	static std::mutex s_mutex;
-	BOOL Init();
+	bool Init();
 
 	static GameSystem* GetInstance(void)
 	{
@@ -21,7 +21,7 @@ public:
 
 	void GameMain(void);
 	void TransitionState();
-	BOOL Update();
+	bool Update();
 	void Reset();
 
 private:

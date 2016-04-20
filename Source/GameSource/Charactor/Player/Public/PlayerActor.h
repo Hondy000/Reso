@@ -9,9 +9,9 @@ class PlayerActor
 public:
 	PlayerActor(){};
 	~PlayerActor(){};
-	BOOL Init();
+	bool Init();
 	void Reset();
-	BOOL Update();	
+	bool Update();	
 
 private:
 

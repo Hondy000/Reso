@@ -4,7 +4,7 @@
 #include "../../RenderDevice/Basic/Public/RendererManager.h"
 #include "../../Shader/Basic/Public/BaseShader.h"
 
-BOOL SubMesh::GetVertexBuffers(const int bufferNum, const DWORD* semantics, std::vector<std::shared_ptr<VertexBuffer>>& bufferArray)
+bool SubMesh::GetVertexBuffers(const int bufferNum, const DWORD* semantics, std::vector<std::shared_ptr<VertexBuffer>>& bufferArray)
 {
 	if (bufferArray.size() < bufferNum)
 	{
@@ -43,7 +43,7 @@ UINT SubMesh::GetIndexCount(void)
 	return m_spIndexBuffer->GetDataCount();
 }
 
-BOOL SubMesh::Render()
+bool SubMesh::Render()
 {
 	m_material->GetMaterialShader()->PreProcessOfRender(shared_from_this(),m_material);
 	m_material->GetMaterialShader()->Render();

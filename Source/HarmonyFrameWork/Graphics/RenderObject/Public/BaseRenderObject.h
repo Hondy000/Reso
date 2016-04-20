@@ -22,18 +22,18 @@ public:
 	virtual~BaseRenderObject()
 	{
 	}
-	virtual BOOL Init() = 0;
+	virtual bool Init() = 0;
 
 
-	virtual BOOL Setup()
+	virtual bool Setup()
 	{
 		return S_OK;
 	};
 
 
-	virtual BOOL Update() = 0;
+	virtual bool Update() = 0;
 
-	virtual BOOL Render();
+	virtual bool Render();
 	
 
 

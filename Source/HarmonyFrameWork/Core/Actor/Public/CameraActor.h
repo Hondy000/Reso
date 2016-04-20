@@ -11,9 +11,9 @@ public:
 	CameraActor() {};
 	~CameraActor() {};
 
-	BOOL Init();
+	bool Init();
 	void Reset() {};
-	BOOL Update();
+	bool Update();
 
 
 protected:

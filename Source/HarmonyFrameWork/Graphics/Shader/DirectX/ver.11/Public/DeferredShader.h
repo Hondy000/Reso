@@ -51,11 +51,11 @@ public:
 	DeferredShader(const DeferredShader&);
 	~DeferredShader();
 
-	BOOL Setup();
+	bool Setup();
 	void Destroy();
 
 	/**********************************************************************************************//**
-	 * @fn	BOOL PreRenderProcess(std::shared_ptr<BASE_PRAM>);
+	 * @fn	bool PreRenderProcess(std::shared_ptr<BASE_PRAM>);
 	 *
 	 * @brief	Pre render process.
 	 *
@@ -64,25 +64,25 @@ public:
 	 *
 	 * @param	parameter1	The first parameter.
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
 
-	BOOL PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL Render() = 0;
+	 * @fn	virtual bool Render() = 0;
 	 *
 	 * @brief	Renders this object.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	BOOL Render();
+	bool Render();
 
-	BOOL PostProcessOfRender();
+	bool PostProcessOfRender();
 private:
 
 	int m_indexCount;

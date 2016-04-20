@@ -7,13 +7,13 @@
 #include "../Public/BaseRenderDeviceManager.h"
 
 /**********************************************************************************************//**
-  * @fn	CBaseRenderDeviceManager::CBaseRenderDeviceManager()
-  *
-  * @brief	Default constructor.
-  *
-  * @author	Kazuyuki Honda
-  * @date	2015/11/04
-  **************************************************************************************************/
+ * @fn	BaseRenderDeviceManager::BaseRenderDeviceManager()
+ *
+ * @brief	Default constructor.
+ *
+ * @author	Kazuyuki Honda
+ * @date	2015/11/04
+ **************************************************************************************************/
 
 BaseRenderDeviceManager::BaseRenderDeviceManager()
 {

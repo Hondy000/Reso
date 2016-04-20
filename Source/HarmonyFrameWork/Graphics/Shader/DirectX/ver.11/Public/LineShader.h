@@ -23,11 +23,11 @@ public:
 	LineShader(const LineShader&);
 	~LineShader();
 
-	BOOL Setup();
+	bool Setup();
 	void Destroy();
 
 	/**********************************************************************************************//**
-	 * @fn	BOOL PreProcessOfRender(std::shared_ptr<CBaseObject>);
+	 * @fn	bool PreProcessOfRender(std::shared_ptr<CBaseObject>);
 	 *
 	 * @brief	Pre render process.
 	 *
@@ -36,25 +36,25 @@ public:
 	 *
 	 * @param	parameter1	The first parameter.
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
 
-	BOOL PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
 	/**********************************************************************************************//**
-	 * @fn	BOOL Render();
+	 * @fn	bool Render();
 	 *
 	 * @brief	Renders this object.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	BOOL Render();
+	bool Render();
 
-	BOOL PostProcessOfRender()
+	bool PostProcessOfRender()
 	{
 		return S_OK;
 	};

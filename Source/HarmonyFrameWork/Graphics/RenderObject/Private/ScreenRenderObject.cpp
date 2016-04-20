@@ -14,7 +14,7 @@ ScreenRenderObject::~ScreenRenderObject()
 {
 }
 
-BOOL ScreenRenderObject::Init()
+bool ScreenRenderObject::Init()
 {
 	return true;
 }

@@ -6,7 +6,17 @@
 
 #include "../Public/IBaseObject.h"
 
-BOOL IBaseObject::Init()
+/**********************************************************************************************//**
+ * @fn	bool IBaseObject::Init()
+ *
+ * @brief	Initialises this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool IBaseObject::Init()
 {
 	return true;
 }

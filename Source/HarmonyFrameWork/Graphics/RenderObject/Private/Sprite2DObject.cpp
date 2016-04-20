@@ -5,14 +5,14 @@
 #include "..\..\Shader\Basic\Public\BaseShader.h"
 
 
-BOOL Sprite2DObject::Init()
+bool Sprite2DObject::Init()
 {
 	
 
 	return true;
 }
 
-BOOL Sprite2DObject::Update()
+bool Sprite2DObject::Update()
 {
 
 	std::shared_ptr<RenderCommand> command;

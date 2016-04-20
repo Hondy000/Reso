@@ -3,7 +3,7 @@
 #include "../../../Graphics/RenderObject/Public/SubMesh.h"
 using namespace HFGraphics;
 
-BOOL HFMReader::Read(const std::string& filePath, const std::shared_ptr<MeshData>& object)
+bool HFMReader::Read(const std::string& filePath, const std::shared_ptr<MeshData>& object)
 {
 	HRESULT hr = E_FAIL;
 	ReadFileBuffer(filePath);
@@ -21,7 +21,7 @@ BOOL HFMReader::Read(const std::string& filePath, const std::shared_ptr<MeshData
 
 
 
-BOOL HFMReader::ReadPosition(std::shared_ptr<SubMeshData> meshData)
+bool HFMReader::ReadPosition(std::shared_ptr<SubMeshData> meshData)
 {
 	HRESULT hr = false;
 	std::string numString;
@@ -134,7 +134,7 @@ BOOL HFMReader::ReadPosition(std::shared_ptr<SubMeshData> meshData)
 	return hr;
 }
 
-BOOL HFMReader::ReadNormal(std::shared_ptr<SubMeshData> meshData)
+bool HFMReader::ReadNormal(std::shared_ptr<SubMeshData> meshData)
 {
 	std::string numString;
 	// NORMAL_COUNT
@@ -230,7 +230,7 @@ BOOL HFMReader::ReadNormal(std::shared_ptr<SubMeshData> meshData)
 	return false;
 }
 
-BOOL HFMReader::ReadUV(std::shared_ptr<SubMeshData> meshData)
+bool HFMReader::ReadUV(std::shared_ptr<SubMeshData> meshData)
 {
 	std::string numString;
 
@@ -322,7 +322,7 @@ BOOL HFMReader::ReadUV(std::shared_ptr<SubMeshData> meshData)
 	return true;
 }
 
-BOOL HFMReader::ReadMaterial(std::shared_ptr<SubMeshData> meshData)
+bool HFMReader::ReadMaterial(std::shared_ptr<SubMeshData> meshData)
 {
 	std::string numString;
 	m_readOffsetIndex = m_buffer.find("MaterialMappingMode", m_readOffsetIndex) + strlen("MaterialMappingMode");
@@ -606,7 +606,7 @@ HFGraphics::MAPPING_MODE HFMReader::StringToMappingMode(const std::string& str)
 	}
 }
 
-BOOL HFMReader::ReadSubMesh(const std::shared_ptr<HFGraphics::MeshData>& object)
+bool HFMReader::ReadSubMesh(const std::shared_ptr<HFGraphics::MeshData>& object)
 {
 	HRESULT hr = false;
 	std::string numString;

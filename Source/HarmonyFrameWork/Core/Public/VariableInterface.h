@@ -11,7 +11,7 @@ enum VariableType
 	VAR_TYPE_U32,   /*!< An enum constant representing the variable type unsigned 32 bit option */
 	VAR_TYPE_F32,   /*!< An enum constant representing the variable type FLOAT 32 bit option */
 	VAR_TYPE_F64,   /*!< An enum constant representing the variable type flaot 64 bit option */
-	VAR_TYPE_BOOL,  /*!< An enum constant representing the variable type BOOL option */
+	VAR_TYPE_BOOL,  /*!< An enum constant representing the variable type bool option */
 	VAR_TYPE_VEC2,  /*!< An enum constant representing the variable type vector 2 dimensional option */
 	VAR_TYPE_VEC3,  /*!< An enum constant representing the variable type vector 3 dimensional option */
 	VAR_TYPE_VEC4,		// An enum constant representing the variable type vector 4 dimensional option */
@@ -43,7 +43,7 @@ void  S32_Assignment(std::shared_ptr<Variable<INT>> VariableA, INT iVariableB);
 void  U32_Assignment(std::shared_ptr<Variable<UINT>> VariableA, UINT  iVariableB);
 void  F32_Assignment(std::shared_ptr<Variable<FLOAT>> VariableA, FLOAT ariableB);
 void  F64_Assignment(std::shared_ptr<Variable<DOUBLE>> VariableA, DOUBLE  VariableB);
-void  BOOL_Assignment(std::shared_ptr<Variable<BOOL>> VariableA, BOOL VariableB);
+void  BOOL_Assignment(std::shared_ptr<Variable<bool>> VariableA, bool VariableB);
 void  VEC2_Assignment(std::shared_ptr<Variable<HFVECTOR2>> VariableA, HFVECTOR2  iVariableB);
 void  VEC3_Assignment(std::shared_ptr<Variable<HFVECTOR3>> VariableA, HFVECTOR3 iVariableB);
 void  VEC4_Assignment(std::shared_ptr<Variable<HFVECTOR4>> VariableA, HFVECTOR4 iVariableB);
@@ -52,7 +52,7 @@ void  QUATERNION_Assignment(std::shared_ptr<Variable<HFQUATERNION>> VariableA, H
 void  STR_Assignment(std::shared_ptr<Variable<HFString>> VariableA, HFString  iVariableB);
 
 
-BOOL Equality(std::shared_ptr<IVariable>iVariableA, std::shared_ptr<IVariable>iVariableB);
+bool Equality(std::shared_ptr<IVariable>iVariableA, std::shared_ptr<IVariable>iVariableB);
 
 std::shared_ptr<IVariable>  Add(std::shared_ptr<IVariable> iVariableA, std::shared_ptr<IVariable> iVariableB);
 
@@ -64,7 +64,7 @@ std::shared_ptr<IVariable>  Multi(std::shared_ptr<IVariable> iVariableA, std::sh
 std::shared_ptr<IVariable>  Division(std::shared_ptr<IVariable> iVariableA, std::shared_ptr<IVariable> iVariableB);
 
 template<typename T>
-BOOL Equality(std::shared_ptr<IVariable>iVariable, T var);
+bool Equality(std::shared_ptr<IVariable>iVariable, T var);
 
 template<typename T>
 std::shared_ptr<IVariable>  Add(std::shared_ptr<IVariable> iVariable, T var);
@@ -104,7 +104,7 @@ void Assignment(std::shared_ptr<IVariable>iVariableA, T iVariableB)
 		F64_Assignment(std::dynamic_pointer_cast<Variable<DOUBLE>>(iVariableA), iVariableB);
 		break;
 	case VAR_TYPE_BOOL:
-		BOOL_Assignment(std::dynamic_pointer_cast<Variable<BOOL>>(iVariableA), iVariableB);
+		BOOL_Assignment(std::dynamic_pointer_cast<Variable<bool>>(iVariableA), iVariableB);
 		break;
 	case VAR_TYPE_VEC2:
 		std::dynamic_pointer_cast<Variable<T>>(iVariableA)->SetValue(iVariableB);
@@ -152,7 +152,7 @@ public:
 	virtual~IVariable() {};
 
 			 /*
-	virtual BOOL operator== (IVariable& var)
+	virtual bool operator== (IVariable& var)
 	{
 
 		return Equality(this->shared_from_this(), var.shared_from_this());
@@ -160,7 +160,7 @@ public:
 
 
 	template<typename T>
-	BOOL operator == (T var)
+	bool operator == (T var)
 	{
 		return Equality(this->shared_from_this(), var);
 	}
@@ -229,16 +229,19 @@ public:
 		m_value = value;
 	};
 
-	void SetValue(T value)
+	void SetValue(T* value)
 	{
 		if (m_value)
 		{
-			*m_value = value;
+			*m_value = *value;
+		}
+		else if (value)
+		{
 		}
 		else
 		{
 			m_value = std::make_shared<T>();
-			*m_value = value;
+			*m_value = *value;
 		}
 	};
 

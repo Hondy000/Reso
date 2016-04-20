@@ -8,7 +8,7 @@
 #include "../../../../RenderDevice/DirectX/ver.11/Public/DirectX11RenderDeviceManager.h"
 using namespace std;
 
-BOOL SimplePolygon3DShader::Setup()
+bool SimplePolygon3DShader::Setup()
 {
 	HRESULT hr;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
@@ -49,9 +49,9 @@ void SimplePolygon3DShader::Destroy()
 {
 }
 
-BOOL SimplePolygon3DShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+bool SimplePolygon3DShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
 {
-	BOOL result;
+	bool result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	UINT bufferNumber;
 
@@ -104,9 +104,9 @@ BOOL SimplePolygon3DShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, s
 	return 0;
 }
 
-BOOL SimplePolygon3DShader::Render()
+bool SimplePolygon3DShader::Render()
 {
-	BOOL result = E_FAIL;
+	bool result = E_FAIL;
 
 	// Set the vertex input layout.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetInputLayout(m_spVertexLayout->GetMain().Get());
@@ -124,8 +124,8 @@ BOOL SimplePolygon3DShader::Render()
 	return result;
 }
 
-BOOL SimplePolygon3DShader::PostProcessOfRender()
+bool SimplePolygon3DShader::PostProcessOfRender()
 {
-	return BOOL();
+	return bool();
 }
 

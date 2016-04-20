@@ -8,7 +8,7 @@
 #include "../../Matetial/Public/Material.h"
 #include "../../Shader/Basic/Public/BaseShader.h"
 
-BOOL StaticMeshObject::Update()
+bool StaticMeshObject::Update()
 {
 
 	for (int i = 0; i < m_mesh->GetSubMeshArray().size();i++)

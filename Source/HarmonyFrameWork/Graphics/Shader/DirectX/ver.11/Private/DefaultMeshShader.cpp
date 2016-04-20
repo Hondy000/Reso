@@ -5,7 +5,7 @@
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "../../../../RenderObject/Public/SubMesh.h"
 
-BOOL DefaultMeshShader::Setup()
+bool DefaultMeshShader::Setup()
 {
 	HRESULT hr;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
@@ -51,9 +51,9 @@ void DefaultMeshShader::Destroy()
 {
 }
 
-BOOL DefaultMeshShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+bool DefaultMeshShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
 {
-	BOOL result;
+	bool result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	UINT bufferNumber;
 
@@ -107,9 +107,9 @@ BOOL DefaultMeshShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::
 	return 0;
 }
 
-BOOL DefaultMeshShader::Render()
+bool DefaultMeshShader::Render()
 {
-	BOOL result = E_FAIL;
+	bool result = E_FAIL;
 
 	// Set the vertex input layout.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetInputLayout(m_spVertexLayout->GetMain().Get());
@@ -127,8 +127,8 @@ BOOL DefaultMeshShader::Render()
 	return result;
 }
 
-BOOL DefaultMeshShader::PostProcessOfRender()
+bool DefaultMeshShader::PostProcessOfRender()
 {
-	return BOOL();
+	return bool();
 }
 

@@ -38,20 +38,20 @@ DeferredShader::~DeferredShader()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL DeferredShader::Init()
+ * @fn	bool DeferredShader::Init()
  *
  * @brief	Initialises this object.
  *
  * @author	Kazuyuki Honda
  * @date	2015/11/04
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL DeferredShader::Setup()
+bool DeferredShader::Setup()
 {
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
-	BOOL result;
+	bool result;
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
 	Microsoft::WRL::ComPtr<ID3D10Blob> vertexShaderBuffer;
 	Microsoft::WRL::ComPtr<ID3D10Blob> pixelShaderBuffer;
@@ -171,7 +171,7 @@ void DeferredShader::Destroy()
 
 
 /**********************************************************************************************//**
- * @fn	BOOL DeferredShader::Render()
+ * @fn	bool DeferredShader::Render()
  *
  * @brief	Renders this object.
  *
@@ -179,12 +179,12 @@ void DeferredShader::Destroy()
  * @date	2015/11/04
  * @atention	バッファは事前にContextに入れておく
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL DeferredShader::Render()
+bool DeferredShader::Render()
 {
-	BOOL result = E_FAIL;
+	bool result = E_FAIL;
 
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetInputLayout(m_spVertexLayout->GetMain().Get());
 
@@ -200,7 +200,7 @@ BOOL DeferredShader::Render()
 	return result;
 }
 
-BOOL DeferredShader::PostProcessOfRender()
+bool DeferredShader::PostProcessOfRender()
 {
 	Microsoft::WRL::ComPtr< ID3D11RenderTargetView> pNullRTV[7];
 
@@ -209,7 +209,7 @@ BOOL DeferredShader::PostProcessOfRender()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL DeferredShader::PreRenderProcess ( std::shared_ptr<CBaseObject> spPram )
+ * @fn	bool DeferredShader::PreRenderProcess ( std::shared_ptr<CBaseObject> spPram )
  *
  * @brief	Pre render process.
  *
@@ -218,14 +218,14 @@ BOOL DeferredShader::PostProcessOfRender()
  *
  * @param	spPram	The sp pram.
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL DeferredShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, std::shared_ptr<Material>materials)
+bool DeferredShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, std::shared_ptr<Material>materials)
 {
 	// GeometryBuffferに書き込み
 	sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->SetRenderTargets(sRENDER_DEVICE_MANAGER->GetImmediateContext());
-	BOOL result;
+	bool result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	UINT bufferNumber;
 

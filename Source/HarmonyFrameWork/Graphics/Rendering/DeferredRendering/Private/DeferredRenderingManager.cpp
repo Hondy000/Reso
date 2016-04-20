@@ -16,7 +16,7 @@ DeferredRenderingManager::~DeferredRenderingManager()
 
 }
 
-BOOL DeferredRenderingManager::Init()
+bool DeferredRenderingManager::Init()
 {
 	shared_ptr<Sprite2DCompornent> m_screenRenderObject = shared_ptr<Sprite2DCompornent>(new Sprite2DCompornent);
 	m_screenRenderObject->SetMesh(BasicMeshManager::GetInstance()->Get(HF_BM_SPRITE, 0, 0, 0));
@@ -33,7 +33,7 @@ void DeferredRenderingManager::Reset()
 
 }
 
-BOOL DeferredRenderingManager::Update()
+bool DeferredRenderingManager::Update()
 {					
 	UpdateAllTask();
 	return true;

@@ -1,5 +1,5 @@
 #pragma once
-/*
+
 #include "IBaseWeapon.h"
 
 class MachineGun
@@ -7,10 +7,12 @@ class MachineGun
 	public IBaseWeapon
 {
 public:
-	MachineGun();
-	~MachineGun();
+	MachineGun(){};
+	~MachineGun(){};
+
+	void Use();
+	bool Init();
 
 private:
 
 };
-  */

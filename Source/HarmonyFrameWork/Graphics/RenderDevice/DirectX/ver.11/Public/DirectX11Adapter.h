@@ -6,7 +6,7 @@ public:
 	DirectX11Adapter();
 	~DirectX11Adapter();
 
-	BOOL Setup(void);
+	bool Setup(void);
 
 	// アダプターの取得
 	Microsoft::WRL::ComPtr<IDXGIAdapter> GetAdapter(void) const
@@ -15,7 +15,7 @@ public:
 	};
 
 	// アダプターの作成
-	BOOL CreateAdapter(void);
+	bool CreateAdapter(void);
 
 	// アダプターのリリース
 	void ReleaseAdapter(void);

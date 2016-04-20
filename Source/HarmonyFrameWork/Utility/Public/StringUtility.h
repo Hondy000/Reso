@@ -30,10 +30,10 @@ namespace UTILITY
 			int index
 			)
 	{
-		int firstStartPoint = sentence.find(startKeyword, index);
-		int endPoint = sentence.find(endKeyword, firstStartPoint + startKeyword.length());
-		int conpStartPoint = sentence.find(startKeyword, firstStartPoint + startKeyword.length());
-		int lastEndPoint = endPoint;
+		size_t firstStartPoint = sentence.find(startKeyword, index);
+		size_t endPoint = sentence.find(endKeyword, firstStartPoint + startKeyword.length());
+		size_t conpStartPoint = sentence.find(startKeyword, firstStartPoint + startKeyword.length());
+		size_t lastEndPoint = endPoint;
 		// endが見つかる前にまたstartが見つかった場合
 		if (startKeyword != endKeyword)
 		{
@@ -271,7 +271,7 @@ namespace UTILITY
 		std::string fileName;
 
 		// ひとまずスラッシュのみ対応
-		int dotPosition = filePath.find_last_of("/");
+		size_t dotPosition = filePath.find_last_of("/");
 		return fileName;
 	}
 
@@ -290,7 +290,7 @@ namespace UTILITY
 
 	inline std::string AnalysisFormat(std::string filePath)
 	{
-		int dotPosition = filePath.find_last_of(".");
+		size_t dotPosition = filePath.find_last_of(".");
 		std::string format(filePath, dotPosition + 1, filePath.size() - (dotPosition));
 		return format;
 	}

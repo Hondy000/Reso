@@ -8,35 +8,35 @@ class DefaultSpriteShader
 public:
 	DefaultSpriteShader();
 	~DefaultSpriteShader();
-	BOOL Setup();
+	bool Setup();
 	void Destroy();			
 
-	BOOL PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL CBaseShader::Render() = 0;
+	 * @fn	virtual bool CBaseShader::Render() = 0;
 	 *
 	 * @brief	Renders this object.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	BOOL Render();
+	bool Render();
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL CBaseShader::PostRenderProcess() = 0;
+	 * @fn	virtual bool CBaseShader::PostRenderProcess() = 0;
 	 *
 	 * @brief	Posts the render process.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/04
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	BOOL PostProcessOfRender() override;
+	bool PostProcessOfRender() override;
 
 
 };

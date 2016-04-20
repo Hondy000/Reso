@@ -17,7 +17,7 @@ class InputManager
 public:
 	~InputManager() {};
 
-	BOOL Setup(void)
+	bool Setup(void)
 	{
 #ifdef DIRECTX
 		m_spInput = std::shared_ptr<DirectInput>(new DirectInput);

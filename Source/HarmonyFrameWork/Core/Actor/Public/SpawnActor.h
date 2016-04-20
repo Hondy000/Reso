@@ -8,9 +8,9 @@ public:
 	SpawnActor();
 	~SpawnActor();
 
-	BOOL Init();
+	bool Init();
 	void Reset();
-	BOOL Update();
+	bool Update();
 protected:
 private:
 	std::string m_typeName;

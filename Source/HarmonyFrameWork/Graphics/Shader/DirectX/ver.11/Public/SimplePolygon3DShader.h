@@ -30,47 +30,47 @@ public:
 	}
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL Setup();
+	 * @fn	virtual bool Setup();
 	 *
 	 * @brief	初期化.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual BOOL Setup();
+	virtual bool Setup();
 	virtual void Destroy();
 
-	BOOL PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
 	/**********************************************************************************************//**
 
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL Render();
+	 * @fn	virtual bool Render();
 	 *
 	 * @brief	Renders this object.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual BOOL Render();
+	virtual bool Render();
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL PostProcessOfRender();
+	 * @fn	virtual bool PostProcessOfRender();
 	 *
 	 * @brief	Posts the render process.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/04
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual BOOL PostProcessOfRender();
+	virtual bool PostProcessOfRender();
 
 };

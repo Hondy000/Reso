@@ -10,9 +10,9 @@ public:
 	Sprite2DObject() {};
 	virtual ~Sprite2DObject() {};
 
-	BOOL Init();
+	bool Init();
 
-	BOOL Update();
+	bool Update();
 
 
 	void Reset() {};

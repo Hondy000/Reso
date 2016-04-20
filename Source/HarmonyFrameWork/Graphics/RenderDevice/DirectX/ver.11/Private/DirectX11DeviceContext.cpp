@@ -7,20 +7,20 @@
 #include "../Public/DirectX11DeviceContext.h"
 
 /**********************************************************************************************//**
-  * @fn	CDirectX11DeviceContext::CDirectX11DeviceContext()
-  *
-  * @brief	Default constructor.
-  *
-  * @author	Kazuyuki Honda
-  * @date	2015/08/02
-  **************************************************************************************************/
+ * @fn	DirectX11DeviceContext::DirectX11DeviceContext()
+ *
+ * @brief	Default constructor.
+ *
+ * @author	Kazuyuki Honda
+ * @date	2015/08/02
+ **************************************************************************************************/
 
 DirectX11DeviceContext::DirectX11DeviceContext()
 {
 }
 
 /**********************************************************************************************//**
- * @fn	CDirectX11DeviceContext::~CDirectX11DeviceContext()
+ * @fn	DirectX11DeviceContext::~DirectX11DeviceContext()
  *
  * @brief	Destructor.
  *
@@ -33,7 +33,7 @@ DirectX11DeviceContext::~DirectX11DeviceContext()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11DeviceContext::Init(void)
+ * @fn	bool DirectX11DeviceContext::Init(void)
  *
  * @brief	Initialises this object.
  *
@@ -43,7 +43,7 @@ DirectX11DeviceContext::~DirectX11DeviceContext()
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DirectX11DeviceContext::Init(void)
+bool DirectX11DeviceContext::Init(void)
 {
 	HRESULT hr = E_FAIL;
 

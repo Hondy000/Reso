@@ -9,33 +9,50 @@
 #include "..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\HarmonyFrameWork\Core\Task\Public\TaskSystem.h"
 #include "..\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h"
-BOOL GameSystem::isEnd = 0;
+bool GameSystem::isEnd = 0;
 
 /**********************************************************************************************//**
- * @fn	CGameMain::CGameMain()
+ * @fn	bool GameSystem::Update()
  *
  * @brief	Default constructor.
  *
  * @author	Kazuyuki
  * @date	2015/06/17
+ *
+ * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL GameSystem::Update()
+bool GameSystem::Update()
 {
 	return true;
 }
 
+/**********************************************************************************************//**
+ * @fn	void GameSystem::Reset()
+ *
+ * @brief	Resets this object.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void GameSystem::Reset()
 {
 }
+
+/**********************************************************************************************//**
+ * @fn	GameSystem::GameSystem()
+ *
+ * @brief	Default constructor.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 GameSystem::GameSystem()
 {
 }
 
 /**********************************************************************************************//**
- * @fn	CGameMain::~CGameMain()
+ * @fn	GameSystem::~GameSystem()
  *
  * @brief	Destructor.
  *
@@ -48,19 +65,21 @@ GameSystem::~GameSystem()
 }
 
 /**********************************************************************************************//**
- * @fn	void CGameMain::Init(BOOL isFull,int width,int height)
+ * @fn	bool GameSystem::Init()
  *
  * @brief	Initialises this object.
  *
  * @author	Kazuyuki Honda
  * @date	2015/06/30
  *
- * @param	isFull	true if this object is full.
- * @param	width 	The width.
- * @param	height	The height.
+ * @return	true if it succeeds, false if it fails.
+ *
+ * ### param	isFull	true if this object is full.
+ * ### param	width 	The width.
+ * ### param	height	The height.
  **************************************************************************************************/
 
-BOOL GameSystem::Init()
+bool GameSystem::Init()
 {
 	m_levelManager = std::make_shared<LevelManager>();
 	RendererManager::GetInstance()->Setup();
@@ -79,7 +98,7 @@ BOOL GameSystem::Init()
 }
 
 /**********************************************************************************************//**
- * @fn	void CGameMain::GameMain(void)
+ * @fn	void GameSystem::TransitionState()
  *
  * @brief	Game main.
  *
@@ -91,6 +110,14 @@ void GameSystem::TransitionState()
 {
 	
 }
+
+/**********************************************************************************************//**
+ * @fn	void GameSystem::GameMain(void)
+ *
+ * @brief	Game main.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void GameSystem::GameMain(void)
 {

@@ -10,23 +10,32 @@
 #include "..\..\..\Core\Actor\Public\ActorInterface.h"
 
 /**********************************************************************************************//**
-  * @fn	BOOL CBaseCamera::Setup(void)
-  *
-  * @brief	Gets the setup.
-  *
-  * @author	Kazuyuki Honda
-  * @date	2015/11/04
-  *
-  * @return	A BOOL.
-  **************************************************************************************************/
-
+ * @fn	BaseCamera::BaseCamera()
+ *
+ * @brief	Gets the setup.
+ *
+ * @author	Kazuyuki Honda
+ * @date	2015/11/04
+ *
+ * ### return	A bool.
+ **************************************************************************************************/
 
 BaseCamera::BaseCamera()
 {
 	Init();
 }
 
-BOOL BaseCamera::Init(void)
+/**********************************************************************************************//**
+ * @fn	bool BaseCamera::Init(void)
+ *
+ * @brief	Initialises this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool BaseCamera::Init(void)
 {
 	HRESULT hr = E_FAIL;
 	m_aspect = sRENDER_DEVICE_MANAGER->GetScreenSize().x / sRENDER_DEVICE_MANAGER->GetScreenSize().y;
@@ -44,7 +53,7 @@ BOOL BaseCamera::Init(void)
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CBaseCamera::Draw(void)
+ * @fn	bool BaseCamera::Update(void)
  *
  * @brief	Draws this object.
  *
@@ -54,7 +63,7 @@ BOOL BaseCamera::Init(void)
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL BaseCamera::Update(void)
+bool BaseCamera::Update(void)
 {
 	HFMATRIX view, proj;
 
@@ -63,6 +72,14 @@ BOOL BaseCamera::Update(void)
 
 	return true;
 }
+
+/**********************************************************************************************//**
+ * @fn	void BaseCamera::UpdateViewMatrix()
+ *
+ * @brief	Updates the view matrix.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void BaseCamera::UpdateViewMatrix()
 {
@@ -128,6 +145,14 @@ void BaseCamera::UpdateViewMatrix()
 
 }
 
+/**********************************************************************************************//**
+ * @fn	void BaseCamera::UpdateProjectionMatrix()
+ *
+ * @brief	Updates the projection matrix.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
+
 void BaseCamera::UpdateProjectionMatrix()
 {
 	HFMATRIX  proj;
@@ -141,6 +166,16 @@ void BaseCamera::UpdateProjectionMatrix()
 		m_farClip);
 	sRENDER_DEVICE_MANAGER->SetTransform(&proj, HFTS_PERSPECTIVE );
 }
+
+/**********************************************************************************************//**
+ * @fn	void BaseCamera::SetFollowObject(std::shared_ptr<IBaseTask> _val)
+ *
+ * @brief	Sets follow object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	_val	The value.
+ **************************************************************************************************/
 
 void BaseCamera::SetFollowObject(std::shared_ptr<IBaseTask> _val)
 {
@@ -157,6 +192,16 @@ void BaseCamera::SetFollowObject(std::shared_ptr<IBaseTask> _val)
 		m_wpFollowObject.reset();
 	}
 }
+
+/**********************************************************************************************//**
+ * @fn	void BaseCamera::SetViewObject(std::shared_ptr<IBaseTask> _val)
+ *
+ * @brief	Sets view object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	_val	The value.
+ **************************************************************************************************/
 
 void BaseCamera::SetViewObject(std::shared_ptr<IBaseTask> _val)
 {

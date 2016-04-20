@@ -32,7 +32,7 @@ public:
 		return inst;
 	}
 
-	BOOL Register(IObjectManager* pObjectFactory)
+	bool Register(IObjectManager* pObjectFactory)
 	{
 		m_pManagerList.push_back(pObjectFactory);
 		return true;
@@ -69,7 +69,7 @@ public:
 
 	}
 
-	virtual BOOL Register(const std::string& path, std::shared_ptr<T> object)
+	virtual bool Register(const std::string& path, std::shared_ptr<T> object)
 	{
 
 		ResourcePair resorcePair;

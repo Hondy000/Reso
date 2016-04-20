@@ -50,60 +50,60 @@ public:
 
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL CBaseShader::Init() = 0;
+	 * @fn	virtual bool CBaseShader::Init() = 0;
 	 *
 	 * @brief	èâä˙âª.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual BOOL Setup() = 0;
+	virtual bool Setup() = 0;
 	virtual void Destroy() = 0;
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL CBaseShader::PreRenderProcess() = 0;
+	 * @fn	virtual bool CBaseShader::PreRenderProcess() = 0;
 	 *
 	 * @brief	Pre render process.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual BOOL PreProcessOfRender(std::shared_ptr<SubMesh> shape,std::shared_ptr<Material>materials) = 0;
+	virtual bool PreProcessOfRender(std::shared_ptr<SubMesh> shape,std::shared_ptr<Material>materials) = 0;
 
 
 
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL CBaseShader::Render() = 0;
+	 * @fn	virtual bool CBaseShader::Render() = 0;
 	 *
 	 * @brief	Renders this object.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/03
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual BOOL Render() = 0;
+	virtual bool Render() = 0;
 
 	/**********************************************************************************************//**
-	 * @fn	virtual BOOL CBaseShader::PostRenderProcess() = 0;
+	 * @fn	virtual bool CBaseShader::PostRenderProcess() = 0;
 	 *
 	 * @brief	Posts the render process.
 	 *
 	 * @author	Kazuyuki Honda
 	 * @date	2015/11/04
 	 *
-	 * @return	A BOOL.
+	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual BOOL PostProcessOfRender() = 0;
+	virtual bool PostProcessOfRender() = 0;
 
 	// Access the PathPriority
 	const DWORD& GetPathPriority(void) const		{ return(m_pathPriority);			};

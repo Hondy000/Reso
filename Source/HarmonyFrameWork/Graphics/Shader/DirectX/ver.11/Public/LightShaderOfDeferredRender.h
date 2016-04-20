@@ -67,14 +67,14 @@ public:
 	LightShaderOfDeferredRender(const LightShaderOfDeferredRender&);
 	~LightShaderOfDeferredRender();
 
-	BOOL Setup();
+	bool Setup();
 	void Destroy();
 
-	BOOL PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
 
-	BOOL Render();
+	bool Render();
 
-	BOOL PostProcessOfRender();
+	bool PostProcessOfRender();
 
 	void SetGeometryBuffers(const std::shared_ptr<GeometryBuffers>& buffers)
 	{
@@ -86,9 +86,9 @@ public:
 	}
 
 private:
-	BOOL InitializeShader(TCHAR*, TCHAR*);
+	bool InitializeShader(TCHAR*, TCHAR*);
 
-	BOOL SetShaderParameters(
+	bool SetShaderParameters(
 		HFMATRIX,
 		HFMATRIX,
 		HFMATRIX,

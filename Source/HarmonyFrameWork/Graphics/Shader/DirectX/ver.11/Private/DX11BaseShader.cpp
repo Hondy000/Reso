@@ -8,7 +8,7 @@
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 
 /**********************************************************************************************//**
-  * @fn	BOOL CDirectX11BaseShader::Init( const BYTE* pVS, size_t VSSize, const BYTE* pPS, size_t PSSize )
+  * @fn	bool CDirectX11BaseShader::Init( const BYTE* pVS, size_t VSSize, const BYTE* pPS, size_t PSSize )
   *
   * @brief	初期化.
   *
@@ -23,7 +23,7 @@
   * @return	A hResult.
   **************************************************************************************************/
 
-BOOL DX11BaseShader::Init(
+bool DX11BaseShader::Init(
 	const BYTE* pVS,
 	size_t VSSize,
 	const BYTE* pPS,
@@ -72,7 +72,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::Init( TCHAR pSrcFile[], LPCSTR pVSMain, LPCSTR pPSMain)
+ * @fn	bool CDirectX11BaseShader::Init( TCHAR pSrcFile[], LPCSTR pVSMain, LPCSTR pPSMain)
  *
  * @brief	Initialises this object.
  *
@@ -86,7 +86,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::Init(TCHAR pSrcFile[], TCHAR pVSMain[], TCHAR pPSMain[])
+bool DX11BaseShader::Init(TCHAR pSrcFile[], TCHAR pVSMain[], TCHAR pPSMain[])
 {
 	HRESULT hr = E_FAIL;
 
@@ -127,7 +127,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::SetupBuffer(std::shared_ptr<BaseBuffer> spOutVertexBuffer, std::shared_ptr<BaseBuffer> spOutIndexBuffer, std::shared_ptr<MESH_BASE_DATA> spInMeshData)
+ * @fn	bool CDirectX11BaseShader::SetupBuffer(std::shared_ptr<BaseBuffer> spOutVertexBuffer, std::shared_ptr<BaseBuffer> spOutIndexBuffer, std::shared_ptr<MESH_BASE_DATA> spInMeshData)
  *
  * @brief	Sets up the buffer.
  *
@@ -138,16 +138,16 @@ EXIT:
  * @param	spOutIndexBuffer 	Buffer for sp out index data.
  * @param	spInMeshData	 	Information describing the sp in mesh.
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::SetupBuffer(std::shared_ptr<BaseBuffer> spOutVertexBuffer, std::shared_ptr<BaseBuffer> spOutIndexBuffer, std::shared_ptr<MeshData> spInMeshData)
+bool DX11BaseShader::SetupBuffer(std::shared_ptr<BaseBuffer> spOutVertexBuffer, std::shared_ptr<BaseBuffer> spOutIndexBuffer, std::shared_ptr<MeshData> spInMeshData)
 {
 	return S_OK;
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::SetCBVertexShader(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext, HFMATRIX* p_matWVP)
+ * @fn	bool CDirectX11BaseShader::SetCBVertexShader(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext, HFMATRIX* p_matWVP)
  *
  * @brief	頂点シェーダー用の定数バッファを設定する.
  *
@@ -160,7 +160,7 @@ BOOL DX11BaseShader::SetupBuffer(std::shared_ptr<BaseBuffer> spOutVertexBuffer, 
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::SetCBVertexShader(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext, HFMATRIX* p_matWVP)
+bool DX11BaseShader::SetCBVertexShader(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext, HFMATRIX* p_matWVP)
 {
 	HRESULT hr = E_FAIL;
 
@@ -183,7 +183,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::SetCBHalfLambert(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext , HFVECTOR4* p_vecLight , Microsoft::WRL::ComPtr< ID3D11ShaderResourceView> cpDecalMap )
+ * @fn	bool CDirectX11BaseShader::SetCBHalfLambert(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext , HFVECTOR4* p_vecLight , Microsoft::WRL::ComPtr< ID3D11ShaderResourceView> cpDecalMap )
  *
  * @brief	ハーフランバート用の定数バッファを設定.
  *
@@ -197,7 +197,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::SetCBHalfLambert(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext
+bool DX11BaseShader::SetCBHalfLambert(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext
 	, HFVECTOR4* p_vecLight
 	, Microsoft::WRL::ComPtr< ID3D11ShaderResourceView> cpDecalMap
 	)
@@ -226,7 +226,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::SetCBPhongShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext , HFVECTOR4* p_vecLight , HFVECTOR4* p_EyePos , Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpDecalMap )
+ * @fn	bool CDirectX11BaseShader::SetCBPhongShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext , HFVECTOR4* p_vecLight , HFVECTOR4* p_EyePos , Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpDecalMap )
  *
  * @brief	フォンシェーディング用の定数バッファを設定.
  *
@@ -241,7 +241,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::SetCBPhongShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext
+bool DX11BaseShader::SetCBPhongShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext
 
 	, HFVECTOR4* p_vecLight
 	, HFVECTOR4* p_EyePos
@@ -274,7 +274,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::SetCBCelShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext , HFVECTOR4* p_vecLight , Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpDecalMap , Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpCelMap )
+ * @fn	bool CDirectX11BaseShader::SetCBCelShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext , HFVECTOR4* p_vecLight , Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpDecalMap , Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpCelMap )
  *
  * @brief	セルシェーディング用の定数バッファを設定.
  *
@@ -289,7 +289,7 @@ EXIT:
  * @return	A hResult.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::SetCBCelShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext
+bool DX11BaseShader::SetCBCelShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpDeviceContext
 	, HFVECTOR4* p_vecLight
 	, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpDecalMap
 	, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpCelMap
@@ -320,7 +320,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::Render()
+ * @fn	bool CDirectX11BaseShader::Render()
  *
  * @brief	Begins.
  *
@@ -333,7 +333,7 @@ EXIT:
  * ### param	pClassInstanceName	Name of the class instance.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::Render()
+bool DX11BaseShader::Render()
 {
 	HRESULT hr = E_FAIL;
 
@@ -375,17 +375,17 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11BaseShader::End()
+ * @fn	bool CDirectX11BaseShader::End()
  *
  * @brief	Ends this object.
  *
  * @author	Kazuyuki Honda
  * @date	2015/11/04
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL DX11BaseShader::End()
+bool DX11BaseShader::End()
 {
 	return S_OK;
 }

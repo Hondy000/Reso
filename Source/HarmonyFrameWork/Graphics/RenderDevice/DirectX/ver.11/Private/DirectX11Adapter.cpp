@@ -7,20 +7,20 @@
 #include "../Public/DirectX11Adapter.h"
 
 /**********************************************************************************************//**
-  * @fn	CDirectX11Adapter::CDirectX11Adapter()
-  *
-  * @brief	Default constructor.
-  *
-  * @author	Kazuyuki Honda
-  * @date	2015/08/02
-  **************************************************************************************************/
+ * @fn	DirectX11Adapter::DirectX11Adapter()
+ *
+ * @brief	Default constructor.
+ *
+ * @author	Kazuyuki Honda
+ * @date	2015/08/02
+ **************************************************************************************************/
 
 DirectX11Adapter::DirectX11Adapter()
 {
 }
 
 /**********************************************************************************************//**
- * @fn	CDirectX11Adapter::~CDirectX11Adapter()
+ * @fn	DirectX11Adapter::~DirectX11Adapter()
  *
  * @brief	Destructor.
  *
@@ -33,24 +33,24 @@ DirectX11Adapter::~DirectX11Adapter()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11Adapter::Setup()
+ * @fn	bool DirectX11Adapter::Setup()
  *
  * @brief	Initialises this object.
  *
  * @author	Kazuyuki Honda
  * @date	2015/08/02
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL DirectX11Adapter::Setup()
+bool DirectX11Adapter::Setup()
 {
 	HRESULT hr = E_FAIL;
 	return hr;
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectX11Adapter::CreateAdapter()
+ * @fn	bool DirectX11Adapter::CreateAdapter()
  *
  * @brief	デフォルトアダプターのインターフェースを作成する.
  *
@@ -60,7 +60,7 @@ BOOL DirectX11Adapter::Setup()
  * @return	The new adapter.
  **************************************************************************************************/
 
-BOOL DirectX11Adapter::CreateAdapter()
+bool DirectX11Adapter::CreateAdapter()
 {
 	HRESULT hr = E_FAIL;
 	IDXGIFactory* pFactory = NULL;
@@ -86,7 +86,7 @@ EXIT:
 }
 
 /**********************************************************************************************//**
- * @fn	void CDirectX11Adapter::ReleaseAdapter(void)
+ * @fn	void DirectX11Adapter::ReleaseAdapter(void)
  *
  * @brief	Releases the adapter.
  *

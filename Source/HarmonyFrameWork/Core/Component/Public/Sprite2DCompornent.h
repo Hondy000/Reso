@@ -10,9 +10,9 @@ public:
 	Sprite2DCompornent();
 	~Sprite2DCompornent();
 
-	BOOL Init();
+	bool Init();
 	void Reset();
-	BOOL Update();
+	bool Update();
 
 	void Destroy();
 

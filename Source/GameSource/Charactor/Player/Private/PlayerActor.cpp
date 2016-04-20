@@ -1,3 +1,9 @@
+/**********************************************************************************************//**
+ * @file	Source\GameSource\Charactor\Player\Private\PlayerActor.cpp
+ *
+ * @brief	Implements the player actor class.
+ **************************************************************************************************/
+
 #include "../Public/PlayerActor.h"
 #include "../../../../HarmonyFrameWork/Core/Component/Public/StaticMeshCompornent.h"
 #include "../../../../HarmonyFrameWork/Core/Task/Public/TaskSystem.h"
@@ -6,7 +12,17 @@
 
 using namespace std;
 
-BOOL PlayerActor::Init()
+/**********************************************************************************************//**
+ * @fn	bool PlayerActor::Init()
+ *
+ * @brief	Initialises this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool PlayerActor::Init()
 {
 	CharactorActor::Init();
 	shared_ptr<CameraCompornent> cameraCompornent = make_shared<CameraCompornent>();
@@ -31,7 +47,17 @@ BOOL PlayerActor::Init()
 	return true;
 }
 
-BOOL PlayerActor::Update()
+/**********************************************************************************************//**
+ * @fn	bool PlayerActor::Update()
+ *
+ * @brief	Updates this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool PlayerActor::Update()
 {
 	UpdateState(shared_from_this());
 	UpdateAllTask();
@@ -40,6 +66,14 @@ BOOL PlayerActor::Update()
 	return true;
 
 }
+
+/**********************************************************************************************//**
+ * @fn	void PlayerActor::Reset()
+ *
+ * @brief	Resets this object.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void PlayerActor::Reset()
 {

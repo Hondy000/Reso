@@ -49,17 +49,17 @@ LightShaderOfDeferredRender::~LightShaderOfDeferredRender()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL LightShaderOfDeferredRender::Setup()
+ * @fn	bool LightShaderOfDeferredRender::Setup()
  *
  * @brief	Initialises this object.
  *
  * @author	Kazuyuki Honda
  * @date	2015/11/04
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL LightShaderOfDeferredRender::Setup()
+bool LightShaderOfDeferredRender::Setup()
 {
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	sRENDER_DEVICE_MANAGER->SetupGeometryBuffer();
@@ -83,7 +83,7 @@ void LightShaderOfDeferredRender::Destroy()
 
 
 /**********************************************************************************************//**
- * @fn	BOOL LightShaderOfDeferredRender::PreProcessOfRender ( std::shared_ptr<CBaseObject>renderPram )
+ * @fn	bool LightShaderOfDeferredRender::PreProcessOfRender ( std::shared_ptr<CBaseObject>renderPram )
  *
  * @brief	Pre render process.
  *
@@ -92,12 +92,12 @@ void LightShaderOfDeferredRender::Destroy()
  *
  * @param	parameter1	The render pram.
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL LightShaderOfDeferredRender::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+bool LightShaderOfDeferredRender::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
 {
-	BOOL result;
+	bool result;
 	// Reset the render target back to the original back buffer and not the render buffers anymore.
 	sRENDER_DEVICE_MANAGER->SetBackBufferRenderTarget();
 
@@ -150,17 +150,17 @@ BOOL LightShaderOfDeferredRender::PreProcessOfRender(std::shared_ptr<SubMesh> sh
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL LightShaderOfDeferredRender::Render()
+ * @fn	bool LightShaderOfDeferredRender::Render()
  *
  * @brief	Renders this object.
  *
  * @author	Kazuyuki Honda
  * @date	2015/11/04
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL LightShaderOfDeferredRender::Render()
+bool LightShaderOfDeferredRender::Render()
 {
 	// Now render the prepared buffers with the shader.
 	HRESULT hr = m_cpPSClassLinkage->GetClassInstance(LPCSTR("g_SpotDeferred"), 0, m_cpClassInstance.GetAddressOf());
@@ -184,7 +184,7 @@ BOOL LightShaderOfDeferredRender::Render()
 	return S_OK;
 }
 
-BOOL LightShaderOfDeferredRender::PostProcessOfRender()
+bool LightShaderOfDeferredRender::PostProcessOfRender()
 {
 	// Turn the Z buffer back on now that all 2D rendering has completed.
 	sRENDER_DEVICE_MANAGER->TurnZBufferOn();
@@ -201,7 +201,7 @@ BOOL LightShaderOfDeferredRender::PostProcessOfRender()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL LightShaderOfDeferredRender::InitializeShader ( TCHAR* vsFilename, TCHAR* psFilename )
+ * @fn	bool LightShaderOfDeferredRender::InitializeShader ( TCHAR* vsFilename, TCHAR* psFilename )
  *
  * @brief	Initializes the shader.
  *
@@ -214,13 +214,13 @@ BOOL LightShaderOfDeferredRender::PostProcessOfRender()
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL LightShaderOfDeferredRender::InitializeShader
+bool LightShaderOfDeferredRender::InitializeShader
 (
 	TCHAR* vsFilename,
 	TCHAR* psFilename
 	)
 {
-	BOOL result;
+	bool result;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
 	UINT numElements;
 	D3D11_SAMPLER_DESC samplerDesc;
@@ -323,7 +323,7 @@ BOOL LightShaderOfDeferredRender::InitializeShader
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL LightShaderOfDeferredRender::SetShaderParameters ( D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix, std::shared_ptr<CBaseTexture> colorTexture, std::shared_ptr<CBaseTexture> positionTexture, std::shared_ptr<CBaseTexture> normalTexture, D3DXVECTOR3 lightDirection)
+ * @fn	bool LightShaderOfDeferredRender::SetShaderParameters ( D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix, std::shared_ptr<CBaseTexture> colorTexture, std::shared_ptr<CBaseTexture> positionTexture, std::shared_ptr<CBaseTexture> normalTexture, D3DXVECTOR3 lightDirection)
  *
  * @brief	Sets shader parameters.
  *
@@ -341,14 +341,14 @@ BOOL LightShaderOfDeferredRender::InitializeShader
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL LightShaderOfDeferredRender::SetShaderParameters
+bool LightShaderOfDeferredRender::SetShaderParameters
 (
 	HFMATRIX worldMatrix,
 	HFMATRIX viewMatrix,
 	HFMATRIX projectionMatrix,
 	HFVECTOR3 lightDirection)
 {
-	BOOL result;
+	bool result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	UINT bufferNumber;
 	MatrixBufferType* dataPtr;

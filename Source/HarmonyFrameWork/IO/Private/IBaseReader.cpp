@@ -13,7 +13,7 @@ IBaseReader::IBaseReader()
 {
 }
 
-BOOL IBaseReader::ReadFileBuffer(const std::string& path)
+bool IBaseReader::ReadFileBuffer(const std::string& path)
 {
 
 	std::ifstream ifs(path);

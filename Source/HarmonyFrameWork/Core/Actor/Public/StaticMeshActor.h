@@ -11,10 +11,10 @@ class StaticMeshActor
 public:
 	StaticMeshActor();
 	~StaticMeshActor();
-	BOOL Init();
-	BOOL Update();
+	bool Init();
+	bool Update();
 	void Reset();
-	BOOL LoadMesh(const std::string& path);
+	bool LoadMesh(const std::string& path);
 protected:
 private:
 };

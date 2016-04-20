@@ -10,11 +10,11 @@ class Sprite2DActor
 public:
 	Sprite2DActor();
 	~Sprite2DActor();
-	BOOL Init();
+	bool Init();
 	void Reset();
 
 	
-	BOOL Update();
+	bool Update();
 
 private:
 

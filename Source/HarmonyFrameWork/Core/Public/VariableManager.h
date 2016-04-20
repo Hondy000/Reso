@@ -12,7 +12,7 @@ public:
 	virtual~IVariableManager(){};
 
 	virtual
-	BOOL Create(GLOBAL_ID id, const std::string& name) = 0;
+	bool Create(GLOBAL_ID id, const std::string& name) = 0;
 
 private:
 
@@ -42,7 +42,7 @@ public:
 
 	};
 
-	BOOL Create(GLOBAL_ID id, const std::string& name)
+	bool Create(GLOBAL_ID id, const std::string& name)
 	{
 
 		std::shared_ptr<Variable<T>> variablePtr = std::make_shared<Variable<T>>();
@@ -52,7 +52,7 @@ public:
 			std::pair<std::string, std::shared_ptr<Variable<T>>> key;
 			key.first = name;
 			key.second = variablePtr;
-			std::pair<VARIABLE_MAP::iterator, BOOL> resVarIt = idIt->second.insert(key);
+			std::pair<VARIABLE_MAP::iterator, bool> resVarIt = idIt->second.insert(key);
 			if (resVarIt.second != false)
 			{
 				return true;
@@ -66,14 +66,14 @@ public:
 		VARIABLE_MAP varMap;
 		idKey.first = id;
 		idKey.second = varMap;
-		std::pair<ID_MAP::iterator, BOOL>  resIdIt = m_idMap.insert(idKey);
+		std::pair<ID_MAP::iterator, bool>  resIdIt = m_idMap.insert(idKey);
 		if (resIdIt.second != false)
 		{
 			std::pair<std::string, std::shared_ptr<Variable<T>>> key;
 			key.first = name;
 			key.second = variablePtr;
 			auto varIt = m_idMap.find(id);
-			std::pair<VARIABLE_MAP::iterator, BOOL> resVarIt = varIt->second.insert(key);
+			std::pair<VARIABLE_MAP::iterator, bool> resVarIt = varIt->second.insert(key);
 			if (resVarIt.second != false)
 			{
 				return true;
@@ -89,7 +89,7 @@ public:
 
 
 
-	BOOL RegisterVariable(GLOBAL_ID id, const std::string& name ,std::shared_ptr<Variable<T>> variablePtr)
+	bool RegisterVariable(GLOBAL_ID id, const std::string& name ,std::shared_ptr<Variable<T>> variablePtr)
 	{
 		ID_MAP::iterator idIt = m_idMap.find(id);
 		if (idIt != m_idMap.end())
@@ -97,7 +97,7 @@ public:
 			std::pair<std::string, std::shared_ptr<Variable<T>>> key;
 			key.first = name;
 			key.second = variablePtr;
-			std::pair<VARIABLE_MAP::iterator,BOOL> resVarIt = idIt->second.insert(key);
+			std::pair<VARIABLE_MAP::iterator,bool> resVarIt = idIt->second.insert(key);
 			if (resVarIt.second != false)
 			{
 				return true;
@@ -111,14 +111,14 @@ public:
 		VARIABLE_MAP varMap;
 		idKey.first = id;
 		idKey.second = varMap;
-		std::pair<ID_MAP::iterator, BOOL>  resIdIt = m_idMap.insert(idKey);
+		std::pair<ID_MAP::iterator, bool>  resIdIt = m_idMap.insert(idKey);
 		if(resIdIt.second != false)
 		{
 			std::pair<std::string, std::shared_ptr<Variable<T>>> key;
 			key.first = name;
 			key.second = variablePtr;
 			auto varIt = m_idMap.find(id);
-			std::pair<VARIABLE_MAP::iterator, BOOL> resVarIt = varIt->second.insert(key);
+			std::pair<VARIABLE_MAP::iterator, bool> resVarIt = varIt->second.insert(key);
 			if(resVarIt.second != false)
 			{
 				return true;
@@ -167,7 +167,7 @@ public:
 		return &instance;
 	};
 
-	template<class T> BOOL CreateManager()
+	template<class T> bool CreateManager()
 	{
 		std::shared_ptr<VariableManager<T>> manager = std::make_shared<VariableManager<T>>();
 
@@ -177,7 +177,7 @@ public:
 	};
 
 
-	BOOL CreateVariable(GLOBAL_ID id,const std::string& name,const std::string& typeName)
+	bool CreateVariable(GLOBAL_ID id,const std::string& name,const std::string& typeName)
 	{
 
 		auto findRes = m_variableManagersMap.find(typeName);
@@ -189,7 +189,7 @@ public:
 
 	};
 
-	template<class T> BOOL RegsigterVariable(GLOBAL_ID id, std::string variableName, std::shared_ptr<Variable<T>> var)
+	template<class T> bool RegsigterVariable(GLOBAL_ID id, std::string variableName, std::shared_ptr<Variable<T>> var)
 	{
 
 
@@ -198,7 +198,7 @@ public:
 
 	};
 
-	template<class T> BOOL RegsigterVariable(GLOBAL_ID id, std::string variableName, std::shared_ptr<T> constant)
+	template<class T> bool RegsigterVariable(GLOBAL_ID id, std::string variableName, std::shared_ptr<T> constant)
 	{
 
 		std::shared_ptr<Variable<T>> wrapVar = std::make_shared<Variable<T>>();
@@ -211,7 +211,7 @@ public:
 
 	};
 
-	template<class T> BOOL RegsigterVariable(GLOBAL_ID id, std::string variableName, const T& var)
+	template<class T> bool RegsigterVariable(GLOBAL_ID id, std::string variableName, const T& var)
 	{
 
 		std::shared_ptr<Variable<T>> wrapVar = std::make_shared<Variable<T>>();
@@ -225,7 +225,7 @@ public:
 
 	};
 
-	BOOL RegsigterFloatVariable(GLOBAL_ID id, std::string variableName)
+	bool RegsigterFloatVariable(GLOBAL_ID id, std::string variableName)
 	{
 
 		std::shared_ptr<Variable< FLOAT>> wrapVar = std::make_shared<Variable<FLOAT>>();
@@ -237,7 +237,7 @@ public:
 		;
 	};
 
-	BOOL RegsigterDoubleFloatVariable(GLOBAL_ID id, std::string variableName)
+	bool RegsigterDoubleFloatVariable(GLOBAL_ID id, std::string variableName)
 	{
 
 		std::shared_ptr<Variable< DOUBLE>> wrapVar = std::make_shared<Variable<DOUBLE>>();
@@ -292,7 +292,7 @@ public:
 	};
 
 	template<class T>
-	BOOL EraseVariable(GLOBAL_ID id, std::string variableName, Variable<T>)
+	bool EraseVariable(GLOBAL_ID id, std::string variableName, Variable<T>)
 	{
 		HRESULT hr = E_FAIL;
 

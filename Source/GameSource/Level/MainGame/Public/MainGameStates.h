@@ -29,5 +29,5 @@ private:
 	std::shared_ptr<Timer> m_popCounter;
 	std::shared_ptr<Timer> m_endCounter;
 
-	BOOL m_isChangeEndMain;
+	bool m_isChangeEndMain;
 };

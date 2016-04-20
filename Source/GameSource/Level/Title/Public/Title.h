@@ -8,8 +8,8 @@ class Title
 public: 
 	Title() {};
 	~Title() {};
-	BOOL Init();
-	BOOL Update();
+	bool Init();
+	bool Update();
 
 	void Reset();
 private:

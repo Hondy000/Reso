@@ -15,10 +15,10 @@ public:
 	StaticMeshCompornent() {};
 	~StaticMeshCompornent() {};
 	void Destroy(){};
-	BOOL Init();
+	bool Init();
 	void Reset() {};
-	BOOL LoadMesh(const std::string& path);
-	BOOL Update();
+	bool LoadMesh(const std::string& path);
+	bool Update();
 
 private:
 };

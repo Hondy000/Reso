@@ -20,7 +20,7 @@ public:
 		return &singleton;
 	}
 
-	BOOL Setup(void);
+	bool Setup(void);
 
 	// Access the UpRenderDevice
 	const std::shared_ptr<BaseRenderDeviceManager>& GetSpRenderDevice(void) const

@@ -8,8 +8,8 @@ class DemoLevel
 public:
 	DemoLevel() {};
 	~DemoLevel() {};
-	BOOL Init();
-	BOOL Update();
+	bool Init();
+	bool Update();
 
 	void Reset();
 protected:

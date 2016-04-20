@@ -49,7 +49,7 @@ public:
 
 	std::shared_ptr<IState> GetNewState(void);
 private:
-	BOOL m_isChangeAttakState;
+	bool m_isChangeAttakState;
 };
 
 
@@ -66,7 +66,7 @@ public:
 
 	std::shared_ptr<IState> GetNewState(void);
 private:
-	BOOL m_isDeadState;
+	bool m_isDeadState;
 };
 
 

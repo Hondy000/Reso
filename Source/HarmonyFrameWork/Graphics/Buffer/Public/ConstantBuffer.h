@@ -8,6 +8,6 @@ class ConstantBuffer
 public:
 	ConstantBuffer();
 	virtual~ConstantBuffer() ;
-	BOOL SetData(void* pIn, size_t dataSize, int count, ACCESS_FLAG access_flag);
+	bool SetData(void* pIn, size_t dataSize, int count, ACCESS_FLAG access_flag);
 protected:
 };

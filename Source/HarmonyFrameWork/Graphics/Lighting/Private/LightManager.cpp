@@ -1,4 +1,10 @@
-﻿#include <algorithm>
+﻿/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Graphics\Lighting\Private\LightManager.cpp
+ *
+ * @brief	Implements the light manager class.
+ **************************************************************************************************/
+
+#include <algorithm>
 #include "../Public/LightManager.h"
 
 using namespace std;

@@ -1,3 +1,9 @@
+/**********************************************************************************************//**
+ * @file	Source\GameSource\Level\MainGame\Private\MainGameStates.cpp
+ *
+ * @brief	Implements the main game states class.
+ **************************************************************************************************/
+
 #include "../Public/MainGameStates.h"
 #include "../../../Charactor/Player/Public/PlayerActor.h"
 #include "../../../../HarmonyFrameWork/Core/Task/Public/TaskSystem.h"
@@ -8,8 +14,14 @@
 
 using namespace std;
 
+/**********************************************************************************************//**
+ * @fn	void MainGameStartState::Enter()
+ *
+ * @brief	game start.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
-// game start
 void MainGameStartState::Enter()
 {
 	shared_ptr<PlayerActor> player = make_shared<PlayerActor>();
@@ -25,30 +37,68 @@ void MainGameStartState::Enter()
 	m_wpTask.lock()->RegisterVariable("enemyList", m_manageEnemyList);
 }
 
+/**********************************************************************************************//**
+ * @fn	void MainGameStartState::Execute()
+ *
+ * @brief	Executes this object.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
+
 void MainGameStartState::Execute()
 {
 
 }
+
+/**********************************************************************************************//**
+ * @fn	void MainGameStartState::Exit()
+ *
+ * @brief	Exits this object.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void MainGameStartState::Exit()
 {
 
 }
 
+/**********************************************************************************************//**
+ * @fn	std::shared_ptr<IState> MainGameStartState::GetNewState(void)
+ *
+ * @brief	Gets new state.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	The new state.
+ **************************************************************************************************/
+
 std::shared_ptr<IState> MainGameStartState::GetNewState(void)
 {
 	return std::make_shared<MainGameMainState>();
 }
 
-
-
-// main
+/**********************************************************************************************//**
+ * @fn	void MainGameMainState::Enter()
+ *
+ * @brief	main.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void MainGameMainState::Enter()
 {
 	m_popCounter = make_shared<Timer>();
 	m_endCounter = make_shared<Timer>();
 }
+
+/**********************************************************************************************//**
+ * @fn	void MainGameMainState::Execute()
+ *
+ * @brief	Executes this object.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void MainGameMainState::Execute()
 {
@@ -72,9 +122,27 @@ void MainGameMainState::Execute()
 
 }
 
+/**********************************************************************************************//**
+ * @fn	void MainGameMainState::Exit()
+ *
+ * @brief	Exits this object.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
+
 void MainGameMainState::Exit()
 {
 }
+
+/**********************************************************************************************//**
+ * @fn	std::shared_ptr<IState> MainGameMainState::GetNewState(void)
+ *
+ * @brief	Gets new state.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	The new state.
+ **************************************************************************************************/
 
 std::shared_ptr<IState> MainGameMainState::GetNewState(void)
 {

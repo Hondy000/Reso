@@ -36,12 +36,12 @@ interface IRotation
 {
 
 protected:
-	HFVECTOR3 m_rotation;		// オイラー角
+	HFQUATERNION m_rotation;		
 
 public:
 	IRotation()
 		:
-		m_rotation(HFVECTOR3(0, 0, 0))
+		m_rotation(0, 0, 0,1)
 	{
 
 	}
@@ -50,13 +50,13 @@ public:
 	virtual void SetRotationX(const FLOAT& x) = 0;
 	virtual void SetRotationY(const FLOAT& y) = 0;
 	virtual void SetRotationZ(const FLOAT& z) = 0;
-	virtual void SetRotation(const FLOAT& x, const FLOAT& y, const FLOAT& z) = 0;
-	virtual void SetRotation(const HFVECTOR3& _rotation) = 0;
+	virtual void SetEulerRadAngles(const FLOAT x, const FLOAT y, const FLOAT z) = 0;
+	virtual void SetEulerRadAngles(const HFVECTOR3 _rotation) = 0;
 
-	virtual const FLOAT& GetRotationX()const = 0;
-	virtual const FLOAT& GetRotationY()const = 0;
-	virtual const FLOAT& GetRotationZ()const = 0;
-	virtual const HFVECTOR3& GetRotation()const = 0;
+	virtual const FLOAT& GetQuaternionRotationX()const = 0;
+	virtual const FLOAT& GetQuaternionRotationY()const = 0;
+	virtual const FLOAT& GetQuaternionRotationZ()const = 0;
+	virtual const HFVECTOR3& GetEulerRadAngles()const = 0;
 
 	virtual HFMATRIX GetRotationMatrixX()const = 0;
 	virtual HFMATRIX GetRotationMatrixY()const = 0;
@@ -112,178 +112,69 @@ public:
 	};
 	~Transform(){};
 
-	void SetPositionX(FLOAT x)
-	{
-		m_position=(HFVECTOR3(x, m_position.y, m_position.z));
-	};
+	void SetPositionX(FLOAT x);
 	
-	void SetPositionY(FLOAT y)
-	{
-		m_position=(HFVECTOR3(m_position.x, y, m_position.z));
-	};
+	void SetPositionY(FLOAT y);
 
-	void SetPositionZ(FLOAT z)
-	{
-		m_position=(HFVECTOR3(m_position.x, m_position.y,z));
-	};
+	void SetPositionZ(FLOAT z);
 	
-	void SetPosition(FLOAT x, FLOAT y, FLOAT z)
-	{
-		m_position=(HFVECTOR3(x, y, z));
-	};
+	void SetPosition(FLOAT x, FLOAT y, FLOAT z);
 
-	void SetPosition(HFVECTOR3 _position)
-	{
-		m_position=(_position);
-	};
+	void SetPosition(HFVECTOR3 _position);
 
-	FLOAT GetPositionX()
-	{
-		return m_position.x;
-	};
-	FLOAT GetPositionY()
-	{
-		return m_position.y;
-	};
-	FLOAT GetPositionZ()
-	{
-		return m_position.z;
-	};
-	HFVECTOR3 GetPosition()
-	{
-		return m_position;
-	};
+	FLOAT GetPositionX();
+	FLOAT GetPositionY();
+	FLOAT GetPositionZ();
+	HFVECTOR3 GetPosition();
 
-	HFMATRIX GetTranslationMatrix()
-	{
-		HFMATRIX trans;
-		HFMatrixTranslation(&trans, m_position.x, m_position.y, m_position.z);
-		return trans;
-	};
+	HFMATRIX GetTranslationMatrix();
 
-	void SetRotationX(const FLOAT& x)
-	{
-		m_rotation.x = x;
-	};
+	void SetRotationX(const FLOAT& x);
 
-	void SetRotationY(const FLOAT& y)
-	{
-		m_rotation.y = y;
-	};
+	void SetRotationY(const FLOAT& y);
 
-	void SetRotationZ(const FLOAT& z)
-	{
-		m_rotation.z = z;
-	};
+	void SetRotationZ(const FLOAT& z);
+	void SetQuaternionRotation(HFQUATERNION q);
 
-	void SetRotation(const FLOAT& x, const FLOAT& y, const FLOAT& z)
-	{
-		m_rotation.x = x;
-		m_rotation.y = y;
-		m_rotation.z = z;
-	};
-	void SetRotation(const HFVECTOR3& _rotation)
-	{
-		m_rotation = _rotation;
-	};
+	void SetEulerRadAngles(const FLOAT x, const FLOAT y, const FLOAT z);
+	void SetEulerRadAngles(const HFVECTOR3 _rotation);
 
-	const FLOAT& GetRotationX()const
-	{
-		return m_rotation.x;
-	};
-	const FLOAT& GetRotationY()const
-	{
-		return m_rotation.y;
-	};
-	const FLOAT& GetRotationZ()const
-	{
-		return m_rotation.z;
-	};
-	const HFVECTOR3& GetRotation()const
-	{
-		return m_rotation;
-	};
+	void SetEulerDegAngles(const FLOAT x, const FLOAT y, const FLOAT z);
+	void SetEulerDegAngles( HFVECTOR3 _rotation);
+	const FLOAT& GetQuaternionRotationX()const;
+	const FLOAT& GetQuaternionRotationY()const;
+	const FLOAT& GetQuaternionRotationZ()const;
+	const FLOAT& GetQuaternionRotationW()const;
+	HFQUATERNION GetQuaternionRotation();
+	const HFVECTOR3& GetEulerRadAngles()const;
+	const HFVECTOR3& GetEulerDegAngles() const;
+	HFMATRIX GetRotationMatrixX()const;
 
-	HFMATRIX GetRotationMatrixX()const
-	{
-		HFMATRIX rotationX;
-		HFMatrixRotationX(&rotationX,HFToRadian(m_rotation.x));
-		return rotationX;
-	};
+	HFMATRIX GetRotationMatrixY()const;
 
-	HFMATRIX GetRotationMatrixY()const
-	{
-		HFMATRIX rotationY;
-		HFMatrixRotationY(&rotationY, HFToRadian(m_rotation.y));
-		return rotationY;
-	};
+	HFMATRIX GetRotationMatrixZ()const;
 
-	HFMATRIX GetRotationMatrixZ()const
-	{
-		HFMATRIX rotationZ;
-		HFMatrixRotationZ(&rotationZ, HFToRadian(m_rotation.z));
-		return rotationZ;
-	};
+	HFMATRIX GetRotationMatrix();
+	void SetScaleX(const FLOAT& x);
 
-	void SetScaleX(const FLOAT& x)
-	{
-		m_scale.x = x;
-	};
+	void SetScaleY(const FLOAT& y);
 
-	void SetScaleY(const FLOAT& y)
-	{
-		m_scale.y = y;
-	};
+	void SetScaleZ(const FLOAT& z);
 
-	void SetScaleZ(const FLOAT& z)
-	{
-		m_scale.z = z;
-	};
+	void SetScale(const FLOAT& x, const FLOAT& y, const FLOAT& z);
 
-	void SetScale(const FLOAT& x, const FLOAT& y, const FLOAT& z)
-	{
-		m_scale.x = x;
-		m_scale.y = y;
-		m_scale.z = z;
-	};
-
-	void SetScale(const HFVECTOR3& _scale)
-	{
-		m_scale = _scale;
-	};
+	void SetScale(const HFVECTOR3& _scale);
 
 
-	const FLOAT& GetScaleX(void)const
-	{
-		return m_scale.x;
-	};
-	const FLOAT& GetScaleY(void)const
-	{
-		return m_scale.y;
-	};
-	const FLOAT& GetScaleZ(void)const
-	{
-		return m_scale.z;
-	};
-	const HFVECTOR3& GetScale(void)const
-	{
-		return m_scale;
-	};
+	const FLOAT& GetScaleX(void)const;
+	const FLOAT& GetScaleY(void)const;
+	const FLOAT& GetScaleZ(void)const;
+	const HFVECTOR3& GetScale(void)const;
 
-	HFMATRIX GetScalingMatrix()const
-	{
-		HFMATRIX scale;
-		HFMatrixScaling(&scale, m_scale.x, m_scale.y, m_scale.z);
-		return scale;
-	};
+	HFMATRIX GetScalingMatrix()const;
 
 
-	HFMATRIX GetWorldTransform()
-	{
-		HFMATRIX wolrd;
-		wolrd = GetScalingMatrix() * GetRotationMatrixZ() * GetRotationMatrixY() * GetRotationMatrixX() * GetTranslationMatrix();
-		return wolrd;
-	};
+	HFMATRIX GetWorldTransform();
 
 private:
 

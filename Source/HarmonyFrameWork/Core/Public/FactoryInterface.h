@@ -37,7 +37,7 @@ namespace Factorys
 			return &inst;
 		}
 
-		BOOL Register(IObjectFactory* pObjectFactory)
+		bool Register(IObjectFactory* pObjectFactory)
 		{
 			m_pFactoryList.push_back(pObjectFactory);
 			return true;

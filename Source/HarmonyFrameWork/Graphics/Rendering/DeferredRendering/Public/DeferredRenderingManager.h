@@ -10,9 +10,9 @@ public:
 	DeferredRenderingManager();
 	~DeferredRenderingManager();
 
-	BOOL Init();
+	bool Init();
 	void Reset();
-	BOOL Update();
+	bool Update();
 
 private:
 };

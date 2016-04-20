@@ -1,34 +1,95 @@
+/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Core\Actor\Private\StaticMeshActor.cpp
+ *
+ * @brief	Implements the static mesh actor class.
+ **************************************************************************************************/
+
 #include "..\Public\StaticMeshActor.h"
 #include "../../../ResorceManager/Public/MeshManager.h"
+
+/**********************************************************************************************//**
+ * @fn	StaticMeshActor::StaticMeshActor()
+ *
+ * @brief	Default constructor.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 StaticMeshActor::StaticMeshActor()
 {
 }
 
+/**********************************************************************************************//**
+ * @fn	StaticMeshActor::~StaticMeshActor()
+ *
+ * @brief	Destructor.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
+
 StaticMeshActor::~StaticMeshActor()
 {
 }
 
-BOOL StaticMeshActor::Init()
+/**********************************************************************************************//**
+ * @fn	bool StaticMeshActor::Init()
+ *
+ * @brief	Initialises this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool StaticMeshActor::Init()
 {
 	IActor::Init();
 	return true;
 }
 
-BOOL StaticMeshActor::Update()
+/**********************************************************************************************//**
+ * @fn	bool StaticMeshActor::Update()
+ *
+ * @brief	Updates this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool StaticMeshActor::Update()
 {
 	StaticMeshObject::Update();
 	UpdateAllTask();
 	return true;
 }
 
+/**********************************************************************************************//**
+ * @fn	void StaticMeshActor::Reset()
+ *
+ * @brief	Resets this object.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
+
 void StaticMeshActor::Reset()
 {
 
 }
 
+/**********************************************************************************************//**
+ * @fn	bool StaticMeshActor::LoadMesh(const std::string& path)
+ *
+ * @brief	Loads a mesh.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	path	Full pathname of the file.
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
 
-BOOL StaticMeshActor::LoadMesh(const std::string& path)
+bool StaticMeshActor::LoadMesh(const std::string& path)
 {
 	m_mesh = MeshManager::GetInstance()->Get(path);
 	if (m_mesh)

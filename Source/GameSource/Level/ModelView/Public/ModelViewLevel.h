@@ -9,9 +9,9 @@ public:
 	ModelViewLevel();
 	~ModelViewLevel();
 	
-	BOOL Init();
+	bool Init();
 
-	BOOL Update();
+	bool Update();
 
 	void Reset();
 

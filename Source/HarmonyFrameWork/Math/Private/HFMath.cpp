@@ -8,7 +8,7 @@ HFVECTOR2::HFVECTOR2(FLOAT x, FLOAT y)
 	this->y = y;
 }
 
-BOOL HFVECTOR2::operator!=(const HFVECTOR2& V) const
+bool HFVECTOR2::operator!=(const HFVECTOR2& V) const
 {
 	if(this->x != V.x && this->y != V.y)
 	{
@@ -20,7 +20,7 @@ BOOL HFVECTOR2::operator!=(const HFVECTOR2& V) const
 	}
 }
 
-BOOL HFVECTOR2::operator==(const HFVECTOR2& V) const
+bool HFVECTOR2::operator==(const HFVECTOR2& V) const
 {
 
 	if (this->x == V.x && this->y == V.y)
@@ -127,7 +127,7 @@ HFVECTOR3::HFVECTOR3(const DirectX::SimpleMath::Vector3&V)
 }
 #endif // DIRECTXTK
 
-BOOL HFVECTOR3::operator!=(const HFVECTOR3&V) const
+bool HFVECTOR3::operator!=(const HFVECTOR3&V) const
 {
 	if (this->x != V.x && this->y != V.y && this->z != V.z)
 	{
@@ -146,7 +146,7 @@ HFVECTOR3::operator DirectX::SimpleMath::Vector3()
 }
 #endif
 
-BOOL HFVECTOR3::operator==(const HFVECTOR3&V) const
+bool HFVECTOR3::operator==(const HFVECTOR3&V) const
 {
 	if (this->x == V.x && this->y == V.y && this->z == V.z)
 	{
@@ -236,7 +236,7 @@ HFVECTOR4::HFVECTOR4(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
 	this->w = w;
 }
 
-BOOL HFVECTOR4::operator==(const HFVECTOR4& v) const
+bool HFVECTOR4::operator==(const HFVECTOR4& v) const
 {				  
 	if (this->x == v.x && this->y == v.y &&this->z == v.z &&this->w == v.w)
 	{
@@ -248,7 +248,7 @@ BOOL HFVECTOR4::operator==(const HFVECTOR4& v) const
 	}
 }
 
-BOOL HFVECTOR4::operator!=(const HFVECTOR4 &v) const
+bool HFVECTOR4::operator!=(const HFVECTOR4 &v) const
 {
 	if (this->x != v.x && this->y != v.y &&this->z != v.z &&this->w != v.w)
 	{
@@ -1021,7 +1021,7 @@ HFMATRIX* HFMatrixIdentity(HFMATRIX *pOut)
 	return pOut;
 };
 
-BOOL HFMatrixIsIdentity(const HFMATRIX *pM)
+bool HFMatrixIsIdentity(const HFMATRIX *pM)
 {
 	if (
 		pM->_11 == 1 &&
@@ -1657,6 +1657,23 @@ HFQUATERNION::HFQUATERNION(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
 	this->w = w;
 }
 
+HFQUATERNION HFQUATERNION::operator*(const HFQUATERNION&right) const
+{
+	HFQUATERNION ans;
+	float pw, px, py, pz;
+	float qw, qx, qy, qz;
+
+	pw = right.w; px = right.x; py = right.y; pz = right.z;
+	qw = this->w; qx = this->x; qy = this->y; qz = this->z;
+
+	ans.w = pw * qw - px * qx - py * qy - pz * qz;
+	ans.x = pw * qx + px * qw + py * qz - pz * qy;
+	ans.y = pw * qy - px * qz + py * qw + pz * qx;
+	ans.z = pw * qz + px * qy - py * qx + pz * qw;
+
+	return   ans;
+}
+
 FLOAT HFQuaternionLength
 (const HFQUATERNION *pQ)
 {
@@ -1684,7 +1701,7 @@ HFQUATERNION* HFQuaternionIdentity
 	return pOut;
 };
 
-BOOL HFQuaternionIsIdentity
+bool HFQuaternionIsIdentity
 (const HFQUATERNION *pQ)
 {
 	if (pQ->x == 0 && pQ->y == 0 && pQ->z == 0 && pQ->w == 1)
@@ -1763,7 +1780,12 @@ HFQUATERNION*  HFQuaternionRotationMatrix
 
 	return pOut;
 };
-
+#ifdef DIRECTXTK	   
+HFQUATERNION::operator DirectX::SimpleMath::Quaternion()
+{
+	return DirectX::SimpleMath::Quaternion(x, y, z,w);
+}
+#endif
 
 
 

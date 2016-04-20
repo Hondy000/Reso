@@ -16,8 +16,8 @@ public:
 	{
 
 	}
-	BOOL Init();
-	BOOL Update();
+	bool Init();
+	bool Update();
 
 	void Reset();
 private:

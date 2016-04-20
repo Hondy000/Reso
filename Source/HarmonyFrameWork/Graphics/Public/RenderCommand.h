@@ -11,7 +11,7 @@ public:
 	RenderCommand() {};
 	~RenderCommand() {};
 
-	BOOL Command();
+	bool Command();
 	// Access the RenderObject
 	const std::shared_ptr<BaseRenderObject>& GetRenderObject(void) const
 	{

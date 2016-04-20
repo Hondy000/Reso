@@ -26,7 +26,7 @@ public:
 		m_cpDevice = cpDevice;
 	};
 
-	HRESULT CreateSwapChain(DXGI_MODE_DESC* pDisplayMode, BOOL MultisampleEnabled,HWND hWnd);
+	HRESULT CreateSwapChain(DXGI_MODE_DESC* pDisplayMode, bool MultisampleEnabled,HWND hWnd);
 
 protected:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>         m_cpSwapChain;               // スワップチェーン

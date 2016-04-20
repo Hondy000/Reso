@@ -142,7 +142,7 @@ inline void SetDebugObjectName(_In_ ID3D11DeviceChild* resource, _In_ const char
 };
 
 //--------------------------------------------------------------------------------------
-static BOOL LoadTextureDataFromFile( _In_z_ const wchar_t* fileName,
+static bool LoadTextureDataFromFile( _In_z_ const wchar_t* fileName,
                                         std::unique_ptr<uint8_t[]>& ddsData,
                                         DDS_HEADER** header,
                                         uint8_t** bitData,
@@ -243,7 +243,7 @@ static BOOL LoadTextureDataFromFile( _In_z_ const wchar_t* fileName,
     }
 
     // Check for DX10 extension
-    BOOL bDXT10Header = false;
+    bool bDXT10Header = false;
     if ((hdr->ddspf.flags & DDS_FOURCC) &&
         (MAKEFOURCC( 'D', 'X', '1', '0' ) == hdr->ddspf.fourCC))
     {
@@ -431,9 +431,9 @@ static void GetSurfaceInfo( _In_ size_t width,
     size_t rowBytes = 0;
     size_t numRows = 0;
 
-    BOOL bc = false;
-    BOOL packed = false;
-    BOOL planar = false;
+    bool bc = false;
+    bool packed = false;
+    bool planar = false;
     size_t bpe = 0;
     switch (fmt)
     {
@@ -820,7 +820,7 @@ static DXGI_FORMAT MakeSRGB( _In_ DXGI_FORMAT format )
 
 
 //--------------------------------------------------------------------------------------
-static BOOL FillInitData( _In_ size_t width,
+static bool FillInitData( _In_ size_t width,
                              _In_ size_t height,
                              _In_ size_t depth,
                              _In_ size_t mipCount,
@@ -918,7 +918,7 @@ static BOOL FillInitData( _In_ size_t width,
 
 
 //--------------------------------------------------------------------------------------
-static BOOL CreateD3DResources( _In_ ID3D11Device* d3dDevice,
+static bool CreateD3DResources( _In_ ID3D11Device* d3dDevice,
                                    _In_ uint32_t resDim,
                                    _In_ size_t width,
                                    _In_ size_t height,
@@ -930,8 +930,8 @@ static BOOL CreateD3DResources( _In_ ID3D11Device* d3dDevice,
                                    _In_ UINT bindFlags,
                                    _In_ UINT cpuAccessFlags,
                                    _In_ UINT miscFlags,
-                                   _In_ BOOL forceSRGB,
-                                   _In_ BOOL isCubeMap,
+                                   _In_ bool forceSRGB,
+                                   _In_ bool isCubeMap,
                                    _In_reads_opt_(mipCount*arraySize) D3D11_SUBRESOURCE_DATA* initData,
                                    _Outptr_opt_ ID3D11Resource** texture,
                                    _Outptr_opt_ ID3D11ShaderResourceView** textureView )
@@ -1155,7 +1155,7 @@ static BOOL CreateD3DResources( _In_ ID3D11Device* d3dDevice,
 
 
 //--------------------------------------------------------------------------------------
-static BOOL CreateTextureFromDDS( _In_ ID3D11Device* d3dDevice,
+static bool CreateTextureFromDDS( _In_ ID3D11Device* d3dDevice,
                                      _In_opt_ ID3D11DeviceContext* d3dContext,
                                      _In_ const DDS_HEADER* header,
                                      _In_reads_bytes_(bitSize) const uint8_t* bitData,
@@ -1165,7 +1165,7 @@ static BOOL CreateTextureFromDDS( _In_ ID3D11Device* d3dDevice,
                                      _In_ UINT bindFlags,
                                      _In_ UINT cpuAccessFlags,
                                      _In_ UINT miscFlags,
-                                     _In_ BOOL forceSRGB,
+                                     _In_ bool forceSRGB,
                                      _Outptr_opt_ ID3D11Resource** texture,
                                      _Outptr_opt_ ID3D11ShaderResourceView** textureView )
 {
@@ -1178,7 +1178,7 @@ static BOOL CreateTextureFromDDS( _In_ ID3D11Device* d3dDevice,
     uint32_t resDim = D3D11_RESOURCE_DIMENSION_UNKNOWN;
     UINT arraySize = 1;
     DXGI_FORMAT format = DXGI_FORMAT_UNKNOWN;
-    BOOL isCubeMap = false;
+    bool isCubeMap = false;
 
     size_t mipCount = header->mipMapCount;
     if (0 == mipCount)
@@ -1337,7 +1337,7 @@ static BOOL CreateTextureFromDDS( _In_ ID3D11Device* d3dDevice,
         return HRESULT_FROM_WIN32( ERROR_NOT_SUPPORTED );
     }
 
-    BOOL autogen = false;
+    bool autogen = false;
     if ( mipCount == 1 && d3dContext != 0 && textureView != 0 ) // Must have context and shader-view to auto generate mipmaps
     {
         // See if format is supported for auto-gen mipmaps (varies by feature level)
@@ -1536,7 +1536,7 @@ static DDS_ALPHA_MODE GetAlphaMode( _In_ const DDS_HEADER* header )
 
 //--------------------------------------------------------------------------------------
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromMemory( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromMemory( ID3D11Device* d3dDevice,
                                              const uint8_t* ddsData,
                                              size_t ddsDataSize,
                                              ID3D11Resource** texture,
@@ -1550,7 +1550,7 @@ BOOL DirectX::CreateDDSTextureFromMemory( ID3D11Device* d3dDevice,
 }
 
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromMemory( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromMemory( ID3D11Device* d3dDevice,
                                              ID3D11DeviceContext* d3dContext,
                                              const uint8_t* ddsData,
                                              size_t ddsDataSize,
@@ -1565,7 +1565,7 @@ BOOL DirectX::CreateDDSTextureFromMemory( ID3D11Device* d3dDevice,
 }
 
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
                                                const uint8_t* ddsData,
                                                size_t ddsDataSize,
                                                size_t maxsize,
@@ -1573,7 +1573,7 @@ BOOL DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
                                                UINT bindFlags,
                                                UINT cpuAccessFlags,
                                                UINT miscFlags,
-                                               BOOL forceSRGB,
+                                               bool forceSRGB,
                                                ID3D11Resource** texture,
                                                ID3D11ShaderResourceView** textureView,
                                                DDS_ALPHA_MODE* alphaMode )
@@ -1584,7 +1584,7 @@ BOOL DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
 }
 
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
                                                ID3D11DeviceContext* d3dContext,
                                                const uint8_t* ddsData,
                                                size_t ddsDataSize,
@@ -1593,7 +1593,7 @@ BOOL DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
                                                UINT bindFlags,
                                                UINT cpuAccessFlags,
                                                UINT miscFlags,
-                                               BOOL forceSRGB,
+                                               bool forceSRGB,
                                                ID3D11Resource** texture,
                                                ID3D11ShaderResourceView** textureView,
                                                DDS_ALPHA_MODE* alphaMode )
@@ -1638,7 +1638,7 @@ BOOL DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
     }
 
     // Check for DX10 extension
-    BOOL bDXT10Header = false;
+    bool bDXT10Header = false;
     if ((header->ddspf.flags & DDS_FOURCC) &&
         (MAKEFOURCC( 'D', 'X', '1', '0' ) == header->ddspf.fourCC) )
     {
@@ -1680,7 +1680,7 @@ BOOL DirectX::CreateDDSTextureFromMemoryEx( ID3D11Device* d3dDevice,
 
 //--------------------------------------------------------------------------------------
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromFile( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromFile( ID3D11Device* d3dDevice,
                                            const wchar_t* fileName,
                                            ID3D11Resource** texture,
                                            ID3D11ShaderResourceView** textureView,
@@ -1693,7 +1693,7 @@ BOOL DirectX::CreateDDSTextureFromFile( ID3D11Device* d3dDevice,
 }
 
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromFile( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromFile( ID3D11Device* d3dDevice,
                                            ID3D11DeviceContext* d3dContext,
                                            const wchar_t* fileName,
                                            ID3D11Resource** texture,
@@ -1707,14 +1707,14 @@ BOOL DirectX::CreateDDSTextureFromFile( ID3D11Device* d3dDevice,
 }
 
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromFileEx( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromFileEx( ID3D11Device* d3dDevice,
                                              const wchar_t* fileName,
                                              size_t maxsize,
                                              D3D11_USAGE usage,
                                              UINT bindFlags,
                                              UINT cpuAccessFlags,
                                              UINT miscFlags,
-                                             BOOL forceSRGB,
+                                             bool forceSRGB,
                                              ID3D11Resource** texture,
                                              ID3D11ShaderResourceView** textureView,
                                              DDS_ALPHA_MODE* alphaMode )
@@ -1725,7 +1725,7 @@ BOOL DirectX::CreateDDSTextureFromFileEx( ID3D11Device* d3dDevice,
 }
 
 _Use_decl_annotations_
-BOOL DirectX::CreateDDSTextureFromFileEx( ID3D11Device* d3dDevice,
+bool DirectX::CreateDDSTextureFromFileEx( ID3D11Device* d3dDevice,
                                              ID3D11DeviceContext* d3dContext,
                                              const wchar_t* fileName,
                                              size_t maxsize,
@@ -1733,7 +1733,7 @@ BOOL DirectX::CreateDDSTextureFromFileEx( ID3D11Device* d3dDevice,
                                              UINT bindFlags,
                                              UINT cpuAccessFlags,
                                              UINT miscFlags,
-                                             BOOL forceSRGB,
+                                             bool forceSRGB,
                                              ID3D11Resource** texture,
                                              ID3D11ShaderResourceView** textureView,
                                              DDS_ALPHA_MODE* alphaMode )

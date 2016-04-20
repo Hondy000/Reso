@@ -11,19 +11,19 @@ public:
 	DirectInput();
 	~DirectInput();
 
-	BOOL Setup(void);
-	BOOL IsTriggerKeyboard(BYTE numDIK);
-	BOOL IsHoldKeyboard(BYTE numDIK);
-	BOOL IsReleaseKeyboard(BYTE numDIK);
-	BOOL IsRepeatKeyboard(BYTE numDIK, WORD frame);
+	bool Setup(void);
+	bool IsTriggerKeyboard(BYTE numDIK);
+	bool IsHoldKeyboard(BYTE numDIK);
+	bool IsReleaseKeyboard(BYTE numDIK);
+	bool IsRepeatKeyboard(BYTE numDIK, WORD frame);
 
-	BOOL IsHoldMouse(HF_MOUSE_ENUM);
-	BOOL IsReleaseMouse(HF_MOUSE_ENUM);
+	bool IsHoldMouse(HF_MOUSE_ENUM);
+	bool IsReleaseMouse(HF_MOUSE_ENUM);
 	LONG MouseAxisX(void);
 	LONG IsMouseAxisY(void);
 	INT IsMouseWheel(void);
 
-	BOOL Update(void);
+	bool Update(void);
 	void UpdateKeyBoard(void);
 	void UpdateMouse(void);
 

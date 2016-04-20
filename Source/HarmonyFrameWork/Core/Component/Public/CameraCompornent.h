@@ -11,12 +11,12 @@ public:
 	CameraCompornent();
 	~CameraCompornent();
 	void Destroy() {};
-	BOOL Init()
+	bool Init()
 	{
 		return true;
 	};
 	void Reset() {};
-	BOOL Update();
+	bool Update();
 
 private:
 };

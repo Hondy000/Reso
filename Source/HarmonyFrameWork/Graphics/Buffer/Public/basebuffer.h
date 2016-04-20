@@ -29,8 +29,8 @@ public:
 	virtual~BaseBuffer()
 	{
 	};
-	virtual BOOL SetData(void* pIn, size_t, int count, ACCESS_FLAG) = 0;
-	virtual BOOL GetData(void* pOut, size_t);
+	virtual bool SetData(void* pIn, size_t, int count, ACCESS_FLAG) = 0;
+	virtual bool GetData(void* pOut, size_t);
 	virtual ACCESS_FLAG GetAccessFlag(void)
 	{
 		return m_accessFlag;

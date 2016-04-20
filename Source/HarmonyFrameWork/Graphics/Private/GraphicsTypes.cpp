@@ -1,4 +1,10 @@
-﻿#include "../Public/GraphicsTypes.h"
+﻿/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Graphics\Private\GraphicsTypes.cpp
+ *
+ * @brief	Implements the graphics types class.
+ **************************************************************************************************/
+
+#include "../Public/GraphicsTypes.h"
 
 namespace HFGraphics 
 {

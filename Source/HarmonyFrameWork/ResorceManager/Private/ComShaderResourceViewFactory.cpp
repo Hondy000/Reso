@@ -18,6 +18,6 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> ComShaderResourceViewFactory::C
 	srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
 
 	// V‹Kì¬
-	BOOL res = sRENDER_DEVICE->CreateShaderResourceView(resource.Get(), &srvDesc, srv.GetAddressOf());
+	bool res = sRENDER_DEVICE->CreateShaderResourceView(resource.Get(), &srvDesc, srv.GetAddressOf());
 	return srv;
 }

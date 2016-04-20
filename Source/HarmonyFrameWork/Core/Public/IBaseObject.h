@@ -23,7 +23,7 @@ public:
 	virtual ~IBaseObject()
 	{
 	}
-	virtual BOOL Init();
+	virtual bool Init();
 
 
 	// Access the GlobalID

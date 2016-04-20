@@ -36,7 +36,7 @@ public:
 	}
 
 	// セマンティクスを指定してバッファを取得する
-	BOOL GetVertexBuffers(const int bufferNum, const DWORD* semantics, std::vector<std::shared_ptr<VertexBuffer>>& bufferArray);
+	bool GetVertexBuffers(const int bufferNum, const DWORD* semantics, std::vector<std::shared_ptr<VertexBuffer>>& bufferArray);
 
 	void SetVertexBuffers(std::vector<std::shared_ptr<VertexBuffer>>& val)
 	{
@@ -47,7 +47,7 @@ public:
 
 	void SetIndexBuffer(std::shared_ptr<IndexBuffer>& val);
 
-	virtual BOOL Setup()
+	virtual bool Setup()
 	{
 		return S_OK;
 	};
@@ -56,7 +56,7 @@ public:
 	// Access the IndexCount
 	UINT GetIndexCount(void);
 
-	BOOL Render();
+	bool Render();
 
 
 	// Access the Material

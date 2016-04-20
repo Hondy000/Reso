@@ -1,6 +1,21 @@
+/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Core\Actor\Private\ActorInterface.cpp
+ *
+ * @brief	Implements the actor interface class.
+ **************************************************************************************************/
+
 #include "../Public/ActorInterface.h"
 
 using namespace std;
+
+/**********************************************************************************************//**
+ * @fn	IActor::~IActor()
+ *
+ * @brief	Destructor.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
+
 IActor::~IActor()
 {
 	for (auto it = m_compornentMap.begin(); it != m_compornentMap.end();it++)
@@ -10,7 +25,17 @@ IActor::~IActor()
 	m_compornentMap.clear();
 }
 
-BOOL IActor::Init()
+/**********************************************************************************************//**
+ * @fn	bool IActor::Init()
+ *
+ * @brief	Initialises this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool IActor::Init()
 {
 	m_transform = std::make_shared<Transform>();
 	
@@ -36,7 +61,20 @@ BOOL IActor::Init()
 	return true;
 }
 
-BOOL IActor::RegisterCompornent(const std::string& compornentName, std::shared_ptr<ICompornent> compornent)
+/**********************************************************************************************//**
+ * @fn	bool IActor::RegisterCompornent(const std::string& compornentName, std::shared_ptr<ICompornent> compornent)
+ *
+ * @brief	Registers the compornent.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	compornentName	Name of the compornent.
+ * @param	compornent	  	The compornent.
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool IActor::RegisterCompornent(const std::string& compornentName, std::shared_ptr<ICompornent> compornent)
 {
 	if (compornent->Init())
 	{
@@ -52,6 +90,14 @@ BOOL IActor::RegisterCompornent(const std::string& compornentName, std::shared_p
 	return false;
 }
 
+/**********************************************************************************************//**
+ * @fn	void IActor::SortTaskByPriority()
+ *
+ * @brief	Sort task by priority.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
+
 void IActor::SortTaskByPriority()
 {
 	m_taskList.sort([](shared_ptr<IBaseTask> taskA, shared_ptr<IBaseTask> taskB)
@@ -61,7 +107,17 @@ void IActor::SortTaskByPriority()
 	});
 }
 
-BOOL IActor::UpdateAllTask()
+/**********************************************************************************************//**
+ * @fn	bool IActor::UpdateAllTask()
+ *
+ * @brief	Updates all task.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool IActor::UpdateAllTask()
 {
 	SortTaskByPriority();
 	for (auto it = m_taskList.begin(); it != m_taskList.end();)
@@ -78,6 +134,18 @@ BOOL IActor::UpdateAllTask()
 	return true;
 
 }
+
+/**********************************************************************************************//**
+ * @fn	std::shared_ptr<ICompornent> IActor::GetCompornent(const std::string& name)
+ *
+ * @brief	Gets a compornent.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	name	The name.
+ *
+ * @return	The compornent.
+ **************************************************************************************************/
 
 std::shared_ptr<ICompornent> IActor::GetCompornent(const std::string& name)
 {

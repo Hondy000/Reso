@@ -10,20 +10,20 @@
 #endif
 
 /**********************************************************************************************//**
-  * @fn	CRendererManager::CRendererManager()
-  *
-  * @brief	Default constructor.
-  *
-  * @author	Kazuyuki Honda
-  * @date	2015/08/02
-  **************************************************************************************************/
+ * @fn	RendererManager::RendererManager()
+ *
+ * @brief	Default constructor.
+ *
+ * @author	Kazuyuki Honda
+ * @date	2015/08/02
+ **************************************************************************************************/
 
 RendererManager::RendererManager()
 {
 }
 
 /**********************************************************************************************//**
- * @fn	CRendererManager::~CRendererManager()
+ * @fn	RendererManager::~RendererManager()
  *
  * @brief	Destructor.
  *
@@ -36,7 +36,7 @@ RendererManager::~RendererManager()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CRendererManager::Setup(void)
+ * @fn	bool RendererManager::Setup(void)
  *
  * @brief	Initialises this object.
  *
@@ -46,7 +46,7 @@ RendererManager::~RendererManager()
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL RendererManager::Setup(void)
+bool RendererManager::Setup(void)
 {
 #ifdef DIRECTX11
 	m_spRenderDevice = std::shared_ptr<DirectX11RenderDeviceManager>(new DirectX11RenderDeviceManager);

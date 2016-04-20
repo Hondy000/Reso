@@ -17,10 +17,10 @@ protected:
 public:
 	virtual ~IActor();		
 
-	BOOL Init();
-	BOOL RegisterCompornent(const std::string& compornentName, std::shared_ptr<ICompornent> compornent);
+	bool Init();
+	bool RegisterCompornent(const std::string& compornentName, std::shared_ptr<ICompornent> compornent);
 	void SortTaskByPriority();
-	BOOL UpdateAllTask();
+	bool UpdateAllTask();
 	// Access the Transform
 	const std::shared_ptr< Transform>& GetTransform(void) const
 	{

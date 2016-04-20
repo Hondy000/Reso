@@ -30,7 +30,7 @@ public:
 	{
 		return m_cpInputLayout;
 	}
-	BOOL BaseVertexLayout::Setup(D3D11_INPUT_ELEMENT_DESC* polygonLayout, UINT numElements, const void * vertexBuffer, SIZE_T BytecodeLength);
+	bool BaseVertexLayout::Setup(D3D11_INPUT_ELEMENT_DESC* polygonLayout, UINT numElements, const void * vertexBuffer, SIZE_T BytecodeLength);
 #endif
 
 protected:

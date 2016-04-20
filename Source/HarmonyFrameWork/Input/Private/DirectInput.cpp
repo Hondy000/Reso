@@ -34,17 +34,17 @@ DirectInput::~DirectInput()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::Setup(void)
+ * @fn	bool CDirectInput::Setup(void)
  *
  * @brief	Initialises the dinput.
  *
  * @author	Kazuyuki
  * @date	2015/04/08
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL DirectInput::Setup(void) {
+bool DirectInput::Setup(void) {
 	HRESULT hr = E_FAIL;
 	HWND hWnd = GetActiveWindow();
 	//	DirectInput オブジェクトの作成
@@ -90,7 +90,7 @@ BOOL DirectInput::Setup(void) {
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::Update(void)
+ * @fn	bool CDirectInput::Update(void)
  *
  * @brief	更新処理.
  *
@@ -100,7 +100,7 @@ BOOL DirectInput::Setup(void) {
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL DirectInput::Update(void)
+bool DirectInput::Update(void)
 {
 	UpdateKeyBoard();
 	UpdateMouse();
@@ -144,7 +144,7 @@ void DirectInput::UpdateMouse(void)
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::IsHoldKeyboard(BYTE numDIK)
+ * @fn	bool CDirectInput::IsHoldKeyboard(BYTE numDIK)
  *
  * @brief	Judge hold key board.
  *
@@ -156,7 +156,7 @@ void DirectInput::UpdateMouse(void)
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL DirectInput::IsHoldKeyboard(BYTE numDIK) {
+bool DirectInput::IsHoldKeyboard(BYTE numDIK) {
 	if (infoKB[numDIK] & 0x80)
 	{
 		return true;
@@ -168,7 +168,7 @@ BOOL DirectInput::IsHoldKeyboard(BYTE numDIK) {
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::IsTriggerKeyboard(BYTE numDIK)
+ * @fn	bool CDirectInput::IsTriggerKeyboard(BYTE numDIK)
  *
  * @brief	Judge trig key board.
  *
@@ -180,7 +180,7 @@ BOOL DirectInput::IsHoldKeyboard(BYTE numDIK) {
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL DirectInput::IsTriggerKeyboard(BYTE numDIK)
+bool DirectInput::IsTriggerKeyboard(BYTE numDIK)
 {
 	if ((infoKB[numDIK] & (oldInfoKB[numDIK] ^ 0xff)) & 0x80)
 	{
@@ -193,7 +193,7 @@ BOOL DirectInput::IsTriggerKeyboard(BYTE numDIK)
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::IsReleaseKeyboard(BYTE numDIK)
+ * @fn	bool CDirectInput::IsReleaseKeyboard(BYTE numDIK)
  *
  * @brief	Judge release key board.
  *
@@ -205,7 +205,7 @@ BOOL DirectInput::IsTriggerKeyboard(BYTE numDIK)
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL DirectInput::IsReleaseKeyboard(BYTE numDIK)
+bool DirectInput::IsReleaseKeyboard(BYTE numDIK)
 {
 	if (((infoKB[numDIK] ^ 0xff) & (oldInfoKB[numDIK])) & 0x80)
 	{
@@ -218,7 +218,7 @@ BOOL DirectInput::IsReleaseKeyboard(BYTE numDIK)
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::IsRepeatKeyboard(BYTE numDIK, WORD count)
+ * @fn	bool CDirectInput::IsRepeatKeyboard(BYTE numDIK, WORD count)
  *
  * @brief	Judge repeat count.
  *
@@ -231,7 +231,7 @@ BOOL DirectInput::IsReleaseKeyboard(BYTE numDIK)
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL DirectInput::IsRepeatKeyboard(BYTE numDIK, WORD count) {
+bool DirectInput::IsRepeatKeyboard(BYTE numDIK, WORD count) {
 	if ((infoKB[numDIK] & oldInfoKB[numDIK]) & 0x80)
 	{
 		if (repeatCount[numDIK] < 255)
@@ -255,7 +255,7 @@ BOOL DirectInput::IsRepeatKeyboard(BYTE numDIK, WORD count) {
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::IsHoldMouse(HF_MOUSE_ENUM button)
+ * @fn	bool CDirectInput::IsHoldMouse(HF_MOUSE_ENUM button)
  *
  * @brief	Gets hold mouse.
  *
@@ -267,7 +267,7 @@ BOOL DirectInput::IsRepeatKeyboard(BYTE numDIK, WORD count) {
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL DirectInput::IsHoldMouse(HF_MOUSE_ENUM button)
+bool DirectInput::IsHoldMouse(HF_MOUSE_ENUM button)
 {
 	if (infoMouse.rgbButtons[button] & 0x80)
 	{
@@ -280,7 +280,7 @@ BOOL DirectInput::IsHoldMouse(HF_MOUSE_ENUM button)
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL CDirectInput::IsReleaseMouse(HF_MOUSE_ENUM button)
+ * @fn	bool CDirectInput::IsReleaseMouse(HF_MOUSE_ENUM button)
  *
  * @brief	Determines if we can judge release mouse left.
  *
@@ -292,7 +292,7 @@ BOOL DirectInput::IsHoldMouse(HF_MOUSE_ENUM button)
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL DirectInput::IsReleaseMouse(HF_MOUSE_ENUM button)
+bool DirectInput::IsReleaseMouse(HF_MOUSE_ENUM button)
 {
 	if (((infoMouse.rgbButtons[button] ^ 0xff) & (oldInfoMouse.rgbButtons[button])) & 0x80)
 	{

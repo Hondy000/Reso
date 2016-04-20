@@ -18,7 +18,7 @@ public:
 
 	virtual void Enter() = 0;
 	virtual void Execute() = 0;
-	const BOOL IsChange()const
+	const bool IsChange()const
 	{
 		return m_isChangeState;
 	};
@@ -36,6 +36,6 @@ public:
 	};
 
 protected:
-	BOOL m_isChangeState;
+	bool m_isChangeState;
 	std::weak_ptr<IBaseTask> m_wpTask;
 };

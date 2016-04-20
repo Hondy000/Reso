@@ -9,8 +9,8 @@ public:
 	EnemyActor() {};
 	~EnemyActor() {};
 
-	BOOL Init();
-	BOOL Update();
+	bool Init();
+	bool Update();
 	void Reset();
 
 protected:

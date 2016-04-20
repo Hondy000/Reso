@@ -1,8 +1,26 @@
+/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Graphics\Buffer\Private\BaseBuffer.cpp
+ *
+ * @brief	Implements the base buffer class.
+ **************************************************************************************************/
 
 #include "../Public/BaseBuffer.h"
 #include "../../RenderDevice/Basic/Public/RendererManager.h"
 
 #ifdef DIRECTX11
+
+/**********************************************************************************************//**
+ * @fn	D3D11_BIND_FLAG BaseBuffer::GetD311BindFlag(BaseBuffer::BIND_FLAG flag)
+ *
+ * @brief	Gets d 311 bind flag.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	flag	The flag.
+ *
+ * @return	The d 311 bind flag.
+ **************************************************************************************************/
+
 D3D11_BIND_FLAG BaseBuffer::GetD311BindFlag(BaseBuffer::BIND_FLAG flag)
 {
 	switch (flag)
@@ -25,6 +43,18 @@ D3D11_BIND_FLAG BaseBuffer::GetD311BindFlag(BaseBuffer::BIND_FLAG flag)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn	DWORD BaseBuffer::GetD311AccessFlag(BaseBuffer::ACCESS_FLAG flag)
+ *
+ * @brief	Gets d 311 access flag.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	flag	The flag.
+ *
+ * @return	The d 311 access flag.
+ **************************************************************************************************/
+
 DWORD BaseBuffer::GetD311AccessFlag(BaseBuffer::ACCESS_FLAG flag)
 {
 	switch (flag)
@@ -44,9 +74,20 @@ DWORD BaseBuffer::GetD311AccessFlag(BaseBuffer::ACCESS_FLAG flag)
 	}
 }
 
+/**********************************************************************************************//**
+ * @fn	bool BaseBuffer::GetData(void* pOut, size_t)
+ *
+ * @brief	Gets a data.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param [in,out]	pOut	If non-null, the out.
+ * @param	parameter2  	The second parameter.
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
 
-
-BOOL BaseBuffer::GetData(void* pOut, size_t)
+bool BaseBuffer::GetData(void* pOut, size_t)
 {
 	HRESULT hr;
 	D3D11_MAPPED_SUBRESOURCE resource;

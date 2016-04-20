@@ -18,7 +18,7 @@ public:
 		
 	};
 
-	BOOL Update()
+	bool Update()
 	{
 		return true;
 	}

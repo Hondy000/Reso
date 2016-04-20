@@ -57,7 +57,7 @@ GeometryBuffers::~GeometryBuffers()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL DeferredBuffers::Setup(int bufferCount, int textureWidth, int textureHeight, FLOAT screenDepth, FLOAT screenNear)
+ * @fn	bool DeferredBuffers::Setup(int bufferCount, int textureWidth, int textureHeight, FLOAT screenDepth, FLOAT screenNear)
  *
  * @brief	Setups.
  *
@@ -70,10 +70,10 @@ GeometryBuffers::~GeometryBuffers()
  * @param	screenDepth  	Depth of the screen.
  * @param	screenNear   	The screen near.
  *
- * @return	A BOOL.
+ * @return	A bool.
  **************************************************************************************************/
 
-BOOL GeometryBuffers::Setup(int bufferCount, int textureWidth, int textureHeight, FLOAT screenDepth, FLOAT screenNear)
+bool GeometryBuffers::Setup(int bufferCount, int textureWidth, int textureHeight, FLOAT screenDepth, FLOAT screenNear)
 {
 	HRESULT hr = E_FAIL;
 	D3D11_TEXTURE2D_DESC textureDesc;

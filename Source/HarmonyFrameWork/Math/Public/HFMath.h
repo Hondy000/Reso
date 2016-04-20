@@ -79,8 +79,8 @@ public:
 
 	friend HFVECTOR2 operator * (FLOAT, const HFVECTOR2&);
 
-	BOOL operator == (const HFVECTOR2&) const;
-	BOOL operator != (const HFVECTOR2&) const;
+	bool operator == (const HFVECTOR2&) const;
+	bool operator != (const HFVECTOR2&) const;
 
 public:
 #endif //__cplusplus
@@ -121,8 +121,8 @@ public:
 
 	friend HFVECTOR3 operator * (FLOAT, const struct HFVECTOR3&);
 
-	BOOL operator == (const HFVECTOR3&) const;
-	BOOL operator != (const HFVECTOR3&) const;
+	bool operator == (const HFVECTOR3&) const;
+	bool operator != (const HFVECTOR3&) const;
 
 	// cast
 #if DIRECTXTK
@@ -168,8 +168,8 @@ public:
 
 	friend HFVECTOR4 operator * (FLOAT, const HFVECTOR4&);
 
-	BOOL operator == (const HFVECTOR4&) const;
-	BOOL operator != (const HFVECTOR4&) const;
+	bool operator == (const HFVECTOR4&) const;
+	bool operator != (const HFVECTOR4&) const;
 
 public:
 #endif //__cplusplus
@@ -239,8 +239,8 @@ public:
 
 	friend HFMATRIX operator * (FLOAT, const HFMATRIX&);
 
-	BOOL operator == (const HFMATRIX&) const;
-	BOOL operator != (const HFMATRIX&) const;
+	bool operator == (const HFMATRIX&) const;
+	bool operator != (const HFMATRIX&) const;
 
 	// cast 
 #ifdef DIRECTXSDK		
@@ -309,8 +309,12 @@ public:
 
 	friend HFQUATERNION operator * (FLOAT, const HFQUATERNION&);
 
-	BOOL operator == (const HFQUATERNION&) const;
-	BOOL operator != (const HFQUATERNION&) const;
+	bool operator == (const HFQUATERNION&) const;
+	bool operator != (const HFQUATERNION&) const;
+	// cast
+#if DIRECTXTK
+	operator DirectX::SimpleMath::Quaternion();
+#endif
 
 #endif //__cplusplus
 	FLOAT x, y, z, w;
@@ -549,7 +553,7 @@ HFVECTOR4*  HFVec4TransformArray
 HFMATRIX* HFMatrixIdentity
 (HFMATRIX *pOut);
 
-BOOL HFMatrixIsIdentity
+bool HFMatrixIsIdentity
 (const HFMATRIX *pM);
 
 
@@ -678,7 +682,7 @@ FLOAT HFQuaternionDot
 HFQUATERNION* HFQuaternionIdentity
 (HFQUATERNION *pOut);
 
-BOOL HFQuaternionIsIdentity
+bool HFQuaternionIsIdentity
 (const HFQUATERNION *pQ);
 
 // (-x, -y, -z, w)

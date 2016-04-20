@@ -17,40 +17,40 @@ public:
 	};
 
 	// 初期化
-	virtual BOOL Init(const BYTE* pVS,
+	virtual bool Init(const BYTE* pVS,
 		size_t VSSize
 		, const BYTE* pPS, size_t PSSize
 		);
-	virtual BOOL Init(TCHAR pSrcFile[], TCHAR pVSMain[], TCHAR pPSMain[]);
-	virtual BOOL Init() = 0;
+	virtual bool Init(TCHAR pSrcFile[], TCHAR pVSMain[], TCHAR pPSMain[]);
+	virtual bool Init() = 0;
 
-	virtual BOOL SetupBuffer(std::shared_ptr<BaseBuffer> spOutVertexBuffer, std::shared_ptr<BaseBuffer> spOutIndexBuffer, std::shared_ptr<MeshData> spInMeshData);
+	virtual bool SetupBuffer(std::shared_ptr<BaseBuffer> spOutVertexBuffer, std::shared_ptr<BaseBuffer> spOutIndexBuffer, std::shared_ptr<MeshData> spInMeshData);
 
 	// 頂点シェーダー用の定数バッファを設定する
-	virtual BOOL SetCBVertexShader(Microsoft::WRL::ComPtr< ID3D11DeviceContext>  pD3DDeviceContext
+	virtual bool SetCBVertexShader(Microsoft::WRL::ComPtr< ID3D11DeviceContext>  pD3DDeviceContext
 		, HFMATRIX* p_matWVP
 		);
 	// ハーフランバート用の定数バッファを設定
-	BOOL SetCBHalfLambert(Microsoft::WRL::ComPtr< ID3D11DeviceContext>  pD3DDeviceContext
+	bool SetCBHalfLambert(Microsoft::WRL::ComPtr< ID3D11DeviceContext>  pD3DDeviceContext
 		, HFVECTOR4* p_vecLight
 		, Microsoft::WRL::ComPtr< ID3D11ShaderResourceView> pDecalMap
 		);
 	// フォンシェーディング用の定数バッファを設定
-	BOOL SetCBPhongShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext>  pD3DDeviceContext
+	bool SetCBPhongShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext>  pD3DDeviceContext
 		, HFVECTOR4* p_vecLight
 		, HFVECTOR4* p_EyePos
 		, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> pDecalMap
 		);
 	// セルシェーディング用の定数バッファを設定
-	BOOL SetCBCelShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpD3DDeviceContext
+	bool SetCBCelShading(Microsoft::WRL::ComPtr< ID3D11DeviceContext> cpD3DDeviceContext
 		, HFVECTOR4* p_vecLight
 		, Microsoft::WRL::ComPtr< ID3D11ShaderResourceView> cpDecalMap
 		, Microsoft::WRL::ComPtr< ID3D11ShaderResourceView> cpCelMap
 		);
 	// 描画開始処理
-	virtual BOOL Render();
+	virtual bool Render();
 	// 描画終了処理
-	virtual BOOL End();
+	virtual bool End();
 
 protected:
 	// 動的シェーダーリンケージ( サンプルではピクセルシェーダーのみ )用の定数バッファ定義

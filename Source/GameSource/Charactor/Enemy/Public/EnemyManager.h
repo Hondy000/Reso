@@ -5,9 +5,9 @@ class EnemyManagerActor
 public:
 	EnemyManagerActor();
 	~EnemyManagerActor();
-	BOOL Init();
+	bool Init();
 	void Reset();
-	BOOL Update();
+	bool Update();
 
 
 private:

@@ -1,11 +1,30 @@
-﻿#include "../Public/TaskSystem.h"
+﻿/**********************************************************************************************//**
+ * @file	Source\HarmonyFrameWork\Core\Task\Private\TaskSystem.cpp
+ *
+ * @brief	Implements the task system class.
+ **************************************************************************************************/
+
+#include "../Public/TaskSystem.h"
 #include "../../../Graphics/RenderDevice/Basic/Public/RendererManager.h"  
 #include "../../../Graphics/Public/RenderCommand.h"
 #include "../../Actor/Public/ActorInterface.h"
 
 using namespace std;
 
-BOOL TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask> task)
+/**********************************************************************************************//**
+ * @fn	bool TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask> task)
+ *
+ * @brief	Registers the task.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	name	The name.
+ * @param	task	The task.
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask> task)
 {
 	pair<string, shared_ptr<IBaseTask>> key;
 	key.first = name;
@@ -22,13 +41,35 @@ BOOL TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask
 	return false;
 }
 
-BOOL TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
+/**********************************************************************************************//**
+ * @fn	bool TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
+ *
+ * @brief	Registers the render command described by task.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	task	The task.
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
 {
 	m_spDrawList.push_back(task);
 	return true;
 }
 
-BOOL TaskSystem::Update()
+/**********************************************************************************************//**
+ * @fn	bool TaskSystem::Update()
+ *
+ * @brief	Updates this object.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool TaskSystem::Update()
 {
 	UpdateActorsPreviousTransform();
 	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end();it++)
@@ -37,6 +78,14 @@ BOOL TaskSystem::Update()
 	}
 	return true;
 }
+
+/**********************************************************************************************//**
+ * @fn	void TaskSystem::UpdateActorsPreviousTransform()
+ *
+ * @brief	Updates the actors previous transform.
+ *
+ * @author	Kazuyuki Honda
+ **************************************************************************************************/
 
 void TaskSystem::UpdateActorsPreviousTransform()
 {
@@ -53,7 +102,7 @@ void TaskSystem::UpdateActorsPreviousTransform()
 }
 
 /**********************************************************************************************//**
- * @fn	BOOL TaskSystem::Render()
+ * @fn	bool TaskSystem::Render()
  *
  * @brief	Renders this object.
  *
@@ -62,7 +111,7 @@ void TaskSystem::UpdateActorsPreviousTransform()
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-BOOL TaskSystem::Render()
+bool TaskSystem::Render()
 {
 	m_spDrawList.sort([](const std::shared_ptr<RenderCommand>& commmandA,const std::shared_ptr<RenderCommand>& commmandB) 
 	{
@@ -81,7 +130,20 @@ BOOL TaskSystem::Render()
 	return true;
 }
 
-BOOL TaskSystem::SearchByTaskID(DWORD m_id, std::shared_ptr<IBaseTask>&sptask)
+/**********************************************************************************************//**
+ * @fn	bool TaskSystem::SearchByTaskID(GLOBAL_ID m_id, std::shared_ptr<IBaseTask>&sptask)
+ *
+ * @brief	Searches for the first task identifier.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	m_id		  	The identifier.
+ * @param [in,out]	sptask	The sptask.
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool TaskSystem::SearchByTaskID(GLOBAL_ID m_id, std::shared_ptr<IBaseTask>&sptask)
 {
 	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end(); it++)
 	{
@@ -94,7 +156,20 @@ BOOL TaskSystem::SearchByTaskID(DWORD m_id, std::shared_ptr<IBaseTask>&sptask)
 	return false;
 }
 
-BOOL TaskSystem::SearchByTaskName(const string& name, std::shared_ptr<IBaseTask>sptask)
+/**********************************************************************************************//**
+ * @fn	bool TaskSystem::SearchByTaskName(const string& name, std::shared_ptr<IBaseTask>sptask)
+ *
+ * @brief	Searches for the first task name.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @param	name	  	The name.
+ * @param	parameter2	The second parameter.
+ *
+ * @return	true if it succeeds, false if it fails.
+ **************************************************************************************************/
+
+bool TaskSystem::SearchByTaskName(const string& name, std::shared_ptr<IBaseTask>sptask)
 {
 	auto resFind = m_spTaskMap.find(name);
 	if (resFind != m_spTaskMap.end())
@@ -106,6 +181,16 @@ BOOL TaskSystem::SearchByTaskName(const string& name, std::shared_ptr<IBaseTask>
 	return false;
 }
 
+/**********************************************************************************************//**
+ * @fn	std::shared_ptr<IBaseTask>TaskSystem::SearchByTaskName(const string& name)
+ *
+ * @brief	Constructor.
+ *
+ * @author	Kazuyuki Honda
+ *
+ * @tparam	IBaseTask	Type of the base task.
+ * @param	name	The name.
+ **************************************************************************************************/
 
 std::shared_ptr<IBaseTask>TaskSystem::SearchByTaskName(const string& name)
 {
