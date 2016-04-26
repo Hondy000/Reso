@@ -57,9 +57,9 @@ void PlayerAliveBeingState::Enter()
 	m_wpTask.lock()->RegisterVariable("m_valueOfTurn", 0.6f);
 	m_wpTask.lock()->RegisterVariable("m_velocity", 0.0f);
 	m_wpTask.lock()->RegisterVariable("m_direction", HFVECTOR3(0,0,0));
-	m_wpTask.lock()->RegisterVariable("m_accceleration", 0.002f);
-	m_wpTask.lock()->RegisterVariable("m_deceleration", 0.003f);
-	m_wpTask.lock()->RegisterVariable("m_maxVelocity", 0.2f);
+	m_wpTask.lock()->RegisterVariable("m_accceleration", 0.005f);
+	m_wpTask.lock()->RegisterVariable("m_deceleration", 0.006f);
+	m_wpTask.lock()->RegisterVariable("m_maxVelocity", 0.3f);
 	m_wpTask.lock()->RegisterVariable<IBaseWeapon,MachineGun>("m_weapon", make_shared<MachineGun>());
 	RegisterState(std::make_shared<PlayerStopState>(), m_wpTask.lock());
 	RegisterState(std::make_shared<PlayerUnShotState>(), m_wpTask.lock());
@@ -789,16 +789,10 @@ void PlayerShotState::Enter()
 
 }
 
-/**********************************************************************************************//**
- * @fn	void PlayerShotState::Execute()
- *
- * @brief	Executes this object.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
 /**=================================================================================================
- * Executes this object.
+ * @fn void PlayerShotState::Execute()
+ *
+ * @brief Executes this object.
  *
  * @author Kazuyuki
  *===============================================================================================**/
@@ -809,16 +803,10 @@ void PlayerShotState::Execute()
 	m_isChangeState = true;
 }
 
-/**********************************************************************************************//**
- * @fn	void PlayerShotState::Exit()
- *
- * @brief	Exits this object.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
 /**=================================================================================================
- * Exits this object.
+ * @fn void PlayerShotState::Exit()
+ *
+ * @brief Exits this object.
  *
  * @author Kazuyuki
  *===============================================================================================**/
@@ -828,18 +816,10 @@ void PlayerShotState::Exit()
 
 }
 
-/**********************************************************************************************//**
- * @fn	std::shared_ptr<IState> PlayerShotState::GetNewState(void)
- *
- * @brief	Gets new state.
- *
- * @author	Kazuyuki Honda
- *
- * @return	The new state.
- **************************************************************************************************/
-
 /**=================================================================================================
- * Gets new state.
+ * @fn std::shared_ptr<IState> PlayerShotState::GetNewState(void)
+ *
+ * @brief Gets new state.
  *
  * @author Kazuyuki
  *

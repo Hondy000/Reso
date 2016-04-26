@@ -18,9 +18,6 @@ bool DefaultSpriteShader::Setup()
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;
-	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
-	Microsoft::WRL::ComPtr<ID3D10Blob> vertexShaderBuffer;
-	Microsoft::WRL::ComPtr<ID3D10Blob> pixelShaderBuffer;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
 	UINT numElements;
 	
@@ -72,14 +69,14 @@ bool DefaultSpriteShader::Setup()
 			false);
 
 
-	if (FAILED(result))
+	if ((!result))
 	{
 		return false;
 	}
 
 	result = sRENDER_DEVICE_MANAGER->CreateSamplerState(m_cpSamplerState, D3D11_FILTER_MIN_MAG_MIP_LINEAR, 1);
 	
-	if (FAILED(result))
+	if ((!result))
 	{
 		return false;
 	}
@@ -87,7 +84,7 @@ bool DefaultSpriteShader::Setup()
 	m_constantBuffers.resize(1);
 	m_constantBuffers[0] = shared_ptr<ConstantBuffer>(new ConstantBuffer);
 	HFMATRIX mat;
-	result = sRENDER_DEVICE_MANAGER->CreateConstantBuffer(m_constantBuffers[0]->GetBuffer(), &mat, sizeof(HFMATRIX), 0);
+	result = sRENDER_DEVICE_MANAGER->CreateConstantBuffer(m_constantBuffers[0], &mat, sizeof(HFMATRIX), 0);
 
 	return result;
 }

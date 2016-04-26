@@ -130,12 +130,12 @@ public:
 
 	void SetIsView(bool flag)
 	{
-		isView = flag;
+		m_isView = flag;
 	}
 
 	void SetIsFollow(bool flag)
 	{
-		isFollow = flag;
+		m_isFollow = flag;
 	}
 
 
@@ -165,6 +165,17 @@ public:
 		m_viewObjectOffset = _val;
 	}
 
+
+	bool GetIs2DCamera() const
+	{
+		return m_is2DCamera;
+	}
+
+	void SetIs2DCamera(bool _val)
+	{
+		m_is2DCamera = _val;
+	}
+
 protected:
 	FLOAT m_aspect;
 	FLOAT m_nearClip;
@@ -182,9 +193,11 @@ protected:
 	HFVECTOR3 m_viewObjectOffset;
 
 	/** @brief	カメラがオブジェクトを追従するかのフラグ. */
-	bool isFollow;
+	bool m_isFollow;
 	/** @brief	カメラのオブジェクトを中止するかのフラグ. */
-	bool isView;
+	bool m_isView;
+	/** @brief true if this object is 2D camera. */
+	bool m_is2DCamera;
 	std::weak_ptr<IBaseTask> m_wpFollowObject;
 	std::weak_ptr<IBaseTask> m_wpViewObject;
 };

@@ -50,13 +50,8 @@ bool LineShader::Setup()
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;
-	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
-	Microsoft::WRL::ComPtr<ID3D10Blob> vertexShaderBuffer;
-	Microsoft::WRL::ComPtr<ID3D10Blob> pixelShaderBuffer;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[1];
 	UINT numElements;
-	D3D11_SAMPLER_DESC samplerDesc;
-	D3D11_BUFFER_DESC matrixBufferDesc;
 	m_constantBuffers.push_back(std::shared_ptr<ConstantBuffer>(new ConstantBuffer));
 
 	// Initialize the pointers this function will use to null.
@@ -71,14 +66,6 @@ bool LineShader::Setup()
 
 	// Get a count of the elements in the layout.
 	numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
-
-	// Create the vertex input layout.
-	result = sRENDER_DEVICE->CreateInputLayout(polygonLayout, numElements, vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(),
-		m_spVertexLayout->GetMain().GetAddressOf());
-	if (FAILED(result))
-	{
-		return false;
-	}
 
 	// Compile the vertex shader code.		 
 	sRENDER_DEVICE_MANAGER->CreateVertexShaderFromFile( m_cpVertexShader,_T("Resource/Shader/HLSL/SimpleHLSL08.hlsl"),
@@ -95,21 +82,10 @@ bool LineShader::Setup()
 		"ps_4_0"
 		,false);
 
-	// Setup the description of the dynamic matrix constant buffer that is in the vertex shader.
-	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
-	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	matrixBufferDesc.MiscFlags = 0;
-	matrixBufferDesc.StructureByteStride = 0;
+	result = m_constantBuffers[0]->SetData(NULL, sizeof(MatrixBufferType), 1,BaseBuffer::ACCESS_FLAG::WRITEONLY);
 
-	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
-	result = sRENDER_DEVICE->CreateBuffer(&matrixBufferDesc, NULL, m_constantBuffers[0]->GetAddressOf());
-	if (FAILED(result))
-	{
-		return false;
-	}
-	return S_OK;
+
+	return result;
 }
 
 /**********************************************************************************************//**

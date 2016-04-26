@@ -951,7 +951,7 @@ bool DirectX11RenderDeviceManager::CreateBuffer(
 	D3D11_BIND_FLAG BindFlag
 	)
 {
-	HRESULT hr = E_FAIL;
+	bool hr = false;
 
 	// バッファー リソース。
 	// D3D11_BUFFER_DESC
@@ -1001,7 +1001,7 @@ bool DirectX11RenderDeviceManager::CreateBuffer(
 	hr = m_cpD3DDevice->CreateBuffer(&BufferDesc, resource, pBuffer.GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
-	hr = S_OK;
+	hr = true;
 
 EXIT:
 	SAFE_DELETE(resource);
@@ -1077,13 +1077,13 @@ bool DirectX11RenderDeviceManager::CreateIndexBuffer(
  **************************************************************************************************/
 
 bool DirectX11RenderDeviceManager::CreateConstantBuffer(
-	Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer,
+	std::shared_ptr<ConstantBuffer>& pBuffer,
 	void* pData,
 	size_t size,
 	UINT CPUAccessFlag
 	)
 {
-	return CreateBuffer(pBuffer, pData, size, CPUAccessFlag, D3D11_BIND_CONSTANT_BUFFER);
+	return CreateBuffer(pBuffer->GetBuffer(), pData, size, CPUAccessFlag, D3D11_BIND_CONSTANT_BUFFER);
 }
 
 /**********************************************************************************************//**
@@ -1261,14 +1261,14 @@ bool DirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT Microsoft::WRL
 	if (FAILED(hr))
 	{
 		OutputShaderErrorMessage(cpErrorMessage, pSrcFile);
-		return hr;
+		return false;
 	}
 
 	// コンパイル済みシェーダーから、頂点シェーダー オブジェクトを作成する
 	hr = m_cpD3DDevice->CreateVertexShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), NULL, pVertexShader.GetAddressOf());
 	if (FAILED(hr))
 	{
-		return hr;
+		return false;
 	}
 
 	BYTE* vsbuffer = (LPBYTE)pBlob->GetBufferPointer();
@@ -1277,8 +1277,11 @@ bool DirectX11RenderDeviceManager::CreateVertexShaderFromFile(OUT Microsoft::WRL
 	// シェーダーで使用される入力バッファーを記述するための入力レイアウトオブジェクトを作成する。
 	hr = m_cpD3DDevice->CreateInputLayout(pLayoutDesc, NumElements, vsbuffer, vsbuffersize, g_pLayout.GetAddressOf());
 	if (FAILED(hr))
+	{
+		return false;
+	}
 
-		return hr;
+	return true;
 }
 
 /**********************************************************************************************//**
@@ -1756,15 +1759,11 @@ bool DirectX11RenderDeviceManager::CreatePixelShaderFromFile(Microsoft::WRL::Com
 		hr = m_cpD3DDevice->CreatePixelShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), nullptr, pPixelShader.GetAddressOf());
 
 	}
-
-
-
 	if (FAILED(hr))
 	{
-		return hr;
+		return false;
 	}
-	hr = S_OK;
-	return hr;
+	return true;
 }
 
 bool DirectX11RenderDeviceManager::SetupGeometryBuffer()
@@ -2134,7 +2133,11 @@ bool DirectX11RenderDeviceManager::CreateSamplerState(Microsoft::WRL::ComPtr< ID
 	}
 
 	hr = S_OK;
-	return hr;
+	if (FAILED(hr))
+	{
+		return false;
+	}
+	return true;
 }
 
 /**********************************************************************************************//**

@@ -327,7 +327,7 @@ public:
 	 * @return	The new constant buffer.
 	 **************************************************************************************************/
 
-	bool CreateConstantBuffer(Microsoft::WRL::ComPtr<ID3D11Buffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag);
+	bool CreateConstantBuffer(std::shared_ptr<ConstantBuffer>& pBuffer, void* pData, size_t size, UINT CPUAccessFlag);
 
 	/**********************************************************************************************//**
 	 * @fn	bool CDirectX11RenderDeviceManager::CreateShaderResourceViewArray( TCHAR* pTextureFileNames[], UINT NumTextures, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSRVView );

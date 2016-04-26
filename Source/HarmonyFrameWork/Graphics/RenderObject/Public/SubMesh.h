@@ -60,8 +60,14 @@ public:
 
 
 	// Access the Material
-	const std::shared_ptr<Material>& GetMaterial(void) const	{ return(m_material);		};
-	void SetMaterial(const std::shared_ptr<Material>& material)	{ m_material = material;	};
+	const std::shared_ptr<Material>& GetMaterial(void) const
+	{
+		return(m_material);
+	};
+	void SetMaterial(const std::shared_ptr<Material>& material)
+	{
+		m_material = material;
+	};
 
 protected:
 	/** @brief	頂点バッファ. */
@@ -74,8 +80,14 @@ protected:
 	UINT m_indexCount;
 	HFGraphics::MeshData m_meshData;
 	// Access the RenderPriority
-	const DWORD& GetRenderPriority(void) const			{ return(m_renderPriority);				};
-	void SetRenderPriority(const DWORD& renderPriority)	{ m_renderPriority = renderPriority;	};
+	const DWORD& GetRenderPriority(void) const
+	{
+		return(m_renderPriority);
+	};
+	void SetRenderPriority(const DWORD& renderPriority)
+	{
+		m_renderPriority = renderPriority;
+	};
 
 public:
 

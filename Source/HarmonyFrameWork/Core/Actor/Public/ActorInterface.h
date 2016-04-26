@@ -11,9 +11,7 @@ class IActor
 	public inheritable_enable_shared_from_this<IActor>
 {
 protected:		
-	IActor()
-	{
-	};
+	IActor();
 public:
 	virtual ~IActor();		
 

@@ -20,11 +20,9 @@ using namespace std;
 
 bool CharactorActor::Init()
 {
-	if(IActor::Init())
-	{
-		shared_ptr<StaticMeshCompornent> staticMesh = make_shared<StaticMeshCompornent>();
-		RegisterCompornent(typeid(StaticMeshCompornent).name(), staticMesh);
-	}
+	shared_ptr<StaticMeshCompornent> staticMesh = make_shared<StaticMeshCompornent>();
+	RegisterCompornent(typeid(StaticMeshCompornent).name(), staticMesh);
+	
 	return true;
 }
 

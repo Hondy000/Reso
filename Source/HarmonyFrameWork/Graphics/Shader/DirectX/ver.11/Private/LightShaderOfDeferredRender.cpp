@@ -165,6 +165,8 @@ bool LightShaderOfDeferredRender::Render()
 	// Now render the prepared buffers with the shader.
 	HRESULT hr = m_cpPSClassLinkage->GetClassInstance(LPCSTR("g_SpotDeferred"), 0, m_cpClassInstance.GetAddressOf());
 
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	// ピクセルシェーダーを動的シェーダーリンクとして設定する
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShader(m_cpPixelShader.Get(), m_cpClassInstance.GetAddressOf(), 1);
 

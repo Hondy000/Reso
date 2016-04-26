@@ -4,7 +4,8 @@ class BaseRenderObject;
 
 enum BASIC_MESH_TYPE
 {
-	HF_BM_SPRITE,
+	HF_BM_SPRITE,			// 四角固定スプライト
+	HF_BM_RECTANGLE_SPRITE,	// 多角形スプライト
 	HF_BM_QUAD,
 	HF_BM_BOX,
 	HF_BM_SPHERE

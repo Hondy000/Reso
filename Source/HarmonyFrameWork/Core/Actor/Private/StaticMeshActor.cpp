@@ -43,7 +43,6 @@ StaticMeshActor::~StaticMeshActor()
 
 bool StaticMeshActor::Init()
 {
-	IActor::Init();
 	return true;
 }
 

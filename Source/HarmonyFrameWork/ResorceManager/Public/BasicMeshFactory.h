@@ -26,6 +26,7 @@ public:
 
 private:
 	std::shared_ptr<Mesh> CreateSprite();
+	std::shared_ptr<Mesh> CreateRectangleSprite(int rectCount);
 
 	std::shared_ptr<Mesh> CreateQuad(UINT partition1, UINT partition2);
 };

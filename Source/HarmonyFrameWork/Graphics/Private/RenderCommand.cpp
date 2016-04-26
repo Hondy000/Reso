@@ -22,6 +22,7 @@
 
 bool RenderCommand::Command()
 {
+	// 描画オブジェクトのIDからTransformを取得
 	sRENDER_DEVICE_MANAGER->SetTransform
 		(
 		&VariableManagersManager::GetInstance()->GetVariable<Transform>(m_renderObject->GetGlobalID(), "m_transform")->GetValue()->GetWorldTransform(),

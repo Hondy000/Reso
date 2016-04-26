@@ -13,7 +13,10 @@ public:
 	Material() {};
 	virtual ~Material() {};
 	// Access the MaterialShader
-	const std::shared_ptr<BaseShader>& GetMaterialShader(void) const			{ return(m_materialShader);				};
+	const std::shared_ptr<BaseShader>& GetMaterialShader(void) const
+	{
+		return(m_materialShader);
+	};
 	void SetMaterialShader(std::shared_ptr<BaseShader> materialShader)
 	{
 		m_materialShader = materialShader;

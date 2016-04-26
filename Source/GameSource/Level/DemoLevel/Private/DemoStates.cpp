@@ -10,6 +10,9 @@
 #include "../../../../HarmonyFrameWork/Core/Actor/Public/StaticMeshActor.h"
 #include "../../../../HarmonyFrameWork/Graphics/ParticleSystem/Public/BaseEmitter.h"
 #include "../../../../HarmonyFrameWork/Core/Actor/Public/CameraActor.h"
+#include "../../../../HarmonyFrameWork/Core/Actor/Public/LineActor.h"
+#include "..\..\..\..\HarmonyFrameWork\ResorceManager\Public\BasicMeshFactory.h"
+#include "..\..\..\..\HarmonyFrameWork\ResorceManager\Public\BasicMeshManager.h"
 
 using namespace std;
 
@@ -23,11 +26,30 @@ using namespace std;
 
 void DemoStartState::Enter( )
 {
-	shared_ptr<StaticMeshActor> player = make_shared<StaticMeshActor>();
-	player->LoadMesh("Resource/Mesh/Sphere.hfm");
-	TaskSystem::GetInstance()->RegisterTask("staticmesh",player);
-	player->Init();
+	shared_ptr<StaticMeshActor> mesh = make_shared<StaticMeshActor>();
+	shared_ptr<Mesh> spMesh = BasicMeshFactory::GetInstance()->Create(HF_BM_RECTANGLE_SPRITE, 6, 0, 0);
+	mesh->SetMesh(spMesh);
+	mesh->GetTransform()->SetScale(HFVECTOR3(100, 100, 0));
+	mesh->GetTransform()->SetPosition(HFVECTOR3(100, 300, 2000));
+	shared_ptr<LineActor> lineRenderer = make_shared<LineActor>();
+	TaskSystem::GetInstance()->RegisterTask("lineRenderer",lineRenderer);
+	
+	HFGraphics::LineData lineData;
+	for (int i = 0;i<60;i++)
+	{
+		lineData.positions.push_back(HFVECTOR3(i * 10 - 300, 0, -300));
+		lineData.positions.push_back(HFVECTOR3(i * 10 - 300, 0, 300));
+	}
+
+	for (int i = 0; i < 60; i++)
+	{
+		lineData.positions.push_back(HFVECTOR3(-300, 0, i * 10 - 300));
+		lineData.positions.push_back(HFVECTOR3(300, 0, i * 10 - 300));
+	}
+	lineRenderer->AddLine(lineData);
+//	sTASK_SYSTEM->RegisterTask("rect", mesh);
 	shared_ptr<CameraActor>	camera = make_shared<CameraActor>(); 
+	//camera->SetIs2DCamera(true);
 	TaskSystem::GetInstance()->RegisterTask("camera", camera);
 
 	//shared_ptr<BaseEmitter>emitter = make_shared<BaseEmitter>();

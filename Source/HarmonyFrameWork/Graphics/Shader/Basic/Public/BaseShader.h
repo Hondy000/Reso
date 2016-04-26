@@ -106,8 +106,14 @@ public:
 	virtual bool PostProcessOfRender() = 0;
 
 	// Access the PathPriority
-	const DWORD& GetPathPriority(void) const		{ return(m_pathPriority);			};
-	void SetPathPriority(const DWORD& pathPriority)	{ m_pathPriority = pathPriority;	};
+	const DWORD& GetPathPriority(void) const
+	{
+		return(m_pathPriority);
+	};
+	void SetPathPriority(const DWORD& pathPriority)
+	{
+		m_pathPriority = pathPriority;
+	};
 
 protected:
 	/** @brief	å≈íËbufferêî. */

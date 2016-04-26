@@ -7,13 +7,16 @@
 #pragma once
 #include "..\..\..\HarmonyFrameWork\Graphics\ParticleSystem\Public\BaseParticle.h"
 
-/**********************************************************************************************//**
- * @class	IBaseBullet IBaseBullet.h Source\GameSource\Weapon\Public\IBaseBullet.h
+
+/**=================================================================================================
+ * @class IBaseBullet IBaseBullet.h Source\GameSource\Weapon\Public\IBaseBullet.h
  *
- * @brief	A base bullet.
+ * @brief A base bullet.
  *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
+ * @author Kazuyuki
+ *
+ * @sa IBaseParticle
+ *===============================================================================================**/
 
 class IBaseBullet
 	:
@@ -25,4 +28,6 @@ public:
 
 private:
 
-};  /*!< . */
+};  
+
+///< .
