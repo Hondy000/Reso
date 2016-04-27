@@ -5,7 +5,7 @@
  **************************************************************************************************/
 
 #include "../Public/EnemyActor.h"
-#include "../Public/EnemyStates.h"
+#include "../Public/Level1EnemyStates.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ using namespace std;
 bool EnemyActor::Init()
 {
 	CharactorActor::Init();
-	std::shared_ptr<IState> beingState = make_shared<BasicEnemyAliveBeingState>();
+	std::shared_ptr<IState> beingState = make_shared<Level1EnemyAliveBeingState>();
 	RegisterState(beingState,shared_from_this());
 	return true;
 }

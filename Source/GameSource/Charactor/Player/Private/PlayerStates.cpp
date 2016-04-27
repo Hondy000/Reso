@@ -36,6 +36,7 @@ using namespace std;
  *===============================================================================================**/
 
 #define GET_PLAYER_ACTOR (std::dynamic_pointer_cast<PlayerActor>(m_wpTask.lock()))
+#define GET_PLAYER_MESH (std::dynamic_pointer_cast<PlayerActor>(m_wpTask.lock())->GetCompornet())
 
 /**********************************************************************************************//**
  * @fn	void PlayerAliveBeingState::Enter()

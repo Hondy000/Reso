@@ -21,6 +21,11 @@ public:
 	const bool IsChange()const
 	{
 		return m_isChangeState;
+	}
+
+	bool IsEndState()
+	{
+		return m_isEndState;
 	};
 	virtual void Exit() = 0;
 
@@ -37,5 +42,6 @@ public:
 
 protected:
 	bool m_isChangeState;
+	bool m_isEndState;
 	std::weak_ptr<IBaseTask> m_wpTask;
 };

@@ -67,6 +67,7 @@ bool BaseCamera::Init(void)
 	m_rotation.x = (0);
 	m_rotation.y = (0);
 	m_rotation.z = (0);
+	m_is2DCamera = false;
 	return true;
 }
 
@@ -159,7 +160,7 @@ void BaseCamera::UpdateViewMatrix()
 		// オブジェクトがセットされている	
 		if (typeid(m_wpViewObject.lock()).before(typeid(IActor)))
 		{
-			lookAt =
+			m_viewVector =
 				
 				std::dynamic_pointer_cast<IActor>(m_wpViewObject.lock())->GetTransform()->GetPosition()
 				;
@@ -167,7 +168,7 @@ void BaseCamera::UpdateViewMatrix()
 		else
 		{
 
-			lookAt =
+			m_viewVector =
 
 				std::dynamic_pointer_cast<IActor>(m_wpViewObject.lock())->GetTransform()->GetPosition()
 				
@@ -175,7 +176,7 @@ void BaseCamera::UpdateViewMatrix()
 		}
 	}
 
-	HFMatrixLookAtLH(&view, &m_cameraPosition, &lookAt, &m_upVector);
+	HFMatrixLookAtLH(&view, &m_cameraPosition, &m_viewVector, &m_upVector);
 
 	sRENDER_DEVICE_MANAGER->SetTransform(&view, HFTS_VIEW);
 

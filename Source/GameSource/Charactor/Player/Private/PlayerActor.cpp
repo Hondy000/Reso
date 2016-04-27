@@ -33,6 +33,7 @@ bool PlayerActor::Init()
 	cameraCompornent->SetFollowObject(shared_from_this());
 	cameraCompornent->SetViewObject(shared_from_this());
 
+	
 	auto it = m_compornentMap.find(typeid(StaticMeshCompornent).name());
 	if(it != m_compornentMap.end())
 	{

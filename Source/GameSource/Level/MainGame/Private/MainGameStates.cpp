@@ -11,6 +11,9 @@
 #include "../../../Charactor/Enemy/Public/EnemyActor.h"
 #include "../Public/MainGame.h"
 #include "..\..\..\..\HarmonyFrameWork\Core\Actor\Public\StaticMeshActor.h"
+#include "..\..\..\Charactor\Enemy\Public\Level1EnemyStates.h"
+#include "..\..\..\Charactor\Enemy\Public\MineState.h"
+#include "..\..\..\..\HarmonyFrameWork\Core\Public\ReflectionSystem.h"
 
 using namespace std;
 
@@ -24,6 +27,16 @@ using namespace std;
 
 void MainGameStartState::Enter()
 {
+	// register reflection
+	REGISTER_TYPE(PlayerActor);
+	REGISTER_TYPE(EnemyActor);
+	REGISTER_TYPE(Level1EnemyAliveBeingState);
+	REGISTER_TYPE(MineUnBootState);
+
+
+	//
+
+
 	shared_ptr<PlayerActor> player = make_shared<PlayerActor>();
 	TaskSystem::GetInstance()->RegisterTask("palyer", player);
 	m_wpTask.lock()->RegisterVariable("palyer", player);

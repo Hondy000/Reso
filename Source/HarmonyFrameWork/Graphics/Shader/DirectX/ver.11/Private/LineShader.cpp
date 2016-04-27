@@ -50,6 +50,7 @@ bool LineShader::Setup()
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;
+	HRESULT hr = E_FAIL;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[1];
 	UINT numElements;
 	m_constantBuffers.push_back(std::shared_ptr<ConstantBuffer>(new ConstantBuffer));
@@ -82,9 +83,13 @@ bool LineShader::Setup()
 		"ps_4_0"
 		,false);
 
-	result = m_constantBuffers[0]->SetData(NULL, sizeof(MatrixBufferType), 1,BaseBuffer::ACCESS_FLAG::WRITEONLY);
+	hr = m_constantBuffers[0]->SetData(NULL, sizeof(MatrixBufferType), 1,BaseBuffer::ACCESS_FLAG::WRITEONLY);
 
 
+	if (SUCCEEDED(hr))
+	{
+		result = true;
+	}
 	return result;
 }
 
@@ -198,6 +203,6 @@ bool LineShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetIndexBuffer(shape->GetIndexBuffer()->Get(), DXGI_FORMAT_R32_UINT, 0);
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 	m_indexCount = shape->GetIndexCount();
-	//sRENDER_DEVICE_MANAGER->SetBackBufferRenderTarget();
+	sRENDER_DEVICE_MANAGER->SetBackBufferRenderTarget();
 	return true;
 }

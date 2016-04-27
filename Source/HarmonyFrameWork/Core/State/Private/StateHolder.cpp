@@ -45,16 +45,28 @@ IStateHolder::~IStateHolder()
 
 void IStateHolder::UpdateState(std::shared_ptr<IBaseTask> actor)
 {
-	for (auto it = m_stateList.begin(); it != m_stateList.end(); it++)
+	for (auto it = m_stateList.begin(); it != m_stateList.end();)
 	{
+		// check change state
 		if ((*it)->IsChange())
 		{
+			// enter process of this state
 			(*it)->Exit();
 			*it = (*it)->GetNewState();
 			(*it)->SetWpTask(actor);
+			// enter process of next state
 			(*it)->Enter();
 		}
+		// check end state
+		if ((*it)->IsEndState())
+		{
+			it = m_stateList.erase(it);
+			continue;
+		}
+
+		// update
 		(*it)->Execute();
+		it++;
 	}
 };
 

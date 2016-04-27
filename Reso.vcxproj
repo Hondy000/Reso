@@ -22,7 +22,9 @@
     <ClInclude Include="Source\GameSource\Charactor\Enemy\Private\EnemyManager.h" />
     <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyActor.h" />
     <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyManager.h" />
-    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyStates.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\Level1EnemyStates.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\Level2EnemyState.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\MineState.h" />
     <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerActor.h" />
     <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerStates.h" />
     <ClInclude Include="Source\GameSource\Charactor\Public\CharactorActor.h" />
@@ -140,7 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\EnemyActor.cpp" />
-    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\EnemyStates.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\Level1EnemyStates.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\Level2EnemyState.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\MineState.cpp" />
     <ClCompile Include="Source\GameSource\Charactor\Player\Private\PlayerActor.cpp" />
     <ClCompile Include="Source\GameSource\Charactor\Player\Private\PlayerStates.cpp" />
     <ClCompile Include="Source\GameSource\Charactor\Private\CharactorActor.cpp" />

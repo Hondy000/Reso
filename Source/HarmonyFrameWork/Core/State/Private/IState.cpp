@@ -15,7 +15,7 @@
  **************************************************************************************************/
 
 IState::IState()
-	:m_isChangeState(false)
+	:m_isChangeState(false),m_isEndState(false)
 {
 
 }

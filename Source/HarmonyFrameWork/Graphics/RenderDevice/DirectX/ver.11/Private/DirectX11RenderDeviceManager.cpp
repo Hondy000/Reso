@@ -951,7 +951,7 @@ bool DirectX11RenderDeviceManager::CreateBuffer(
 	D3D11_BIND_FLAG BindFlag
 	)
 {
-	bool hr = false;
+	HRESULT hr = E_FAIL;
 
 	// バッファー リソース。
 	// D3D11_BUFFER_DESC
@@ -999,13 +999,16 @@ bool DirectX11RenderDeviceManager::CreateBuffer(
 	// バッファを作成する
 	// ID3D11Device::CreateBuffer
 	hr = m_cpD3DDevice->CreateBuffer(&BufferDesc, resource, pBuffer.GetAddressOf());
-	if (FAILED(hr)) goto EXIT;
 
-	hr = true;
-
-EXIT:
 	SAFE_DELETE(resource);
-	return hr;
+	if (SUCCEEDED(hr))
+	{
+		return true;
+	} 
+	else
+	{
+		return false;
+	}
 }
 
 /**********************************************************************************************//**

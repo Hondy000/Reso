@@ -12,6 +12,7 @@
 #include "..\..\Public\GraphicsTypes.h"
 #include "..\..\Buffer\Public\VertexBuffer.h"
 #include "..\..\Shader\DirectX\ver.11\Public\LineShader.h"
+#include "..\..\Buffer\Public\IndexBuffer.h"
 
 using namespace std;
 
@@ -136,7 +137,20 @@ bool LineObject::AddLine(HFGraphics::LineData& addLine)
 		material->SetMaterialShader(make_shared<LineShader>());
 		material->GetMaterialShader()->Setup();
 		m_mesh->GetSubMeshArray()[addElem]->SetMaterial(material);
-		return true;
+		m_mesh->GetSubMeshArray()[addElem]->GetVertexBuffers().push_back(positionBuffer);
+		// index
+		std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>();
+		std::vector<UINT> indexVector;
+		for (int i = 0;i < addLine.positions.size()*0.5;i++)
+		{
+			indexVector.push_back(i*2);
+			indexVector.push_back(i*2+1);
+		}
+		if(indexBuffer->SetData(indexVector.data(), sizeof(UINT), indexVector.size(), BaseBuffer::ACCESS_FLAG::WRITEONLY))
+		{
+			m_mesh->GetSubMeshArray()[addElem]->SetIndexBuffer(indexBuffer);
+			return true;
+		}
 	}
 	return false;
 }

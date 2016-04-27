@@ -49,6 +49,7 @@ void DemoStartState::Enter( )
 	lineRenderer->AddLine(lineData);
 //	sTASK_SYSTEM->RegisterTask("rect", mesh);
 	shared_ptr<CameraActor>	camera = make_shared<CameraActor>(); 
+	camera->SetCameraPosition(HFVECTOR3(0, 50, -50));
 	//camera->SetIs2DCamera(true);
 	TaskSystem::GetInstance()->RegisterTask("camera", camera);
 

@@ -4,8 +4,9 @@
  * @brief	Implements the enemy states class.
  **************************************************************************************************/
 
-#include "../Public/EnemyStates.h"
+#include "../Public/Level1EnemyStates.h"
 #include "../Public/EnemyActor.h"
+#include "..\..\..\..\HarmonyFrameWork\Core\Task\Public\TaskSystem.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ using namespace std;
 
 #define CAST_ENEMY_ACTOR(task) (dynamic_pointer_cast<EnemyActor>(task))
 
+
 /**********************************************************************************************//**
  * @fn	void BasicEnemyAliveBeingState::Enter()
  *
@@ -29,13 +31,14 @@ using namespace std;
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyAliveBeingState::Enter()
+void Level1EnemyAliveBeingState::Enter()
 {
 	CAST_STATIC_MESH_COMPORNENT(
-		CAST_ENEMY_ACTOR(m_wpTask.lock())->GetCompornent(typeid(StaticMeshCompornent).name()))->LoadMesh("Resource/Mesh/Sphere.hfm");
-	RegisterState(std::make_shared<BasicEnemyWaitActionState>(), m_wpTask.lock());
-	RegisterState(std::make_shared<BasicEnemyWaitMoveState>(), m_wpTask.lock());
+		CAST_ENEMY_ACTOR(m_wpTask.lock())->GetCompornent(typeid(StaticMeshCompornent).name()))->LoadMesh("Resource/Mesh/Level1Enenmy.hfm");
+	RegisterState(std::make_shared<Level1EnemyWaitMoveState>(), m_wpTask.lock());
 	(m_wpTask.lock())->RegisterVariable("hitpoint", 100.0f);
+	GET_TASK_VAR(m_wpTask.lock(), HFVECTOR3, "m_playerPosition")
+		= std::dynamic_pointer_cast<IActor>(sTASK_SYSTEM->SearchByTaskName("player"))->GetTransform()->GetPosition();
 }
 
 /**********************************************************************************************//**
@@ -46,9 +49,13 @@ void BasicEnemyAliveBeingState::Enter()
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyAliveBeingState::Execute()
+void Level1EnemyAliveBeingState::Execute()
 {
 	UpdateState(m_wpTask.lock());
+	// player position update
+	GET_TASK_VAR(m_wpTask.lock(), HFVECTOR3, "m_playerPosition")
+		= std::dynamic_pointer_cast<IActor>(sTASK_SYSTEM->SearchByTaskName("player"))->GetTransform()->GetPosition();
+
 	if(m_wpTask.lock()->GetVariable<FLOAT>("hitpoint")->GetValue() <= 0)
 	{
 		m_isChangeState = true;
@@ -65,7 +72,7 @@ void BasicEnemyAliveBeingState::Execute()
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyAliveBeingState::Exit()
+void Level1EnemyAliveBeingState::Exit()
 {
 
 }
@@ -80,9 +87,9 @@ void BasicEnemyAliveBeingState::Exit()
  * @return	The new state.
  **************************************************************************************************/
 
-std::shared_ptr<IState> BasicEnemyAliveBeingState::GetNewState(void)
+std::shared_ptr<IState> Level1EnemyAliveBeingState::GetNewState(void)
 {
-	return std::make_shared<BasicEnemyDeadBeingState>();
+	return std::make_shared<Level1EnemyDeadBeingState>();
 }
 
 /**********************************************************************************************//**
@@ -93,7 +100,7 @@ std::shared_ptr<IState> BasicEnemyAliveBeingState::GetNewState(void)
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyDeadBeingState::Enter()
+void Level1EnemyDeadBeingState::Enter()
 {
 
 }
@@ -106,7 +113,7 @@ void BasicEnemyDeadBeingState::Enter()
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyDeadBeingState::Execute()
+void Level1EnemyDeadBeingState::Execute()
 {
 
 }
@@ -119,7 +126,7 @@ void BasicEnemyDeadBeingState::Execute()
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyDeadBeingState::Exit()
+void Level1EnemyDeadBeingState::Exit()
 {
 
 }
@@ -134,64 +141,11 @@ void BasicEnemyDeadBeingState::Exit()
  * @return	The new state.
  **************************************************************************************************/
 
-std::shared_ptr<IState> BasicEnemyDeadBeingState::GetNewState(void)
+std::shared_ptr<IState> Level1EnemyDeadBeingState::GetNewState(void)
 {
-	return std::make_shared<BasicEnemyAliveBeingState>();
+	return std::make_shared<Level1EnemyDeadBeingState>();
 }
 
-/**********************************************************************************************//**
- * @fn	void BasicEnemyWaitActionState::Enter()
- *
- * @brief	í‚é~.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
-void BasicEnemyWaitActionState::Enter()
-{
-
-}
-
-/**********************************************************************************************//**
- * @fn	void BasicEnemyWaitActionState::Execute()
- *
- * @brief	Executes this object.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
-void BasicEnemyWaitActionState::Execute()
-{
-
-}
-
-/**********************************************************************************************//**
- * @fn	void BasicEnemyWaitActionState::Exit()
- *
- * @brief	Exits this object.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
-void BasicEnemyWaitActionState::Exit()
-{
-
-}
-
-/**********************************************************************************************//**
- * @fn	std::shared_ptr<IState> BasicEnemyWaitActionState::GetNewState(void)
- *
- * @brief	Gets new state.
- *
- * @author	Kazuyuki Honda
- *
- * @return	The new state.
- **************************************************************************************************/
-
-std::shared_ptr<IState> BasicEnemyWaitActionState::GetNewState(void)
-{
-	return std::make_shared<BasicEnemyWaitActionState>();
-}
 
 /**********************************************************************************************//**
  * @fn	void BasicEnemyWaitMoveState::Enter()
@@ -201,7 +155,7 @@ std::shared_ptr<IState> BasicEnemyWaitActionState::GetNewState(void)
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyWaitMoveState::Enter()
+void Level1EnemyWaitMoveState::Enter()
 {
 
 }
@@ -214,7 +168,7 @@ void BasicEnemyWaitMoveState::Enter()
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyWaitMoveState::Execute()
+void Level1EnemyWaitMoveState::Execute()
 {
 
 }
@@ -227,7 +181,7 @@ void BasicEnemyWaitMoveState::Execute()
  * @author	Kazuyuki Honda
  **************************************************************************************************/
 
-void BasicEnemyWaitMoveState::Exit()
+void Level1EnemyWaitMoveState::Exit()
 {
 
 }
@@ -242,61 +196,53 @@ void BasicEnemyWaitMoveState::Exit()
  * @return	The new state.
  **************************************************************************************************/
 
-std::shared_ptr<IState> BasicEnemyWaitMoveState::GetNewState(void)
+std::shared_ptr<IState> Level1EnemyWaitMoveState::GetNewState(void)
 {
-	return std::make_shared<BasicEnemyStraightMoveState>();
+	return std::make_shared<Level1EnemyMoveState>();
 }
 
-/**********************************************************************************************//**
- * @fn	void BasicEnemyStraightMoveState::Enter()
- *
- * @brief	Enters this object.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
-void BasicEnemyStraightMoveState::Enter()
+void Level1EnemyMoveState::Enter()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn	void BasicEnemyStraightMoveState::Execute()
- *
- * @brief	Executes this object.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
+void Level1EnemyMoveState::Execute()
+{
 
-void BasicEnemyStraightMoveState::Execute()
+	HFVECTOR3 direction = 
+	HFVec3Normalize(
+		GET_TASK_VAR(m_wpTask.lock(), HFVECTOR3, "m_playerPosition")
+		-
+		GET_TASK_VAR(m_wpTask.lock(), Transform, "m_transform").GetPosition()
+	);
+
+}
+
+void Level1EnemyMoveState::Exit()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn	void BasicEnemyStraightMoveState::Exit()
- *
- * @brief	Exits this object.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
+std::shared_ptr<IState> Level1EnemyMoveState::GetNewState(void)
+{
+	return std::make_shared<Level1EnemyWaitMoveState>();
+}
 
-void BasicEnemyStraightMoveState::Exit()
+void Level1EnemyArrivalState::Enter()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn	std::shared_ptr<IState> BasicEnemyStraightMoveState::GetNewState(void)
- *
- * @brief	Gets new state.
- *
- * @author	Kazuyuki Honda
- *
- * @return	The new state.
- **************************************************************************************************/
-
-std::shared_ptr<IState> BasicEnemyStraightMoveState::GetNewState(void)
+void Level1EnemyArrivalState::Execute()
 {
-	return std::make_shared<BasicEnemyWaitMoveState>();
+
+}
+void Level1EnemyArrivalState::Exit()
+{
+
+}
+
+std::shared_ptr<IState> Level1EnemyArrivalState::GetNewState(void)
+{
+	return std::make_shared<Level1EnemyArrivalState>();
 }
