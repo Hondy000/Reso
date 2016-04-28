@@ -13,3 +13,23 @@ bool BaseRenderObject::Render()
 	return true;
 }
 
+void BaseRenderObject::SetSubMeshMaterial(int submeshNum, std::shared_ptr<Material> material)
+{
+	m_mesh->GetSubMeshArray()[submeshNum]->SetMaterial(material);
+}
+
+const std::shared_ptr<Material>& BaseRenderObject::GetSubMeshMaterial(int submeshNum)
+{
+	return m_mesh->GetSubMeshArray()[submeshNum]->GetMaterial();
+}
+
+void BaseRenderObject::SetMaterialDiffuseTexture(int submeshNum, std::shared_ptr<IBaseTexture> texture)
+{
+	m_mesh->GetSubMeshArray()[submeshNum]->GetMaterial()->SetDiffuseTexture(texture);
+}
+
+const std::shared_ptr<IBaseTexture>& BaseRenderObject::GetMaterialDiffuseTexture(int submeshNum)
+{
+	return m_mesh->GetSubMeshArray()[submeshNum]->GetMaterial()->GetDiffuseTexture();
+}
+

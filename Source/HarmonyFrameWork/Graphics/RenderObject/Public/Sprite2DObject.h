@@ -7,8 +7,8 @@ class Sprite2DObject
 	public StaticMeshObject
 {
 public:
-	Sprite2DObject() {};
-	virtual ~Sprite2DObject() {};
+	Sprite2DObject();
+	virtual ~Sprite2DObject();
 
 	bool Init();
 

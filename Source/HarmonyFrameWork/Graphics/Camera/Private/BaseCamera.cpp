@@ -57,7 +57,7 @@ bool BaseCamera::Init(void)
 {
 	HRESULT hr = E_FAIL;
 	m_aspect = sRENDER_DEVICE_MANAGER->GetScreenSize().x / sRENDER_DEVICE_MANAGER->GetScreenSize().y;
-	m_cameraPosition = HFVECTOR3(0.0f, 10.0f, 20.0f);
+	m_cameraPosition = HFVECTOR3(0.0f, 0.0f, 20.0f);
 	m_farClip = 10000.0f;
 	m_nearClip = 0.1f;
 	m_upVector = HFVECTOR3(0.0f, 1.0f, 0.0f);
@@ -175,10 +175,12 @@ void BaseCamera::UpdateViewMatrix()
 				;
 		}
 	}
+	if (!GetIs2DCamera())
+	{
+		HFMatrixLookAtLH(&view, &m_cameraPosition, &m_viewVector, &m_upVector);
 
-	HFMatrixLookAtLH(&view, &m_cameraPosition, &m_viewVector, &m_upVector);
-
-	sRENDER_DEVICE_MANAGER->SetTransform(&view, HFTS_VIEW);
+		sRENDER_DEVICE_MANAGER->SetTransform(&view, HFTS_VIEW);
+	}
 
 }
 
@@ -220,9 +222,11 @@ void BaseCamera::UpdateProjectionMatrix()
 		HFMatrixOrthoOffCenterLH(
 			&proj,
 			m_cameraPosition.x,
-			-sRENDER_DEVICE_MANAGER->GetScreenSize().x + m_cameraPosition.x,
+			sRENDER_DEVICE_MANAGER->GetScreenSize().x + m_cameraPosition.x,
+			
 			m_cameraPosition.y,
-			-sRENDER_DEVICE_MANAGER->GetScreenSize().y + m_cameraPosition.y,
+			sRENDER_DEVICE_MANAGER->GetScreenSize().y + m_cameraPosition.y,
+		 
 			0.1,
 			10000);
 		sRENDER_DEVICE_MANAGER->SetTransform(&proj, HFTS_ORTHOGONAL);

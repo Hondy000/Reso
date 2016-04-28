@@ -7,7 +7,8 @@ namespace HFGraphics{
 }
 
 class Mesh;
-
+class Material;
+class IBaseTexture;
 
 class BaseRenderObject
 	:
@@ -46,6 +47,12 @@ public:
 	{
 		m_mesh = mesh;
 	};
+
+	void SetSubMeshMaterial(int submeshNum, std::shared_ptr<Material> material);
+	const std::shared_ptr<Material>& GetSubMeshMaterial(int submeshNum);
+
+	void SetMaterialDiffuseTexture(int submeshNum,std::shared_ptr<IBaseTexture> texture);
+	const std::shared_ptr<IBaseTexture>& GetMaterialDiffuseTexture(int submeshNum);
 
 protected:
 	std::shared_ptr<Mesh> m_mesh;

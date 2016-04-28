@@ -1,19 +1,19 @@
-﻿
-#include "../Public/DefaultSpriteShader.h"
+
+#include "../Public/MonotoneTextureShader.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 
 using namespace std;
 
-DefaultSpriteShader::DefaultSpriteShader()
+MonotoneTextureShader::MonotoneTextureShader()
 {
-	DefaultSpriteShader::Setup();
+	MonotoneTextureShader::Setup();
 }
 
-DefaultSpriteShader::~DefaultSpriteShader()
+MonotoneTextureShader::~MonotoneTextureShader()
 {
 }
 
-bool DefaultSpriteShader::Setup()
+bool MonotoneTextureShader::Setup()
 {
 	m_pathPriority = HF_POST_DEFERRED_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
@@ -21,8 +21,8 @@ bool DefaultSpriteShader::Setup()
 	bool result;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
 	UINT numElements;
-	
-	
+
+
 	m_constantBuffers.push_back(std::shared_ptr<ConstantBuffer>(new ConstantBuffer));
 
 
@@ -47,12 +47,12 @@ bool DefaultSpriteShader::Setup()
 	numElements = sizeof(polygonLayout) / sizeof(polygonLayout[0]);
 
 	result = sRENDER_DEVICE_MANAGER->CreateVertexShaderFromFile
-		(
-			m_cpVertexShader,
-			_T("Resource/Shader/HLSL/Polygon2D.hlsl"),
-			"VS_Main",
-			"vs_4_0",m_spVertexLayout->GetMain(),polygonLayout, numElements
-			);
+	(
+		m_cpVertexShader,
+		_T("Resource/Shader/HLSL/MonotoneTextureShader.hlsl"),
+		"VS_Main",
+		"vs_4_0", m_spVertexLayout->GetMain(), polygonLayout, numElements
+	);
 
 
 	if (FAILED(result))
@@ -61,13 +61,13 @@ bool DefaultSpriteShader::Setup()
 	}
 
 	result = sRENDER_DEVICE_MANAGER->CreatePixelShaderFromFile
-		(
-			m_cpPixelShader, m_cpPSClassLinkage,
-			_T("Resource/Shader/HLSL/Polygon2D.hlsl"),
-			"PS_Main"
-			,
-			"ps_4_0",
-			false);
+	(
+		m_cpPixelShader, m_cpPSClassLinkage,
+		_T("Resource/Shader/HLSL/MonotoneTextureShader.hlsl"),
+		"PS_Main"
+		,
+		"ps_4_0",
+		false);
 
 
 	if ((!result))
@@ -76,7 +76,7 @@ bool DefaultSpriteShader::Setup()
 	}
 
 	result = sRENDER_DEVICE_MANAGER->CreateSamplerState(m_cpSamplerState, D3D11_FILTER_MIN_MAG_MIP_LINEAR, 1);
-	
+
 	if ((!result))
 	{
 		return false;
@@ -90,23 +90,23 @@ bool DefaultSpriteShader::Setup()
 	return result;
 }
 
-void DefaultSpriteShader::Destroy()
+void MonotoneTextureShader::Destroy()
 {
 }
 
-bool DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+bool MonotoneTextureShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
 {
 	HRESULT hr;
 	hr = E_FAIL;
 
 	vector<shared_ptr<VertexBuffer>> vertexBuffers;
-	DWORD semantics[2]=
+	DWORD semantics[2] =
 	{
 		HF_SEMANTICS_POSITION,
 		HF_SEMANTICS_TEXCOORD0
 	};
 
-	UINT stride[2] = 
+	UINT stride[2] =
 	{
 		sizeof(HFVECTOR3),
 		sizeof(HFVECTOR2)
@@ -121,33 +121,34 @@ bool DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std
 	HFMATRIX scale, trans, d3dmMatrixPos;
 	sRENDER_DEVICE_MANAGER->GetTransform(&world, HFTS_WORLD);
 	sRENDER_DEVICE_MANAGER->GetTransform(&view, HFTS_WORLD);
-	sRENDER_DEVICE_MANAGER->GetTransform(&ortho, HFTS_ORTHOGONAL);		
+	sRENDER_DEVICE_MANAGER->GetTransform(&ortho, HFTS_ORTHOGONAL);
 	HFMatrixLookAtLH(&view, &HFVECTOR3(0, 0, -10), &HFVECTOR3(0, 0, 0), &HFVECTOR3(0, -1, 0));
 
 	HFMatrixTranslation(&d3dmMatrixPos, -sRENDER_DEVICE_MANAGER->GetScreenSize().x*0.5, sRENDER_DEVICE_MANAGER->GetScreenSize().y * 0.5, 0.0f);
-	
+
+
 
 	HFMATRIX wvp;
 	//D3DXMatrixMultiply(&ortho, &d3dmMatrixPos, &ortho);
 
 	wvp = world * view * ortho;
 	wvp = HFMatrixTranspose(wvp);
-	m_constantBuffers[0]->SetData(&wvp,sizeof(HFMATRIX),1,BaseBuffer::ACCESS_FLAG::WRITEONLY);
+	m_constantBuffers[0]->SetData(&wvp, sizeof(HFMATRIX), 1, BaseBuffer::ACCESS_FLAG::WRITEONLY);
 
 
-	shape->GetVertexBuffers(2,semantics,vertexBuffers);
-	sRENDER_DEVICE_MANAGER->SetIndexBuffer(shape->GetIndexBuffer(),0);
-	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0,2,vertexBuffers,stride,offset);
+	shape->GetVertexBuffers(2, semantics, vertexBuffers);
+	sRENDER_DEVICE_MANAGER->SetIndexBuffer(shape->GetIndexBuffer(), 0);
+	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0, 2, vertexBuffers, stride, offset);
 	sRENDER_DEVICE_MANAGER->SetConstantBuffers(HF_D3D11_VERTEX_SHADER, 0, 1, m_constantBuffers);
-	
-	
-	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 1, materials->GetDiffuseTexture()->GetSharderResorceView().GetAddressOf());
 
+
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 1, materials->GetDiffuseTexture()->GetSharderResorceView().GetAddressOf());
+	sRENDER_DEVICE_MANAGER->SetBackBufferRenderTarget();
 	return hr;
 }
 
 
-bool DefaultSpriteShader::Render()
+bool MonotoneTextureShader::Render()
 {
 	HRESULT hr;
 	hr = E_FAIL;
@@ -163,7 +164,7 @@ bool DefaultSpriteShader::Render()
 	return hr;
 }
 
-bool DefaultSpriteShader::PostProcessOfRender()
+bool MonotoneTextureShader::PostProcessOfRender()
 {
 	HRESULT hr;
 	hr = E_FAIL;

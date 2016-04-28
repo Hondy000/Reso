@@ -40,6 +40,8 @@
     <ClInclude Include="Source\GameSource\Level\TestLevel\Public\TestLevel.h" />
     <ClInclude Include="Source\GameSource\Level\Title\Public\Title.h" />
     <ClInclude Include="Source\GameSource\Level\Title\Public\TitleStates.h" />
+    <ClInclude Include="Source\GameSource\Level\VFXViewLevel\Public\VFXViewLevelStates.h" />
+    <ClInclude Include="Source\GameSource\Level\VFXViewLevel\Public\VFXViewLevel.h" />
     <ClInclude Include="Source\GameSource\Weapon\Public\GeneralWeaponState.h" />
     <ClInclude Include="Source\GameSource\Weapon\Public\IBaseBullet.h" />
     <ClInclude Include="Source\GameSource\Weapon\Public\MachineGun.h" />
@@ -108,6 +110,8 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DX11BaseShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LightShaderOfDeferredRender.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LineShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SimplePolygon3DShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseShaderResourceView.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseTexture2D.h" />
@@ -135,6 +139,7 @@
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\Texture2DManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Reader\Public\ACTReader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Reader\Public\HFMReader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Reader\Public\PMXReader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\InlineUtility.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\HFString.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\StringUtility.h" />
@@ -159,6 +164,8 @@
     <ClCompile Include="Source\GameSource\Level\TestLevel\Private\TestLevel.cpp" />
     <ClCompile Include="Source\GameSource\Level\Title\Private\Title.cpp" />
     <ClCompile Include="Source\GameSource\Level\Title\Private\TitleStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\VFXViewLevel\Private\VFXViewLevelStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\VFXViewLevel\Private\VFXViewLevel.cpp" />
     <ClCompile Include="Source\GameSource\Weapon\Private\GeneralWeaponState.cpp" />
     <ClCompile Include="Source\GameSource\Weapon\Private\IBaseBullet.cpp" />
     <ClCompile Include="Source\GameSource\Weapon\Private\IBaseWeapon.cpp" />
@@ -216,6 +223,8 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DX11BaseShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LightShaderOfDeferredRender.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LineShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\MonotoneTextureShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SepiaTextureShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SimplePolygon3DShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\VertexLayout\Private\BaseVertexLayout.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Input\Private\DirectInput.cpp" />
@@ -237,6 +246,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\Texture2DManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\ACTReader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\HFMReader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\PMXReader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\Time.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
