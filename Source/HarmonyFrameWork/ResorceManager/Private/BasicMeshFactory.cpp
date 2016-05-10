@@ -7,6 +7,7 @@
 #include "../../Graphics/RenderObject/Public/Sprite2DObject.h"
 #include "..\..\Graphics\Shader\DirectX\ver.11\Public\DefaultSpriteShader.h"
 #include "..\..\Graphics\Shader\DirectX\ver.11\Public\ColorVertexSpriteShader.h"
+#include "..\..\Graphics\Shader\DirectX\ver.11\Public\SimplePolygon3DShader.h"
 
 using namespace std;
 
@@ -118,7 +119,7 @@ shared_ptr<Mesh> BasicMeshFactory::CreateSprite()
 
 shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 {
-	shared_ptr<Mesh> staticMesh;
+	shared_ptr<Mesh> staticMesh = make_shared<Mesh>();
 	staticMesh->GetSubMeshArray().resize(1);
 	staticMesh->GetSubMeshArray()[CREATE_ELEMENT] = make_shared<SubMesh>();
 
@@ -139,7 +140,7 @@ shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 	positionArray[2] = HFVECTOR3(-1, -1, 0);
 	positionArray[3] = HFVECTOR3( 1, -1, 0);
 
-	if(SUCCEEDED(!staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetData(positionArray.data(), sizeof(HFVECTOR3), positionArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
+	if((!staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetData(positionArray.data(), sizeof(HFVECTOR3), positionArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
 	{
 		return nullptr;
 	}
@@ -151,12 +152,30 @@ shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 	uvArray[2] = HFVECTOR2(-1, -1);
 	uvArray[3] = HFVECTOR2( 1, -1);
 
-	if(SUCCEEDED(!staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetData(uvArray.data(), sizeof(HFVECTOR2), uvArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
+	if((!staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetData(uvArray.data(), sizeof(HFVECTOR2), uvArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
+	{
+		return nullptr;
+	}
+	shared_ptr<Material> spMaterial = make_shared<Material>();
+	spMaterial->SetMaterialShader(std::make_shared<SimplePolygon3DShader>());
+	spMaterial->GetMaterialShader()->Setup();
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->SetMaterial(spMaterial);
+
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->SetIndexBuffer(std::make_shared<IndexBuffer>());
+
+	UINT index[6] =
+	{
+		0,1,2,2,1,3
+	};
+
+	if (!(staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetIndexBuffer()->SetData(index, sizeof(UINT), 6, IndexBuffer::ACCESS_FLAG::WRITEONLY)))
 	{
 		return nullptr;
 	}
 	return staticMesh;
 }
+
+
 
 std::shared_ptr<Mesh> BasicMeshFactory::CreateRectangleSprite(int rectCount)
 {

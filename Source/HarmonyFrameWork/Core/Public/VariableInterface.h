@@ -186,7 +186,7 @@ public:
 	{
 		Assignment(this->shared_from_this(), var.shared_from_this());
 	}
-
+	*/
 	// Access the VariableType
 	VariableType GetVariableType(void) const
 	{
@@ -197,7 +197,7 @@ public:
 		m_variableType = variableType;
 	};
 
-					 */
+					 
 	
 
 protected:

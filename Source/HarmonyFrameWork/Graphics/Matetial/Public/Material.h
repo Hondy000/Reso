@@ -10,7 +10,9 @@ class Material
 	public IBaseObject
 {
 public:
-	Material() {};
+	Material() {}
+
+	bool LoadDiffuseTexture2D(HFString texturePath);
 	virtual ~Material() {};
 	// Access the MaterialShader
 	const std::shared_ptr<BaseShader>& GetMaterialShader(void) const
@@ -53,3 +55,4 @@ protected:
 	HFVECTOR4 specular;
 
 };
+

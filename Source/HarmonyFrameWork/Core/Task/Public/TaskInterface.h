@@ -6,16 +6,47 @@
 
 #pragma once
 #include "../../Public/IBaseObject.h"
-#include "../../Public/VariableManager.h"
+#include "../../Public/VariableManager.h"	
 
-/**********************************************************************************************//**
- * @class	IBaseTask TaskInterface.h Source\HarmonyFrameWork\Core\Task\Public\TaskInterface.h
+/**=================================================================================================
+ * @def GET_TASK_VAR_PTR(spTask,typeName,varName) (spTask->GetVariable<typeName>(varName)-
+ * >GetValue())
  *
- * @brief	タスクインターフェース(ジョブだかアクターだかゲームオブジェクトに当たる奴)
- * @brief	細かい仕事を行う.
+ * @brief A macro that defines get task variable pointer.
  *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
+ * @author Kazuyuki
+ *
+ * @param spTask   The sp task.
+ * @param typeName Name of the type.
+ * @param varName  Name of the variable.
+ *===============================================================================================**/
+
+#define GET_TASK_VAR_PTR(spTask,typeName,varName)  (spTask->GetVariable<typeName>(varName)->GetValue())
+
+/**=================================================================================================
+ * @def GET_TASK_VAR(spTask,typeName,varName) (*(spTask->GetVariable<typeName>(varName)-
+ * >GetValue()))
+ *
+ * @brief A macro that defines get task variable.
+ *
+ * @author Kazuyuki
+ *
+ * @param spTask   The sp task.
+ * @param typeName Name of the type.
+ * @param varName  Name of the variable.
+ *===============================================================================================**/
+
+#define GET_TASK_VAR(spTask,typeName,varName)  (*(spTask->GetVariable<typeName>(varName)->GetValue()))
+
+/**=================================================================================================
+ * @class IBaseTask TaskInterface.h Source\HarmonyFrameWork\Core\Task\Public\TaskInterface.h
+ *
+ * @brief A base task.
+ *
+ * @author Kazuyuki
+ *
+ * @sa IBaseObject
+ *===============================================================================================**/
 
 class IBaseTask
 	:
@@ -23,184 +54,224 @@ class IBaseTask
 {
 public:
 
-	/**********************************************************************************************//**
-	 * @typedef	size_t PRIORITY
+	/**=================================================================================================
+	 * @typedef size_t PRIORITY
 	 *
-	 * @brief	Defines an alias representing the priority.
-	 **************************************************************************************************/
+	 * @brief Defines an alias representing the priority.
+	 *===============================================================================================**/
 
 	typedef size_t PRIORITY;
 
 
+
 protected:
+
+
 	IBaseTask()
 		:
+
+		/**=================================================================================================
+		 * @fn m_isUsage(true),m_isDestroy(false)
+		 *
+		 * @brief Initializes a new instance of the TaskInterface class.
+		 *
+		 * @author Kazuyuki
+		 *
+		 * @param parameter1 The first parameter.
+		 *===============================================================================================**/
+
 		m_isUsage(true),m_isDestroy(false)
 	{
 		Init();
 	};
-	bool m_isUsage; /*!< タスク有効フラグ（trueでないとタスクが働かないとします） */
-	bool m_isDestroy;   /*!< 消去フラグ */
-	PRIORITY m_updatePriority;  /*!< The update priority */
-	unsigned long m_taskId; /*!< Identifier for the task */
-	std::string m_name; /*!< The name */
-	std::unordered_map<std::string, std::shared_ptr<IVariable>> m_varMap;   /*!< The variable map */
+
+	/** @brief true if this object is usage. */
+
+	bool m_isUsage; 
+
+	/** @brief true if this object is destroy. */
+
+	bool m_isDestroy; 
+
+	/** @brief The update priority. */
+
+	PRIORITY m_updatePriority;  
+
+	/** @brief Identifier for the task. */
+
+	unsigned long m_taskId;
+
+	/** @brief The name. */
+
+	std::string m_name; 
+
+	/** @brief The variable map. */
+
+	std::unordered_map<std::string, std::shared_ptr<IVariable>> m_varMap;  
+
+	/** @brief The child task list. */
+	
+	std::list<std::shared_ptr<IBaseTask>>m_childTaskList;
+
 public:
 
-	/**********************************************************************************************//**
-	 * @class	TaskFactory TaskInterface.h Source\HarmonyFrameWork\Core\Task\Public\TaskInterface.h
+	/**=================================================================================================
+	 * @fn virtual ~IBaseTask();
 	 *
-	 * @brief	A task factory.
+	 * @brief Finalizes an instance of the TaskInterface class.
 	 *
-	 * @author	Kazuyuki Honda
-	 **************************************************************************************************/
+	 * @author Kazuyuki
+	 *===============================================================================================**/
 
-	friend class TaskFactory;
-	friend class ActorFactory;
-	virtual ~IBaseTask() {}
+	virtual ~IBaseTask();
+
+	/**=================================================================================================
+	 * @fn bool Init();
+	 *
+	 * @brief Initialises this object.
+	 *
+	 * @author Kazuyuki
+	 *
+	 * @return true if it succeeds, false if it fails.
+	 *===============================================================================================**/
 
 	bool Init();
 
-	/**********************************************************************************************//**
-	 * @fn	virtual bool Update() = 0;
+	/**=================================================================================================
+	 * @fn virtual bool Update() = 0;
 	 *
-	 * @brief	更新する.
+	 * @brief Updates this object.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @return	true if it succeeds, false if it fails.
-	 **************************************************************************************************/
+	 * @return true if it succeeds, false if it fails.
+	 *===============================================================================================**/
 
 	virtual bool Update() = 0;
 
-	/**********************************************************************************************//**
-	 * @fn	virtual void Reset() = 0;
+	/**=================================================================================================
+	 * @fn void UpdateChildTask();
 	 *
-	 * @brief	タスクの状態をリセットする.
+	 * @brief Updates the child task.
 	 *
-	 * @author	Kazuyuki Honda
-	 **************************************************************************************************/
+	 * @author Kazuyuki
+	 *===============================================================================================**/
+
+	void UpdateChildTask();
+
+	/**=================================================================================================
+	 * @fn virtual void Reset() = 0;
+	 *
+	 * @brief Resets this object.
+	 *
+	 * @author Kazuyuki
+	 *===============================================================================================**/
 
 	virtual void Reset() = 0;
 
-	/**********************************************************************************************//**
-	 * @fn	virtual bool LoadTaskData(const std::string& path);
+	/**=================================================================================================
+	 * @fn virtual bool LoadTaskData(const std::string& path);
 	 *
-	 * @brief	Loads task data.
+	 * @brief Loads task data.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @param	path	Full pathname of the file.
+	 * @param path Full pathname of the file.
 	 *
-	 * @return	true if it succeeds, false if it fails.
-	 **************************************************************************************************/
+	 * @return true if it succeeds, false if it fails.
+	 *===============================================================================================**/
 
 	virtual bool LoadTaskData(const std::string& path);
 
-	/**********************************************************************************************//**
-	 * @fn	bool CheckUsageFlag()
+	/**=================================================================================================
+	 * @fn bool CheckUsageFlag();
 	 *
-	 * @brief	現在の状態を取得する.
+	 * @brief Determines if we can check usage flag.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @return	true if it succeeds, false if it fails.
-	 **************************************************************************************************/
+	 * @return true if it succeeds, false if it fails.
+	 *===============================================================================================**/
 
-	bool CheckUsageFlag()
-	{
-		return m_isUsage;
-	}
+	bool CheckUsageFlag();
 
-	/**********************************************************************************************//**
-	 * @fn	bool CheckDestroy()
+	/**=================================================================================================
+	 * @fn bool CheckDestroy();
 	 *
-	 * @brief	Determines if we can check destroy.
+	 * @brief Determines if we can check destroy.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @return	true if it succeeds, false if it fails.
-	 **************************************************************************************************/
+	 * @return true if it succeeds, false if it fails.
+	 *===============================================================================================**/
 
-	bool CheckDestroy()
-	{
-		return m_isDestroy;
-	}
+	bool CheckDestroy();
 
-	/**********************************************************************************************//**
-	 * @fn	virtual bool AllowUpdate()
+	/**=================================================================================================
+	 * @fn virtual bool AllowUpdate();
 	 *
-	 * @brief	更新条件が揃っているかチェックする.
+	 * @brief Determine if we allow update.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @return	true if we allow update, false if not.
-	 **************************************************************************************************/
+	 * @return true if we allow update, false if not.
+	 *===============================================================================================**/
 
-	virtual bool AllowUpdate()
-	{
-		return true;
-	} 
+	virtual bool AllowUpdate();
 
-	/**********************************************************************************************//**
-	 * @fn	const PRIORITY& GetUpdatePriority(void) const
+	/**=================================================================================================
+	 * @fn const PRIORITY& GetUpdatePriority(void) const;
 	 *
-	 * @brief	Access the Priority.
+	 * @brief Gets update priority.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @return	The update priority.
-	 **************************************************************************************************/
+	 * @return The update priority.
+	 *===============================================================================================**/
 
-	const PRIORITY& GetUpdatePriority(void) const
-	{
-		return(m_updatePriority);
-	};
+	const PRIORITY& GetUpdatePriority(void) const;
 
-	/**********************************************************************************************//**
-	 * @fn	void SetUpdatePriority(const PRIORITY& priority)
+	/**=================================================================================================
+	 * @fn void SetUpdatePriority(const PRIORITY& priority);
 	 *
-	 * @brief	Sets update priority.
+	 * @brief Sets update priority.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @param	priority	The priority.
-	 **************************************************************************************************/
+	 * @param priority The priority.
+	 *===============================================================================================**/
 
-	void SetUpdatePriority(const PRIORITY& priority)
-	{
-		m_updatePriority = priority;
-	};
+	void SetUpdatePriority(const PRIORITY& priority);
 
-	/**********************************************************************************************//**
-	 * @fn	const unsigned long& GetTaskId(void) const
+	/**=================================================================================================
+	 * @fn const unsigned long& GetTaskId(void) const;
 	 *
-	 * @brief	Access the TaskId.
+	 * @brief Gets task identifier.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @return	The task identifier.
-	 **************************************************************************************************/
+	 * @return The task identifier.
+	 *===============================================================================================**/
 
-	const unsigned long& GetTaskId(void) const
-	{
-		return(m_taskId);
-	};
+	const unsigned long& GetTaskId(void) const;
 
-	/**********************************************************************************************//**
-	 * @fn	void SetTaskId(const unsigned long& taskId)
+	/**=================================================================================================
+	 * @fn void SetTaskId(const unsigned long& taskId);
 	 *
-	 * @brief	Sets task identifier.
+	 * @brief Sets task identifier.
 	 *
-	 * @author	Kazuyuki Honda
+	 * @author Kazuyuki
 	 *
-	 * @param	taskId	Identifier for the task.
-	 **************************************************************************************************/
+	 * @param taskId Identifier for the task.
+	 *===============================================================================================**/
 
-	void SetTaskId(const unsigned long& taskId)
-	{
-		m_taskId = taskId;
-	};
+	void SetTaskId(const unsigned long& taskId);
+
+
+	bool GetIsDestroy() const;
+
+	void SetIsDestroy(bool _val);
+
 
 	/**********************************************************************************************//**
 	 * @fn	const std::string& GetTaskName(void)const
@@ -212,10 +283,7 @@ public:
 	 * @return	The task name.
 	 **************************************************************************************************/
 
-	const std::string& GetTaskName(void)const
-	{
-		return m_name;
-	};
+	const std::string& GetTaskName(void)const;
 
 	/**********************************************************************************************//**
 	 * @fn	void SetTaskName(const std::string& name)
@@ -227,10 +295,7 @@ public:
 	 * @param	name	The name.
 	 **************************************************************************************************/
 
-	void SetTaskName(const std::string& name)
-	{
-		m_name = name;
-	};
+	void SetTaskName(const std::string& name);
 
 	/**********************************************************************************************//**
 	 * @fn	template<typename T> std::shared_ptr<Variable<T>> GetVariable(const std::string& variableName)
@@ -430,82 +495,3 @@ public:
 
 };
 
-/**********************************************************************************************//**
- * @class	IDrawTask TaskInterface.h Source\HarmonyFrameWork\Core\Task\Public\TaskInterface.h
- *
- * @brief	描画関係タスク.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
-class IDrawTask
-	:
-	virtual public IBaseTask
-{
-
-protected:
-
-	/**********************************************************************************************//**
-	 * @fn	IDrawTask()
-	 *
-	 * @brief	Default constructor.
-	 *
-	 * @author	Kazuyuki Honda
-	 **************************************************************************************************/
-
-	IDrawTask() {};
-	PRIORITY m_drawPriority;	/*!< The draw priority */
-public:
-
-	/**********************************************************************************************//**
-	 * @fn	virtual bool Draw() = 0;
-	 *
-	 * @brief	Draws this object.
-	 *
-	 * @author	Kazuyuki Honda
-	 *
-	 * @return	true if it succeeds, false if it fails.
-	 **************************************************************************************************/
-
-	virtual bool Draw() = 0;
-
-	/**********************************************************************************************//**
-	 * @fn	virtual ~IDrawTask()
-	 *
-	 * @brief	Destructor.
-	 *
-	 * @author	Kazuyuki Honda
-	 **************************************************************************************************/
-
-	virtual ~IDrawTask() {};
-
-	/**********************************************************************************************//**
-	 * @fn	const PRIORITY& GetDrawPriority(void) const
-	 *
-	 * @brief	Access the DrawPriority.
-	 *
-	 * @author	Kazuyuki Honda
-	 *
-	 * @return	The draw priority.
-	 **************************************************************************************************/
-
-	const PRIORITY& GetDrawPriority(void) const
-	{
-		return(m_drawPriority);
-	};
-
-	/**********************************************************************************************//**
-	 * @fn	void SetDrawPriority(const PRIORITY& drawPriority)
-	 *
-	 * @brief	Sets draw priority.
-	 *
-	 * @author	Kazuyuki Honda
-	 *
-	 * @param	drawPriority	The draw priority.
-	 **************************************************************************************************/
-
-	void SetDrawPriority(const PRIORITY& drawPriority)
-	{
-		m_drawPriority = drawPriority;
-	};
-};

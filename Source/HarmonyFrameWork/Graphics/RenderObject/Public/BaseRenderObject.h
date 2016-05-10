@@ -9,7 +9,7 @@ namespace HFGraphics{
 class Mesh;
 class Material;
 class IBaseTexture;
-
+class BaseShader;
 class BaseRenderObject
 	:
 	virtual public IBaseTask
@@ -48,11 +48,16 @@ public:
 		m_mesh = mesh;
 	};
 
-	void SetSubMeshMaterial(int submeshNum, std::shared_ptr<Material> material);
-	const std::shared_ptr<Material>& GetSubMeshMaterial(int submeshNum);
+	void SetSubMeshMaterial(UINT submeshNum, std::shared_ptr<Material> material);
+	const std::shared_ptr<Material>& GetSubMeshMaterial(UINT submeshNum);
 
-	void SetMaterialDiffuseTexture(int submeshNum,std::shared_ptr<IBaseTexture> texture);
-	const std::shared_ptr<IBaseTexture>& GetMaterialDiffuseTexture(int submeshNum);
+	void SetMaterialDiffuseTexture(UINT submeshNum,std::shared_ptr<IBaseTexture> texture);
+	const std::shared_ptr<IBaseTexture>& GetMaterialDiffuseTexture(UINT submeshNum);
+
+	void SetMaterialShader(UINT submeshNum, std::shared_ptr<BaseShader> shader);
+	const std::shared_ptr<BaseShader>& GetMaterialShader(UINT submeshNum);
+
+	bool LoadDiffuseTexture2D(UINT submeshNum, HFString teturePath);
 
 protected:
 	std::shared_ptr<Mesh> m_mesh;

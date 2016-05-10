@@ -48,6 +48,7 @@
     <ClInclude Include="Source\GameSource\Weapon\Public\IBaseWeapon.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\ActorInterface.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\CameraActor.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\EmitterActor.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\LineActor.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\SpawnActor.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\Sprite2DActor.h" />
@@ -111,6 +112,8 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LightShaderOfDeferredRender.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LineShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ParticleShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\PhongSpecularShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SimplePolygon3DShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseShaderResourceView.h" />
@@ -135,6 +138,7 @@
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\MaterialFactory.h" />
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\MeshFactory.h" />
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\MeshManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\ParticleFactory.h" />
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\Texture2DFactory.h" />
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\Texture2DManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Reader\Public\ACTReader.h" />
@@ -172,6 +176,7 @@
     <ClCompile Include="Source\GameSource\Weapon\Private\MachineGun.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\ActorInterface.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\CameraActor.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\EmitterActor.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\LineActor.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\SpawnActor.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\Sprite2DActor.cpp" />
@@ -198,7 +203,9 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Camera\Private\BaseCamera.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Lighting\Private\LightManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Lighting\Private\LightTypes.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Matetial\Private\Material.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\ParticleSystem\Private\BaseEmitter.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\ParticleSystem\Private\BaseParticle.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\GraphicsTypes.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\RenderCommand.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\Basic\Private\BaseRenderDeviceManager.cpp" />
@@ -211,6 +218,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Private\DeferredRenderingManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\BaseRenderObject.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\LineObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\Mesh.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\ScreenRenderObject.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\Sprite2DObject.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\StaticMeshObject.cpp" />
@@ -224,6 +232,8 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LightShaderOfDeferredRender.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LineShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\MonotoneTextureShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ParticleShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\PhongSpecularShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SepiaTextureShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SimplePolygon3DShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\VertexLayout\Private\BaseVertexLayout.cpp" />
@@ -242,6 +252,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\MaterialFactory.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\MeshFactory.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\MeshManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\ParticleFactory.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\Texture2DFactory.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\Texture2DManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\ACTReader.cpp" />

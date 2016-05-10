@@ -16,19 +16,21 @@ Microsoft::WRL::ComPtr<ID3D11Texture2D> ComTexture2DFactory::Create(const std::s
 	D3D11_TEXTURE2D_DESC desc;
 	::ZeroMemory(&desc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	Microsoft::WRL::ComPtr<ID3D11Resource> pLoadedRes = NULL;
+	Microsoft::WRL::ComPtr<ID3D11Resource> cpLoadedRes = NULL;
 #ifdef DIRECTXTEX
 	DirectX::TexMetadata metadata;
 	DirectX::ScratchImage image;
 	LoadFromWICFile(UTILITY::Widen(path).c_str(), 0, &metadata, image);
 	// 画像ファイルを読み込んでテクスチャーを作成する
-	DirectX::CreateTexture(sRENDER_DEVICE.Get(), image.GetImage(0,0,0), 1, metadata, pLoadedRes.GetAddressOf());
+	DirectX::CreateTexture(sRENDER_DEVICE.Get(), image.GetImage(0,0,0), 1, metadata, cpLoadedRes.GetAddressOf());
 
-
-	pLoadedRes.Get()->QueryInterface(
-		__uuidof(ID3D11Texture2D),
-		reinterpret_cast <void**>(cpTexture.GetAddressOf())
+	if (cpLoadedRes)
+	{
+		cpLoadedRes.Get()->QueryInterface(
+			__uuidof(ID3D11Texture2D),
+			reinterpret_cast <void**>(cpTexture.GetAddressOf())
 		);
+	}
 					
 #endif // DIRECTXTEX
 	return cpTexture;

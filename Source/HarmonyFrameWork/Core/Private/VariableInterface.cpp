@@ -7,7 +7,7 @@
 #include "../public/VariableInterface.h"
 #include "..\..\Utility\Public\HFString.h"
 
-/*
+
 void  S8_Assignment(std::shared_ptr<Variable<CHAR>> VariableA, std::shared_ptr<IVariable> iVariableB);
 void  U8_Assignment(std::shared_ptr<Variable<UCHAR>> VariableA, std::shared_ptr<IVariable> iVariableB);
 void  S16_Assignment(std::shared_ptr<Variable<SHORT>> VariableA, std::shared_ptr<IVariable> iVariableB);
@@ -155,63 +155,63 @@ void  STR_Assignment(std::shared_ptr<Variable<HFString>> VariableA, std::shared_
 
 void  S8_Assignment(std::shared_ptr<Variable<CHAR>> VariableA, CHAR iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  U8_Assignment(std::shared_ptr<Variable<UCHAR>> VariableA, UCHAR iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  S16_Assignment(std::shared_ptr<Variable<SHORT>> VariableA, SHORT iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  U16_Assignment(std::shared_ptr<Variable<USHORT>> VariableA, USHORT  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  S32_Assignment(std::shared_ptr<Variable<INT>> VariableA, INT  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  U32_Assignment(std::shared_ptr<Variable<UINT>> VariableA, UINT iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  F32_Assignment(std::shared_ptr<Variable<FLOAT>> VariableA, FLOAT  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  F64_Assignment(std::shared_ptr<Variable<DOUBLE>> VariableA, DOUBLE  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  BOOL_Assignment(std::shared_ptr<Variable<bool>> VariableA, bool  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  VEC2_Assignment(std::shared_ptr<Variable<HFVECTOR2>> VariableA, HFVECTOR2  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  VEC3_Assignment(std::shared_ptr<Variable<HFVECTOR3>> VariableA, HFVECTOR3 iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  VEC4_Assignment(std::shared_ptr<Variable<HFVECTOR4>> VariableA, HFVECTOR4 iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  MAT44_Assignment(std::shared_ptr<Variable<HFMATRIX>> VariableA, HFMATRIX  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  QUATERNION_Assignment(std::shared_ptr<Variable<HFQUATERNION>> VariableA, HFQUATERNION  iVariableB)
 {
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 void  STR_Assignment(std::shared_ptr<Variable<HFString>> VariableA, HFString  iVariableB)
 {																						  
-	VariableA->SetValue(iVariableB);
+	VariableA->SetValue(&iVariableB);
 };
 
 

@@ -18,6 +18,7 @@
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
+#include "..\..\..\..\HarmonyFrameWork\Core\Actor\Public\EmitterActor.h"
 
 using namespace std;
 
@@ -57,8 +58,9 @@ void VFXViewMainState::Enter( )
 	}
 	lineRenderer->AddLine(lineData);
 
-	shared_ptr<BaseEmitter>emitter = make_shared<BaseEmitter>();
-	emitter->Setup(3,10,HFVECTOR2(10,10),10,"Resource/Texture/DefaultWhite.png");
+	shared_ptr<EmitterActor>emitter = make_shared<EmitterActor>();
+	emitter->Setup();
+	sTASK_SYSTEM->RegisterTask("emitter", emitter);
 }
 
 /**********************************************************************************************//**

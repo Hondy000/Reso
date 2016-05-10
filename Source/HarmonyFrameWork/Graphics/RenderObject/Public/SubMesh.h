@@ -28,7 +28,7 @@ public:
 		m_meshData = spMeshData;
 	};
 
-
+	bool LoadDiffuseTexture2D(HFString teturePath);
 
 	std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers()
 	{

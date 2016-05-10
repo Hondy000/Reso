@@ -3,6 +3,8 @@
 #include "../../Graphics/Shader/Basic/Public/BaseShader.h"
 #include "Texture2DFactory.h"
 
+#define sTEXTURE2D_MANAGER (Texture2DManager::GetInstance())
+
 class Texture2DManager
 	:
 	public GeneralResourceManager<BaseTexture2D>
@@ -17,8 +19,5 @@ public:
 
 private:
 
-	std::shared_ptr<BaseTexture2D> RequestCreate(const std::string& path)
-	{
-		return Texture2DFactory::GetInstance()->Create(path);
-	}
+	std::shared_ptr<BaseTexture2D> RequestCreate(const std::string& path);
 };

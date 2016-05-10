@@ -580,7 +580,8 @@ public:
 		,
 		HFString pSrcFile,
 		HFString pFunctionName,
-		HFString pProfile ,bool
+		HFString pProfile ,
+		bool isShaderLinkage
 		);
 
 	/**********************************************************************************************//**

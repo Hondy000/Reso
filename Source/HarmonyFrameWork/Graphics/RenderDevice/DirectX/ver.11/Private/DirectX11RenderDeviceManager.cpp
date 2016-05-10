@@ -2132,12 +2132,6 @@ bool DirectX11RenderDeviceManager::CreateSamplerState(Microsoft::WRL::ComPtr< ID
 	hr = m_cpD3DDevice->CreateSamplerState(&samplerDesc, cpSamplerState.GetAddressOf());
 	if (FAILED(hr)) 
 	{
-		return hr;
-	}
-
-	hr = S_OK;
-	if (FAILED(hr))
-	{
 		return false;
 	}
 	return true;

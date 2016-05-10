@@ -18,6 +18,7 @@
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
+#include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\PhongSpecularShader.h"
 
 using namespace std;
 
@@ -31,11 +32,17 @@ using namespace std;
 
 void DemoStartState::Enter( )
 {
+
+	shared_ptr<StaticMeshActor> phongSpecularMesh = make_shared<StaticMeshActor>();
+	phongSpecularMesh->LoadMesh("Resource/Mesh/Sphere.hfm");
+	phongSpecularMesh->SetMaterialShader(0, std::make_shared<PhongSpecularShader>());
+
+
 	shared_ptr<StaticMeshActor> colorSprite = make_shared<StaticMeshActor>();
-	shared_ptr<Mesh> spMesh = BasicMeshFactory::GetInstance()->Create(HF_BM_RECTANGLE_SPRITE, 4, 0, 0);
+	shared_ptr<Mesh> spMesh = BasicMeshFactory::GetInstance()->Create(HF_BM_RECTANGLE_SPRITE, 3, 0, 0);
 	colorSprite->SetMesh(spMesh);
 	colorSprite->GetTransform()->SetScale(HFVECTOR3(100, 100, 0));
-	colorSprite->GetTransform()->SetPosition(HFVECTOR3(100, 100, 2000));
+	colorSprite->GetTransform()->SetPosition(HFVECTOR3(-100, -100, 2000));
 	shared_ptr<LineActor> lineRenderer = make_shared<LineActor>();
 	TaskSystem::GetInstance()->RegisterTask("lineRenderer",lineRenderer);
 	shared_ptr<Sprite2DActor> monotoneSprite = make_shared<Sprite2DActor>();

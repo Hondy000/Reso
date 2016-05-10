@@ -20,10 +20,15 @@ public:
 
 	bool Update()
 	{
+
+		Assignment(m_varA, m_varA);
 		return true;
 	}
 
 private:
+
+	std::shared_ptr<IVariable> m_varA;
+
 	GLOBAL_ID m_id1;
 	GLOBAL_ID m_id2;
 

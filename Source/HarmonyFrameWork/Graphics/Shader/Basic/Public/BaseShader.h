@@ -105,6 +105,9 @@ public:
 
 	virtual bool PostProcessOfRender() = 0;
 
+
+	virtual bool WriteInstanceData(std::shared_ptr<SubMesh> subMesh, void* pData, size_t stride) { return false; };
+
 	// Access the PathPriority
 	const DWORD& GetPathPriority(void) const
 	{

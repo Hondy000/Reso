@@ -30,11 +30,21 @@ std::shared_ptr<BaseTexture2D> Texture2DFactory::Create(const std::string& path)
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> cpSRV = texture->GetSharderResorceView();
 
 		texture->SetCpTexture(ComTexture2DFactory::GetInstance()->Create(path));
+
+		if (texture->GetCpTexture() == NULL)
+		{
+			return NULL;
+		}
 		cpSRV = ComShaderResourceViewFactory::GetInstance()->Create(texture->GetCpTexture());
 		texture->SetSharderResorceView(cpSRV);
 
 		texture->SetName(path);
 	}
+#endif
+
+	// if pointer is null
+#if DIRECTX11
+
 #endif
 
 	return texture;

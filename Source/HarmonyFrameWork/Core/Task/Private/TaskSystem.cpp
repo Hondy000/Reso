@@ -72,9 +72,18 @@ bool TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
 bool TaskSystem::Update()
 {
 	UpdateActorsPreviousTransform();
-	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end();it++)
+	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end();)
 	{
-		(*it)->Update();
+		if ((*it)->CheckUsageFlag())
+		{
+			(*it)->Update();
+		}
+		if ((*it)->GetIsDestroy())
+		{
+			it = m_spTaskList.erase(it);
+			continue;
+		}
+		it++;
 	}
 	return true;
 }
