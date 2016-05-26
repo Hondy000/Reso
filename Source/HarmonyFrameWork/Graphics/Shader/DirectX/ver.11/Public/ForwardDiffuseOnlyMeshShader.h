@@ -1,27 +1,13 @@
 #pragma once
-#include "../../../Basic/Public/BaseShader.h"
+#include "..\..\..\Basic\Public\BaseShader.h"
 
-/**********************************************************************************************//**
-																								* @class	PhongSpecularShader PhongSpecularShader.h
-																								* 			Source\HarmonyFrame\Graphics\Shader\DirectX\ver.11\PhongSpecularShader.h
-																								*
-																								* @brief	A simple polygon 3D shader.
-																								*
-																								* @author	Kazuyuki Honda
-																								* @date	2015/11/05
-																								**************************************************************************************************/
-
-class PhongSpecularShader
+class FowardDiffuseOnlyMeshShader
 	:
 	public BaseShader
 {
 public:
-
-	PhongSpecularShader() {};
-	~PhongSpecularShader()
-	{
-
-	}
+	FowardDiffuseOnlyMeshShader();
+	~FowardDiffuseOnlyMeshShader();
 
 	/**********************************************************************************************//**
 																									* @fn	virtual bool Setup();
@@ -66,5 +52,6 @@ public:
 																									**************************************************************************************************/
 
 	virtual bool PostProcessOfRender();
+private:
 
 };

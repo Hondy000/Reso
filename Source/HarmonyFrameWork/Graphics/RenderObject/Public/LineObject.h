@@ -7,8 +7,7 @@ struct LineData;
 
 class LineObject
 	:
-	public BaseRenderObject,
-	public inheritable_enable_shared_from_this<LineObject>
+	public BaseRenderObject
 {
 public:
 	LineObject();

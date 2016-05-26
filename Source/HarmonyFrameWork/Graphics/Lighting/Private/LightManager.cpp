@@ -13,6 +13,12 @@ namespace HFGraphics
 
 	void LightManager::Register(std::shared_ptr<BaseLight> spLight)
 	{
+		if (spLight->GetLightType() == LightType::Directional)
+		{
+			m_spDirectionalLight = spLight;
+			return;
+		}
+
 		m_lightList.push_back(spLight);
 	}
 
@@ -122,5 +128,10 @@ namespace HFGraphics
 			}
 
 		}
+	}
+
+	void LightManager::GetDirectionalLight(std::shared_ptr<HFGraphics::DirectinalLight>& lightArray)
+	{
+		lightArray = std::dynamic_pointer_cast<HFGraphics::DirectinalLight>( m_spDirectionalLight);
 	}
 }

@@ -150,7 +150,7 @@ void BaseCamera::UpdateViewMatrix()
 				m_distanceFromFollowTarget;
 		}
 	}
-
+	sRENDER_DEVICE_MANAGER->SetViewPosition(m_cameraPosition);
 
 
 	if (m_wpViewObject.lock() != nullptr)

@@ -34,6 +34,7 @@
     <ClInclude Include="Source\GameSource\Level\MainGame\Public\MainGame.h" />
     <ClInclude Include="Source\GameSource\Level\MainGame\Public\MainGameStates.h" />
     <ClInclude Include="Source\GameSource\Level\ModelView\Public\ModelViewLevel.h" />
+    <ClInclude Include="Source\GameSource\Level\ModelView\Public\ModelViewLevelStates.h" />
     <ClInclude Include="Source\GameSource\Level\Public\LevelGenerated.h" />
     <ClInclude Include="Source\GameSource\Level\Result\Public\Result.h" />
     <ClInclude Include="Source\GameSource\Level\Result\Public\ResultStates.h" />
@@ -46,6 +47,15 @@
     <ClInclude Include="Source\GameSource\Weapon\Public\IBaseBullet.h" />
     <ClInclude Include="Source\GameSource\Weapon\Public\MachineGun.h" />
     <ClInclude Include="Source\GameSource\Weapon\Public\IBaseWeapon.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Cell\Public\CollisionSpaceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Cell\Public\CollisionSpaceCell.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\BaseCollisionObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\CollisionPlanesObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\OBBCollisionObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\CollisionSphereObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Public\CCollisionObjectFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Public\CollisionAPI.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Public\CollisionManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\ActorInterface.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\CameraActor.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\EmitterActor.h" />
@@ -103,17 +113,19 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\StaticMeshObject.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\SubMesh.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\Basic\Public\BaseShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ForwardDiffuseOnlyMeshShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ColorVertexSpriteShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultMeshShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultSpriteShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DeferredShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DirectX11BaseShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DX11BaseShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPerVertexShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPhongShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LightShaderOfDeferredRender.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LineShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ParticleShader.h" />
-    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\PhongSpecularShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SimplePolygon3DShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseShaderResourceView.h" />
@@ -163,6 +175,7 @@
     <ClCompile Include="Source\GameSource\Level\MainGame\Private\MainGame.cpp" />
     <ClCompile Include="Source\GameSource\Level\MainGame\Private\MainGameStates.cpp" />
     <ClCompile Include="Source\GameSource\Level\ModelView\Private\ModelViewLevel.cpp" />
+    <ClCompile Include="Source\GameSource\Level\ModelView\Private\ModelViewLevelStates.cpp" />
     <ClCompile Include="Source\GameSource\Level\Result\Private\Result.cpp" />
     <ClCompile Include="Source\GameSource\Level\Result\Private\ResultStates.cpp" />
     <ClCompile Include="Source\GameSource\Level\TestLevel\Private\TestLevel.cpp" />
@@ -174,6 +187,15 @@
     <ClCompile Include="Source\GameSource\Weapon\Private\IBaseBullet.cpp" />
     <ClCompile Include="Source\GameSource\Weapon\Private\IBaseWeapon.cpp" />
     <ClCompile Include="Source\GameSource\Weapon\Private\MachineGun.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Cell\Private\CCollisionSpaceCell.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Cell\Private\CollisionSpaceManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\BaseCollisionObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\CollisionPlanesObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\OBBCollisionObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\CollisionSphereObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Private\CCollisionObjectFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Private\CollisionAPI.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Private\CollisionManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\ActorInterface.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\CameraActor.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\EmitterActor.cpp" />
@@ -229,13 +251,15 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DefaultSpriteShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DeferredShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DX11BaseShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ForwardDiffuseOnlyMeshShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LightShaderOfDeferredRender.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LineShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\MonotoneTextureShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ParticleShader.cpp" />
-    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\PhongSpecularShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SepiaTextureShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SimplePolygon3DShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SpecularPerVertexShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SpecularPhongShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\VertexLayout\Private\BaseVertexLayout.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Input\Private\DirectInput.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\IO\Private\IBaseReader.cpp" />
@@ -346,6 +370,8 @@
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -381,6 +407,7 @@
       <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

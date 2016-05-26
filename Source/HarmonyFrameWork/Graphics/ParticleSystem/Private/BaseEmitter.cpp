@@ -23,7 +23,17 @@ using namespace std;
 
 BaseEmitter::BaseEmitter()
 {
-	BaseEmitter::Init();
+}
+
+void BaseEmitter::SetMaxParticle(UINT num)
+{
+	SetMesh(ParticleFactory::GetInstance()->GetQuadParticle(num));
+	SetMaterialShader(0, std::make_shared<ParticleShader>());
+	m_particleArray.resize(num);
+	for (int i = 0; i < num; i++)
+	{
+		m_particleArray[i] = std::make_shared<IBaseParticle>();
+	}
 }
 
 BaseEmitter::~BaseEmitter()
@@ -41,7 +51,7 @@ bool BaseEmitter::Init()
 	RegisterVariable("m_emitRange", m_emitRange);
 	RegisterVariable("m_emitDirction", m_emitDirction);
 	RegisterVariable("m_velocity", m_velocity);
-	m_mesh = ParticleFactory::GetInstance()->GetQuadParticle(100);
+	SetMesh( ParticleFactory::GetInstance()->GetQuadParticle(100));
 	SetMaterialShader(0, std::make_shared<ParticleShader>());
 	m_particleArray.resize(100);
 	for (int i = 0;i<100;i++)
@@ -71,24 +81,19 @@ void BaseEmitter::Reset()
 
 bool BaseEmitter::Update()
 {
-
-	vector<HFMATRIX> matArray;
-
-	matArray.resize(m_particleArray.size());
 	for (int i = 0; i < m_particleArray.size(); i++)
 	{
 		m_particleArray[i]->Update();
-		matArray[i] = m_particleArray[i]->GetTransform().GetWorldTransform();
 	}
 
-	for (int i = 0; i < m_mesh->GetSubMeshArray().size(); i++)
+	for (int i = 0; i < GetMesh()->GetSubMeshArray().size(); i++)
 	{
 		std::shared_ptr<RenderCommand> command;
 		command = std::shared_ptr<RenderCommand>(new RenderCommand);
 		command->SetRenderObject(shared_from_this());
 		command->SetRenderMeshElement(i);
-		command->SetRenderPriority(m_mesh->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->GetPathPriority());
-		m_mesh->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->WriteInstanceData(m_mesh->GetSubMeshArray()[i], matArray.data(), sizeof(HFMATRIX));
+		command->SetRenderPriority(GetMesh()->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->GetPathPriority());
+		///m_mesh->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->WriteInstanceData(m_mesh->GetSubMeshArray()[i], matArray.data(), sizeof(HFMATRIX));
 		TaskSystem::GetInstance()->RegisterRenderCommand(command);
 	}
 	return true;

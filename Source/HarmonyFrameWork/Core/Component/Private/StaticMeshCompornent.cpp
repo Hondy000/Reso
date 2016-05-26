@@ -41,7 +41,7 @@ bool StaticMeshCompornent::Init()
 
 bool StaticMeshCompornent::LoadMesh(const string& path)
 {
-	m_mesh = MeshManager::GetInstance()->Get(path);
+	SetMesh( MeshManager::GetInstance()->Get(path));
 	return S_OK;
 
 }

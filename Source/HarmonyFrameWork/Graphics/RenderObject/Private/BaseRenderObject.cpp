@@ -5,14 +5,22 @@
 #include "../Public/Mesh.h"
 #include "..\..\Shader\Basic\Public\BaseShader.h"
 
-bool BaseRenderObject::Render()
+bool BaseRenderObject::RenderSubMesh(int elem)
 {
-	for (UINT i = 0; i <m_mesh->GetSubMeshArray().size() ;i++)
-	{
-		m_mesh->GetSubMeshArray()[i]->Render();
-	}
+		m_mesh->GetSubMeshArray()[elem]->Render();
 	return true;
 }
+
+const std::shared_ptr<Mesh>& BaseRenderObject::GetMesh(void) const
+{
+	return(m_mesh);
+};
+
+void BaseRenderObject::SetMesh(const std::shared_ptr<Mesh>& mesh)
+{
+	m_mesh = mesh;
+	mesh->SetParentObject(downcasted_shared_from_this<BaseRenderObject>());
+};
 
 void BaseRenderObject::SetSubMeshMaterial(UINT submeshNum, std::shared_ptr<Material> material)
 {

@@ -6,7 +6,9 @@
 #include "../../../Texture/Public/BaseTexture2D.h"
 #include "../../../Buffer/Public/ConstantBuffer.h"
 #include "../../../VertexLayout/Public/BaseVertexLayout.h"
-#include "../../../RenderObject/Public/SubMesh.h"
+
+class SubMesh;
+class Material;
 
 
 /**********************************************************************************************//**
@@ -19,6 +21,8 @@
  **************************************************************************************************/
 
 class BaseShader
+	:
+	public IBaseObject
 {
 public:
 
@@ -74,7 +78,7 @@ public:
 	 * @return	A bool.
 	 **************************************************************************************************/
 
-	virtual bool PreProcessOfRender(std::shared_ptr<SubMesh> shape,std::shared_ptr<Material>materials) = 0;
+	virtual bool PreProcessOfRender(std::shared_ptr<SubMesh> subMesh,  std::shared_ptr<Material>materials) = 0;
 
 
 
@@ -105,8 +109,6 @@ public:
 
 	virtual bool PostProcessOfRender() = 0;
 
-
-	virtual bool WriteInstanceData(std::shared_ptr<SubMesh> subMesh, void* pData, size_t stride) { return false; };
 
 	// Access the PathPriority
 	const DWORD& GetPathPriority(void) const

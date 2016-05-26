@@ -1,6 +1,9 @@
 ﻿
 #include "../Public/DefaultSpriteShader.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
+#include "..\..\..\..\Public\GraphicsTypes.h"
+#include "..\..\..\..\Matetial\Public\Material.h"
+#include "..\..\..\..\RenderObject\Public\SubMesh.h"
 
 using namespace std;
 

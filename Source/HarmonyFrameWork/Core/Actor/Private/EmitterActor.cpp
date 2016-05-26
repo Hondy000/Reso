@@ -2,7 +2,6 @@
 
 EmitterActor::EmitterActor()
 {
-	Init();
 }
 
 EmitterActor::~EmitterActor()
@@ -11,6 +10,7 @@ EmitterActor::~EmitterActor()
 
 bool EmitterActor::Init()
 {
+	BaseEmitter::Init();
 	return true;
 }
 

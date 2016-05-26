@@ -71,9 +71,6 @@ public:
 	bool Setup();
 
 
-	bool WriteInstanceData(std::shared_ptr<SubMesh> mesh, void* pData, size_t stride,UINT count);
-
-
 	/**=================================================================================================
 	 * @fn void Destroy();
 	 *
@@ -97,7 +94,7 @@ public:
 	 * @return true if it succeeds, false if it fails.
 	 *===============================================================================================**/
 
-	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, std::shared_ptr<Material>materials);
 
 	/**=================================================================================================
 	 * @fn bool Render();
@@ -115,5 +112,5 @@ public:
 
 private:
 	/** @brief Number of indexes. */
-	int m_indexCount;
+	int m_instanceCount;
 };

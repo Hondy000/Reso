@@ -3,6 +3,7 @@
 #include "../../../../VertexLayout/Public/BaseVertexLayout.h"
 #include "../../../../Buffer/Public/ConstantBuffer.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
+#include "..\..\..\..\RenderObject\Public\SubMesh.h"
 
 /**********************************************************************************************//**
 																								* @fn	DeferredLineShader::DeferredLineShader()
@@ -47,6 +48,7 @@ LineShader::~LineShader()
 
 bool LineShader::Setup()
 {
+	m_pathPriority = HF_FORWARD_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;

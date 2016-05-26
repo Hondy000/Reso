@@ -35,6 +35,7 @@ namespace HFGraphics
 		void CheckUseCount();
 		void GetPointLight(std::vector<std::shared_ptr<HFGraphics::PointLight>>& lightArray, const HFVECTOR3& position, UINT lightCount);
 		void GetSpotLight(std::vector<std::shared_ptr<HFGraphics::SpotLight>>& lightArray, const HFVECTOR3& position, UINT lightCount);
+		void GetDirectionalLight(std::shared_ptr<HFGraphics::DirectinalLight>& light);
 		void GetLight(std::vector<std::shared_ptr<BaseLight>>& lightArray, const HFVECTOR3& postion, UINT lightCount);
 	private:
 		std::list<std::shared_ptr<BaseLight>> m_lightList;

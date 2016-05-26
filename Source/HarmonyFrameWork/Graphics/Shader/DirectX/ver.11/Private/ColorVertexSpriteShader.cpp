@@ -1,6 +1,8 @@
 
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "..\Public\ColorVertexSpriteShader.h"
+#include "..\..\..\..\Public\GraphicsTypes.h"
+#include "..\..\..\..\RenderObject\Public\SubMesh.h"
 
 using namespace std;
 
@@ -14,7 +16,7 @@ ColorVertexShader::~ColorVertexShader()
 
 bool ColorVertexShader::Setup()
 {
-	m_pathPriority = HF_POST_DEFERRED_RENDERING_SHADER;
+	m_pathPriority = HF_2D_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;

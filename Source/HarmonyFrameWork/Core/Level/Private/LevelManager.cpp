@@ -21,7 +21,7 @@
 bool LevelManager::Init()
 {
 	LevelGenerated();
-	m_spLevel = std::dynamic_pointer_cast<IBaseLevel>(ReflectionSystem::GetInstance()->Create("class VFXViewLevel"));
+	m_spLevel = std::dynamic_pointer_cast<IBaseLevel>(ReflectionSystem::GetInstance()->Create("class ModelViewLevel"));
 	TaskSystem::GetInstance()->RegisterTask(typeid(m_spLevel).name(),m_spLevel);
 	return false;
 }

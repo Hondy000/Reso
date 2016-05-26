@@ -56,14 +56,14 @@ float4 PS_Main(VS_OUT In) : SV_TARGET0
 
 float4 decalmap = g_DecalMap.Sample(g_Sampler, In.texel);
 
-// 法線ベクトルを 0 ～ 1 範囲を -1 ～ 1 に変換する
-decalmap.rg = decalmap.rg * 2.0f - 1.0f;
-decalmap.rb *= -1.0f;
-
-// ライティング
-float diffuse = dot(decalmap.rgb, -g_vecLight.xyz);
-diffuse = diffuse * 0.5f + 0.5f;
-
+//// 法線ベクトルを 0 ～ 1 範囲を -1 ～ 1 に変換する
+//decalmap.rg = decalmap.rg * 2.0f - 1.0f;
+//decalmap.rb *= -1.0f;
+//
+//// ライティング
+//float diffuse = dot(decalmap.rgb, -g_vecLight.xyz);
+//diffuse = diffuse * 0.5f + 0.5f;
+//
 Out = decalmap;
 
 return Out;

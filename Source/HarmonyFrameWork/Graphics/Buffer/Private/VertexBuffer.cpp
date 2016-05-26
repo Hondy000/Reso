@@ -49,6 +49,8 @@ VertexBuffer::~VertexBuffer()
 bool VertexBuffer::SetData(void* pIn, size_t dataSize, int count, ACCESS_FLAG access_flag)
 {
 	m_accessFlag = access_flag;
+	m_dataCount = count;
+	m_stride = dataSize;
 	return sRENDER_DEVICE_MANAGER->CreateBuffer
 		(
 			m_cpBuffer,

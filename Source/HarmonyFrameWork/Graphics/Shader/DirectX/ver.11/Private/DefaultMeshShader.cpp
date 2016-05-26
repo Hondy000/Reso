@@ -8,6 +8,7 @@
 bool DefaultMeshShader::Setup()
 {
 	HRESULT hr;
+	this->m_pathPriority = HF_FORWARD_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 
 	D3D11_INPUT_ELEMENT_DESC layput[2];
@@ -22,7 +23,7 @@ bool DefaultMeshShader::Setup()
 	layput[1].SemanticName = "TEXCOORD";
 	layput[1].SemanticIndex = 0;
 	layput[1].Format = DXGI_FORMAT_R32G32_FLOAT;
-	layput[1].InputSlot = 0;
+	layput[1].InputSlot = 1;
 	layput[1].AlignedByteOffset = D3D11_APPEND_ALIGNED_ELEMENT;
 	layput[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 	layput[1].InstanceDataStepRate = 0;
@@ -104,7 +105,8 @@ bool DefaultMeshShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::
 	m_indexCount = shape->GetIndexCount();
 	// プリミティブ タイプおよびデータの順序に関する情報を設定
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	return 0;
+	sRENDER_DEVICE_MANAGER->SetBackBufferRenderTarget();
+	return true;
 }
 
 bool DefaultMeshShader::Render()

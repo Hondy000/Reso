@@ -12,6 +12,10 @@ interface iBaseLight
 	float4 GetColor(PixelInputType In);
 };
 
+cbuffer cbBuffer2 : register(b2)
+{
+	float4 g_cameraPosition;
+};
 
 // インターフェースの宣言
 iBaseLight g_abstractLight;
@@ -320,6 +324,107 @@ class cAllLight : iBaseLight
 	}
 };
 
+class cSpecular : iBaseLight
+{
+	// 平行光源
+	float4 lightDirection;
+	// ポイントライト
+	PointLight pointLight[64];
+	// スポットライト
+	SpotLight spotLight[64];
+
+	// 色を計算する
+	float4 GetColor(PixelInputType input)
+	{
+		float4 colors;
+		float4 positions;
+		float4 normals;
+		float4 ambient;
+		float4 emissive;
+		float4 specular;
+
+		float3 lightDir;
+		float lightIntensity;
+		float4 outputColor;
+
+
+		float2	pixsize;
+		int sampleCnt;
+		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
+		// アルベドを取得
+		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+		// 位置を取得
+		positions = positionTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+		// 法線を取得
+		normals = normalTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+		ambient = ambientTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+		emissive = emissiveTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+		specular = specularTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
+
+		lightDir =normalize(-lightDirection.xyz);
+
+		lightIntensity = saturate(dot(normals.xyz, lightDir));
+
+		outputColor = saturate(colors * lightIntensity);
+
+		float3 N = normalize(normals.xyz);
+		//ライト方向で入力されるので、頂点 -> ライト位置とするために逆向きに変換する。なおアプリケーションで必ず正規化すること
+		float3 V = normalize(positions.xyz - g_cameraPosition.xyz);
+		float3 R;
+
+
+
+		//ライトベクトルと法線ベクトルの内積を計算し、計算結果の色の最低値を環境光( m_Ambient )に制限する
+		//float4 diffuseColor =  ambient * max(0.0, dot(lightDir, normals));
+		//float4 diffuseColor = min(max(ambient, dot(N, lightDir)) + emissive, 1.0f);	 	
+	//	float4 diffuseColor = min(max(0, dot(N, lightDir)), 1.0f) + ambient;
+		float4 diffuseColor = ambient + 1 * max(0.0, dot(lightDir, N));
+		//float4 diffuseColor = max(0, dot(N, lightDir)) + ambient;
+
+		// *float4(1.0f, 1.0f, 1.0f, 1.0f);
+		//頂点 -> ライト位置ベクトル + 頂点 -> 視点ベクトル(注意１)
+		float3 H = normalize(lightDir + (V));
+		R = reflect(V, N);
+		R = normalize(R);
+
+
+		//スペキュラーカラーを計算する(注意２)
+		float4 S = pow(max(0.0f, dot(lightDir, R)), 50)*3 * specular;
+		S = saturate(S);
+		//スペキュラーカラーを加算する
+		outputColor = diffuseColor * colors + S;
+
+		for (int i = 0; i < 6; i++)
+		{
+			lightDir = pointLight[i].position.xyz - positions.xyz;
+			float len = length(lightDir);
+			float LD = normalize(lightDir);
+			float at = pow(max((1.0f / len) * pointLight[i].attenuation, 0), pointLight[i].falloff);
+			outputColor.xyz += colors.xyz * max(pointLight[i].color.xyz * at * step(len, pointLight[i].range) * dot(LD, normals), 0);
+
+		}
+
+		for (int i = 0; i < 6; i++)
+		{
+			lightDir = spotLight[i].position.xyz - positions.xyz;
+			float len = length(lightDir);
+			float LD = normalize(spotLight[i].direction.xyz);
+			float dif = (1.0f / len) * spotLight[i].attenuation;
+			float d2 = -dot(LD, normalize(lightDir));
+			float a = 1.0f - sin(spotLight[i].phi);
+			float at = (1 - pow(max(a / 2, 0), spotLight[i].falloff)) * step(d2, a);
+			outputColor.xyz += colors.xyz * max(spotLight[i].color.xyz * at  *dif * step(len, spotLight[i].range) * dot(normalize(lightDir), normals), 0);
+		}
+		return outputColor;
+	}
+};
+
 
 
 // ************************************************************
@@ -346,6 +451,7 @@ cbuffer cbBuffer0 : register(b1)
 	cPointLight		g_PointDeferred;
 	cSpotLight		g_SpotDeferred;
 	cAllLight		g_AllDeferred;
+	cSpecular		g_Phong;
 };
 
 PixelInputType LightVertexShader(VertexInputType input)
@@ -358,7 +464,6 @@ PixelInputType LightVertexShader(VertexInputType input)
 
 	return output;
 }
-
 
 float4 LightPixelShader(PixelInputType input) : SV_TARGET
 {

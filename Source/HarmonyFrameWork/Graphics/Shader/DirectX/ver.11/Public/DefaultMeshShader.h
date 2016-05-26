@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../../../Basic/Public/BaseShader.h"
+#include "..\..\..\..\Public\GraphicsTypes.h"
 
 class DefaultMeshShader
 	:

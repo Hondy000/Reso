@@ -18,7 +18,9 @@
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
-#include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\PhongSpecularShader.h"
+#include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultMeshShader.h"
+#include "..\..\..\..\HarmonyFrameWork\Input\Public\InputManager.h"
+#include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPhongShader.h"
 
 using namespace std;
 
@@ -34,9 +36,14 @@ void DemoStartState::Enter( )
 {
 
 	shared_ptr<StaticMeshActor> phongSpecularMesh = make_shared<StaticMeshActor>();
-	phongSpecularMesh->LoadMesh("Resource/Mesh/Sphere.hfm");
-	phongSpecularMesh->SetMaterialShader(0, std::make_shared<PhongSpecularShader>());
+	phongSpecularMesh->LoadMesh("Resource/Mesh/Lod.hfm");
+	phongSpecularMesh->SetMaterialShader(0, std::make_shared<SpecularPhongShader>());
 
+	sTASK_SYSTEM->RegisterTask("model", phongSpecularMesh);
+	phongSpecularMesh->LoadDiffuseTexture2D(0, "Resource/Texture/DefaultGray.png");
+
+
+	//sTASK_SYSTEM->RegisterTask("simpleMesh", simpleMesh);
 
 	shared_ptr<StaticMeshActor> colorSprite = make_shared<StaticMeshActor>();
 	shared_ptr<Mesh> spMesh = BasicMeshFactory::GetInstance()->Create(HF_BM_RECTANGLE_SPRITE, 3, 0, 0);
@@ -46,19 +53,22 @@ void DemoStartState::Enter( )
 	shared_ptr<LineActor> lineRenderer = make_shared<LineActor>();
 	TaskSystem::GetInstance()->RegisterTask("lineRenderer",lineRenderer);
 	shared_ptr<Sprite2DActor> monotoneSprite = make_shared<Sprite2DActor>();
+	/*
 	TaskSystem::GetInstance()->RegisterTask("monotoneSprite", monotoneSprite); 
 	monotoneSprite->GetTransform()->SetScale(150, 150, 0);
 	monotoneSprite->GetTransform()->SetPosition(-300, -600, 0);
 	monotoneSprite->GetSubMeshMaterial(0)->SetMaterialShader(std::make_shared<MonotoneTextureShader>());
 	monotoneSprite->SetMaterialDiffuseTexture(0, Texture2DManager::GetInstance()->Get("C:/Users/Kazuyuki/Desktop/miyamori_aoi_by_kuvshinov_ilya-d9wx7c1.jpg"));
-	
+	*/
+
+	/*
 	shared_ptr<Sprite2DActor> spiaSprite = make_shared<Sprite2DActor>();
 	TaskSystem::GetInstance()->RegisterTask("spiaSprite", spiaSprite);
 	spiaSprite->GetTransform()->SetScale(150, 150, 0);
 	spiaSprite->GetTransform()->SetPosition(-450, -450, 0);
 	spiaSprite->GetSubMeshMaterial(0)->SetMaterialShader(std::make_shared<SepiaTextureShader>());
 	spiaSprite->SetMaterialDiffuseTexture(0, Texture2DManager::GetInstance()->Get("C:/Users/Kazuyuki/Desktop/miyamori_aoi_by_kuvshinov_ilya-d9wx7c1.jpg"));
-
+	*/
 	HFGraphics::LineData lineData;
 	for (int i = 0;i<60;i++)
 	{
@@ -72,16 +82,14 @@ void DemoStartState::Enter( )
 		lineData.positions.push_back(HFVECTOR3(300, 0, i * 10 - 300));
 	}
 	lineRenderer->AddLine(lineData);
-	sTASK_SYSTEM->RegisterTask("rect", colorSprite);
+//	sTASK_SYSTEM->RegisterTask("rect", colorSprite);
 	shared_ptr < CameraActor>	camera2D = make_shared<CameraActor>();
 	shared_ptr < CameraActor>	camera3D = make_shared<CameraActor>();
-	camera3D->SetCameraPosition(HFVECTOR3(0, 50, -50));
+	camera3D->SetCameraPosition(HFVECTOR3(0, 10, -10));
 	camera2D->SetIs2DCamera(true);
 	TaskSystem::GetInstance()->RegisterTask("2Dcamera", camera2D);
 	TaskSystem::GetInstance()->RegisterTask("3Dcamera", camera3D);
 
-	//shared_ptr<BaseEmitter>emitter = make_shared<BaseEmitter>();
-	//emitter->Setup(3,10,HFVECTOR2(10,10),10,"Resource/Texture/DefaultWhite.png");
 }
 
 /**********************************************************************************************//**
@@ -94,6 +102,51 @@ void DemoStartState::Enter( )
 
 void DemoStartState::Execute( )
 {
+	shared_ptr < CameraActor>	camera3D = dynamic_pointer_cast<CameraActor> (sTASK_SYSTEM->SearchByTaskName("3Dcamera"));
+	
+	shared_ptr < StaticMeshActor>	mesh = dynamic_pointer_cast<StaticMeshActor> (sTASK_SYSTEM->SearchByTaskName("model"));
+
+	if(sINPUT->IsHoldKeyboard(DIK_SPACE))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 0.1, 0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_LSHIFT))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 0.1, 0));
+	}		
+	if (sINPUT->IsHoldKeyboard(DIK_RIGHT))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0.1,0,  0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_LEFT))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0.1,0,  0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_UP))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 0,0.1 ));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_DOWN))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 0,0.1));
+	}
+
+	if (sINPUT->IsHoldKeyboard(DIK_W))
+	{
+		mesh->GetTransform()->SetEulerDegAngles(mesh->GetTransform()->GetEulerDegAngles() + HFVECTOR3(5, 0, 0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_S))
+	{
+		mesh->GetTransform()->SetEulerDegAngles(mesh->GetTransform()->GetEulerDegAngles() - HFVECTOR3(5, 0, 0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_A))
+	{
+		mesh->GetTransform()->SetEulerDegAngles(mesh->GetTransform()->GetEulerDegAngles() + HFVECTOR3(0, 0, 5));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_D))
+	{
+		mesh->GetTransform()->SetEulerDegAngles(mesh->GetTransform()->GetEulerDegAngles() - HFVECTOR3(0, 0, 5));
+	}
 
 }
 

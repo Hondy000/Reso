@@ -80,10 +80,10 @@ shared_ptr<Mesh> BasicMeshFactory::CreateSprite()
 
 		uvArray.resize(4);
 
-		uvArray[0] = HFVECTOR2(0, 1);
-		uvArray[1] = HFVECTOR2(1, 1);
-		uvArray[2] = HFVECTOR2(0, 0);
-		uvArray[3] = HFVECTOR2(1, 0);
+		uvArray[0] = HFVECTOR2(1, 1);
+		uvArray[1] = HFVECTOR2(0, 1);
+		uvArray[2] = HFVECTOR2(1, 0);
+		uvArray[3] = HFVECTOR2(0, 0);
 		if (
 			FAILED(
 				renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetData(

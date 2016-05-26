@@ -7,8 +7,7 @@
 
 class BaseEmitter
 	:
-	public BaseRenderObject,
-	public inheritable_enable_shared_from_this<BaseEmitter>
+	virtual public BaseRenderObject
 {
 public:
 
@@ -20,11 +19,7 @@ public:
 	{
 		return m_particleArray;
 	}
-
-	void SetParticleArray(std::vector<std::shared_ptr<IBaseParticle>> _val)
-	{
-		m_particleArray = _val;
-	}
+	void SetMaxParticle(UINT num);
 
 protected:
 	/** @brief パーティクルのパラメータ. */
@@ -40,6 +35,10 @@ protected:
 	UINT m_numParticleOfOutAtATime;
 	/** @brief パーティクルの描画範囲. */
 	FLOAT m_particleRenderRange;
+
+	/** @brief 1回の放出量. */
+	UINT m_numEmitParticle;
+
 	/** @brief The emit range. */
 	HFVECTOR3 m_emitRange;
 	/** @brief The emit dirction. */

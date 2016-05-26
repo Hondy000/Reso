@@ -20,6 +20,14 @@ public:
 	{
 		m_semantics = _val;
 	}
+
+	const UINT& GetStride() const
+	{
+		return m_stride;
+	}
+
+
 protected:
 	DWORD m_semantics;
+	UINT m_stride;
 };

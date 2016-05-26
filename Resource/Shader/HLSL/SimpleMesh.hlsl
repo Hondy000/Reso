@@ -3,7 +3,7 @@
 cbuffer cbMatrixWVP : register(b0)
 {
 	// 列優先
-	column_major  float4x4 g_matWVP : packoffset(c0);
+	matrix g_matWVP : packoffset(c0);
 };
 
 // 頂点シェーダーの入力パラメータ

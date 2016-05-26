@@ -1011,14 +1011,15 @@ HFVECTOR4* HFVec4Scale(HFVECTOR4 *pOut, const HFVECTOR4 *pV, FLOAT s)
 
 // inline
 
-HFMATRIX* HFMatrixIdentity(HFMATRIX *pOut)
+HFMATRIX HFMatrixIdentity()
 {
+	HFMATRIX mat;
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			pOut->m[i][j] = (i == j) ? 1.0 : 0.0;
+			mat.m[i][j] = (i == j) ? 1.0 : 0.0;
 		}
 	}
-	return pOut;
+	return mat;
 };
 
 bool HFMatrixIsIdentity(const HFMATRIX *pM)
@@ -1306,7 +1307,7 @@ HFMATRIX*  HFMatrixInverse
 HFMATRIX*  HFMatrixScaling
 (HFMATRIX *pOut, FLOAT sx, FLOAT sy, FLOAT sz)
 {
-	HFMatrixIdentity(pOut);
+	*pOut = HFMatrixIdentity();
 	pOut->_11 = sx;
 	pOut->_22 = sy;
 	pOut->_33 = sz;
@@ -1317,7 +1318,7 @@ HFMATRIX*  HFMatrixScaling
 HFMATRIX*  HFMatrixTranslation
 (HFMATRIX *pOut, FLOAT x, FLOAT y, FLOAT z)
 {
-	HFMatrixIdentity(pOut);
+	*pOut  =HFMatrixIdentity();
 	pOut->_41 = x;
 	pOut->_42 = y;
 	pOut->_43 = z;

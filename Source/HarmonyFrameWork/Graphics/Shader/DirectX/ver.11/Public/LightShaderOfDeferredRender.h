@@ -37,8 +37,7 @@ private:
 	typedef struct CBUFFER0
 	{
 		// シンプル用
-		HFVECTOR3 lightDirection0;
-		FLOAT padding0;	  // 16バイト アライメント用
+		HFVECTOR4 lightDirection0;
 
 		 // アルベド
 		HFVECTOR4 lightDirection1;
@@ -60,8 +59,17 @@ private:
 		HFVECTOR4 lightDirection;
 		HFGraphics::POINT_LIGHT_PRAM pointLightArray[64];
 		HFGraphics::SPOT_LIGHT_PRAM spotLightArray[64];
+
+
+		HFVECTOR4 lightDirection6;
+		HFGraphics::POINT_LIGHT_PRAM pointLightArray2[64];
+		HFGraphics::SPOT_LIGHT_PRAM spotLightArray2[64];
 	}CBUFFER0;
 
+	typedef struct CBUFFER1
+	{
+		HFVECTOR4 cameraPosition;
+	}CBUFFER1;
 public:
 	LightShaderOfDeferredRender();
 	LightShaderOfDeferredRender(const LightShaderOfDeferredRender&);

@@ -7,6 +7,7 @@
 #include "..\Public\ParticleShader.h"
 #include "..\..\..\..\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\..\..\..\ParticleSystem\Public\BaseEmitter.h"
+#include "..\..\..\..\RenderObject\Public\Mesh.h"
 
 
 struct IBUFFER0
@@ -85,7 +86,7 @@ bool ParticleShader::Setup()
 
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       1, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		// 各インスタンスのパラメータ
 		{ "MATRIX",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 2,  0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 		{ "MATRIX",   1, DXGI_FORMAT_R32G32B32A32_FLOAT, 2, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
@@ -114,37 +115,6 @@ bool ParticleShader::Setup()
 	return true;
 }
 
-bool ParticleShader::WriteInstanceData(std::shared_ptr<SubMesh> subMesh, void* pData, size_t stride,UINT count)
-{
-
-
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	HRESULT hr = E_FAIL;
-	hr = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(subMesh->GetVertexBuffers()[2]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-	if(FAILED(hr))
-	{
-		return false;
-	}
-	// Get matrix pointer 
-
-	HFMATRIX* pMat = (HFMATRIX*)(mappedResource.pData);
-	HFMATRIX* updateData = (HFMATRIX*)(pData);
-	// set transpose data
-	for (int i = 0; i < count; i++)
-	{
-		pMat[i] = updateData[i];
-	}
-
-	// Unlock the constant buffer.
-	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[0]->Get(), 0);
-
-	if (FAILED(hr))
-	{
-		return false;
-	}
-	return true;
-}
 
 /**=================================================================================================
  * @fn void ParticleShader::Destroy()
@@ -159,20 +129,22 @@ void ParticleShader::Destroy()
 
 }
 
-/**=================================================================================================
- * @fn bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
- *
- * @brief Pre process of render.
- *
- * @author Kazuyuki
- *
- * @param shape		 The shape.
- * @param parameter2 The second parameter.
- *
- * @return true if it succeeds, false if it fails.
- *===============================================================================================**/
 
-bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+
+/**=================================================================================================
+* @fn bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials)
+*
+* @brief Pre process of render.
+*
+* @author Kazuyuki
+*
+* @param shape		 The shape.
+* @param parameter2 The second parameter.
+*
+* @return true if it succeeds, false if it fails.
+*===============================================================================================**/
+
+bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> subMesh ,std::shared_ptr<Material>materials)
 {
 	bool result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -197,6 +169,8 @@ bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::sha
 	// Unlock the constant buffer.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[0]->Get(), 0);
 
+
+
 	// Set the position of the constant buffer in the vertex shader.
 	bufferNumber = 0;
 
@@ -212,27 +186,47 @@ bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::sha
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->VSSetConstantBuffers(bufferNumber, 1, m_constantBuffers[0]->GetAddressOf());
 
 	const UINT stride[3] = { sizeof(HFVECTOR3) , sizeof(HFVECTOR2),sizeof(HFMATRIX) };
-	const UINT offset[3] = {0,0,0};
+	const UINT offset[3] = { 0,0,0 };
 
 	const DWORD sematics[] = { HF_SEMANTICS_POSITION , HF_SEMANTICS_TEXCOORD0 , HF_SEMANTICS_MATRIX0 };
 
 	std::vector<std::shared_ptr<VertexBuffer>> bufferArray;
-	shape->GetVertexBuffers(3,sematics, bufferArray);
+	subMesh->GetVertexBuffers(3, sematics, bufferArray);
+
+
+
+	// update instance matrix
+	std::shared_ptr<BaseEmitter> emitter = std::dynamic_pointer_cast<BaseEmitter>(subMesh->GetParentMesh().lock()->GetParentObject().lock());
+	
+	sRENDER_DEVICE_MANAGER->GetTransform(&view, HFTS_VIEW);
+	sRENDER_DEVICE_MANAGER->GetTransform(&proj, HFTS_PERSPECTIVE);
+	HFMATRIX transpose = ::HFMatrixTranspose(view);
+	world = ::HFMatrixIdentity();
+	auto array = emitter->GetParticleArray();
+	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(bufferArray[2]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	IBUFFER0 *ibuffer0Ptr = (IBUFFER0*)(mappedResource.pData);
+	for (int i = 0 ;i < array.size();i++)
+	{	
+		ibuffer0Ptr[i].instanceMatWVP = HFMatrixTranspose(array[i]->GetTransform().GetWorldTransform() * view * proj);
+		
+	}
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(bufferArray[2]->Get(), 0);
+	  
 	// 頂点バッファのセット
-	for (int i = 0;i <3;i++)
+	for (int i = 0; i < 3; i++)
 	{
 		sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetVertexBuffers(i, 1, bufferArray[i]->GetAddressOf(), &stride[i], &offset[i]);
 
 	}
 	// インデックスバッファのセット
-	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetIndexBuffer(shape->GetIndexBuffer()->Get(), DXGI_FORMAT_R32_UINT, 0);
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetIndexBuffer(subMesh->GetIndexBuffer()->Get(), DXGI_FORMAT_R32_UINT, 0);
 
 	// プリミティブ タイプおよびデータの順序に関する情報を設定
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	// get index count
-	m_indexCount = shape->GetIndexCount();
-
+	m_indexCount = subMesh->GetIndexCount();
+	m_instanceCount = emitter->GetParticleArray().size();
 	return true;
 }
 
@@ -255,7 +249,7 @@ bool ParticleShader::Render()
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetSamplers(0, 1, m_cpSamplerState.GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	sRENDER_DEVICE_MANAGER->GetImmediateContext()->DrawIndexed(m_indexCount, 0, 0);
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->DrawIndexedInstanced(m_indexCount, m_instanceCount, 0,0, 0);
 
 
 	return true;

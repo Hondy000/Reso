@@ -7,6 +7,7 @@
 #include "../Public/ModelViewLevel.h"
 #include "../../../../HarmonyFrameWork/Core/Task/Public/TaskSystem.h"
 #include "../../../../HarmonyFrameWork/Core/Actor/Public/StaticMeshActor.h"
+#include "../Public/ModelViewLevelStates.h"
 
 using namespace std;
 
@@ -46,10 +47,7 @@ ModelViewLevel::~ModelViewLevel()
 
 bool ModelViewLevel::Init()
 {
-	shared_ptr<StaticMeshActor> actor = shared_ptr<StaticMeshActor>(new StaticMeshActor);
-	TaskSystem::GetInstance()->RegisterTask("staticmesh", actor);
-	
-		actor->LoadMesh("Resource/Mesh/Sphere.hfm");
+	RegisterState(std::make_shared<ModelViewLevelStartState>(),shared_from_this());
 	return true;
 }
 

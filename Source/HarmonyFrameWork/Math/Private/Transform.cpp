@@ -120,8 +120,8 @@ void Transform::SetPositionX(FLOAT x)
 		Quaternion q1 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(1, 0, 0), HFToRadian(_rotation.x));
 		Quaternion q2 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), HFToRadian(_rotation.y));
 		Quaternion q3 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(0, 0, 1), HFToRadian(_rotation.z));
-
-		m_rotation = q1;
+		HFQUATERNION q = q2 * q3;
+		m_rotation = q;
 
 	};
 	const FLOAT& Transform::GetQuaternionRotationX()const

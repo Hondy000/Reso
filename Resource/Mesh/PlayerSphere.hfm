@@ -881,15 +881,15 @@
 // MaterialInfomation
 0
 "phong2"
-1	1	1	
-""
-1	1	1	
+1.0	0.5	0.5	
+"""
+0.0 0.0 0.0
 "C:/Users/Kazuyuki/Desktop/uv.png"
-0.5	0.5	0.5	
+0.0 0.0 0.0
 ""
-0	0	0	
+0.0 0.0 0.0
 ""
-0	0	0	
+0.0 0.0 0.0
 ""
 0.5
 20
@@ -11489,15 +11489,15 @@
 // MaterialInfomation
 0
 "phong1"
-0	0	0	
-""
-1	1	1	
-"Resource/Texture/XA-20_Razorback_Strike_Fighter_P01.png"
 0.5	0.5	0.5	
 ""
-0	0	0	
+0.0 0.0 0.0
+"Resource/Texture/XA-20_Razorback_Strike_Fighter_P01.png"
+0.0 0.0 0.0
 ""
-0	0	0	
+0.0	0.0	0.0	
+""
+0.0 0.0 0.0
 ""
 0.5
 20

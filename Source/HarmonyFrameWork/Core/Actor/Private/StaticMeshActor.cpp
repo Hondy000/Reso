@@ -90,8 +90,8 @@ void StaticMeshActor::Reset()
 
 bool StaticMeshActor::LoadMesh(const std::string& path)
 {
-	m_mesh = MeshManager::GetInstance()->Get(path);
-	if (m_mesh)
+	SetMesh( MeshManager::GetInstance()->Get(path));
+	if (GetMesh())
 	{
 		return S_OK;
 	}

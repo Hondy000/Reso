@@ -51,7 +51,7 @@ namespace HFGraphics
 		virtual FLOAT GetDistance(HFVECTOR3 pos);		
 
 		// Access the Type
-		const LightType& GetType(void) const
+		const LightType& GetLightType(void) const
 		{
 			return(m_type);
 		};

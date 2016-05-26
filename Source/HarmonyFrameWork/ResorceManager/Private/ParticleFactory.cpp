@@ -3,6 +3,7 @@
 #include "..\..\Graphics\Buffer\Public\VertexBuffer.h"
 #include "..\..\Graphics\Shader\Basic\Public\BaseShader.h"
 #include "..\..\Graphics\Buffer\Public\IndexBuffer.h"
+#include "..\..\Graphics\Shader\DirectX\ver.11\Public\ParticleShader.h"
 using namespace std;
 ParticleFactory::ParticleFactory()
 {
@@ -17,7 +18,7 @@ std::shared_ptr<Mesh> ParticleFactory::GetQuadParticle(UINT particleNum)
 	shared_ptr<Mesh> staticMesh = make_shared<Mesh>();
 	staticMesh->GetSubMeshArray().resize(1);
 	staticMesh->GetSubMeshArray()[0] = make_shared<SubMesh>();
-
+	staticMesh->GetSubMeshArray()[0]->SetParentMesh(staticMesh);
 	vector<HFVECTOR3> positionArray;
 	vector<HFVECTOR2> uvArray;
 
@@ -43,10 +44,10 @@ std::shared_ptr<Mesh> ParticleFactory::GetQuadParticle(UINT particleNum)
 
 	uvArray.resize(4);
 
-	uvArray[0] = HFVECTOR2(-1, 1);
+	uvArray[0] = HFVECTOR2(0, 1);
 	uvArray[1] = HFVECTOR2(1, 1);
-	uvArray[2] = HFVECTOR2(-1, -1);
-	uvArray[3] = HFVECTOR2(1, -1);
+	uvArray[2] = HFVECTOR2(0, 0);
+	uvArray[3] = HFVECTOR2(1, 0);
 
 	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[1]->SetSemantics(HF_SEMANTICS_TEXCOORD0);
 	if ((!staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[1]->SetData(uvArray.data(), sizeof(HFVECTOR2), uvArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
@@ -63,6 +64,7 @@ std::shared_ptr<Mesh> ParticleFactory::GetQuadParticle(UINT particleNum)
 
 
 	shared_ptr<Material> spMaterial = make_shared<Material>();
+	spMaterial->SetMaterialShader(std::make_shared<ParticleShader>());
 	staticMesh->GetSubMeshArray()[0]->SetMaterial(spMaterial);
 
 	staticMesh->GetSubMeshArray()[0]->SetIndexBuffer(std::make_shared<IndexBuffer>());

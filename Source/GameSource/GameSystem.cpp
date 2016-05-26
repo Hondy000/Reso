@@ -127,14 +127,16 @@ void GameSystem::GameMain(void)
 		long frameTime = currentTime - execLastTime;
 		if (frameTime >= 1000 / 60)
 		{
-
+								 
+			execLastTime = timeGetTime();
 			sINPUT->Update();
 			sTASK_SYSTEM->Update();
 			sTASK_SYSTEM->Render();
-			execLastTime = timeGetTime();
 		}
 
 
 	}
+#ifdef DEBUG
 	sRENDER_DEVICE_MANAGER->GetCpD3DDebug()->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+#endif
 }

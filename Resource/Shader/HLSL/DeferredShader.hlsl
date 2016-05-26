@@ -72,7 +72,7 @@ PixelOutputType DeferredPixelShader(PixelInputType input) : SV_TARGET
 	PixelOutputType output;
 
 
-output.color = shaderTexture.Sample(SampleTypeWrap, input.tex);
+output.color = shaderTexture.Sample(SampleTypeWrap, input.tex) * diffuse;
 
 
 output.position = float4(input.worldPosition);

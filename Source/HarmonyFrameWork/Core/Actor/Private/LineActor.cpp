@@ -3,7 +3,6 @@
 
 LineActor::LineActor()
 {
-	Init();
 }
 
 LineActor::~LineActor()

@@ -12,7 +12,8 @@ class IBaseTexture;
 class BaseShader;
 class BaseRenderObject
 	:
-	virtual public IBaseTask
+	virtual public IBaseTask   ,
+	public inheritable_enable_shared_from_this<BaseRenderObject>
 {
 public:
 	BaseRenderObject()
@@ -34,19 +35,13 @@ public:
 
 	virtual bool Update() = 0;
 
-	virtual bool Render();
+	virtual bool RenderSubMesh(int elem);
 	
 
 
 	// Access the Mesh
-	const std::shared_ptr<Mesh>& GetMesh(void) const
-	{
-		return(m_mesh);
-	};
-	void SetMesh(const std::shared_ptr<Mesh>& mesh)
-	{
-		m_mesh = mesh;
-	};
+	const std::shared_ptr<Mesh>& GetMesh(void) const;
+	void SetMesh(const std::shared_ptr<Mesh>& mesh);
 
 	void SetSubMeshMaterial(UINT submeshNum, std::shared_ptr<Material> material);
 	const std::shared_ptr<Material>& GetSubMeshMaterial(UINT submeshNum);
@@ -59,7 +54,7 @@ public:
 
 	bool LoadDiffuseTexture2D(UINT submeshNum, HFString teturePath);
 
-protected:
+private:
 	std::shared_ptr<Mesh> m_mesh;
 public:
 };

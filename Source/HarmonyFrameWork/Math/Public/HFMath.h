@@ -124,6 +124,7 @@ public:
 	bool operator == (const HFVECTOR3&) const;
 	bool operator != (const HFVECTOR3&) const;
 
+
 	// cast
 #if DIRECTXTK
 	operator DirectX::SimpleMath::Vector3 ();
@@ -132,9 +133,7 @@ public:
 
 public:
 
-	FLOAT x;
-	FLOAT y;
-	FLOAT z;
+	FLOAT x,y,z;
 } HFVECTOR3, *LPHFVECTOR3;
 
 
@@ -322,7 +321,43 @@ public:
 
 
 
+//===========================================================================
+//
+// Planes
+//
+//===========================================================================
+typedef struct HFPLANE
+{
+#ifdef __cplusplus
+public:
+	HFPLANE() {}
+	HFPLANE(const FLOAT*);
+	HFPLANE(FLOAT a, FLOAT b, FLOAT c, FLOAT d);
 
+	// casting
+	operator FLOAT* ();
+	operator const FLOAT* () const;
+
+	// assignment operators
+	HFPLANE& operator *= (FLOAT);
+	HFPLANE& operator /= (FLOAT);
+
+	// unary operators
+	HFPLANE operator + () const;
+	HFPLANE operator - () const;
+
+	// binary operators
+	HFPLANE operator * (FLOAT) const;
+	HFPLANE operator / (FLOAT) const;
+
+	friend HFPLANE operator * (FLOAT, const HFPLANE&);
+
+	BOOL operator == (const HFPLANE&) const;
+	BOOL operator != (const HFPLANE&) const;
+
+#endif //__cplusplus
+	FLOAT a, b, c, d;
+} HFPLANE, *LPHFPLANE;
 //===========================================================================
 //
 // D3DX math functions:
@@ -550,8 +585,7 @@ HFVECTOR4*  HFVec4TransformArray
 
 // inline
 
-HFMATRIX* HFMatrixIdentity
-(HFMATRIX *pOut);
+HFMATRIX HFMatrixIdentity();
 
 bool HFMatrixIsIdentity
 (const HFMATRIX *pM);
@@ -793,3 +827,56 @@ inline FLOAT GetLengthOfArc(FLOAT radius, FLOAT radianAngle)
 	FLOAT ans = HF_PI * radius * 2 * radianAngle / (HF_PI * 2);
 	return ans;
 }
+
+
+//--------------------------
+// Plane
+//--------------------------
+
+// inline
+
+// ax + by + cz + dw
+FLOAT HFPlaneDot
+(const HFPLANE *pP, const HFVECTOR4 *pV);
+
+// ax + by + cz + d
+FLOAT HFPlaneDotCoord
+(const HFPLANE *pP, const HFVECTOR3 *pV);
+
+// ax + by + cz
+FLOAT HFPlaneDotNormal
+(const HFPLANE *pP, const HFVECTOR3 *pV);
+
+HFPLANE* HFPlaneScale
+(HFPLANE *pOut, const HFPLANE *pP, FLOAT s);
+
+// non-inline
+
+// Normalize plane (so that |a,b,c| == 1)
+HFPLANE*  HFPlaneNormalize
+(HFPLANE *pOut, const HFPLANE *pP);
+
+// Find the intersection between a plane and a line.  If the line is
+// parallel to the plane, NULL is returned.
+HFVECTOR3*  HFPlaneIntersectLine
+(HFVECTOR3 *pOut, const HFPLANE *pP, const HFVECTOR3 *pV1,
+	const HFVECTOR3 *pV2);
+
+// construct a plane from a point and a normal
+HFPLANE*  HFPlaneFromPointNormal
+(HFPLANE *pOut, const HFVECTOR3 *pPoint, const HFVECTOR3 *pNormal);
+
+// construct a plane from 3 points
+HFPLANE*  HFPlaneFromPoints
+(HFPLANE *pOut, const HFVECTOR3 *pV1, const HFVECTOR3 *pV2,
+	const HFVECTOR3 *pV3);
+
+// Transform a plane by a matrix.  The vector (a,b,c) must be normal.
+// M should be the inverse transpose of the transformation desired.
+HFPLANE*  HFPlaneTransform
+(HFPLANE *pOut, const HFPLANE *pP, const HFMATRIX *pM);
+
+// Transform an array of planes by a matrix.  The vectors (a,b,c) must be normal.
+// M should be the inverse transpose of the transformation desired.
+HFPLANE*  HFPlaneTransformArray
+(HFPLANE *pOut, UINT OutStride, const HFPLANE *pP, UINT PStride, const HFMATRIX *pM, UINT n);

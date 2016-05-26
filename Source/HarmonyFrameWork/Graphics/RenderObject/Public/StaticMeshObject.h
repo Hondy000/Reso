@@ -21,8 +21,7 @@
 
 class StaticMeshObject
 	:
-	public BaseRenderObject,
-	public inheritable_enable_shared_from_this<StaticMeshObject>
+	public BaseRenderObject
 {
 public:
 	StaticMeshObject() {};

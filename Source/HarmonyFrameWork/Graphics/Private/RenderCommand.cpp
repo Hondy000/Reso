@@ -28,7 +28,7 @@ bool RenderCommand::Command()
 		&VariableManagersManager::GetInstance()->GetVariable<Transform>(m_renderObject->GetGlobalID(), "m_transform")->GetValue()->GetWorldTransform(),
 		HFTS_WORLD
 			);
-	return m_renderObject->Render();	
+	return m_renderObject->RenderSubMesh(m_renderMeshElement);
 }
 
 /**********************************************************************************************//**

@@ -19,6 +19,8 @@
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\..\..\..\HarmonyFrameWork\Core\Actor\Public\EmitterActor.h"
+#include "..\..\..\..\HarmonyFrameWork\Collision\Public\CCollisionObjectFactory.h"
+#include "..\..\..\..\HarmonyFrameWork\Graphics\Lighting\Public\LightManager.h"
 
 using namespace std;
 
@@ -32,10 +34,17 @@ using namespace std;
 
 void VFXViewMainState::Enter( )
 {
+	shared_ptr<HFGraphics::DirectinalLight> directionalLight = make_shared<HFGraphics::DirectinalLight>();
+	HFGraphics::DIRECTIONAL_LIGHT_PRAM pram;
+	pram.color = HFVECTOR4(1, 1, 1, 1);
+	pram.direction = HFVECTOR4(1, -1, 1, 0);
+	directionalLight->SetPram(pram);
+	HFGraphics::LightManager::GetInstance()->Register(directionalLight);
+
 	// create camera
 	shared_ptr < CameraActor>	camera2D = make_shared<CameraActor>();
 	shared_ptr < CameraActor>	camera3D = make_shared<CameraActor>();
-	camera3D->SetCameraPosition(HFVECTOR3(0, 50, -50));
+	camera3D->SetCameraPosition(HFVECTOR3(0, 0, -50));
 	camera2D->SetIs2DCamera(true);
 	TaskSystem::GetInstance()->RegisterTask("2Dcamera", camera2D);
 	TaskSystem::GetInstance()->RegisterTask("3Dcamera", camera3D);
@@ -59,7 +68,10 @@ void VFXViewMainState::Enter( )
 	lineRenderer->AddLine(lineData);
 
 	shared_ptr<EmitterActor>emitter = make_shared<EmitterActor>();
+
+	//CCollisionObjectFactory::GetInstance()->CreateOBBObject(lineRenderer->GetMesh()->GetSubMeshArray()[0]);
 	emitter->Setup();
+	
 	sTASK_SYSTEM->RegisterTask("emitter", emitter);
 }
 

@@ -6,6 +6,8 @@
 #include "../../../../Texture/Public/BaseTexture2D.h"
 #include "../../../../RenderDevice/Basic/Public/BaseRenderDeviceManager.h"
 #include "../../../../RenderDevice/DirectX/ver.11/Public/DirectX11RenderDeviceManager.h"
+#include "..\..\..\..\Matetial\Public\Material.h"
+#include "..\..\..\..\RenderObject\Public\SubMesh.h"
 using namespace std;
 
 bool SimplePolygon3DShader::Setup()

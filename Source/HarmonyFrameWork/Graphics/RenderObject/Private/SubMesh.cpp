@@ -59,3 +59,23 @@ bool SubMesh::Render()
 	m_material->GetMaterialShader()->PostProcessOfRender();
 	return true;
 }
+
+bool SubMesh::GetPositions(std::vector<HFVECTOR3>& array)
+{
+	std::vector<std::shared_ptr<VertexBuffer>> buffer;
+	DWORD semantics = HF_SEMANTICS_POSITION;
+	GetVertexBuffers(1, &semantics, buffer);
+	array.resize( buffer[0]->GetDataCount());
+	buffer[0]->GetData(array.data(),sizeof(HFVECTOR3));
+	return true;
+}
+
+std::weak_ptr<Mesh> SubMesh::GetParentMesh() const
+{
+	return m_parentMesh;
+}
+
+void SubMesh::SetParentMesh(std::shared_ptr<Mesh>& _val)
+{
+	m_parentMesh = _val;
+}

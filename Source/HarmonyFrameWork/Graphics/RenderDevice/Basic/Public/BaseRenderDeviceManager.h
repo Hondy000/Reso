@@ -47,6 +47,19 @@ public:
 		return transform;
 	};
 
+
+	virtual void SetViewPosition(
+		const HFVECTOR3	 val
+		)
+	{
+		m_viewPosition = val;
+	};
+
+	// ä«óùçsóÒÇéÊìæ
+	virtual HFVECTOR3 GetViewPosition()
+	{
+		return m_viewPosition;
+	};
 	virtual HFVECTOR2 GetScreenSize()
 	{
 		return m_screenSize;
@@ -55,6 +68,7 @@ public:
 protected:
 	std::vector<HFMATRIX> m_transformArray;
 	HFVECTOR2 m_screenSize;
+	HFVECTOR3 m_viewPosition;
 };
 
 #endif

@@ -2,6 +2,8 @@
 #include "../Public/DeferredShader.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "../../../../RenderDevice/DirectX/ver.11/Public/GeometryBuffers.h"
+#include "..\..\..\..\Matetial\Public\Material.h"
+#include "..\..\..\..\RenderObject\Public\SubMesh.h"
 
 DeferredShader::DeferredShader()
 {
@@ -204,7 +206,7 @@ bool DeferredShader::PostProcessOfRender()
 {
 	Microsoft::WRL::ComPtr< ID3D11RenderTargetView> pNullRTV[7];
 
-	sRENDER_DEVICE_MANAGER->GetImmediateContext()->OMSetRenderTargets(7, pNullRTV[0].ReleaseAndGetAddressOf(), NULL);
+//	sRENDER_DEVICE_MANAGER->GetImmediateContext()->OMSetRenderTargets(7, pNullRTV[0].ReleaseAndGetAddressOf(), NULL);
 	return true;
 }
 

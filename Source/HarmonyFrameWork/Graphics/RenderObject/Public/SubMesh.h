@@ -9,6 +9,7 @@ namespace HFGraphics {
 
 class VertexBuffer;
 class IndexBuffer;
+class Mesh;
 
 
 class SubMesh 
@@ -69,6 +70,12 @@ public:
 		m_material = material;
 	};
 
+	bool GetPositions(std::vector<HFVECTOR3>& array);
+
+	std::weak_ptr<Mesh> GetParentMesh() const;
+
+	void SetParentMesh(std::shared_ptr<Mesh>& _val);
+
 protected:
 	/** @brief	頂点バッファ. */
 	std::vector<std::shared_ptr<VertexBuffer>> m_spVertexBuffers;
@@ -79,6 +86,7 @@ protected:
 	UINT m_stride;	// 頂点ストライド
 	UINT m_indexCount;
 	HFGraphics::MeshData m_meshData;
+	std::weak_ptr<Mesh> m_parentMesh;
 	// Access the RenderPriority
 	const DWORD& GetRenderPriority(void) const
 	{

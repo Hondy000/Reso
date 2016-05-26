@@ -61,6 +61,7 @@ std::shared_ptr<Mesh> MeshFactory::Create(const std::string & path)
 		data->submeshArray[i]->CreateMaterialVec4Element(emissiveVector, HFGraphics::MATERIAL_ELEMENT::EMISSIVE);
 		data->submeshArray[i]->CreateMaterialVec4Element(specularVector, HFGraphics::MATERIAL_ELEMENT::SPECULAR);
 		mesh->GetSubMeshArray()[i] = std::shared_ptr<SubMesh>(new SubMesh);
+		mesh->GetSubMeshArray()[i]->SetParentMesh(mesh);
 		mesh->GetSubMeshArray()[i]->GetVertexBuffers().resize(7);
 		for (int j = 0; j < mesh->GetSubMeshArray()[i]->GetVertexBuffers().size(); j++)
 		{
@@ -90,10 +91,10 @@ std::shared_ptr<Mesh> MeshFactory::Create(const std::string & path)
 		mesh->GetSubMeshArray()[i]->GetMaterial()->SetMaterialShader(std::make_shared<DeferredShader>());
 		mesh->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->Setup();
 
-		mesh->GetSubMeshArray()[i]->GetMaterial()->SetAmbient(HFVECTOR4(1.0f, 0.5f, 0.5f, 10));
-		mesh->GetSubMeshArray()[i]->GetMaterial()->SetDiffuse(HFVECTOR4(1.0f, 0.5f, 0.5f, 1));
-		mesh->GetSubMeshArray()[i]->GetMaterial()->SetEmissive(HFVECTOR4(1.0f, 0.5f, 0.5f, 10));
-		mesh->GetSubMeshArray()[i]->GetMaterial()->SetSpecular(HFVECTOR4(1.0f, 0.1f, 1.0f, 1));
+		mesh->GetSubMeshArray()[i]->GetMaterial()->SetAmbient(HFVECTOR4(ambientVector[0]));
+		mesh->GetSubMeshArray()[i]->GetMaterial()->SetDiffuse(HFVECTOR4(diffuseVector[0]));
+		mesh->GetSubMeshArray()[i]->GetMaterial()->SetEmissive(HFVECTOR4(emissiveVector[0]));
+		mesh->GetSubMeshArray()[i]->GetMaterial()->SetSpecular(HFVECTOR4(specularVector[0]));
 
 		std::shared_ptr<BaseTexture2D> diffuseTexture;
 		diffuseTexture = Texture2DManager::GetInstance()->Get(data->submeshArray[i]->materialArray[0].diffuseFileName);

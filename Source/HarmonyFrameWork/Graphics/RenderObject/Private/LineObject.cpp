@@ -40,7 +40,6 @@ struct Vertex
 
 LineObject::LineObject()
 {
-	Init();
 }
 
 /**=================================================================================================
@@ -67,7 +66,7 @@ LineObject::~LineObject()
 
 bool LineObject::Init()
 {
-	m_mesh = std::make_shared<Mesh>();
+	SetMesh( std::make_shared<Mesh>());
 	
 	return true;
 }
@@ -84,13 +83,13 @@ bool LineObject::Init()
 
 bool LineObject::Update()
 {
-	for (int i = 0; i < m_mesh->GetSubMeshArray().size(); i++)
+	for (int i = 0; i < GetMesh()->GetSubMeshArray().size(); i++)
 	{
 		std::shared_ptr<RenderCommand> command;
 		command = std::shared_ptr<RenderCommand>(new RenderCommand);
 		command->SetRenderObject(shared_from_this());
 		command->SetRenderMeshElement(i);
-		command->SetRenderPriority(m_mesh->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->GetPathPriority());
+		command->SetRenderPriority(GetMesh()->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->GetPathPriority());
 		sTASK_SYSTEM->RegisterRenderCommand(command);
 	}
 	return true;
@@ -123,7 +122,13 @@ void LineObject::Reset()
 
 bool LineObject::AddLine(HFGraphics::LineData& addLine)
 {
-	int i = m_mesh->GetSubMeshArray().size();
+	if (GetMesh() == nullptr)
+	{
+
+		SetMesh(std::make_shared<Mesh>());
+	}
+
+	int i = GetMesh()->GetSubMeshArray().size();
 	shared_ptr<SubMesh>	 addSubmesh = make_shared<SubMesh>();
 	vector<shared_ptr<VertexBuffer>> vertexVector;
 	shared_ptr<VertexBuffer> positionBuffer = make_shared<VertexBuffer>();
@@ -131,13 +136,13 @@ bool LineObject::AddLine(HFGraphics::LineData& addLine)
 	if(positionBuffer->SetData(addLine.positions.data(),sizeof(HFVECTOR3),addLine.positions.size(), BaseBuffer::ACCESS_FLAG::WRITEONLY))
 	{
 		addSubmesh->SetVertexBuffers(vertexVector);
-		m_mesh->GetSubMeshArray().push_back(addSubmesh);
-		int addElem = m_mesh->GetSubMeshArray().size()-1;
+		GetMesh()->GetSubMeshArray().push_back(addSubmesh);
+		int addElem = GetMesh()->GetSubMeshArray().size()-1;
 		shared_ptr<Material>  material = make_shared<Material>();
 		material->SetMaterialShader(make_shared<LineShader>());
 		material->GetMaterialShader()->Setup();
-		m_mesh->GetSubMeshArray()[addElem]->SetMaterial(material);
-		m_mesh->GetSubMeshArray()[addElem]->GetVertexBuffers().push_back(positionBuffer);
+		GetMesh()->GetSubMeshArray()[addElem]->SetMaterial(material);
+		GetMesh()->GetSubMeshArray()[addElem]->GetVertexBuffers().push_back(positionBuffer);
 		// index
 		std::shared_ptr<IndexBuffer> indexBuffer = std::make_shared<IndexBuffer>();
 		std::vector<UINT> indexVector;
@@ -148,7 +153,7 @@ bool LineObject::AddLine(HFGraphics::LineData& addLine)
 		}
 		if(indexBuffer->SetData(indexVector.data(), sizeof(UINT), indexVector.size(), BaseBuffer::ACCESS_FLAG::WRITEONLY))
 		{
-			m_mesh->GetSubMeshArray()[addElem]->SetIndexBuffer(indexBuffer);
+			GetMesh()->GetSubMeshArray()[addElem]->SetIndexBuffer(indexBuffer);
 			return true;
 		}
 	}
