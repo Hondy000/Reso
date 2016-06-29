@@ -459,8 +459,8 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	// Get a pointer to the data in the constant buffer.
 	dataPtr3 = (CBUFFER1*)mappedResource.pData;
 
-	// Copy the matrices into the constant buffer.
-	dataPtr3->cameraPosition = HFVECTOR4(sRENDER_DEVICE_MANAGER->GetViewPosition(), 0);
+	// Copy the matrices into the constant buffer.										 
+	dataPtr3->cameraPosition = HFVECTOR4(sRENDER_DEVICE_MANAGER->GetViewPosition().x, sRENDER_DEVICE_MANAGER->GetViewPosition().y, sRENDER_DEVICE_MANAGER->GetViewPosition().z, 0);
 
 	// Unlock the constant buffer.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[2]->Get(), 0);

@@ -19,7 +19,8 @@ public:
 
 	bool ReadPosition(std::shared_ptr<HFGraphics::SubMeshData> meshData);
 	bool ReadNormal(std::shared_ptr<HFGraphics::SubMeshData> meshData);
-	bool ReadUV(std::shared_ptr<HFGraphics::SubMeshData> meshData);
+	bool ReadUV(std::shared_ptr<HFGraphics::SubMeshData> meshData);		 
+	bool ReadBiNormal(std::shared_ptr<HFGraphics::SubMeshData> meshData);
 	bool ReadMaterial(std::shared_ptr<HFGraphics::SubMeshData> meshData);
 	// Access the SrcMesh
 

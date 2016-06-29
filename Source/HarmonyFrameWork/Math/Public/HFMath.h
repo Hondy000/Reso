@@ -6,7 +6,8 @@
 
 #endif
 #ifdef DIRECTXTK   
-#include <SimpleMath.h>	  
+#include <SimpleMath.h>	 
+#include <DirectXMesh.h>
 
 #endif // WINDOWS10
 
@@ -49,6 +50,16 @@
 // Vectors
 //
 //===========================================================================
+#ifndef DIRECTXMATH
+typedef __m128 HFVECTOR;
+#elseif
+typedef XMVECTOR HFVECTOR;
+
+#endif
+
+#ifdef DIRECTXMATH
+typedef DirectX::SimpleMath::Vector2 HFVECTOR2;
+#else
 
 //--------------------------
 // 2D Vector
@@ -81,13 +92,20 @@ public:
 
 	bool operator == (const HFVECTOR2&) const;
 	bool operator != (const HFVECTOR2&) const;
+	operator DirectX::SimpleMath::Vector2();
 
 public:
 #endif //__cplusplus
 	FLOAT x, y;
 } HFVECTOR2, *LPHFVECTOR2;
+#endif
 
 
+
+
+#ifdef DIRECTXMATH
+typedef DirectX::SimpleMath::Vector3 HFVECTOR3;
+#else
 
 //--------------------------
 // 3D Vector
@@ -135,9 +153,13 @@ public:
 
 	FLOAT x,y,z;
 } HFVECTOR3, *LPHFVECTOR3;
+#endif
 
 
 
+#ifdef DIRECTXMATH		
+typedef DirectX::SimpleMath::Vector4 HFVECTOR4;
+#else
   //--------------------------
   // 4D Vector
   //--------------------------
@@ -172,15 +194,26 @@ public:
 
 public:
 #endif //__cplusplus
-	FLOAT x, y, z, w;
+	union
+	{
+		float       vector4_f32[4];
+		uint32_t    vector4_u32[4];
+		FLOAT x, y, z, w;
+
+	};
 } HFVECTOR4, *LPHFVECTOR4;
 
+#endif 
 
    //===========================================================================
    //
    // Matrices
    //
    //===========================================================================
+   
+#ifdef DIRECTXMATH
+typedef DirectX::SimpleMath::Matrix HFMATRIX;
+#else
 #ifdef __cplusplus
 typedef struct HFMATRIX
 {
@@ -266,12 +299,20 @@ public:
 typedef struct _HFMATRIX HFMATRIX, *LPHFMATRIX;
 #endif //!__cplusplus
 
+#endif
+
+
 
 //===========================================================================
 //
 //    Quaternions
 //
 //===========================================================================
+
+
+#ifdef DIRECTXMATH
+typedef DirectX::SimpleMath::Quaternion HFQUATERNION;
+#else 
 typedef struct HFQUATERNION
 {
 #ifdef __cplusplus
@@ -319,13 +360,17 @@ public:
 	FLOAT x, y, z, w;
 } HFQUATERNION, *LPHFQUATERNION;
 
+#endif 
 
-
+ 
 //===========================================================================
 //
 // Planes
 //
 //===========================================================================
+#ifdef DIRECTXMATH
+typedef DirectX::SimpleMath::Plane HFPLANE;
+#else
 typedef struct HFPLANE
 {
 #ifdef __cplusplus
@@ -358,6 +403,7 @@ public:
 #endif //__cplusplus
 	FLOAT a, b, c, d;
 } HFPLANE, *LPHFPLANE;
+#endif
 //===========================================================================
 //
 // D3DX math functions:
@@ -880,3 +926,5 @@ HFPLANE*  HFPlaneTransform
 // M should be the inverse transpose of the transformation desired.
 HFPLANE*  HFPlaneTransformArray
 (HFPLANE *pOut, UINT OutStride, const HFPLANE *pP, UINT PStride, const HFMATRIX *pM, UINT n);
+
+

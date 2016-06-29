@@ -191,7 +191,7 @@ bool FowardDiffuseOnlyMeshShader::PreProcessOfRender(std::shared_ptr<SubMesh> me
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(m_constantBuffers[2]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	CBUFFER2* cbptr;
 	cbptr = (CBUFFER2*)mappedResource.pData;
-	cbptr->pos = HFVECTOR4(sRENDER_DEVICE_MANAGER->GetViewPosition(), 0);
+	cbptr->pos = HFVECTOR4(sRENDER_DEVICE_MANAGER->GetViewPosition().x, sRENDER_DEVICE_MANAGER->GetViewPosition().y, sRENDER_DEVICE_MANAGER->GetViewPosition().z, 0);
 	std::shared_ptr< HFGraphics::DirectinalLight  > spLight;
 	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(spLight);
 	cbptr->dire = HFVECTOR4(spLight->GetPram().direction);

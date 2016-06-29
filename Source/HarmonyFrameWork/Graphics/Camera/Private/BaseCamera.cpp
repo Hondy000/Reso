@@ -63,7 +63,7 @@ bool BaseCamera::Init(void)
 	m_upVector = HFVECTOR3(0.0f, 1.0f, 0.0f);
 	m_viewAngle = (FLOAT)HF_PI / 4.0f;;
 	m_viewVector = HFVECTOR3(0.0f, 0.00f, 1.0f);
-	m_distanceFromFollowTarget = { 0,10,20 };
+	m_distanceFromFollowTarget = HFVECTOR3( 0,10,20);
 	m_rotation.x = (0);
 	m_rotation.y = (0);
 	m_rotation.z = (0);

@@ -122,15 +122,15 @@ CollisionPlanesObject::PLANE_INFO CCollisionObjectFactory::CreatePlaneInfo
 
 	normal = HFVec3Cross(p1p2, p2p3); // ŠOÏ‚ğ‹‚ß‚é
 	normal = HFVec3Normalize( normal); // ’·‚³‚ğ1‚É‚µ‚Ä‚¨‚­
-	plane.plane.a = normal.x;
-	plane.plane.b = normal.y;
-	plane.plane.c = normal.z;
+	plane.plane.x = normal.x;
+	plane.plane.y = normal.y;
+	plane.plane.z = normal.z;
 	plane.normal = normal;
 	plane.p0 = p1;
 	plane.p1 = p2;
 	plane.p2 = p3;
 
-	plane.plane.d = -(plane.plane.a * p1.x + plane.plane.b * p1.y + plane.plane.c * p1.z);
+	plane.plane.w = -(plane.plane.x  * p1.x + plane.plane.y * p1.y + plane.plane.z * p1.z);
 	return plane;
 }
 

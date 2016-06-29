@@ -75,15 +75,15 @@ namespace HFGraphics
 			{
 			case MATERIAL_ELEMENT::AMBIENT:
 			{
-				return HFVECTOR4(ambient, transparency);
+				return HFVECTOR4(ambient.x, ambient.y, ambient.z, transparency);
 			}
 			break;
 			case MATERIAL_ELEMENT::DIFFUSE:
-				return HFVECTOR4(diffuse, transparency);
+				return HFVECTOR4(diffuse.x, diffuse.y, diffuse.z, transparency);
 			case MATERIAL_ELEMENT::SPECULAR:
-				return HFVECTOR4(ambient, reflectivity);
+				return HFVECTOR4(specular.x, specular.y, specular.z, reflectivity);
 			case MATERIAL_ELEMENT::EMISSIVE:
-				return HFVECTOR4(specular, shininess);
+				return HFVECTOR4(emissive.x, emissive.y, emissive.z, shininess);
 			default: break;
 			}
 		}
@@ -99,44 +99,46 @@ namespace HFGraphics
 		:
 		public LineData
 	{
-		std::vector<UINT> indexArray;
+		std::vector<uint32_t> indexArray;
 		std::vector<MATERIAL> materialArray;
-		std::vector<UINT> materialIndexArray;
+		std::vector<uint32_t> materialIndexArray;
 
 		MAPPING_MODE materialMappingMode;
 		REFERENCE_MODE materialReference;
 
 		std::vector<HFVECTOR2> uvArray;
-		std::vector<UINT> uvIndexArray;
+		std::vector<uint32_t> uvIndexArray;
 
 		MAPPING_MODE uvMappingMode;
 		REFERENCE_MODE uvReference;
 	};
 
+	// バッファに取り込ませるためのサブメッシュデータ
 	struct SubMeshData
 	{
 		std::string name;
 		std::vector<HFVECTOR3> vertexPositionArray;
-		std::vector<UINT> porygonIndexArray;
+		std::vector<uint32_t> porygonIndexArray;
 
 		std::vector<HFVECTOR3> vertexNormalArray;
-		std::vector<UINT> normalIndexArray;
+		std::vector<HFVECTOR4> biNormalArray;
+		std::vector<uint32_t> normalIndexArray;
 		MAPPING_MODE normalMappingMode;
 		REFERENCE_MODE normalReference;
 
 		std::vector<MATERIAL> materialArray;
-		std::vector<UINT> materialIndexArray;
+		std::vector<uint32_t> materialIndexArray;
 
 		MAPPING_MODE materialMappingMode;
 		REFERENCE_MODE materialReference;
 
 		std::vector<HFVECTOR2> uvArray;
-		std::vector<UINT> uvIndexArray;
+		std::vector<uint32_t> uvIndexArray;
 
 		MAPPING_MODE uvMappingMode;
 		REFERENCE_MODE uvReference;
 
-		void CreatePolygonIndex(std::vector<UINT>&);
+		void CreatePolygonIndex(std::vector<uint32_t>&);
 		void CreatePositionElement(std::vector<HFVECTOR3>&);
 
 		void CreateNormalElement(std::vector<HFVECTOR3>&);

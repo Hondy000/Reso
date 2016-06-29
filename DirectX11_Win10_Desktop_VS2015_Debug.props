@@ -3,12 +3,12 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>C:\work\DirectXTK\Inc;C:\work\DirectXTex\DirectXTex;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\work\DirectXTK\Bin\Desktop_2015_Win10\x64\Debug;C:\work\DirectXTex\DirectXTex\Bin\Desktop_2015_Win10\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\work\DirectXTK\Inc;C:\work\DirectXTex\DirectXTex;C:\work\DirectXMesh\DirectXMesh;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\work\DirectXTK\Bin\Desktop_2015_Win10\x64\Debug;C:\work\DirectXTex\DirectXTex\Bin\Desktop_2015_Win10\x64\Debug;C:\work\DirectXMesh\DirectXMesh\Bin\Desktop_2015\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>DIRECTX;DIRECTX11;DIRECTXTEX;DIRECTXTK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;DIRECTXTEX;DIRECTXTK;DIRECTXMATH;DIRECTXMESH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>

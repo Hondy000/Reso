@@ -2,6 +2,7 @@
 #include "../Public/HFMath.h"
 #ifdef DIRECTX
 
+#ifndef DIRECTXMATH
 HFVECTOR2::HFVECTOR2(FLOAT x, FLOAT y)
 {
 	this->x = x;
@@ -99,6 +100,12 @@ HFVECTOR2 operator* (FLOAT S, const HFVECTOR2& V)
 	HFVECTOR2 r = V *  S;
 	return r;
 }
+#ifdef DIRECTXTK	   
+HFVECTOR2::operator DirectX::SimpleMath::Vector2()
+{
+	return DirectX::SimpleMath::Vector2(x, y);
+}
+#endif
 
 HFVECTOR3 operator*(FLOAT S, const HFVECTOR3 &V)
 {
@@ -578,6 +585,7 @@ HFMATRIX HFMATRIX::operator-(const HFMATRIX &m) const
 
 
 
+#endif
 
 FLOAT HFVec2Length
 (const HFVECTOR2 *pV)
@@ -1650,6 +1658,7 @@ HFMATRIX*  HFMatrixOrthoOffCenterLH
 
 // inline					 
 
+#ifndef DIRECTXMATH
 HFQUATERNION::HFQUATERNION(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
 {
 	this->x = x;
@@ -1674,7 +1683,7 @@ HFQUATERNION HFQUATERNION::operator*(const HFQUATERNION&right) const
 
 	return   ans;
 }
-
+#endif
 FLOAT HFQuaternionLength
 (const HFQUATERNION *pQ)
 {
@@ -1781,12 +1790,7 @@ HFQUATERNION*  HFQuaternionRotationMatrix
 
 	return pOut;
 };
-#ifdef DIRECTXTK	   
-HFQUATERNION::operator DirectX::SimpleMath::Quaternion()
-{
-	return DirectX::SimpleMath::Quaternion(x, y, z,w);
-}
-#endif
+
 
 
 

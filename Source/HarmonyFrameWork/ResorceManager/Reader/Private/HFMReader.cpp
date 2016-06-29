@@ -226,7 +226,7 @@ bool HFMReader::ReadNormal(std::shared_ptr<SubMeshData> meshData)
 			meshData->normalIndexArray[i] = (index);
 		}
 	}
-
+	
 	return false;
 }
 
@@ -320,6 +320,26 @@ bool HFMReader::ReadUV(std::shared_ptr<SubMeshData> meshData)
 	}
 
 	return true;
+}
+
+bool HFMReader::ReadBiNormal(std::shared_ptr<HFGraphics::SubMeshData> meshData)
+{
+
+#ifdef  DIRECTX11	   
+	DirectX::XMFLOAT4  * ptr = meshData->biNormalArray.data();;
+
+
+	HRESULT hr = DirectX::ComputeTangentFrame
+	(
+		meshData->porygonIndexArray.data(),
+		meshData->porygonIndexArray.size(),
+		meshData->vertexPositionArray.data(),
+		meshData->vertexNormalArray.data(),
+		meshData->uvArray.data(),
+		meshData->vertexPositionArray.size(), ptr);
+
+	return SUCCEEDED(hr);
+#endif //  DIRECTX11	  
 }
 
 bool HFMReader::ReadMaterial(std::shared_ptr<SubMeshData> meshData)
@@ -629,6 +649,7 @@ bool HFMReader::ReadSubMesh(const std::shared_ptr<HFGraphics::MeshData>& object)
 			ReadPosition(object->submeshArray[i]);
 			ReadNormal(object->submeshArray[i]);
 			ReadUV(object->submeshArray[i]);
+			ReadBiNormal(object->submeshArray[i]);
 			ReadMaterial(object->submeshArray[i]);
 			
 		}

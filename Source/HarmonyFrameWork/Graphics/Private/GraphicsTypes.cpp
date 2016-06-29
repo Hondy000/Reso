@@ -8,7 +8,7 @@
 
 namespace HFGraphics 
 {
-	void SubMeshData::CreatePolygonIndex(std::vector<UINT>& indices)
+	void SubMeshData::CreatePolygonIndex(std::vector<uint32_t>& indices)
 	{
 		if (uvIndexArray.size() != porygonIndexArray.size())
 		{

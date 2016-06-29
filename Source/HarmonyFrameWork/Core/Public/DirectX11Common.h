@@ -25,6 +25,11 @@
 #ifdef DIRECTXTK
 #pragma comment(lib,"DirectXTK.lib")	 			
 #endif
+
+#ifdef DIRECTXMESH
+#pragma comment(lib,"DirectXMesh.lib")	 			
+#endif
+
 #pragma comment(lib,"d3dcompiler.lib")
 #define STRICT              // 型チェックを厳密に行う
 #define WIN32_LEAN_AND_MEAN // ヘッダーからあまり使われない関数を除く

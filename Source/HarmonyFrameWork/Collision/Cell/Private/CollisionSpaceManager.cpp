@@ -25,7 +25,7 @@
   * @return	true if it succeeds, false if it fails.
   **************************************************************************************************/
 
-bool CollisionSpaceManager::Setup(unsigned int layer, struct HFVECTOR3 center, HFVECTOR3 size)
+bool CollisionSpaceManager::Setup(unsigned int layer,  HFVECTOR3 center, HFVECTOR3 size)
 {
 	int num = 0;
 	m_center = center;
@@ -214,7 +214,7 @@ DWORD CollisionSpaceManager::FindMortonNumberOfPoint(const HFVECTOR3& pPoint)
 {
 	// 最下位レベルでXYZが何番目の部屋の座標にあるか調べる
 	HFVECTOR3 minSize = m_size / pow(2, m_level);
-	HFVECTOR3 startPoint = m_center - m_size / 2;	// 最小座標
+	HFVECTOR3 startPoint = m_center - (HFVECTOR3)(m_size / 2);	// 最小座標
 	HFVECTOR3 position;		// 座標ごとの部屋位置
 	position.x = (pPoint - startPoint).x / minSize.x;
 	position.y = (pPoint - startPoint).y / minSize.y;

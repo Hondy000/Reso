@@ -284,6 +284,9 @@
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\PMXReader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\Time.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\HarmonyFrameWork\Math\Public\HFMathConvert.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{827B7004-BF47-4CA5-9B32-B30B408FEDAC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -376,6 +379,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

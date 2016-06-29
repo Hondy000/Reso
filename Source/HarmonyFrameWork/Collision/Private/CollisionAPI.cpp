@@ -163,8 +163,8 @@ bool isCollisionOfPlaneAndRay(CollisionPlanesObject::PLANE_INFO plane, BaseColli
 	}
 	*/
 
-	HFVECTOR3 p = HFVECTOR3(plane.plane.a * plane.plane.d, plane.plane.b * plane.plane.d, plane.plane.c * plane.plane.d);
-	HFVECTOR3 normal = HFVECTOR3(plane.plane.a, plane.plane.b, plane.plane.c);
+	HFVECTOR3 p = HFVECTOR3(plane.plane.x * plane.plane.w, plane.plane.y * plane.plane.w, plane.plane.z * plane.plane.w);
+	HFVECTOR3 normal = HFVECTOR3(plane.plane.x, plane.plane.y, plane.plane.z);
 	float c = HFVec3Dot(&p, &plane.normal);
 	float dot = HFVec3Dot(&normal, &ray.direction);
 	if (dot == 0)
@@ -172,7 +172,7 @@ bool isCollisionOfPlaneAndRay(CollisionPlanesObject::PLANE_INFO plane, BaseColli
 		return false;
 	}
 
-	float t = -((HFVec3Dot(&normal, &ray.startPoint) + plane.plane.d) / HFVec3Dot(&normal, &ray.direction));
+	float t = -((HFVec3Dot(&normal, &ray.startPoint) + plane.plane.w) / HFVec3Dot(&normal, &ray.direction));
 	*collisionPoint = ray.startPoint + ray.direction * t;
 
 	//LengthPointToPlane(line_o, plane, ans);
