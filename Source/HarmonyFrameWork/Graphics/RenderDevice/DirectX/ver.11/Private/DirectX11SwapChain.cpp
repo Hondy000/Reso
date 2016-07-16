@@ -5,6 +5,8 @@
  **************************************************************************************************/
 
 #include "../Public/DirectX11SwapChain.h"
+#include "../../../../../Debug/Public/Debug.h"
+#include "../../../../../Utility/Public/HFString.h"
 
 /**********************************************************************************************//**
  * @fn	DirectX11SwapChain::DirectX11SwapChain()
@@ -53,7 +55,7 @@ HRESULT DirectX11SwapChain::CreateSwapChain(
 	HWND hWnd
 	)
 {
-	HRESULT hr = E_FAIL;
+	HRESULT hr = E_FAIL;  HFString test;
 	TCHAR s[256];
 	IDXGIFactory* pFactory = NULL;
 
@@ -114,20 +116,20 @@ HRESULT DirectX11SwapChain::CreateSwapChain(
 		if (Quality != 0)
 		{
 			sd.SampleDesc.Count = i;
-			sd.SampleDesc.Quality = Quality - 1;
+			sd.SampleDesc.Quality = Quality-1;
 
 			// スワップチェーンを作成する。
 			// CreateSwapChain
 			hr = pFactory->CreateSwapChain(m_cpDevice.Get(), &sd, m_cpSwapChain.GetAddressOf());
 			_stprintf_s(s, _T("Count(%d) Quality(%d)"), sd.SampleDesc.Count, sd.SampleDesc.Quality);
 			if (SUCCEEDED(hr))
-			{
-				//	OutputMsg(_T("マルチサンプル"), s, _T("ОＫ"));
+			{			
+				CONSOLE_LOG(("マルチサンプル"), (s), ("OK\n"));
 				break;
 			}
 			else
 			{
-				//	OutputMsg(_T("マルチサンプル"), s, _T("ＮＧ"));
+				HFDebug::Debug::Log(HFString("マルチサンプル")+HFString(s)+ HFString("ＮＧ\n"));
 			}
 		}
 	}
@@ -137,11 +139,12 @@ HRESULT DirectX11SwapChain::CreateSwapChain(
 		goto EXIT;
 	}
 
-	_stprintf_s(s, _T("解像度( %d : %d )　リフレッシュレート( %d / %d )"),
-		pDisplayMode->Width, pDisplayMode->Height, pDisplayMode->RefreshRate.Denominator, pDisplayMode->RefreshRate.Numerator);
-	//OutputMsg(_T("ディスプレイモード"), s, _T("選択"));
 
-	//OutputMsg(_T("スワップチェーン作成"), _T(""), _T("完了"));
+	test = HFString::Concat(_T("解像度( %d : %d )　リフレッシュレート( %d / %d )"), pDisplayMode->Width, pDisplayMode->Height, pDisplayMode->RefreshRate.Denominator, pDisplayMode->RefreshRate.Numerator);
+	_stprintf_s(s, _T("解像度( %d : %d )　リフレッシュレート( %d / %d )"),pDisplayMode->Width, pDisplayMode->Height, pDisplayMode->RefreshRate.Denominator, pDisplayMode->RefreshRate.Numerator);
+	CONSOLE_LOG(_T("ディスプレイモード"), s, _T("選択"));
+
+	CONSOLE_LOG(_T("スワップチェーン作成"),  _T("完了"));
 
 	//使用可能なMSAAを取得
 	DXGI_SAMPLE_DESC MSAA;

@@ -3,22 +3,37 @@
 namespace UTILITY
 {
 
+	// 文字列の結合
+
+	// 可変長引数の左シフト出力を結合する(再帰の番兵みたいな奴)
+	static inline void ConcatString(std::stringstream &sout)
+	{
+	}
+
+	// 可変長引数の左シフト出力を結合する
+	template<typename First, typename... Rest>
+	static
+		void ConcatString(std::stringstream &sout, const First& first, const Rest&... rest)
+	{
+		sout << first;
+		ConcatString(sout, rest...);			 // 再帰
+	}
 
 	/**********************************************************************************************//**
-																									* @fn	inline void ExtractionStringBlockFromSentence ( std::string& outsSring, std::string& sentence, int index, std::string& startKeyword, std::string& endKeyword, int* progressIndex )
-																									*
-																									* @brief	文字列からブロック指定した文字を元に文字列を抽出.
-																									*
-																									* @author	Kazuyuki Honda
-																									* @date	2015/11/01
-																									*
-																									* @param [in,out]	outsSring	 	The outs sring.
-																									* @param [in,out]	sentence	 	The sentence.
-																									* @param	index				 	Zero-based index of the.
-																									* @param [in,out]	startKeyword 	ブロック先頭文字.
-																									* @param [in,out]	endKeyword   	ブロック終端文字.
-																									* @param [in,out]	progressIndex	If non-null, zero-based index of the progress.
-																									**************************************************************************************************/
+	* @fn	inline void ExtractionStringBlockFromSentence ( std::string& outsSring, std::string& sentence, int index, std::string& startKeyword, std::string& endKeyword, int* progressIndex )
+	*
+	* @brief	文字列からブロック指定した文字を元に文字列を抽出.
+	*
+	* @author	Kazuyuki Honda
+	* @date	2015/11/01
+	*
+	* @param [in,out]	outsSring	 	The outs sring.
+	* @param [in,out]	sentence	 	The sentence.
+	* @param	index				 	Zero-based index of the.
+	* @param [in,out]	startKeyword 	ブロック先頭文字.
+	* @param [in,out]	endKeyword   	ブロック終端文字.
+	* @param [in,out]	progressIndex	If non-null, zero-based index of the progress.
+	**************************************************************************************************/
 
 	inline void ExtractionStringBlockFromSentence
 		(

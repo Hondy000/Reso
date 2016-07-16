@@ -12,6 +12,8 @@
 #include "../../../Basic/Public/RendererManager.h"
 #include "..\..\..\..\..\Utility\Public\HFString.h"
 #include "..\..\..\..\..\Platform\Windows\BaseWindow.h"
+#include <comdef.h>
+#include "../../../../../Debug/Public/Debug.h"
 using namespace std;	
 using namespace Microsoft::WRL;
 
@@ -90,7 +92,7 @@ bool DirectX11RenderDeviceManager::Setup(void)
 
 	m_screenSize.x = m_displayMode.Width;
 	m_screenSize.y = m_displayMode.Height;
-	InitD3D11(&m_displayMode, true, true, true, true);	
+	InitD3D11(&m_displayMode, true, true, false, true);	
 	return hr;
 }
 
@@ -379,15 +381,15 @@ bool DirectX11RenderDeviceManager::CreateDevice(bool DirectX11Only)
 	// ビデオカードがサポートするDirect3Dおよびシェーダーモデルのバージョンを上位から自動選択
 	else
 		featureCnt = sizeof(FeatureLevel) / sizeof(D3D_FEATURE_LEVEL);
-
-#if defined(DEBUG) || defined(_DEBUG)
+	UINT createDeviceFlag = 0;
+//#if defined(DEBUG) || defined(_DEBUG)
 
 	// デバッグコンパイルの場合、デバッグレイヤーを有効にする。
 	// ソフトウェア レイヤー
-	UINT createDeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
-#else
-	UINT createDeviceFlag = 0;
-#endif
+	//createDeviceFlag = D3D11_CREATE_DEVICE_DEBUG;
+//#else
+	createDeviceFlag = 0;
+//#endif
 	hr = D3D11CreateDevice(
 		m_spAdapter->GetAdapter().Get(),
 		D3D_DRIVER_TYPE_UNKNOWN,
@@ -520,7 +522,7 @@ bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 
 	//if (m_SwapChain == NULL) goto EXIT;
 
-	OutputMsg(_T("深度バッファビュー作成"), _T(""), _T("開始"));
+	HFDebug::Debug::Log(_T("深度バッファビュー作成 開始"));
 
 	DXGI_SWAP_CHAIN_DESC chainDesc;
 
@@ -1183,7 +1185,7 @@ bool DirectX11RenderDeviceManager::CreateShaderResourceViewArray(
 	}
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
-	ZeroMemory(&SRVDesc, sizeof(SRVDesc));
+	::ZeroMemory(&SRVDesc, sizeof(SRVDesc));
 	SRVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
 	SRVDesc.Texture2DArray.MipLevels = desc.MipLevels;
@@ -2272,7 +2274,9 @@ ComPtr< ID3D11ShaderResourceView> DirectX11RenderDeviceManager::GetSRViewFromDep
 bool DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& ppRTView, HFVECTOR2* pRTViewSize, DXGI_FORMAT Format)
 {
 	HRESULT hr;
+
 	hr = CreateRenderTargetView(ppRTView, pRTViewSize, Format, 1);
+
 	return hr;
 }
 
@@ -2342,7 +2346,19 @@ bool DirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr
 
 	hr = m_cpD3DDevice->CreateTexture2D(&Tex2DDesc, NULL, pTexture2D.GetAddressOf());
 	if (FAILED(hr))
-		goto EXIT;
+	{
+		LPVOID  message;
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+			FORMAT_MESSAGE_FROM_SYSTEM,
+			NULL,
+			hr,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			(LPTSTR)&message,
+			0,
+			NULL);
+			OutputDebugString((LPTSTR)message);
+		LocalFree(message);
+	}
 
 	hr = m_cpD3DDevice->CreateRenderTargetView(pTexture2D.Get(), &RTVDesc, (ppRTView).GetAddressOf());
 	if (FAILED(hr))

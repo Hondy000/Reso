@@ -85,6 +85,7 @@
     <ClInclude Include="Source\HarmonyFrameWork\Core\Task\Public\BasicTasks.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Task\Public\TaskInterface.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Core\Task\Public\TaskSystem.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Debug\Public\Debug.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\basebuffer.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\ConstantBuffer.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\IndexBuffer.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\Core\State\Private\StateHolder.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Task\Private\TaskInterface.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Core\Task\Private\TaskSystem.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Debug\Private\Debug.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\BaseBuffer.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\ConstantBuffer.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\IndexBuffer.cpp" />
@@ -282,6 +284,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\ACTReader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\HFMReader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\PMXReader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\HFString.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
