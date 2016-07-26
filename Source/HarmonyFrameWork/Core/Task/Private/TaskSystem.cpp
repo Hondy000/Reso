@@ -8,6 +8,10 @@
 #include "../../../Graphics/RenderDevice/Basic/Public/RendererManager.h"  
 #include "../../../Graphics/Public/RenderCommand.h"
 #include "../../Actor/Public/ActorInterface.h"
+#include "../../../Debug/Public/Debug.h"
+#include "../../../Utility/Public/Time.h"
+#include "../../../Graphics/RenderObject/Public/BaseRenderObject.h"
+#include "../../../Input/Public/InputManager.h"
 
 using namespace std;
 
@@ -68,15 +72,30 @@ bool TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
  *
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
-
 bool TaskSystem::Update()
 {
+
+	if (sINPUT->IsTriggerKeyboard(DIK_P))
+	{
+		CONSOLE_LOG("\n\n");
+	}
 	UpdateActorsPreviousTransform();
 	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end();)
 	{
 		if ((*it)->CheckUsageFlag())
-		{
+		{					  
+			HFTime timer;
 			(*it)->Update();
+
+			timer.ProgressionTime();
+			if (sINPUT->IsTriggerKeyboard(DIK_P))
+			{
+				CONSOLE_LOG(
+					(*it)->GetTaskName(),
+					" - Update => ",
+					timer.GetRealityDeltaSeconds(), " ms\n");
+
+			}
 		}
 		if ((*it)->GetIsDestroy())
 		{
@@ -122,6 +141,12 @@ void TaskSystem::UpdateActorsPreviousTransform()
 
 bool TaskSystem::Render()
 {
+
+	if (sINPUT->IsTriggerKeyboard(DIK_P))
+	{
+		CONSOLE_LOG("\n");
+	}
+	HFTime t;
 	m_spDrawList.sort([](const std::shared_ptr<RenderCommand>& commmandA,const std::shared_ptr<RenderCommand>& commmandB) 
 	{
 		return(commmandA->GetRenderPriority() < commmandB->GetRenderPriority());
@@ -132,10 +157,29 @@ bool TaskSystem::Render()
 
 	for (auto it = m_spDrawList.begin(); it != m_spDrawList.end(); it++)
 	{
+		HFTime timer;
 		(*it)->Command();
+		timer.ProgressionTime();
+		if(sINPUT->IsTriggerKeyboard(DIK_P))
+		{
+			CONSOLE_LOG(
+				(*it)->GetRenderObject()->GetTaskName(),
+				" -  Rendering => ",
+				timer.GetRealityDeltaSeconds(), " ms\n");
+
+		}
+		
 	}
 	sRENDER_DEVICE_MANAGER->EndRender();
 	m_spDrawList.clear();
+	if (sINPUT->IsTriggerKeyboard(DIK_P))
+	{
+		t.ProgressionTime();
+		CONSOLE_LOG(
+			"AllRendering => ",
+			t.GetRealityDeltaSeconds(), " ms\n");
+
+	}
 	return true;
 }
 

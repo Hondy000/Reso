@@ -76,7 +76,7 @@ public:
 	 * @param	wnd	Handle of the window.
 	 **************************************************************************************************/
 	 // デバックウィンドウに出力
-	void OutputMsg(TCHAR* pMsg1, TCHAR* pMsg2, TCHAR* pMsg3)
+	void CONSOLE_LOG(TCHAR* pMsg1, TCHAR* pMsg2, TCHAR* pMsg3)
 	{
 #if defined(DEBUG) || defined(_DEBUG)
 		TCHAR s[256];

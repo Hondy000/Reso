@@ -13,6 +13,7 @@ private:
 public:
 	HFString();
 	~HFString();
+	HFString(const HFString& str);
 
 							  
 	std::wstring GetWString() const
@@ -40,6 +41,12 @@ public:
 		m_wString = (UTILITY::Widen(str));
 	};
 
+	HFString operator = (const HFString& str)
+	{
+		m_string = str.m_string;
+		m_wString = str.m_wString;
+		return *this;
+	}
 	HFString operator = (TCHAR *str)
 	{
 		m_string = (str);
@@ -63,48 +70,47 @@ public:
 	HFString operator +(HFString& str)
 	{
 		HFString result;
-		result.SetString(this->GetString() + str.GetString());
+		result.SetString(this->m_string + str.m_string);
 		return result;
 	}
 	HFString operator + (TCHAR* str)
 	{
 		HFString result;
 		HFString add = str;
-		result.SetString(this->GetString() + add.GetString());
+		result.SetString(this->m_string + add.m_string);
 		return result;
 	}
 
 	std::wstring& CastWString()
 	{
-		return UTILITY::Widen(GetString());
+		return UTILITY::Widen(m_string);
 	}
 
 	operator LPCTSTR()
 	{
-		return GetString().c_str();
+		return m_string.c_str();
 	}
 
 	operator LPCWSTR()
 	{
-		SetWString(UTILITY::Widen(GetString()).c_str());
-		return GetWString().c_str();
+		return m_wString.c_str();
 	}
 
 	operator TCHAR*()
 	{
-		return const_cast<TCHAR*>(GetString().c_str());
+		return const_cast<TCHAR*>(m_string.c_str());
 	}
-
 
 	// •¶Žš—ñ‚Ì˜AŒ‹
 	template<typename... Args>
 	static
-		HFString& Concat(const Args&... args)
+		HFString Concat(const Args&... args)
 	{
 		std::stringstream sout;
 		UTILITY::ConcatString(sout, args...);
 		std::string out = sout.str();
-		HFString output ;
+		HFString output;
+		output.SetString(sout.str());
 		return output;
 	};
 

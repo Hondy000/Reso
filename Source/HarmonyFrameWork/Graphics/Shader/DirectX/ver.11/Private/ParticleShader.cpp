@@ -100,7 +100,7 @@ bool ParticleShader::Setup()
 	sRENDER_DEVICE_MANAGER->CreatePixelShaderFromFile(m_cpPixelShader, m_cpPSClassLinkage,"Resource/Shader/HLSL/ParticleShader.hlsl", "PS_Main", "ps_4_0_level_9_1",false);
 
 
- 	// create constant buffer
+	// create constant buffer
 	m_constantBuffers.resize(1);
 	m_constantBuffers[0] = std::make_shared<ConstantBuffer>();
 	m_constantBuffers[0]->SetData(NULL, sizeof(CBUFFER0), 1, BaseBuffer::ACCESS_FLAG::WRITEONLY);
@@ -207,7 +207,11 @@ bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> subMesh ,std::s
 	IBUFFER0 *ibuffer0Ptr = (IBUFFER0*)(mappedResource.pData);
 	for (int i = 0 ;i < array.size();i++)
 	{	
-		ibuffer0Ptr[i].instanceMatWVP = HFMatrixTranspose(array[i]->GetTransform().GetWorldTransform() * view * proj);
+		HFMATRIX inv = view.Invert();
+		inv._41 = 0;
+		inv._42 = 0;
+		inv._43 = 0;
+		ibuffer0Ptr[i].instanceMatWVP = HFMatrixTranspose( array[i]->GetTransform().GetWorldTransform() *inv * view * proj);
 		
 	}
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(bufferArray[2]->Get(), 0);

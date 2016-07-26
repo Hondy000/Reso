@@ -83,6 +83,7 @@ bool IActor::RegisterCompornent(const std::string& compornentName, std::shared_p
 {
 	if (compornent->Init())
 	{
+		compornent->SetTaskName(compornentName);
 		pair<string, shared_ptr<ICompornent>> compornentPair;
 		compornentPair.first = compornentName;
 		compornentPair.second = compornent;

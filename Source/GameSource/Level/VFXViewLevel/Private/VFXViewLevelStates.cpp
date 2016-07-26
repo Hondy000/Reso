@@ -21,6 +21,7 @@
 #include "..\..\..\..\HarmonyFrameWork\Core\Actor\Public\EmitterActor.h"
 #include "..\..\..\..\HarmonyFrameWork\Collision\Public\CCollisionObjectFactory.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Lighting\Public\LightManager.h"
+#include "../../../../HarmonyFrameWork/Input/Public/InputManager.h"
 
 using namespace std;
 
@@ -71,7 +72,7 @@ void VFXViewMainState::Enter( )
 
 	//CCollisionObjectFactory::GetInstance()->CreateOBBObject(lineRenderer->GetMesh()->GetSubMeshArray()[0]);
 	emitter->Setup();
-	
+	emitter->SetMaxParticle(300);
 	sTASK_SYSTEM->RegisterTask("emitter", emitter);
 }
 
@@ -85,7 +86,31 @@ void VFXViewMainState::Enter( )
 
 void VFXViewMainState::Execute( )
 {
-
+	shared_ptr < CameraActor>	camera3D = dynamic_pointer_cast<CameraActor> (sTASK_SYSTEM->SearchByTaskName("3Dcamera"));
+	if (sINPUT->IsHoldKeyboard(DIK_SPACE))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 0.1, 0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_LSHIFT))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 0.1, 0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_RIGHT))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0.1, 0, 0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_LEFT))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0.1, 0, 0));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_UP))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 0, 0.1));
+	}
+	if (sINPUT->IsHoldKeyboard(DIK_DOWN))
+	{
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 0, 0.1));
+	}
 }
 
 /**********************************************************************************************//**

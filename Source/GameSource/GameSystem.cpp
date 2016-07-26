@@ -9,6 +9,8 @@
 #include "..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\HarmonyFrameWork\Core\Task\Public\TaskSystem.h"
 #include "..\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h"
+#include "..\HarmonyFrameWork\Utility\Public\Time.h"
+#include "..\HarmonyFrameWork\Debug\Public\Debug.h"
 bool GameSystem::isEnd = 0;
 
 /**********************************************************************************************//**
@@ -127,10 +129,14 @@ void GameSystem::GameMain(void)
 		long frameTime = currentTime - execLastTime;
 		if (frameTime >= 1000 / 60)
 		{
-								 
+			// ゲーム全体のタイマーを進行
+			HFTime::GetInstance()->ProgressionTime();
+			CONSOLE_LOG(HFTime::GetInstance()->GetRealityDeltaSeconds(),"\n");
 			execLastTime = timeGetTime();
 			sINPUT->Update();
+			// タスク更新
 			sTASK_SYSTEM->Update();
+			// レンダリング
 			sTASK_SYSTEM->Render();
 		}
 

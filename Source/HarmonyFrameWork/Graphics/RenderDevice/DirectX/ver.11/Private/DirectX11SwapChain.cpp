@@ -59,7 +59,7 @@ HRESULT DirectX11SwapChain::CreateSwapChain(
 	TCHAR s[256];
 	IDXGIFactory* pFactory = NULL;
 
-	//OutputMsg(_T("スワップチェーン作成"), _T(""), _T("開始"));
+	//CONSOLE_LOG(_T("スワップチェーン作成"), _T(""), _T("開始"));
 
 	// DXGI_SWAP_CHAIN_DESC
 	DXGI_SWAP_CHAIN_DESC sd;
@@ -124,6 +124,7 @@ HRESULT DirectX11SwapChain::CreateSwapChain(
 			_stprintf_s(s, _T("Count(%d) Quality(%d)"), sd.SampleDesc.Count, sd.SampleDesc.Quality);
 			if (SUCCEEDED(hr))
 			{			
+			//	HFDebug::Debug::GetInstance()->SetConsoleTextRed();
 				CONSOLE_LOG(("マルチサンプル"), (s), ("OK\n"));
 				break;
 			}
@@ -140,7 +141,6 @@ HRESULT DirectX11SwapChain::CreateSwapChain(
 	}
 
 
-	test = HFString::Concat(_T("解像度( %d : %d )　リフレッシュレート( %d / %d )"), pDisplayMode->Width, pDisplayMode->Height, pDisplayMode->RefreshRate.Denominator, pDisplayMode->RefreshRate.Numerator);
 	_stprintf_s(s, _T("解像度( %d : %d )　リフレッシュレート( %d / %d )"),pDisplayMode->Width, pDisplayMode->Height, pDisplayMode->RefreshRate.Denominator, pDisplayMode->RefreshRate.Numerator);
 	CONSOLE_LOG(_T("ディスプレイモード"), s, _T("選択"));
 

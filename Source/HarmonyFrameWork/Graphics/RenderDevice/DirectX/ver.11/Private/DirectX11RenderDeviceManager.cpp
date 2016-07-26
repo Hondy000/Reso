@@ -185,7 +185,7 @@ bool DirectX11RenderDeviceManager::InitD3D11(
 	// Geometryバッファの初期化
 	SetupGeometryBuffer();
 
-	OutputMsg(_T("初期化完了"), _T(""), _T("(^。^)"));
+	CONSOLE_LOG(_T("初期化完了\n"));
 
 	//ウィンドウ表示・更新
 	ShowWindow(m_hWnd, SW_SHOWNORMAL);
@@ -299,7 +299,7 @@ bool DirectX11RenderDeviceManager::GetDisplayMode()
 
 	TCHAR s[256];
 
-	OutputMsg(_T("ディスプレイモード一覧の列挙"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("ディスプレイモード一覧の列挙"), _T(""), _T("開始\n"));
 
 	m_DisplayModeDesc.clear();
 
@@ -328,12 +328,12 @@ bool DirectX11RenderDeviceManager::GetDisplayMode()
 	for (UINT i = 0; i < num; i++)
 	{
 		m_DisplayModeDesc.push_back(desc[i]);
-		_stprintf_s(s, _T("解像度( %d : %d )　リフレッシュレート( %d / %d )"),
+		_stprintf_s(s, _T("解像度( %d : %d )　リフレッシュレート( %d / %d )\n"),
 			m_DisplayModeDesc[i].Width, m_DisplayModeDesc[i].Height, m_DisplayModeDesc[i].RefreshRate.Denominator, m_DisplayModeDesc[i].RefreshRate.Numerator);
-		OutputMsg(_T("ディスプレイモード"), s, _T("リストに追加"));
+		CONSOLE_LOG(_T("ディスプレイモード"), s, _T("リストに追加\n"));
 	}
 
-	OutputMsg(_T("ディスプレイモード一覧の列挙"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("ディスプレイモード一覧の列挙"), _T(""), _T("完了\n"));
 
 	hr = S_OK;
 
@@ -443,14 +443,19 @@ bool DirectX11RenderDeviceManager::CreateDevice(bool DirectX11Only)
 		return E_FAIL;
 	}
 	if (SUCCEEDED(hr))
-
-		//	OutputMsg(_T("ビデオカード"), s, _T("ОＫ"));
-		//else
-			//OutputMsg(_T("ビデオカード"), s, _T("ＮＧ"));
-
-		//OutputMsg(_T("デバイス作成"), _T(""), _T("完了"));
-
+	{
+		CONSOLE_LOG(_T("ビデオカード"), s, _T("ОＫ\n"));
 		hr = S_OK;
+	}
+
+	else
+	{
+		CONSOLE_LOG(_T("ビデオカード"), s, _T("ＮＧ\n"));
+	}
+			
+
+		CONSOLE_LOG(_T("デバイス作成"), _T(""), _T("完了\n"));
+
 EXIT:
 
 	return hr;
@@ -472,7 +477,7 @@ bool DirectX11RenderDeviceManager::CreateRenderTargetView()
 	HRESULT hr = E_FAIL;
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = NULL;
 
-	OutputMsg(_T("レンダリングターゲットビュー作成"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("レンダリングターゲットビュー作成"), _T(""), _T("開始\n"));
 
 	// スワップチェーンからバックバッファを取得する
 	hr = m_spSwapChain->GetCpSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
@@ -483,7 +488,7 @@ bool DirectX11RenderDeviceManager::CreateRenderTargetView()
 	hr = m_cpD3DDevice->CreateRenderTargetView(pBackBuffer.Get(), NULL, m_cpRenderTargetView.GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
-	OutputMsg(_T("レンダリングターゲットビュー作成"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("レンダリングターゲットビュー作成"), _T(""), _T("完了\n"));
 
 	hr = S_OK;
 EXIT:
@@ -522,7 +527,7 @@ bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 
 	//if (m_SwapChain == NULL) goto EXIT;
 
-	HFDebug::Debug::Log(_T("深度バッファビュー作成 開始"));
+	CONSOLE_LOG(_T("深度バッファビュー作成 開始\n"));
 
 	DXGI_SWAP_CHAIN_DESC chainDesc;
 
@@ -591,7 +596,7 @@ bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 	hr = m_cpD3DDevice->CreateDepthStencilView(pDepthBuffer.Get(), &descDSV, m_cpDepthStencilView.GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
-	OutputMsg(_T("深度バッファビュー作成"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("深度バッファビュー作成"), _T(""), _T("完了\n"));
 
 	hr = S_OK;
 
@@ -617,7 +622,7 @@ bool DirectX11RenderDeviceManager::CreateViewport()
 
 	//if (m_SwapChain == NULL) goto EXIT;
 
-	OutputMsg(_T("ビューポート作成"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("ビューポート作成"), _T(""), _T("開始\n"));
 
 	DXGI_SWAP_CHAIN_DESC chainDesc;
 
@@ -635,7 +640,7 @@ bool DirectX11RenderDeviceManager::CreateViewport()
 	// RSSetViewports
 	m_cpImmediateContext->RSSetViewports(1, m_viewport);
 
-	OutputMsg(_T("ビューポート作成"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("ビューポート作成"), _T(""), _T("完了\n"));
 
 	hr = S_OK;
 EXIT:
@@ -658,7 +663,7 @@ bool DirectX11RenderDeviceManager::SetWindowAssociation()
 	HRESULT hr = E_FAIL;
 	IDXGIFactory* pFactory = NULL;
 
-	OutputMsg(_T("ウィンドウアソシエーション設定"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("ウィンドウアソシエーション設定"), _T(""), _T("開始\n"));
 
 	// ファクトリーを作成する
 	// CreateDXGIFactoryで作成したファクトリーを使用すると実行できるがワーニングエラーになるので IDXGIAdapter から作成する。
@@ -670,7 +675,7 @@ bool DirectX11RenderDeviceManager::SetWindowAssociation()
 	hr = pFactory->MakeWindowAssociation(m_hWnd, DXGI_MWA_NO_WINDOW_CHANGES);
 	if (FAILED(hr)) goto EXIT;
 
-	OutputMsg(_T("ウィンドウアソシエーション設定"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("ウィンドウアソシエーション設定"), _T(""), _T("完了\n"));
 
 	hr = S_OK;
 EXIT:
@@ -694,7 +699,7 @@ bool DirectX11RenderDeviceManager::SetDefaultRasterize()
 {
 	HRESULT hr = E_FAIL;
 
-	OutputMsg(_T("デフォルトのラスタライザを設定"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("デフォルトのラスタライザを設定"), _T(""), _T("開始\n"));
 
 	// ID3D11RasterizerState
 	// D3D11_RASTERIZER_DESC
@@ -727,7 +732,7 @@ bool DirectX11RenderDeviceManager::SetDefaultRasterize()
 
 	hr = S_OK;
 
-	OutputMsg(_T("デフォルトのラスタライザを設定"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("デフォルトのラスタライザを設定"), _T(""), _T("完了\n"));
 
 EXIT:
 	return hr;
@@ -748,7 +753,7 @@ bool DirectX11RenderDeviceManager::SetDefaultDepthStencilState()
 {
 	HRESULT hr = E_FAIL;
 
-	OutputMsg(_T("デフォルトの深度ステンシルステートを設定"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("デフォルトの深度ステンシルステートを設定"), _T(""), _T("開始\n"));
 
 	// D3D11_RASTERIZER_DESC
 	D3D11_DEPTH_STENCIL_DESC dsState;
@@ -807,7 +812,7 @@ bool DirectX11RenderDeviceManager::SetDefaultDepthStencilState()
 
 	hr = S_OK;
 
-	OutputMsg(_T("デフォルトの深度ステンシルステートを設定"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("デフォルトの深度ステンシルステートを設定"), _T(""), _T("完了\n"));
 
 EXIT:
 	return hr;
@@ -833,19 +838,19 @@ bool DirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT
 
 	//	if (m_SwapChain == NULL) goto EXIT;
 
-	OutputMsg(_T("表示モード変更の最適化処理"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("表示モード変更の最適化処理"), _T(""), _T("開始\n"));
 
 	DXGI_SWAP_CHAIN_DESC desc;
 	hr = m_spSwapChain->GetCpSwapChain()->GetDesc(&desc);
 	if (FAILED(hr)) goto EXIT;
 
 	// ターゲットビューを解除
-	OutputMsg(_T("ターゲットビューを解除"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("ターゲットビューを解除"), _T(""), _T("開始\n"));
 
 	m_cpImmediateContext->OMSetRenderTargets(0, NULL, NULL);
 	m_cpRenderTargetView.ReleaseAndGetAddressOf();
 
-	OutputMsg(_T("ターゲットビューを解除"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("ターゲットビューを解除"), _T(""), _T("完了\n"));
 
 	// スワップ チェーンのバック バッファー サイズ、フォーマット、およびバッファー数を変更する。
 	// アプリケーション ウィンドウのサイズが変更されたときに呼び出す必要がある。
@@ -864,7 +869,7 @@ bool DirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT
 	// ターゲットビューの設定
 	m_cpImmediateContext->OMSetRenderTargets(1, m_cpRenderTargetView.GetAddressOf(), m_cpDepthStencilView.Get());
 
-	OutputMsg(_T("表示モード変更の最適化処理"), _T(""), _T("完了"));
+	CONSOLE_LOG(_T("表示モード変更の最適化処理"), _T(""), _T("完了\n"));
 
 	hr = S_OK;
 EXIT:
@@ -888,7 +893,7 @@ bool DirectX11RenderDeviceManager::ChangeWindowMode()
 
 	//if (m_SwapChain == NULL) goto EXIT;
 
-	OutputMsg(_T("表示モード変更"), _T(""), _T("開始"));
+	CONSOLE_LOG(_T("表示モード変更"), _T(""), _T("開始\n"));
 
 	DXGI_SWAP_CHAIN_DESC desc;
 	hr = m_spSwapChain->GetCpSwapChain()->GetDesc(&desc);
@@ -907,10 +912,10 @@ bool DirectX11RenderDeviceManager::ChangeWindowMode()
 	switch (FullScreen)
 	{
 	case TRUE:
-		OutputMsg(_T("表示モード変更"), _T("ウィンドウモードに変更"), _T("完了"));
+		CONSOLE_LOG(_T("表示モード変更"), _T("ウィンドウモードに変更"), _T("完了\n"));
 		break;
 	case FALSE:
-		OutputMsg(_T("表示モード変更"), _T("フルスクリーンに変更"), _T("完了"));
+		CONSOLE_LOG(_T("表示モード変更"), _T("フルスクリーンに変更"), _T("完了\n"));
 		break;
 	}
 

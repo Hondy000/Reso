@@ -44,6 +44,101 @@
 #define HF_16F_ROUNDS       1                // addition rounding: near
 
 
+#ifdef DIRECTXMATH
+typedef DirectX::SimpleMath::Color HFColor;
+#else										
+//--------------------------
+// 2D Vector
+//--------------------------
+typedef struct HFColor
+	:
+	HFVECTOR4
+{
+#ifdef __cplusplus
+public:
+
+	HFColor() : XMFLOAT4(0, 0, 0, 1.f) {}
+	HFColor(float _r, float _g, float _b) : XMFLOAT4(_r, _g, _b, 1.f) {}
+	HFColor(float _r, float _g, float _b, float _a) : XMFLOAT4(_r, _g, _b, _a) {}
+	explicit HFColor(const Vector3& clr) : XMFLOAT4(clr.x, clr.y, clr.z, 1.f) {}
+	explicit HFColor(const Vector4& clr) : XMFLOAT4(clr.x, clr.y, clr.z, clr.w) {}
+	explicit HFColor(_In_reads_(4) const float *pArray) : XMFLOAT4(pArray) {}
+	HFColor(FXMVECTOR V) { XMStoreFloat4(this, V); }
+	HFColor(const XMFLOAT4& c) { this->x = c.x; this->y = c.y; this->z = c.z; this->w = c.w; }
+
+	explicit HFColor(const DirectX::PackedVector::XMCOLOR& Packed);
+	// BGRA Direct3D 9 D3DCOLOR packed color
+
+	explicit HFColor(const DirectX::PackedVector::XMUBYTEN4& Packed);
+	// RGBA XNA Game Studio packed color
+
+	operator XMVECTOR() const { return XMLoadFloat4(this); }
+	operator const float*() const { return reinterpret_cast<const float*>(this); }
+
+	// Comparison operators
+	bool operator == (const HFColor& c) const;
+	bool operator != (const HFColor& c) const;
+
+	// Assignment operators
+	HFColor& operator= (const HFColor& c) { x = c.x; y = c.y; z = c.z; w = c.w; return *this; }
+	HFColor& operator= (const XMFLOAT4& c) { x = c.x; y = c.y; z = c.z; w = c.w; return *this; }
+	HFColor& operator= (const DirectX::PackedVector::XMCOLOR& Packed);
+	HFColor& operator= (const DirectX::PackedVector::XMUBYTEN4& Packed);
+	HFColor& operator+= (const HFColor& c);
+	HFColor& operator-= (const HFColor& c);
+	HFColor& operator*= (const HFColor& c);
+	HFColor& operator*= (float S);
+	HFColor& operator/= (const HFColor& c);
+
+	// Unary operators
+	HFColor operator+ () const { return *this; }
+	HFColor operator- () const;
+
+	// Properties
+	float R() const { return x; }
+	void R(float r) { x = r; }
+
+	float G() const { return y; }
+	void G(float g) { y = g; }
+
+	float B() const { return z; }
+	void B(float b) { z = b; }
+
+	float A() const { return w; }
+	void A(float a) { w = a; }
+
+	// Color operations
+	DirectX::PackedVector::XMCOLOR BGRA() const;
+	DirectX::PackedVector::XMUBYTEN4 RGBA() const;
+
+	Vector3 ToVector3() const;
+	Vector4 ToVector4() const;
+
+	void Negate();
+	void Negate(HFColor& result) const;
+
+	void Saturate();
+	void Saturate(HFColor& result) const;
+
+	void Premultiply();
+	void Premultiply(HFColor& result) const;
+
+	void AdjustSaturation(float sat);
+	void AdjustSaturation(float sat, HFColor& result) const;
+
+	void AdjustContrast(float contrast);
+	void AdjustContrast(float contrast, HFColor& result) const;
+
+	// Static functions
+	static void Modulate(const HFColor& c1, const HFColor& c2, HFColor& result);
+	static HFColor Modulate(const HFColor& c1, const HFColor& c2);
+
+	static void Lerp(const HFColor& c1, const HFColor& c2, float t, HFColor& result);
+	static HFColor Lerp(const HFColor& c1, const HFColor& c2, float t);
+#endif //__cplusplus
+	FLOAT ;
+} HFVECTOR2, *LPHFVECTOR2;
+#endif
 
 //===========================================================================
 //

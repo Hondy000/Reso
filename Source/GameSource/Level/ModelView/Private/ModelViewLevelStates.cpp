@@ -138,9 +138,9 @@ void ModelViewLevelStartState::Execute()
 			mesh->LoadMesh("Resource/Mesh/Lod.hfm");
 			break;
 		}
-		mesh->GetSubMeshMaterial(0)->SetDiffuse(HFVECTOR4(0.9, 0.8, 0.3, 1));
-		mesh->GetSubMeshMaterial(0)->SetAmbient(HFVECTOR4(0.0, 0.0, 0.00, 1));
-		mesh->GetSubMeshMaterial(0)->SetSpecular(HFVECTOR4(1, 1, 0.4, 1.0));
+		mesh->GetSubMeshMaterial(0)->SetDiffuse(HFVECTOR4(0.9, 0.8, 0.6, 1));
+		mesh->GetSubMeshMaterial(0)->SetAmbient(HFVECTOR4(0.5, 0.5, 0.5, 1));
+		mesh->GetSubMeshMaterial(0)->SetSpecular(HFVECTOR4(1, 1, 0.6, 1.0));
 		mesh->LoadDiffuseTexture2D(0, "Resource/Texture/XA-20_Razorback_Strike_Fighter_P01.png");
 
 
@@ -158,7 +158,7 @@ void ModelViewLevelStartState::Execute()
 			mesh->SetMaterialShader(0, std::make_shared<SpecularPerVertexShader>());
 			break;
 		case 2:
-			mesh->SetMaterialShader(0, std::make_shared<SpecularPhongShader>());
+			mesh->SetMaterialShader(0, std::make_shared<DeferredShader>());
 			break;
 		
 		}

@@ -18,6 +18,7 @@
 #include "..\..\..\ResorceManager\Public\BasicMeshManager.h"
 #include "..\..\Shader\DirectX\ver.11\Public\ParticleShader.h"
 #include "..\..\..\ResorceManager\Public\ParticleFactory.h"
+#include "../../../Utility/Public/Time.h"
 
 using namespace std;
 
@@ -45,7 +46,7 @@ bool BaseEmitter::Init()
 {
 	RegisterVariable("m_numParticles", m_numParticles);
 	RegisterVariable("m_waitTime", m_waitTime);
-	RegisterVariable("m_progressTime", m_progressTime);
+	RegisterVariable("m_progressTime", m_emittTime);
 	RegisterVariable("m_numParticleOfOutAtATime", m_numParticleOfOutAtATime);
 	RegisterVariable("m_particleRenderRange", m_particleRenderRange);
 	RegisterVariable("m_emitRange", m_emitRange);
@@ -81,6 +82,12 @@ void BaseEmitter::Reset()
 
 bool BaseEmitter::Update()
 {
+	m_waitTime += HFTime::GetInstance()->GetGameDeltaSeconds();
+	if(m_emittTime <= m_waitTime)
+	{
+		// 時間経過でパーティクルを放出
+		EmittParticle();
+	}
 	for (int i = 0; i < m_particleArray.size(); i++)
 	{
 		m_particleArray[i]->Update();
@@ -103,8 +110,31 @@ bool BaseEmitter::Update()
  
 void BaseEmitter::ResetParticle(std::shared_ptr<IBaseParticle> particle)
 {
+	particle->SetDirection(
+		HFVECTOR3(
+			UTILITY::Rand(m_emitRange.x*-0.5f, m_emitRange.x*0.5f) + m_emitDirction.x,
+			UTILITY::Rand(m_emitRange.y*-0.5f, m_emitRange.y*0.5f) + m_emitDirction.y,
+			UTILITY::Rand(m_emitRange.z*-0.5f, m_emitRange.z*0.5f) + m_emitDirction.z));
 
+}
+ 
+void BaseEmitter::EmittParticle()
+{
+	
 
 }
 
- 
+void BaseEmitter::SphereEmitt()
+{
+
+}
+
+void BaseEmitter::ConeEmitt()
+{
+
+}
+
+void BaseEmitter::MeshEmitt()
+{
+
+}

@@ -21,7 +21,7 @@ bool DefaultSpriteShader::Setup()
 	m_pathPriority = HF_POST_DEFERRED_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
-	bool result;
+	HRESULT result;
 	D3D11_INPUT_ELEMENT_DESC polygonLayout[2];
 	UINT numElements;
 	

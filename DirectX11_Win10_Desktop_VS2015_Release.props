@@ -3,9 +3,9 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>C:\work\DirectXTex\DirectXTex;C:\work\DirectXTK\Inc;$(IncludePath)</IncludePath>
+    <IncludePath>C:\work\DirectXTex\DirectXTex;C:\work\DirectXTK\Inc;C:\work\DirectXMesh\DirectXMesh;$(IncludePath)</IncludePath>
     <LibraryWPath>$(LibraryWPath)</LibraryWPath>
-    <LibraryPath>C:\work\DirectXTex\DirectXTex\Bin\Desktop_2015_Win10\x64\Release;C:\work\DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\work\DirectXTex\DirectXTex\Bin\Desktop_2015_Win10\x64\Release;C:\work\DirectXTK\Bin\Desktop_2015_Win10\x64\Release;C:\work\DirectXMesh\DirectXMesh\Bin\Desktop_2015\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

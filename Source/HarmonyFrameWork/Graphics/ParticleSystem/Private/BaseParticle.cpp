@@ -3,7 +3,8 @@
 
 IBaseParticle::IBaseParticle()
 {
-
+			
+	m_velocity = 0;
 }
 
 IBaseParticle::~IBaseParticle()
@@ -21,7 +22,7 @@ bool IBaseParticle::Update()
 {
 	UpdateChildTask();
 	GetTransform().SetPosition(m_velocity*m_direction + GetTransform().GetPosition());
-	m_life--;
+	SetLife(GetLife() - 1);
 	return true;
 }
 

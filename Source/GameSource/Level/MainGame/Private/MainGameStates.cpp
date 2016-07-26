@@ -101,8 +101,8 @@ std::shared_ptr<IState> MainGameStartState::GetNewState(void)
 
 void MainGameMainState::Enter()
 {
-	m_popCounter = make_shared<Timer>();
-	m_endCounter = make_shared<Timer>();
+	m_popCounter = make_shared<HFTime>();
+	m_endCounter = make_shared<HFTime>();
 }
 
 /**********************************************************************************************//**
@@ -116,7 +116,7 @@ void MainGameMainState::Enter()
 void MainGameMainState::Execute()
 {
 
-	if(m_popCounter->elapsed() >= 5000)
+	if(m_popCounter->GetGameDeltaSeconds() >= 5)
 	{
 		shared_ptr<EnemyActor> actor = make_shared<EnemyActor>();
 		
@@ -124,9 +124,9 @@ void MainGameMainState::Execute()
 
 		TaskSystem::GetInstance()->RegisterTask("enemy",actor);
 		m_wpTask.lock()->GetVariable<list<shared_ptr<EnemyActor>>>("enemyList")->GetValue()->push_back(actor);
-		m_popCounter->restart();
+		m_popCounter->Start();
 	}
-	if(m_endCounter->elapsed() > 600000)
+	if(m_endCounter->GetGameDeltaSeconds() > 60)
 	{
 		m_isChangeEndMain = true;
 		m_isChangeState = true;

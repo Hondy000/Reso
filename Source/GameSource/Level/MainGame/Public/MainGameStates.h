@@ -26,8 +26,8 @@ public:
 
 	std::shared_ptr<IState> GetNewState(void);
 private:
-	std::shared_ptr<Timer> m_popCounter;
-	std::shared_ptr<Timer> m_endCounter;
+	std::shared_ptr<HFTime> m_popCounter;
+	std::shared_ptr<HFTime> m_endCounter;
 
 	bool m_isChangeEndMain;
 };
@@ -44,8 +44,8 @@ public:
 
 	std::shared_ptr<IState> GetNewState(void);
 private:
-	std::shared_ptr<Timer> m_popCounter;
-	std::shared_ptr<Timer> m_endCounter;
+	std::shared_ptr<HFTime> m_popCounter;
+	std::shared_ptr<HFTime> m_endCounter;
 
 	bool m_isChangeEndMain;
 };

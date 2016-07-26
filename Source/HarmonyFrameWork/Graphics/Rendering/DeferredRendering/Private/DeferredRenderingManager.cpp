@@ -21,7 +21,7 @@ bool DeferredRenderingManager::Init()
 	shared_ptr<Sprite2DCompornent> m_screenRenderObject = shared_ptr<Sprite2DCompornent>(new Sprite2DCompornent);
 	m_screenRenderObject->SetMesh(BasicMeshManager::GetInstance()->Get(HF_BM_SPRITE, 0, 0, 0));
 	std::shared_ptr<LightShaderOfDeferredRender> lightingshader = shared_ptr<LightShaderOfDeferredRender>(new LightShaderOfDeferredRender);
-	RegisterCompornent("m_screenRenderObject", m_screenRenderObject);
+	RegisterCompornent("ScreenObjectOfDeferredRendering", m_screenRenderObject);
 	lightingshader->Setup();
 	m_screenRenderObject->GetMesh()->GetSubMeshArray()[0]->GetMaterial()->SetMaterialShader(lightingshader);
 

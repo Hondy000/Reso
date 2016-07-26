@@ -30,14 +30,14 @@ protected:
 	/** @brief The wait time. */
 	UINT m_waitTime;
 	/** @brief The progress time. */
-	UINT m_progressTime;
+	UINT m_emittTime;
 	/** @brief Number of particle of out at the times. */
 	UINT m_numParticleOfOutAtATime;
 	/** @brief パーティクルの描画範囲. */
 	FLOAT m_particleRenderRange;
 
-	/** @brief 1回の放出量. */
-	UINT m_numEmitParticle;
+	/** @brief 1秒間のの放出量. */
+	UINT m_emitParticlePerSecond;
 
 	/** @brief The emit range. */
 	HFVECTOR3 m_emitRange;
@@ -51,6 +51,10 @@ protected:
 	void ResetParticle(std::shared_ptr<IBaseParticle> particle);
 	bool isEmit;
 	bool isLoop;
+	void EmittParticle();
+	void SphereEmitt();
+	void ConeEmitt();
+	void MeshEmitt();
 public:
 
 	bool Update();
