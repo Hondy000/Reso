@@ -120,6 +120,10 @@ void BaseEmitter::ResetParticle(std::shared_ptr<IBaseParticle> particle)
  
 void BaseEmitter::EmittParticle()
 {
+	for (int i = 0; i < m_particleArray.size();i++)
+	{
+		
+	}
 	
 
 }
