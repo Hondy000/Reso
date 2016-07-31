@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>C:\work\DirectXTex\DirectXTex;C:\work\DirectXTK\Inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>DirectX11_Windows10</_PropertySheetDisplayName>
+    <LibraryPath>C:\work\DirectXTK\Bin\Desktop_2015_Win10\x64\Release;C:\work\DirectXTex\DirectXTex\Bin\Desktop_2015_Win10\x64\Release;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>DIRECTX11;DIRECTX;WINDOWS10;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>roapi.h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>xinput.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

@@ -1,0 +1,5 @@
+﻿#ifndef _INCLUDE_DIRECTX11TYPES_HEADER_
+#define  _INCLUDE_DIRECTX11TYPES_HEADER_
+#include <bemapiset.h>
+
+#endif // _INCLUDE_DIRECTX11TYPES_HEADER

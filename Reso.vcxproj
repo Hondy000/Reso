@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Private\EnemyManager.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyActor.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyManager.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\Level1EnemyStates.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\Level2EnemyState.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\MineState.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerActor.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerStates.h" />
+    <ClInclude Include="Source\GameSource\Charactor\Public\CharactorActor.h" />
+    <ClInclude Include="Source\GameSource\GameSystem.h" />
+    <ClInclude Include="Source\GameSource\Level\DemoLevel\Public\DemoLevel.h" />
+    <ClInclude Include="Source\GameSource\Level\DemoLevel\Public\DemoStates.h" />
+    <ClInclude Include="Source\GameSource\Level\MainGame\Public\MainGame.h" />
+    <ClInclude Include="Source\GameSource\Level\MainGame\Public\MainGameStates.h" />
+    <ClInclude Include="Source\GameSource\Level\ModelView\Public\ModelViewLevel.h" />
+    <ClInclude Include="Source\GameSource\Level\ModelView\Public\ModelViewLevelStates.h" />
+    <ClInclude Include="Source\GameSource\Level\Public\LevelGenerated.h" />
+    <ClInclude Include="Source\GameSource\Level\Result\Public\Result.h" />
+    <ClInclude Include="Source\GameSource\Level\Result\Public\ResultStates.h" />
+    <ClInclude Include="Source\GameSource\Level\TestLevel\Public\TestLevel.h" />
+    <ClInclude Include="Source\GameSource\Level\Title\Public\Title.h" />
+    <ClInclude Include="Source\GameSource\Level\Title\Public\TitleStates.h" />
+    <ClInclude Include="Source\GameSource\Level\VFXViewLevel\Public\VFXViewLevelStates.h" />
+    <ClInclude Include="Source\GameSource\Level\VFXViewLevel\Public\VFXViewLevel.h" />
+    <ClInclude Include="Source\GameSource\Weapon\Public\GeneralWeaponState.h" />
+    <ClInclude Include="Source\GameSource\Weapon\Public\IBaseBullet.h" />
+    <ClInclude Include="Source\GameSource\Weapon\Public\MachineGun.h" />
+    <ClInclude Include="Source\GameSource\Weapon\Public\IBaseWeapon.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Cell\Public\CollisionSpaceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Cell\Public\CollisionSpaceCell.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\BaseCollisionObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\CollisionPlanesObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\OBBCollisionObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\CollisionObject\Public\CollisionSphereObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Public\CCollisionObjectFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Public\CollisionAPI.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Collision\Public\CollisionManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\ActorInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\CameraActor.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\EmitterActor.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\LineActor.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\SpawnActor.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\Sprite2DActor.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Actor\Public\StaticMeshActor.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Component\Public\CameraCompornent.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Component\Public\CompornentInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Component\Public\LineCompornent.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Component\Public\Sprite2DCompornent.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Component\Public\StaticMeshCompornent.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Level\Public\LevelInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Level\Public\LevelManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\Common.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\DirectX11Common.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\DirectX11Types.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\FactoryInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\HFTypes.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\IBaseObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\ManagerInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\ReflectionSystem.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\VariableInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Public\VariableManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\State\Public\IState.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\State\Public\StateHolder.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Task\Public\BasicTasks.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Task\Public\TaskInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Core\Task\Public\TaskSystem.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Debug\Public\Debug.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\basebuffer.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\ConstantBuffer.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\IndexBuffer.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\VertexBuffer.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Camera\Public\BaseCamera.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Font\Public\FontObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Lighting\Public\LightManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Lighting\Public\LightTypes.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Matetial\Public\Material.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\ParticleSystem\Public\BaseEmitter.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\ParticleSystem\Public\BaseParticle.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\GraphicsTypes.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Public\RenderCommand.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\BaseRenderDeviceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DirectX11Adapter.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DirectX11DeviceContext.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DirectX11SwapChain.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DirectX11RenderDeviceManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\GeometryBuffers.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\BaseRenderObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\LineObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\Mesh.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\ScreenRenderObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\Sprite2DObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\StaticMeshObject.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\SubMesh.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\Basic\Public\BaseShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ForwardDiffuseOnlyMeshShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ColorVertexSpriteShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultMeshShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultSpriteShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DeferredShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DirectX11BaseShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DX11BaseShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPerVertexShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPhongShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LightShaderOfDeferredRender.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LineShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\MonotoneTextureShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ParticleShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SimplePolygon3DShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseShaderResourceView.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseTexture2D.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\DX11ShaderResourceView.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\TextureInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\VertexLayout\Public\BaseVertexLayout.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Input\Public\DirectInput.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Input\Public\InputInterface.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Input\Public\InputManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\IO\Public\IBaseReader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Math\Public\BasicMath.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Math\Public\DirectXMath.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Math\Public\HFMath.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Math\Public\Transform.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Platform\Windows\BaseWindow.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\BasicMeshFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\BasicMeshManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\ComShaderResourceViewFacotry.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\ComTexture2DFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\DDSTextureLoader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\MaterialFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\MeshFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\MeshManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\ParticleFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\Texture2DFactory.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Public\Texture2DManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Reader\Public\ACTReader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Reader\Public\HFMReader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\ResorceManager\Reader\Public\PMXReader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\InlineUtility.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\HFString.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\StringUtility.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\HFSyatemTime.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\EnemyActor.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\Level1EnemyStates.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\Level2EnemyState.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\MineState.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Player\Private\PlayerActor.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Player\Private\PlayerStates.cpp" />
+    <ClCompile Include="Source\GameSource\Charactor\Private\CharactorActor.cpp" />
+    <ClCompile Include="Source\GameSource\GameSystem.cpp" />
+    <ClCompile Include="Source\GameSource\Level\DemoLevel\Private\DemoLevel.cpp" />
+    <ClCompile Include="Source\GameSource\Level\DemoLevel\Private\DemoStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\MainGame\Private\MainGame.cpp" />
+    <ClCompile Include="Source\GameSource\Level\MainGame\Private\MainGameStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\ModelView\Private\ModelViewLevel.cpp" />
+    <ClCompile Include="Source\GameSource\Level\ModelView\Private\ModelViewLevelStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\Result\Private\Result.cpp" />
+    <ClCompile Include="Source\GameSource\Level\Result\Private\ResultStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\TestLevel\Private\TestLevel.cpp" />
+    <ClCompile Include="Source\GameSource\Level\Title\Private\Title.cpp" />
+    <ClCompile Include="Source\GameSource\Level\Title\Private\TitleStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\VFXViewLevel\Private\VFXViewLevelStates.cpp" />
+    <ClCompile Include="Source\GameSource\Level\VFXViewLevel\Private\VFXViewLevel.cpp" />
+    <ClCompile Include="Source\GameSource\Weapon\Private\GeneralWeaponState.cpp" />
+    <ClCompile Include="Source\GameSource\Weapon\Private\IBaseBullet.cpp" />
+    <ClCompile Include="Source\GameSource\Weapon\Private\IBaseWeapon.cpp" />
+    <ClCompile Include="Source\GameSource\Weapon\Private\MachineGun.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Cell\Private\CCollisionSpaceCell.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Cell\Private\CollisionSpaceManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\BaseCollisionObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\CollisionPlanesObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\OBBCollisionObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\CollisionObject\Private\CollisionSphereObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Private\CCollisionObjectFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Private\CollisionAPI.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Collision\Private\CollisionManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\ActorInterface.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\CameraActor.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\EmitterActor.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\LineActor.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\SpawnActor.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\Sprite2DActor.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Actor\Private\StaticMeshActor.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Component\Private\CameraCompornent.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Component\Private\LineCompornent.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Component\Private\Sprite2dCompornent.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Component\Private\StaticMeshCompornent.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Level\Private\LevelInterface.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Level\Private\LevelManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Private\FactoryInterface.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Private\IBaseObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Private\ManagerInterface.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Private\ReflectionSystem.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Private\VariableInterface.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\State\Private\IState.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\State\Private\StateHolder.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Task\Private\TaskInterface.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Core\Task\Private\TaskSystem.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Debug\Private\Debug.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\BaseBuffer.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\ConstantBuffer.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\IndexBuffer.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\VertexBuffer.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Camera\Private\BaseCamera.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Font\Private\FontObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Lighting\Private\LightManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Lighting\Private\LightTypes.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Matetial\Private\Material.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\ParticleSystem\Private\BaseEmitter.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\ParticleSystem\Private\BaseParticle.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\GraphicsTypes.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Private\RenderCommand.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\Basic\Private\BaseRenderDeviceManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\Basic\Private\RendererManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DirectX11Adapter.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DirectX11DeviceContext.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DirectX11SwapChain.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DirectX11RenderDeviceManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\GeometryBuffers.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Private\DeferredRenderingManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\BaseRenderObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\LineObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\Mesh.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\ScreenRenderObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\Sprite2DObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\StaticMeshObject.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\SubMesh.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\Basic\Private\BaseShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ColorVertexSpriteShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DefaultMeshShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DefaultSpriteShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DeferredShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DX11BaseShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ForwardDiffuseOnlyMeshShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LightShaderOfDeferredRender.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LineShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\MonotoneTextureShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ParticleShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SepiaTextureShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SimplePolygon3DShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SpecularPerVertexShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SpecularPhongShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\VertexLayout\Private\BaseVertexLayout.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Input\Private\DirectInput.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\IO\Private\IBaseReader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Math\Private\DirectXMath.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Math\Private\HFMath.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Math\Private\Transform.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Platform\Windows\BaseWindow.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Platform\Windows\WinMain.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\BasicMeshFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\BasicMeshManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\ComShaderResourceViewFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\ComTexture2DFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\DDSTextureLoader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\MaterialFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\MeshFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\MeshManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\ParticleFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\Texture2DFactory.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Private\Texture2DManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\ACTReader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\HFMReader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\PMXReader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\HFString.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\HFSyatemTime.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\HarmonyFrameWork\Math\Public\HFMathConvert.inl" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{827B7004-BF47-4CA5-9B32-B30B408FEDAC}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Reso</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="DirectX11_Win10_Desktop_VS2015_Debug.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="DirectX11_Win10_Desktop_VS2015_Release.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X86</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnablePREfast>false</EnablePREfast>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X86</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
