@@ -9,8 +9,8 @@
 #include "..\HarmonyFrameWork\Graphics\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\HarmonyFrameWork\Core\Task\Public\TaskSystem.h"
 #include "..\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h"
-#include "..\HarmonyFrameWork\Utility\Public\Time.h"
 #include "..\HarmonyFrameWork\Debug\Public\Debug.h"
+#include "..\HarmonyFrameWork\Utility\Public\HFSyatemTime.h"
 bool GameSystem::isEnd = 0;
 
 /**********************************************************************************************//**
@@ -123,6 +123,7 @@ void GameSystem::TransitionState()
 
 void GameSystem::GameMain(void)
 {
+	HFSyatemTime::GetInstance()->Start();
 	while(isEnd == false)
 	{
 		currentTime = timeGetTime();
@@ -130,8 +131,8 @@ void GameSystem::GameMain(void)
 		if (frameTime >= 1000 / 60)
 		{
 			// ゲーム全体のタイマーを進行
-			HFTime::GetInstance()->ProgressionTime();
-			CONSOLE_LOG(HFTime::GetInstance()->GetRealityDeltaSeconds(),"\n");
+			HFSyatemTime::GetInstance()->ProgressionTime();
+			CONSOLE_LOG(HFSyatemTime::GetInstance()->GetRealityDeltaSeconds(),"\n");
 			execLastTime = timeGetTime();
 			sINPUT->Update();
 			// タスク更新

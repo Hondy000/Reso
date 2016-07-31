@@ -33,8 +33,8 @@ protected:
 	UINT m_emittTime;
 	/** @brief Number of particle of out at the times. */
 	UINT m_numParticleOfOutAtATime;
-	/** @brief パーティクルの描画範囲. */
-	FLOAT m_particleRenderRange;
+
+
 
 	/** @brief 1秒間のの放出量. */
 	UINT m_emitParticlePerSecond;
@@ -45,6 +45,9 @@ protected:
 	HFVECTOR3 m_emitDirction;
 	/** @brief The velocity. */
 	FLOAT m_velocity;
+	// パーティクルの寿命
+	float m_particleLife;
+	
 	// パーティクルの初期化
 	bool Init();
 	void Reset();

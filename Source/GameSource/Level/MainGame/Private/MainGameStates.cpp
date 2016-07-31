@@ -14,6 +14,7 @@
 #include "..\..\..\Charactor\Enemy\Public\Level1EnemyStates.h"
 #include "..\..\..\Charactor\Enemy\Public\MineState.h"
 #include "..\..\..\..\HarmonyFrameWork\Core\Public\ReflectionSystem.h"
+#include "../../../../HarmonyFrameWork/Utility/Public/HFSyatemTime.h"
 
 using namespace std;
 
@@ -101,8 +102,8 @@ std::shared_ptr<IState> MainGameStartState::GetNewState(void)
 
 void MainGameMainState::Enter()
 {
-	m_popCounter = make_shared<HFTime>();
-	m_endCounter = make_shared<HFTime>();
+	m_popCounter = make_shared<HFSyatemTime>();
+	m_endCounter = make_shared<HFSyatemTime>();
 }
 
 /**********************************************************************************************//**

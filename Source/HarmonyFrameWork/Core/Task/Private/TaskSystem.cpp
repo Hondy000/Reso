@@ -9,7 +9,6 @@
 #include "../../../Graphics/Public/RenderCommand.h"
 #include "../../Actor/Public/ActorInterface.h"
 #include "../../../Debug/Public/Debug.h"
-#include "../../../Utility/Public/Time.h"
 #include "../../../Graphics/RenderObject/Public/BaseRenderObject.h"
 #include "../../../Input/Public/InputManager.h"
 
@@ -84,18 +83,7 @@ bool TaskSystem::Update()
 	{
 		if ((*it)->CheckUsageFlag())
 		{					  
-			HFTime timer;
 			(*it)->Update();
-
-			timer.ProgressionTime();
-			if (sINPUT->IsTriggerKeyboard(DIK_P))
-			{
-				CONSOLE_LOG(
-					(*it)->GetTaskName(),
-					" - Update => ",
-					timer.GetRealityDeltaSeconds(), " ms\n");
-
-			}
 		}
 		if ((*it)->GetIsDestroy())
 		{
@@ -146,7 +134,6 @@ bool TaskSystem::Render()
 	{
 		CONSOLE_LOG("\n");
 	}
-	HFTime t;
 	m_spDrawList.sort([](const std::shared_ptr<RenderCommand>& commmandA,const std::shared_ptr<RenderCommand>& commmandB) 
 	{
 		return(commmandA->GetRenderPriority() < commmandB->GetRenderPriority());
@@ -157,29 +144,10 @@ bool TaskSystem::Render()
 
 	for (auto it = m_spDrawList.begin(); it != m_spDrawList.end(); it++)
 	{
-		HFTime timer;
 		(*it)->Command();
-		timer.ProgressionTime();
-		if(sINPUT->IsTriggerKeyboard(DIK_P))
-		{
-			CONSOLE_LOG(
-				(*it)->GetRenderObject()->GetTaskName(),
-				" -  Rendering => ",
-				timer.GetRealityDeltaSeconds(), " ms\n");
-
-		}
-		
 	}
 	sRENDER_DEVICE_MANAGER->EndRender();
 	m_spDrawList.clear();
-	if (sINPUT->IsTriggerKeyboard(DIK_P))
-	{
-		t.ProgressionTime();
-		CONSOLE_LOG(
-			"AllRendering => ",
-			t.GetRealityDeltaSeconds(), " ms\n");
-
-	}
 	return true;
 }
 

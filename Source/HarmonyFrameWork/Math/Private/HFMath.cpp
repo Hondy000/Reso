@@ -2,7 +2,6 @@
 #include "../Public/HFMath.h"
 #ifdef DIRECTX
 
-#ifndef DIRECTXMATH
 HFVECTOR2::HFVECTOR2(FLOAT x, FLOAT y)
 {
 	this->x = x;
@@ -1793,5 +1792,3 @@ HFQUATERNION*  HFQuaternionRotationMatrix
 
 
 
-
-#endif

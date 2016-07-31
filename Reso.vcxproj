@@ -91,6 +91,7 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\IndexBuffer.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\VertexBuffer.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Camera\Public\BaseCamera.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Font\Public\FontObject.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Lighting\Public\LightManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Lighting\Public\LightTypes.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Matetial\Public\Material.h" />
@@ -160,7 +161,7 @@
     <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\InlineUtility.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\HFString.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\StringUtility.h" />
-    <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\Time.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\HFSyatemTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\EnemyActor.cpp" />
@@ -225,6 +226,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\IndexBuffer.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Buffer\Private\VertexBuffer.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Camera\Private\BaseCamera.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Font\Private\FontObject.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Lighting\Private\LightManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Lighting\Private\LightTypes.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Matetial\Private\Material.cpp" />
@@ -285,7 +287,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\HFMReader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\ResorceManager\Reader\Private\PMXReader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\HFString.cpp" />
-    <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\Time.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Utility\Private\HFSyatemTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\HarmonyFrameWork\Math\Public\HFMathConvert.inl" />
@@ -346,6 +348,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
+    <CodeAnalysisRuleSet>NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -378,6 +382,7 @@
       <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <MinimalRebuild>false</MinimalRebuild>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

@@ -1,6 +1,6 @@
 #pragma once
 #include "../../../../HarmonyFrameWork/Core/State/Public/IState.h"
-#include "../../../../HarmonyFrameWork/Utility/Public/Time.h"
+#include "../../../../HarmonyFrameWork/Utility/Public/HFSyatemTime.h"
 
 
 class MainGameStartState
@@ -26,8 +26,8 @@ public:
 
 	std::shared_ptr<IState> GetNewState(void);
 private:
-	std::shared_ptr<HFTime> m_popCounter;
-	std::shared_ptr<HFTime> m_endCounter;
+	std::shared_ptr<HFSyatemTime> m_popCounter;
+	std::shared_ptr<HFSyatemTime> m_endCounter;
 
 	bool m_isChangeEndMain;
 };
@@ -44,8 +44,8 @@ public:
 
 	std::shared_ptr<IState> GetNewState(void);
 private:
-	std::shared_ptr<HFTime> m_popCounter;
-	std::shared_ptr<HFTime> m_endCounter;
+	std::shared_ptr<HFSyatemTime> m_popCounter;
+	std::shared_ptr<HFSyatemTime> m_endCounter;
 
 	bool m_isChangeEndMain;
 };

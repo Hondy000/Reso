@@ -18,7 +18,7 @@
 #include "..\..\..\ResorceManager\Public\BasicMeshManager.h"
 #include "..\..\Shader\DirectX\ver.11\Public\ParticleShader.h"
 #include "..\..\..\ResorceManager\Public\ParticleFactory.h"
-#include "../../../Utility/Public/Time.h"
+#include "../../../Utility/Public/HFSyatemTime.h"
 
 using namespace std;
 
@@ -48,7 +48,6 @@ bool BaseEmitter::Init()
 	RegisterVariable("m_waitTime", m_waitTime);
 	RegisterVariable("m_progressTime", m_emittTime);
 	RegisterVariable("m_numParticleOfOutAtATime", m_numParticleOfOutAtATime);
-	RegisterVariable("m_particleRenderRange", m_particleRenderRange);
 	RegisterVariable("m_emitRange", m_emitRange);
 	RegisterVariable("m_emitDirction", m_emitDirction);
 	RegisterVariable("m_velocity", m_velocity);
@@ -82,7 +81,7 @@ void BaseEmitter::Reset()
 
 bool BaseEmitter::Update()
 {
-	m_waitTime += HFTime::GetInstance()->GetGameDeltaSeconds();
+	m_waitTime += HFSyatemTime::GetInstance()->GetGameDeltaSeconds();
 	if(m_emittTime <= m_waitTime)
 	{
 		// 時間経過でパーティクルを放出
@@ -122,7 +121,18 @@ void BaseEmitter::EmittParticle()
 {
 	for (int i = 0; i < m_particleArray.size();i++)
 	{
-		
+		if (m_particleArray[i]->GetLife() <= 0)
+		{
+			// ライブが0以下
+			// 寿命設定
+			m_particleArray[i]->SetLife(m_particleLife);
+			// 放出方向設定
+			HFVECTOR3 direction;
+			
+
+			m_particleArray[i]->SetDirection(direction);
+			break;
+		}
 	}
 	
 
