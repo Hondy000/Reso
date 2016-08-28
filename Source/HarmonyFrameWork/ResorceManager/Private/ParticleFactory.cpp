@@ -22,20 +22,19 @@ std::shared_ptr<Mesh> ParticleFactory::GetQuadParticle(UINT particleNum)
 	vector<HFVECTOR3> positionArray;
 	vector<HFVECTOR2> uvArray;
 
-	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers().resize(3);
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers().resize(4);
 	for (int i = 0; i < staticMesh->GetSubMeshArray()[0]->GetVertexBuffers().size(); i++)
 	{
 		staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[i] = make_shared<VertexBuffer>();
 	}
-	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[0]->SetSemantics(HF_SEMANTICS_POSITION);
-	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[1]->SetSemantics(HF_SEMANTICS_TEXCOORD0);
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[0]->SetSemantics(0, "POSITION", 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0);
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[1]->SetSemantics(0, "TEXCOORD", 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0);
 
 	positionArray.resize(4);
 	positionArray[0] = HFVECTOR3(-1, 1, 0);
 	positionArray[1] = HFVECTOR3(1, 1, 0);
 	positionArray[2] = HFVECTOR3(-1, -1, 0);
 	positionArray[3] = HFVECTOR3(1, -1, 0);
-	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[0]->SetSemantics(HF_SEMANTICS_POSITION);
 
 	if ((!staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[0]->SetData(positionArray.data(), sizeof(HFVECTOR3), positionArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
 	{
@@ -49,19 +48,28 @@ std::shared_ptr<Mesh> ParticleFactory::GetQuadParticle(UINT particleNum)
 	uvArray[2] = HFVECTOR2(0, 0);
 	uvArray[3] = HFVECTOR2(1, 0);
 
-	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[1]->SetSemantics(HF_SEMANTICS_TEXCOORD0);
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[1]->SetSemantics(0,"TEXCOORD",0,sizeof(HFVECTOR2),HFGraphics::INPUT_PER_VERTEX_DATA,0);
 	if ((!staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[1]->SetData(uvArray.data(), sizeof(HFVECTOR2), uvArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
 	{
 		return nullptr;
 	}
 
-	// インスタンスのパラメータ用のバッファ
-	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[2]->SetSemantics(HF_SEMANTICS_MATRIX0);
+	// インスタンスの行列パラメータ用のバッファ
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[2]->SetSemantics(0, "MATRIX", 0, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 1);
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[2]->SetSemantics(1, "MATRIX", 1, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 1);
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[2]->SetSemantics(2, "MATRIX", 2, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 1);
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[2]->SetSemantics(3, "MATRIX", 3, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 1);
 	if ((!staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[2]->SetData(NULL, sizeof(HFMATRIX), particleNum, VertexBuffer::ACCESS_FLAG::WRITEONLY)))
 	{
 		return nullptr;
 	}
 
+	// インスタンスのカラーパラメータ用のバッファ
+	staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[3]->SetSemantics(0, "COLOR", 0, sizeof(HFColor), HFGraphics::INPUT_PER_INSTANCE_DATA, 1);
+	if ((!staticMesh->GetSubMeshArray()[0]->GetVertexBuffers()[3]->SetData(NULL, sizeof(HFColor), particleNum, VertexBuffer::ACCESS_FLAG::WRITEONLY)))
+	{
+		return nullptr;
+	}
 
 	shared_ptr<Material> spMaterial = make_shared<Material>();
 	spMaterial->SetMaterialShader(std::make_shared<ParticleShader>());

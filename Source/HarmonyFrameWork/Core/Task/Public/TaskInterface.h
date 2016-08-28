@@ -7,6 +7,7 @@
 #pragma once
 #include "../../Public/IBaseObject.h"
 #include "../../Public/VariableManager.h"	
+#include "..\..\..\Math\Public\Transform.h"
 
 /**=================================================================================================
  * @def GET_TASK_VAR_PTR(spTask,typeName,varName) (spTask->GetVariable<typeName>(varName)-

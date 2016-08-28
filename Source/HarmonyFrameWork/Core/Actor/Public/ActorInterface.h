@@ -7,6 +7,7 @@
 class IActor
 	:
 	virtual public IBaseTask,
+	public TransformHolder,
 	public IStateHolder,
 	public inheritable_enable_shared_from_this<IActor>
 {
@@ -24,7 +25,10 @@ public:
 	{
 		return(m_transform);
 	};
-	void SetTransform(const std::shared_ptr< Transform>& transform)	{ m_transform = transform;	};
+	void SetTransform(const std::shared_ptr< Transform>& transform)
+	{
+		m_transform =(transform);
+	};
 
 	// Access the PreviousTransform
 	const std::shared_ptr<Transform>& GetPreviousTransform(void) const { return(m_previousTransform); };

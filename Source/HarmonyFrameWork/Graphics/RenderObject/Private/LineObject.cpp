@@ -83,15 +83,6 @@ bool LineObject::Init()
 
 bool LineObject::Update()
 {
-	for (int i = 0; i < GetMesh()->GetSubMeshArray().size(); i++)
-	{
-		std::shared_ptr<RenderCommand> command;
-		command = std::shared_ptr<RenderCommand>(new RenderCommand);
-		command->SetRenderObject(shared_from_this());
-		command->SetRenderMeshElement(i);
-		command->SetRenderPriority(GetMesh()->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->GetPathPriority());
-		sTASK_SYSTEM->RegisterRenderCommand(command);
-	}
 	return true;
 }
 
@@ -132,7 +123,7 @@ bool LineObject::AddLine(HFGraphics::LineData& addLine)
 	shared_ptr<SubMesh>	 addSubmesh = make_shared<SubMesh>();
 	vector<shared_ptr<VertexBuffer>> vertexVector;
 	shared_ptr<VertexBuffer> positionBuffer = make_shared<VertexBuffer>();
-	positionBuffer->SetSemantics(HF_SEMANTICS_POSITION);
+	positionBuffer->SetSemantics(0,HFGraphics::BufferSemantics("POSITION",0,sizeof(HFVECTOR3),HFGraphics::INPUT_PER_VERTEX_DATA,0));
 	if(positionBuffer->SetData(addLine.positions.data(),sizeof(HFVECTOR3),addLine.positions.size(), BaseBuffer::ACCESS_FLAG::WRITEONLY))
 	{
 		addSubmesh->SetVertexBuffers(vertexVector);

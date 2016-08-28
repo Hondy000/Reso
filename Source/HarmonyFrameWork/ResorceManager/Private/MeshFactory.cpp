@@ -67,13 +67,14 @@ std::shared_ptr<Mesh> MeshFactory::Create(const std::string & path)
 		{
 			mesh->GetSubMeshArray()[i]->GetVertexBuffers()[j] = std::shared_ptr<VertexBuffer>(new VertexBuffer);
 		}
-		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[0]->SetSemantics(HF_SEMANTICS_POSITION);
-		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[1]->SetSemantics(HF_SEMANTICS_NORMAL);
-		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[2]->SetSemantics(HF_SEMANTICS_TEXCOORD0);
-		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[3]->SetSemantics(HF_SEMANTICS_DIFFUSE);
-		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[4]->SetSemantics(HF_SEMANTICS_AMBIENT);
-		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[5]->SetSemantics(HF_SEMANTICS_SPECULAR);
-		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[6]->SetSemantics(HF_SEMANTICS_EMISSIVE);
+		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[0]->SetSemantics(0, HFGraphics::BufferSemantics(HFString("POSITION"), 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[1]->SetSemantics(0, HFGraphics::BufferSemantics(HFString("NORMAL"), 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[2]->SetSemantics(0, HFGraphics::BufferSemantics(HFString("TEXCOORD"), 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[3]->SetSemantics(0, HFGraphics::BufferSemantics(HFString("DIFFUSE"), 0, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[4]->SetSemantics(0, HFGraphics::BufferSemantics(HFString("AMBIENT"), 0, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[5]->SetSemantics(0, HFGraphics::BufferSemantics(HFString("SPECULAR"), 0, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		mesh->GetSubMeshArray()[i]->GetVertexBuffers()[6]->SetSemantics(0, HFGraphics::BufferSemantics(HFString("EMISSIVE"), 0, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+
 
 		hr = mesh->GetSubMeshArray()[i]->GetVertexBuffers()[0]->SetData(postiionVector.data(), sizeof(HFVECTOR3), postiionVector.size(), BaseBuffer::ACCESS_FLAG::WRITEONLY);
 		hr = mesh->GetSubMeshArray()[i]->GetVertexBuffers()[1]->SetData(normalVector.data(), sizeof(HFVECTOR3), normalVector.size(), BaseBuffer::ACCESS_FLAG::WRITEONLY);

@@ -3,6 +3,7 @@
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "../../../../Lighting/Public/LightManager.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "../../../../Public/GraphicsTypes.h"
 
 using namespace std;
 
@@ -62,6 +63,7 @@ LightShaderOfDeferredRender::~LightShaderOfDeferredRender()
 
 bool LightShaderOfDeferredRender::Setup()
 {
+	m_pathPriority = HF_LIGHTING_PATH_OF_DEFERRED_RENDERING;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	sRENDER_DEVICE_MANAGER->SetupGeometryBuffer();
 	// Initialize the vertex and pixel shaders.
@@ -117,11 +119,22 @@ bool LightShaderOfDeferredRender::PreProcessOfRender(std::shared_ptr<SubMesh> sh
 	UINT stride[2] = { 12 ,8 };
 	UINT offset[2] = { 0 ,0};
 
+	// バッファの取得
 	std::vector<shared_ptr<VertexBuffer>> buffers;
-	
-	DWORD semantics[2] = { HF_SEMANTICS_POSITION, HF_SEMANTICS_TEXCOORD0 };
-	shape->GetVertexBuffers(2, semantics, buffers);
-	
+	HFGraphics::MeshShaderBufferLayout bufferlayout;
+	bufferlayout.AddBufferSemantics(0, HFGraphics::BufferSemantics(HFString("POSITION"), 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	bufferlayout.AddBufferSemantics(1, HFGraphics::BufferSemantics(HFString("TEXCOORD"), 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	std::vector<bool> boolenArray;
+	shape->GetVertexBuffers( bufferlayout, buffers,boolenArray);
+	for (int i = 0;i < boolenArray.size();i++)
+	{
+		if (boolenArray[i] == false)
+		{
+			return false;
+		}
+	}
+
+
 	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0,2,buffers,stride,offset);
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetIndexBuffer(shape->GetIndexBuffer()->Get(), DXGI_FORMAT_R32_UINT, 0);
 
@@ -168,6 +181,14 @@ bool LightShaderOfDeferredRender::Render()
 
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	// ハルシェーダーを無効にする。
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->HSSetShader(NULL, NULL, 0);
+
+	// ドメインシェーダーを無効にする。
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->DSSetShader(NULL, NULL, 0);
+
+	// ジオメトリシェーダーを無効にする。
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->GSSetShader(NULL, NULL, 0);
 	// ピクセルシェーダーを動的シェーダーリンクとして設定する
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShader(m_cpPixelShader.Get(), m_cpClassInstance.GetAddressOf(), 1);
 
@@ -405,37 +426,67 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	// Copy the lighting variables into the constant buffer.  
 	std::shared_ptr< HFGraphics::DirectinalLight  > spLight;
 	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(spLight);
-	dataPtr2->lightDirection0 = HFVECTOR4(spLight->GetPram().direction);
-
-	// アルベドと法線はデバッグ用の表示みたいなもんでダミーなので入力なし 
-	dataPtr2->lightDirection4 = HFVECTOR4(spLight->GetPram().direction);
-	::ZeroMemory(&dataPtr2->pointLight0, sizeof(HFGraphics::POINT_LIGHT_PRAM));
+	if (spLight)
+	{
+		dataPtr2->lightDirection0 = HFVECTOR4(spLight->GetPram().direction);
 
 
-	dataPtr2->lightDirection5 = HFVECTOR4(spLight->GetPram().direction);
-	::ZeroMemory(&dataPtr2->spotLight0, sizeof(HFGraphics::SPOT_LIGHT_PRAM));
-	dataPtr2->lightDirection = HFVECTOR4(spLight->GetPram().direction);
+		// アルベドと法線はデバッグ用の表示みたいなもんでダミーなので入力なし 
+		dataPtr2->lightDirection4 = HFVECTOR4(spLight->GetPram().direction);
+		::ZeroMemory(&dataPtr2->pointLight0, sizeof(HFGraphics::POINT_LIGHT_PRAM));
 
 
+		dataPtr2->lightDirection5 = HFVECTOR4(spLight->GetPram().direction);
+		::ZeroMemory(&dataPtr2->spotLight0, sizeof(HFGraphics::SPOT_LIGHT_PRAM));
+		dataPtr2->lightDirection = HFVECTOR4(spLight->GetPram().direction);
 
-	vector<shared_ptr<HFGraphics::PointLight>> lightArray;
-	sLIGHT_MANAGER->GetPointLight(lightArray, HFVECTOR3(worldMatrix._41, worldMatrix._42, worldMatrix._43), 8);
+	}
+
+	vector<shared_ptr<HFGraphics::PointLight>> pointLightArray;
+	sLIGHT_MANAGER->GetPointLight(pointLightArray, HFVECTOR3(worldMatrix._41, worldMatrix._42, worldMatrix._43), 64);
 	for (int i = 0; i < 64; i++)
 	{
 		::ZeroMemory(&dataPtr2->pointLightArray[i], sizeof(HFGraphics::POINT_LIGHT_PRAM));
-		::ZeroMemory(&dataPtr2->spotLightArray[i], sizeof(HFGraphics::SPOT_LIGHT_PRAM));
 
+		if (pointLightArray[i])
+		{
+			dataPtr2->pointLightArray[i].attenuation = pointLightArray[i]->GetPram().attenuation;
+			dataPtr2->pointLightArray[i].color = pointLightArray[i]->GetPram().color;
+			dataPtr2->pointLightArray[i].falloff = pointLightArray[i]->GetPram().falloff;
+			dataPtr2->pointLightArray[i].position = pointLightArray[i]->GetPram().position;
+			dataPtr2->pointLightArray[i].range = pointLightArray[i]->GetPram().range;
+		}
 	}
 
-	dataPtr2->lightDirection6 = HFVECTOR4(spLight->GetPram().direction);
-
-	sLIGHT_MANAGER->GetPointLight(lightArray, HFVECTOR3(worldMatrix._41, worldMatrix._42, worldMatrix._43), 8);
 	for (int i = 0; i < 64; i++)
 	{
 		::ZeroMemory(&dataPtr2->pointLightArray2[i], sizeof(HFGraphics::POINT_LIGHT_PRAM));
-		::ZeroMemory(&dataPtr2->spotLightArray2[i], sizeof(HFGraphics::SPOT_LIGHT_PRAM));
+
+		if (pointLightArray[i])
+		{
+			dataPtr2->pointLightArray2[i].attenuation = pointLightArray[i]->GetPram().attenuation;
+			dataPtr2->pointLightArray2[i].color = pointLightArray[i]->GetPram().color;
+			dataPtr2->pointLightArray2[i].falloff = pointLightArray[i]->GetPram().falloff;
+			dataPtr2->pointLightArray2[i].position = pointLightArray[i]->GetPram().position;
+			dataPtr2->pointLightArray2[i].range = pointLightArray[i]->GetPram().range;
+		}
+	}
+
+	vector<shared_ptr<HFGraphics::SpotLight>> spotLightArray;
+	sLIGHT_MANAGER->GetSpotLight(spotLightArray, HFVECTOR3(worldMatrix._41, worldMatrix._42, worldMatrix._43), 64);
+	for (int i = 0; i < 64; i++)
+	{
+		::ZeroMemory(&dataPtr2->spotLightArray[i], sizeof(HFGraphics::SPOT_LIGHT_PRAM));
+
 
 	}
+
+
+	if (spLight)
+	{
+		dataPtr2->lightDirection6 = HFVECTOR4(spLight->GetPram().direction);
+	}
+
 
 	// Unlock the constant buffer.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[1]->Get(), 0);

@@ -5,6 +5,8 @@
  **************************************************************************************************/
 
 #include "..\Public\Sprite2DActor.h"
+#include "..\..\..\ResorceManager\Public\BasicMeshFactory.h"
+#include "..\..\..\ResorceManager\Public\BasicMeshManager.h"
 
 /**********************************************************************************************//**
  * @fn	Sprite2DActor::Sprite2DActor()
@@ -16,6 +18,7 @@
 
 Sprite2DActor::Sprite2DActor()
 {
+	m_mesh = BasicMeshFactory::GetInstance()->Create( HF_BM_SPRITE,0,0,0);
 }
 
 /**********************************************************************************************//**

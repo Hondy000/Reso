@@ -11,6 +11,7 @@
 #include "../../../Debug/Public/Debug.h"
 #include "../../../Graphics/RenderObject/Public/BaseRenderObject.h"
 #include "../../../Input/Public/InputManager.h"
+#include "..\..\..\Graphics\Shader\Basic\Public\BaseShader.h"
 
 using namespace std;
 
@@ -39,6 +40,11 @@ bool TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask
 		m_spTaskList.push_back(task);
 		task->Init();
 		task->SetTaskName(name);
+		std::shared_ptr<BaseRenderObject>render = std::dynamic_pointer_cast<BaseRenderObject>(task);
+		if(render)
+		{
+			render->Setup();
+		}
 		return true;
 	}
 	return false;
@@ -74,10 +80,11 @@ bool TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
 bool TaskSystem::Update()
 {
 
-	if (sINPUT->IsTriggerKeyboard(DIK_P))
+	m_spTaskList.sort([](const std::shared_ptr<IBaseTask>& commmandA, const std::shared_ptr<IBaseTask>& commmandB)
 	{
-		CONSOLE_LOG("\n\n");
-	}
+		// 昇順ソート
+		return(commmandA->GetUpdatePriority() < commmandB->GetUpdatePriority());
+	});
 	UpdateActorsPreviousTransform();
 	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end();)
 	{
@@ -129,14 +136,13 @@ void TaskSystem::UpdateActorsPreviousTransform()
 
 bool TaskSystem::Render()
 {
-
-	if (sINPUT->IsTriggerKeyboard(DIK_P))
-	{
-		CONSOLE_LOG("\n");
-	}
 	m_spDrawList.sort([](const std::shared_ptr<RenderCommand>& commmandA,const std::shared_ptr<RenderCommand>& commmandB) 
 	{
-		return(commmandA->GetRenderPriority() < commmandB->GetRenderPriority());
+		// 昇順ソート
+		return(
+			commmandA->GetRenderObject()->GetMaterialShader(commmandA->GetRenderMeshElement())->GetPathPriority() 
+			<
+			commmandB->GetRenderObject()->GetMaterialShader(commmandB->GetRenderMeshElement())->GetPathPriority());
 	});
 
 	sRENDER_DEVICE_MANAGER->ClearScreen();
@@ -144,10 +150,10 @@ bool TaskSystem::Render()
 
 	for (auto it = m_spDrawList.begin(); it != m_spDrawList.end(); it++)
 	{
-		(*it)->Command();
+
+		(*it)->Update();
 	}
 	sRENDER_DEVICE_MANAGER->EndRender();
-	m_spDrawList.clear();
 	return true;
 }
 

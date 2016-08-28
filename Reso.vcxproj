@@ -19,12 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\GameSource\Charactor\Enemy\Private\EnemyManager.h" />
-    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyActor.h" />
-    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\EnemyManager.h" />
-    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\Level1EnemyStates.h" />
-    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\Level2EnemyState.h" />
-    <ClInclude Include="Source\GameSource\Charactor\Enemy\Public\MineState.h" />
     <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerActor.h" />
     <ClInclude Include="Source\GameSource\Charactor\Player\Public\PlayerStates.h" />
     <ClInclude Include="Source\GameSource\Charactor\Public\CharactorActor.h" />
@@ -91,6 +85,7 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\IndexBuffer.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Buffer\Public\VertexBuffer.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Camera\Public\BaseCamera.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Camera\Public\CameraManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Font\Public\FontObject.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Lighting\Public\LightManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Lighting\Public\LightTypes.h" />
@@ -122,6 +117,8 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DeferredShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DirectX11BaseShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DX11BaseShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\GPUParticleShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ShadowMapShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPerVertexShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPhongShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\LightShaderOfDeferredRender.h" />
@@ -130,6 +127,8 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ParticleShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SepiaTextureShader.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SimplePolygon3DShader.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shadow\Public\ShadowManager.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\Shadow\Public\ShadowRenderObject.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseShaderResourceView.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\BaseTexture2D.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Texture\Public\DX11ShaderResourceView.h" />
@@ -164,10 +163,6 @@
     <ClInclude Include="Source\HarmonyFrameWork\Utility\Public\HFSyatemTime.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\EnemyActor.cpp" />
-    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\Level1EnemyStates.cpp" />
-    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\Level2EnemyState.cpp" />
-    <ClCompile Include="Source\GameSource\Charactor\Enemy\Private\MineState.cpp" />
     <ClCompile Include="Source\GameSource\Charactor\Player\Private\PlayerActor.cpp" />
     <ClCompile Include="Source\GameSource\Charactor\Player\Private\PlayerStates.cpp" />
     <ClCompile Include="Source\GameSource\Charactor\Private\CharactorActor.cpp" />
@@ -256,14 +251,18 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DeferredShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\DX11BaseShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ForwardDiffuseOnlyMeshShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\GPUParticleShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LightShaderOfDeferredRender.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\LineShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\MonotoneTextureShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ParticleShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SepiaTextureShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\ShadowMapShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SimplePolygon3DShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SpecularPerVertexShader.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Private\SpecularPhongShader.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shadow\Private\ShadowManager.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\Shadow\Private\ShadowRenderObject.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\VertexLayout\Private\BaseVertexLayout.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Input\Private\DirectInput.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\IO\Private\IBaseReader.cpp" />
@@ -296,7 +295,7 @@
     <ProjectGuid>{827B7004-BF47-4CA5-9B32-B30B408FEDAC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Reso</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -418,7 +417,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>DIRECTX;DIRECTX11;X64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>

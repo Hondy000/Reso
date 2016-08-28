@@ -56,8 +56,9 @@ shared_ptr<Mesh> BasicMeshFactory::CreateSprite()
 		{
 			renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[i] = make_shared<VertexBuffer>();
 		}
-		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetSemantics(HF_SEMANTICS_POSITION);
-		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(HF_SEMANTICS_TEXCOORD0);
+
+		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetSemantics(0,HFGraphics::BufferSemantics("POSITION",0,sizeof(HFVECTOR3),HFGraphics::INPUT_PER_VERTEX_DATA,0));
+		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(0, HFGraphics::BufferSemantics("TEXCOORD", 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
 
 		positionArray.resize(4);
 		positionArray[0] = HFVECTOR3(-1, 1, 0);
@@ -98,7 +99,7 @@ shared_ptr<Mesh> BasicMeshFactory::CreateSprite()
 			return nullptr;
 		}
 		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->SetIndexBuffer(std::make_shared<IndexBuffer>());
-
+		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->SetParentMesh(renderobject);
 		UINT index[6] =
 		{
 			0,1,2,2,1,3
@@ -131,8 +132,8 @@ shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 	{
 		staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[i] = make_shared<VertexBuffer>();
 	}
-	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetSemantics(HF_SEMANTICS_POSITION);
-	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(HF_SEMANTICS_TEXCOORD0);
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetSemantics(0, HFGraphics::BufferSemantics("POSITION", 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(0, HFGraphics::BufferSemantics("TEXCOORD", 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
 
 	positionArray.resize(4);
 	positionArray[0] = HFVECTOR3(-1,  1, 0);
@@ -162,6 +163,7 @@ shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->SetMaterial(spMaterial);
 
 	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->SetIndexBuffer(std::make_shared<IndexBuffer>());
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->SetParentMesh(staticMesh);
 
 	UINT index[6] =
 	{
@@ -195,9 +197,10 @@ std::shared_ptr<Mesh> BasicMeshFactory::CreateRectangleSprite(int rectCount)
 		{
 			renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[i] = make_shared<VertexBuffer>();
 		}
-		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetSemantics(HF_SEMANTICS_POSITION);
-		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(HF_SEMANTICS_TEXCOORD0);
-		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[2]->SetSemantics(HF_SEMANTICS_DIFFUSE);
+		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetSemantics(0, HFGraphics::BufferSemantics("POSITION", 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(0, HFGraphics::BufferSemantics("TEXCOORD", 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(0, HFGraphics::BufferSemantics("DIFFUSE", 0, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+
 
 		for (int i = 0;i < rectCount;i++)
 		{
@@ -261,7 +264,7 @@ std::shared_ptr<Mesh> BasicMeshFactory::CreateRectangleSprite(int rectCount)
 		{
 			return nullptr;
 		}
-
+		renderobject->GetSubMeshArray()[CREATE_ELEMENT]->SetParentMesh(renderobject);
 		shared_ptr<Material> spMaterial = make_shared<Material>();
 		spMaterial->SetMaterialShader(std::make_shared<ColorVertexShader>());
 		spMaterial->GetMaterialShader()->Setup();

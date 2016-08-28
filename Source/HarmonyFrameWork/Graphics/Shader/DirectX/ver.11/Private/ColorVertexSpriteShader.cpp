@@ -100,13 +100,6 @@ bool ColorVertexShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::
 	HRESULT hr;
 	hr = E_FAIL;
 
-	vector<shared_ptr<VertexBuffer>> vertexBuffers;
-	DWORD semantics[2] =
-	{
-		HF_SEMANTICS_POSITION,
-		HF_SEMANTICS_DIFFUSE
-	};
-
 	UINT stride[2] =
 	{
 		sizeof(HFVECTOR3),
@@ -136,11 +129,24 @@ bool ColorVertexShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::
 	wvp = world * view * ortho;
 	wvp = HFMatrixTranspose(wvp);
 	m_constantBuffers[0]->SetData(&wvp, sizeof(HFMATRIX), 1, BaseBuffer::ACCESS_FLAG::WRITEONLY);
+	
+	// バッファの取得
+	std::vector<shared_ptr<VertexBuffer>> buffers;
+	HFGraphics::MeshShaderBufferLayout bufferlayout;
+	bufferlayout.AddBufferSemantics(0, HFGraphics::BufferSemantics(HFString("POSITION"), 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	bufferlayout.AddBufferSemantics(1, HFGraphics::BufferSemantics(HFString("TEXCOORD"), 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	std::vector<bool> boolenArray;
+	shape->GetVertexBuffers(bufferlayout, buffers, boolenArray);
+	for (int i = 0; i < boolenArray.size(); i++)
+	{
+		if (boolenArray[i] == false)
+		{
+			return false;
+		}
+	}
 
-
-	shape->GetVertexBuffers(2, semantics, vertexBuffers);
 	sRENDER_DEVICE_MANAGER->SetIndexBuffer(shape->GetIndexBuffer(), 0);
-	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0, 2, vertexBuffers, stride, offset);
+	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0, 2, buffers, stride, offset);
 	sRENDER_DEVICE_MANAGER->SetConstantBuffers(HF_D3D11_VERTEX_SHADER, 0, 1, m_constantBuffers);
 
 	m_indexCount = shape->GetIndexBuffer()->GetDataCount();

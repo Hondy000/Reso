@@ -10,15 +10,5 @@
 
 bool StaticMeshObject::Update()
 {
-
-	for (int i = 0; i < GetMesh()->GetSubMeshArray().size();i++)
-	{
-		std::shared_ptr<RenderCommand> command;
-		command = std::shared_ptr<RenderCommand>(new RenderCommand);
-		command->SetRenderObject(shared_from_this());
-		command->SetRenderMeshElement(i);
-		command->SetRenderPriority(GetMesh()->GetSubMeshArray()[i]->GetMaterial()->GetMaterialShader()->GetPathPriority());
-		TaskSystem::GetInstance()->RegisterRenderCommand(command);
-	}
 	return true;
 }

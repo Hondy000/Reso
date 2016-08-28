@@ -52,6 +52,7 @@ DeferredShader::~DeferredShader()
 
 bool DeferredShader::Setup()
 {
+	m_pathPriority = HF_DEFERRED_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	bool result;
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;

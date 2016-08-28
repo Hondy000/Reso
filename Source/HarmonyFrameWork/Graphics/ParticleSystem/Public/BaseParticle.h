@@ -20,7 +20,8 @@
 
 class IBaseParticle
 	:
-	public IBaseTask
+	public IBaseTask,
+	public TransformHolder
 {
 public:
 	IBaseParticle();
@@ -61,16 +62,6 @@ public:
 
 	void Reset();
 
-
-	Transform GetTransform() const
-	{
-		return m_transform;
-	}
-
-	void SetTransform(Transform _val)
-	{
-		m_transform = _val;
-	}
 	float GetVelocity() const
 	{
 		return m_velocity;
@@ -88,17 +79,28 @@ public:
 		m_direction = val;
 	}
 
-	UINT GetLife() const
+	float GetLife() const
 	{
 		return m_life;
 	}
-	void SetLife(UINT val)
+	void SetLife(float val)
 	{
 		m_life = val;
 	}
+
+	HFColor GetColor() const
+	{
+		return m_color;
+	}
+
+	void SetColor(HFColor _val)
+	{
+		m_color = _val;
+	}
+
 private:
-	Transform m_transform;
 	float m_velocity;
 	HFVECTOR3 m_direction;
-	UINT m_life;
+	float m_life;
+	HFColor m_color;
 };

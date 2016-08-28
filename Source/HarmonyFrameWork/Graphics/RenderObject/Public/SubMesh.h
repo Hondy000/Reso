@@ -36,8 +36,20 @@ public:
 		return m_spVertexBuffers;
 	}
 
-	// セマンティクスを指定してバッファを取得する
-	bool GetVertexBuffers(const int bufferNum, const DWORD* semantics, std::vector<std::shared_ptr<VertexBuffer>>& bufferArray);
+	// 欲しいバッファ数とバッファ内のセマンティクスレイアウトを指定してバッファを取得する
+	void GetVertexBuffers(const int bufferNum, const HFGraphics::BufferLayout* layouts, std::vector<std::shared_ptr<VertexBuffer>>& bufferArray, std::vector<bool>& boolenArray);
+
+	/***********************************************************************************************
+	 * 欲しいバッファのセマンティクスレイアウトを指定して適合するものを取得.
+	 *
+	 * @author Kazuyuki
+	 *
+	 * @param meshShaderBufferLaout The mesh shader buffer laout.
+	 * @param bufferArray		    Array of buffers.
+	 * @param boolenArray		    Array of boolens.
+	 *************************************************************************************************/
+
+	void GetVertexBuffers(HFGraphics::MeshShaderBufferLayout meshShaderBufferLaout, std::vector<std::shared_ptr<VertexBuffer>>& bufferArray ,std::vector<bool>& boolenArray);
 
 	void SetVertexBuffers(std::vector<std::shared_ptr<VertexBuffer>>& val)
 	{
@@ -75,6 +87,17 @@ public:
 	std::weak_ptr<Mesh> GetParentMesh() const;
 
 	void SetParentMesh(std::shared_ptr<Mesh>& _val);
+
+	UINT GetIndexCount() const
+	{
+		return m_indexCount;
+	}
+
+	void SetIndexCount(UINT _val)
+	{
+		m_indexCount = _val;
+	}
+
 
 protected:
 	/** @brief	頂点バッファ. */

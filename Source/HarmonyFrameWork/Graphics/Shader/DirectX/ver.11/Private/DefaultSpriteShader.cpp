@@ -4,6 +4,7 @@
 #include "..\..\..\..\Public\GraphicsTypes.h"
 #include "..\..\..\..\Matetial\Public\Material.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "..\..\..\..\RenderDevice\DirectX\ver.11\Public\GeometryBuffers.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ DefaultSpriteShader::~DefaultSpriteShader()
 
 bool DefaultSpriteShader::Setup()
 {
-	m_pathPriority = HF_POST_DEFERRED_RENDERING_SHADER;
+	m_pathPriority = HF_2D_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	HRESULT result;
@@ -102,12 +103,6 @@ bool DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std
 	HRESULT hr;
 	hr = E_FAIL;
 
-	vector<shared_ptr<VertexBuffer>> vertexBuffers;
-	DWORD semantics[2]=
-	{
-		HF_SEMANTICS_POSITION,
-		HF_SEMANTICS_TEXCOORD0
-	};
 
 	UINT stride[2] = 
 	{
@@ -138,11 +133,27 @@ bool DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std
 	m_constantBuffers[0]->SetData(&wvp,sizeof(HFMATRIX),1,BaseBuffer::ACCESS_FLAG::WRITEONLY);
 
 
-	shape->GetVertexBuffers(2,semantics,vertexBuffers);
+	// バッファの取得
+	std::vector<std::shared_ptr<VertexBuffer>> buffers;
+	HFGraphics::MeshShaderBufferLayout bufferlayout;
+	bufferlayout.AddBufferSemantics(0, HFGraphics::BufferSemantics(HFString("POSITION"), 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	bufferlayout.AddBufferSemantics(1, HFGraphics::BufferSemantics(HFString("TEXCOORD"), 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	std::vector<bool> boolenArray;
+	shape->GetVertexBuffers(bufferlayout, buffers, boolenArray);
+	for (int i = 0; i < boolenArray.size(); i++)
+	{
+		if (boolenArray[i] == false)
+		{
+			return false;
+		}
+	}
+
 	sRENDER_DEVICE_MANAGER->SetIndexBuffer(shape->GetIndexBuffer(),0);
-	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0,2,vertexBuffers,stride,offset);
+	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0,2, buffers,stride,offset);
 	sRENDER_DEVICE_MANAGER->SetConstantBuffers(HF_D3D11_VERTEX_SHADER, 0, 1, m_constantBuffers);
-	
+
+	//sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(2)->GetSharderResorceView().GetAddressOf());
+
 	
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 1, materials->GetDiffuseTexture()->GetSharderResorceView().GetAddressOf());
 

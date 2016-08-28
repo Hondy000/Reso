@@ -20,6 +20,8 @@ struct CameraInfomation
 };
 
 class BaseCamera 
+	:
+	public inheritable_enable_shared_from_this<BaseCamera>
 {
 protected:
 public:

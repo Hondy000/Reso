@@ -14,6 +14,11 @@
 
 // ëºÇ…êîäwÉâÉCÉuÉâÉäÇ™ë∂ç›ÇµÇ»Ç¢,ëŒâûÇ≥ÇπÇƒÇ¢Ç»Ç¢èÍçá
 
+#ifndef DIRECTX_MATH
+#define NONE_MATH_LIBRARY
+#endif
+
+
 //===========================================================================
 //
 // General purpose utilities
@@ -44,116 +49,37 @@
 #define HF_16F_ROUNDS       1                // addition rounding: near
 
 
-#ifdef DIRECTXMATH
-typedef DirectX::SimpleMath::Color HFColor;
-#else										
+
+					
 //--------------------------
 // 2D Vector
 //--------------------------
 typedef struct HFColor
 	:
-	HFVECTOR4
+	public DirectX::SimpleMath::Color
 {
-#ifdef __cplusplus
-public:
+	HFColor() {};			
+	HFColor(float _r, float _g, float _b) : DirectX::SimpleMath::Color(_r, _g, _b, 1.f) {};
+	HFColor(float _r, float _g, float _b, float _a) : DirectX::SimpleMath::Color(_r, _g, _b, _a) {};
 
-	HFColor() : XMFLOAT4(0, 0, 0, 1.f) {}
-	HFColor(float _r, float _g, float _b) : XMFLOAT4(_r, _g, _b, 1.f) {}
-	HFColor(float _r, float _g, float _b, float _a) : XMFLOAT4(_r, _g, _b, _a) {}
-	explicit HFColor(const Vector3& clr) : XMFLOAT4(clr.x, clr.y, clr.z, 1.f) {}
-	explicit HFColor(const Vector4& clr) : XMFLOAT4(clr.x, clr.y, clr.z, clr.w) {}
-	explicit HFColor(_In_reads_(4) const float *pArray) : XMFLOAT4(pArray) {}
-	HFColor(FXMVECTOR V) { XMStoreFloat4(this, V); }
-	HFColor(const XMFLOAT4& c) { this->x = c.x; this->y = c.y; this->z = c.z; this->w = c.w; }
+	
+};
 
-	explicit HFColor(const DirectX::PackedVector::XMCOLOR& Packed);
-	// BGRA Direct3D 9 D3DCOLOR packed color
-
-	explicit HFColor(const DirectX::PackedVector::XMUBYTEN4& Packed);
-	// RGBA XNA Game Studio packed color
-
-	operator XMVECTOR() const { return XMLoadFloat4(this); }
-	operator const float*() const { return reinterpret_cast<const float*>(this); }
-
-	// Comparison operators
-	bool operator == (const HFColor& c) const;
-	bool operator != (const HFColor& c) const;
-
-	// Assignment operators
-	HFColor& operator= (const HFColor& c) { x = c.x; y = c.y; z = c.z; w = c.w; return *this; }
-	HFColor& operator= (const XMFLOAT4& c) { x = c.x; y = c.y; z = c.z; w = c.w; return *this; }
-	HFColor& operator= (const DirectX::PackedVector::XMCOLOR& Packed);
-	HFColor& operator= (const DirectX::PackedVector::XMUBYTEN4& Packed);
-	HFColor& operator+= (const HFColor& c);
-	HFColor& operator-= (const HFColor& c);
-	HFColor& operator*= (const HFColor& c);
-	HFColor& operator*= (float S);
-	HFColor& operator/= (const HFColor& c);
-
-	// Unary operators
-	HFColor operator+ () const { return *this; }
-	HFColor operator- () const;
-
-	// Properties
-	float R() const { return x; }
-	void R(float r) { x = r; }
-
-	float G() const { return y; }
-	void G(float g) { y = g; }
-
-	float B() const { return z; }
-	void B(float b) { z = b; }
-
-	float A() const { return w; }
-	void A(float a) { w = a; }
-
-	// Color operations
-	DirectX::PackedVector::XMCOLOR BGRA() const;
-	DirectX::PackedVector::XMUBYTEN4 RGBA() const;
-
-	Vector3 ToVector3() const;
-	Vector4 ToVector4() const;
-
-	void Negate();
-	void Negate(HFColor& result) const;
-
-	void Saturate();
-	void Saturate(HFColor& result) const;
-
-	void Premultiply();
-	void Premultiply(HFColor& result) const;
-
-	void AdjustSaturation(float sat);
-	void AdjustSaturation(float sat, HFColor& result) const;
-
-	void AdjustContrast(float contrast);
-	void AdjustContrast(float contrast, HFColor& result) const;
-
-	// Static functions
-	static void Modulate(const HFColor& c1, const HFColor& c2, HFColor& result);
-	static HFColor Modulate(const HFColor& c1, const HFColor& c2);
-
-	static void Lerp(const HFColor& c1, const HFColor& c2, float t, HFColor& result);
-	static HFColor Lerp(const HFColor& c1, const HFColor& c2, float t);
-#endif //__cplusplus
-	FLOAT ;
-} HFVECTOR2, *LPHFVECTOR2;
-#endif
 
 //===========================================================================
 //
 // Vectors
 //
 //===========================================================================
-#ifndef DIRECTXMATH
+#ifndef DIRECTX_MATH
 typedef __m128 HFVECTOR;
 #elseif
 typedef XMVECTOR HFVECTOR;
-
 #endif
-typedef struct HFVECTOR2
 
-#ifdef DIRECTXMATH
+
+typedef struct HFVECTOR2
+#ifdef DIRECTX_MATH
 	:
 public DirectX::SimpleMath::Vector2
 #endif //__cplusplus
@@ -195,8 +121,7 @@ public:
 
 
 
-
-#ifdef DIRECTXMATH
+#ifdef DIRECTX_MATH
 
 //--------------------------
 // 3D Vector
@@ -207,95 +132,24 @@ typedef struct HFVECTOR3 : public DirectX::SimpleMath::Vector3
 public:
 	HFVECTOR3() {};
 	HFVECTOR3(const HFVECTOR3&);
+	HFVECTOR3(const DirectX::XMVECTOR& V);
+	HFVECTOR3(float _x, float _y, float _z)
+#ifdef DIRECTXTK
+		:
+		DirectX::SimpleMath::Vector3( _x,  _y,  _z){}
+#endif
+		;
 #if DIRECTXTK
 	HFVECTOR3(const DirectX::SimpleMath::Vector3&);
 #endif
-	HFVECTOR3(FLOAT x, FLOAT y, FLOAT z);
 
-	// assignment operators
-	HFVECTOR3& operator += (const HFVECTOR3&);
-	HFVECTOR3& operator -= (const HFVECTOR3&);
-	HFVECTOR3& operator *= (FLOAT);
-	HFVECTOR3& operator /= (FLOAT);
-
-	// unary operators
-	HFVECTOR3 operator + () const;
-	HFVECTOR3 operator - () const;
-
-	// binary operators
-	HFVECTOR3 operator + (const HFVECTOR3&) const;
-	HFVECTOR3 operator - (const HFVECTOR3&) const;
-	HFVECTOR3 operator * (FLOAT) const;
-	HFVECTOR3 operator / (FLOAT) const;
-
-	friend HFVECTOR3 operator * (FLOAT, const struct HFVECTOR3&);
-
-	bool operator == (const HFVECTOR3&) const;
-	bool operator != (const HFVECTOR3&) const;
-
-
-	// cast
-#if DIRECTXTK
-	operator DirectX::SimpleMath::Vector3();
-#endif
-
-
-public:
 
 } HFVECTOR3, *LPHFVECTOR3;
-#else
 
-//--------------------------
-// 3D Vector
-//--------------------------
-
-typedef struct HFVECTOR3
-{
-public:
-	HFVECTOR3() {};
-	HFVECTOR3(const HFVECTOR3&);
-#if DIRECTXTK
-	HFVECTOR3(const DirectX::SimpleMath::Vector3&);
 #endif
-	HFVECTOR3(FLOAT x, FLOAT y, FLOAT z);
-
-	// assignment operators
-	HFVECTOR3& operator += (const HFVECTOR3&);
-	HFVECTOR3& operator -= (const HFVECTOR3&);
-	HFVECTOR3& operator *= (FLOAT);
-	HFVECTOR3& operator /= (FLOAT);
-
-	// unary operators
-	HFVECTOR3 operator + () const;
-	HFVECTOR3 operator - () const;
-
-	// binary operators
-	HFVECTOR3 operator + (const HFVECTOR3&) const;
-	HFVECTOR3 operator - (const HFVECTOR3&) const;
-	HFVECTOR3 operator * (FLOAT) const;
-	HFVECTOR3 operator / (FLOAT) const;
-
-	friend HFVECTOR3 operator * (FLOAT, const struct HFVECTOR3&);
-
-	bool operator == (const HFVECTOR3&) const;
-	bool operator != (const HFVECTOR3&) const;
-
-
-	// cast
-#if DIRECTXTK
-	operator DirectX::SimpleMath::Vector3 ();
-#endif
-	
-
-public:
-
-	FLOAT x,y,z;
-} HFVECTOR3, *LPHFVECTOR3;
-#endif
-
 
 typedef struct HFVECTOR4
-#ifdef DIRECTXMATH
+#ifdef DIRECTX_MATH
 	:
 public DirectX::SimpleMath::Vector4
 #endif
@@ -340,7 +194,7 @@ public:
    
 typedef struct HFMATRIX
 
-#ifdef DIRECTXMATH		 
+#ifdef DIRECTX_MATH		 
 	:
 public
 DirectX::SimpleMath::Matrix
@@ -356,23 +210,23 @@ public:
 	HFMATRIX(DirectX::SimpleMath::Matrix mat)
 	{
 		this->_11 = mat._11;
-		this->_12 = mat._21;
-		this->_13 = mat._31;
-		this->_14 = mat._41;
+		this->_12 = mat._12;
+		this->_13 = mat._13;
+		this->_14 = mat._14;
 
-		this->_21 = mat._12;
+		this->_21 = mat._21;
 		this->_22 = mat._22;
-		this->_23 = mat._32;
-		this->_24 = mat._42;
+		this->_23 = mat._23;
+		this->_24 = mat._24;
 
-		this->_31 = mat._13;
-		this->_32 = mat._23;
+		this->_31 = mat._31;
+		this->_32 = mat._32;
 		this->_33 = mat._33;
-		this->_34 = mat._43;
+		this->_34 = mat._34;
 
-		this->_41 = mat._14;
-		this->_42 = mat._24;
-		this->_43 = mat._34;
+		this->_41 = mat._41;
+		this->_42 = mat._42;
+		this->_43 = mat._43;
 		this->_44 = mat._44;
 	};
 #endif
@@ -409,6 +263,7 @@ public:
 #endif
 public:
 
+#ifndef DIRECTX_MATH	
 	// óÒóDêÊ
 	union {
 		struct {
@@ -418,7 +273,9 @@ public:
 			FLOAT        _41, _42, _43, _44;
 		};
 		FLOAT m[4][4];
-	};
+	};	 
+	
+#endif
 } HFMATRIX, *LPHFMATRIX;
 
 
@@ -435,7 +292,7 @@ public:
 
 typedef struct HFQUATERNION
 
-#ifdef DIRECTXMATH
+#ifdef DIRECTX_MATH
 :
 public
 DirectX::SimpleMath::Quaternion
@@ -443,7 +300,16 @@ DirectX::SimpleMath::Quaternion
 {
 public:
 	HFQUATERNION() {}
-	HFQUATERNION(FLOAT x, FLOAT y, FLOAT z, FLOAT w);
+
+
+
+	HFQUATERNION(float _x, float _y, float _z, float _w)
+		: DirectX::SimpleMath::Quaternion(_x, _y, _z, _w) {}
+
+
+#ifndef DIRECTX_MATH
+	HFQUATERNION(float _x, float _y, float _z, float _w);
+#endif
 #ifdef DIRECTXTK
 	HFQUATERNION(DirectX::SimpleMath::Quaternion q)
 	{
@@ -479,8 +345,10 @@ public:
 	// cast
 #if DIRECTXTK
 	operator DirectX::SimpleMath::Quaternion();
-#endif
+#endif					  
+#ifndef DIRECTX_MATH		 	
 	FLOAT x, y, z, w;
+#endif
 } HFQUATERNION, *LPHFQUATERNION;
 
 
@@ -490,7 +358,7 @@ public:
 // Planes
 //
 //===========================================================================
-#ifdef DIRECTXMATH
+#ifdef DIRECTX_MATH
 typedef DirectX::SimpleMath::Plane HFPLANE;
 #else
 typedef struct HFPLANE

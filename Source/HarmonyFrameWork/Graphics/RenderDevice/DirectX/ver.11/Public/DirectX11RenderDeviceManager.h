@@ -15,6 +15,7 @@
 #include "../../../Basic/Public/BaseRenderDeviceManager.h"	 
 #include "../../../../../ResorceManager/Public/DDSTextureLoader.h"
 #include "../../../../../Utility/Public/HFString.h"
+#include "../../../../Texture/Public/BaseTexture2D.h"
 
 
 /**********************************************************************************************//**
@@ -485,7 +486,7 @@ public:
 	 * @return	The new geometry shader from file.
 	 **************************************************************************************************/
 
-	bool CreateGeometryShaderFromFile(ID3D11GeometryShader** pGeometryShader,
+	bool CreateGeometryShaderFromFile(Microsoft::WRL::ComPtr<ID3D11GeometryShader>& pGeometryShader,
 		HFString pSrcFile,
 		HFString pFunctionName,
 		HFString pProfile);
@@ -526,7 +527,7 @@ public:
 	 **************************************************************************************************/
 
 	bool CreateGeometryShaderWithStreamOutputFromFile(
-		ID3D11GeometryShader** pGeometryShader,
+		Microsoft::WRL::ComPtr<ID3D11GeometryShader>& pGeometryShader,
 		HFString pSrcFile, HFString pFunctionName, HFString pProfile,
 		const D3D11_SO_DECLARATION_ENTRY *pSODeclaration,
 		UINT NumEntries,
@@ -735,7 +736,7 @@ public:
 	 * @return	null if it fails, else the sr view from depth stencil.
 	 **************************************************************************************************/
 
-	Microsoft::WRL::ComPtr< ID3D11ShaderResourceView> GetSRViewFromDepthStencil();
+	std::shared_ptr<BaseTexture2D> GetSRViewFromDepthStencil();
 
 	/**********************************************************************************************//**
 	 * @fn	bool CDirectX11RenderDeviceManager::CreateRenderTargetView(Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& ppRTView, D3DXVECTOR2* pRTViewSize, DXGI_FORMAT Format);

@@ -10,13 +10,17 @@ class Mesh;
 class Material;
 class IBaseTexture;
 class BaseShader;
+class RenderCommand;
+
 class BaseRenderObject
 	:
-	virtual public IBaseTask   ,
+	virtual public IBaseTask,
 	public inheritable_enable_shared_from_this<BaseRenderObject>
 {
 public:
 	BaseRenderObject()
+		:
+		m_enableRender(true)
 	{
 	}
 
@@ -27,13 +31,10 @@ public:
 	virtual bool Init() = 0;
 
 
-	virtual bool Setup()
-	{
-		return S_OK;
-	};
+	virtual bool Setup();
 
 
-	virtual bool Update() = 0;
+	virtual bool Update();
 
 	virtual bool RenderSubMesh(int elem);
 	
@@ -54,8 +55,13 @@ public:
 
 	bool LoadDiffuseTexture2D(UINT submeshNum, HFString teturePath);
 
-private:
+	std::vector<std::shared_ptr<RenderCommand>> GetCommmandArray();
+	protected:
 	std::shared_ptr<Mesh> m_mesh;
+	bool m_enableRender;
+	std::vector<std::shared_ptr<RenderCommand>> m_commmandArray;
+
+
 public:
 };
 

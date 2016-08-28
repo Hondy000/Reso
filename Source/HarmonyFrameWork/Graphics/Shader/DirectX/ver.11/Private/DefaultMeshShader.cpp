@@ -92,10 +92,21 @@ bool DefaultMeshShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::
 	UINT stride[2] = { 12 ,8 };
 	UINT offset[2] = { 0 ,0 };
 
+	// バッファの取得
 	std::vector<std::shared_ptr<VertexBuffer>> buffers;
+	HFGraphics::MeshShaderBufferLayout bufferlayout;
+	bufferlayout.AddBufferSemantics(0, HFGraphics::BufferSemantics(HFString("POSITION"), 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	bufferlayout.AddBufferSemantics(1, HFGraphics::BufferSemantics(HFString("TEXCOORD"), 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	std::vector<bool> boolenArray;
+	shape->GetVertexBuffers(bufferlayout, buffers, boolenArray);
+	for (int i = 0; i < boolenArray.size(); i++)
+	{
+		if (boolenArray[i] == false)
+		{
+			return false;
+		}
+	}
 
-	DWORD semantics[2] = { HF_SEMANTICS_POSITION, HF_SEMANTICS_TEXCOORD0 };
-	shape->GetVertexBuffers(2, semantics, buffers);
 
 	// 頂点バッファのセット
 	sRENDER_DEVICE_MANAGER->SetVertexBuffer(0, 2, buffers, stride, offset);

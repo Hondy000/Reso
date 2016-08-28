@@ -1,22 +1,24 @@
 #pragma once
 #include "../../Core/Public/Common.h"
 #include "../../Core/Public/IBaseObject.h"
+#include "..\..\Core\Task\Public\TaskInterface.h"
 class BaseRenderObject;
 
 class RenderCommand
 	:
-	public IBaseObject
+	public IBaseTask
 {
 public:
 	RenderCommand() {};
 	~RenderCommand() {};
 
-	bool Command();
 	// Access the RenderObject
 	const std::shared_ptr<BaseRenderObject>& GetRenderObject(void) const
 	{
 		return(m_renderObject);
 	};
+	bool Update();
+	void Reset();
 	void SetRenderObject(const std::shared_ptr<BaseRenderObject> renderObject);
 
 	// Access the RenderMeshElement

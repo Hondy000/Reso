@@ -15,8 +15,15 @@ namespace HFGraphics
 
 	struct DIRECTIONAL_LIGHT_PRAM
 	{
+		HFVECTOR3 position;
 		HFVECTOR4 color;
 		HFVECTOR4 direction;
+		DIRECTIONAL_LIGHT_PRAM() {};
+		DIRECTIONAL_LIGHT_PRAM( HFVECTOR4 _direction,HFVECTOR3 _position, HFVECTOR4 _color)
+			:color(_color),direction(_direction),position(_position)
+		{
+			
+		}
 	};
 
 	struct POINT_LIGHT_PRAM
@@ -93,14 +100,20 @@ namespace HFGraphics
 	public:
 		DirectinalLight()  
 			:
-			BaseLight(LightType::Directional)
+			BaseLight(LightType::Directional),pram( HFVECTOR4(0, -1, 1, 1),HFVECTOR3(0,500,-50), HFVECTOR4(1, 1, 1, 1))
 		{
 			
 		};
 
 		virtual ~DirectinalLight() {};
-		virtual FLOAT GetDistance(HFVECTOR3 pos);
 
+		HFVECTOR3 GetPosition();
+		HFVECTOR4 GetColor();
+		HFVECTOR4 GetDirection();
+
+		void SetPosition(HFVECTOR3 _position);
+		void SetColor(HFVECTOR4 _color);
+		void SetDirection(HFVECTOR4 _direction);
 
 		// Access the Pram
 		const DIRECTIONAL_LIGHT_PRAM& GetPram(void) const	{ return(pram);	};
@@ -120,7 +133,7 @@ namespace HFGraphics
 	public:
 		PointLight()
 			:
-			BaseLight(LightType::Directional)
+			BaseLight(LightType::Point)
 		{
 
 		};

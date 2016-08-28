@@ -24,23 +24,37 @@ FLOAT HFGraphics::BaseLight::GetDistance(HFVECTOR3 pos)
 	return INFINITY;
 }
 
-/**********************************************************************************************//**
- * @fn	FLOAT HFGraphics::DirectinalLight::GetDistance(HFVECTOR3 pos)
- *
- * @brief	Gets a distance.
- *
- * @author	Kazuyuki Honda
- *
- * @param	pos	The position.
- *
- * @return	The distance.
- **************************************************************************************************/
 
-FLOAT HFGraphics::DirectinalLight::GetDistance(HFVECTOR3 pos)
+HFVECTOR3 HFGraphics::DirectinalLight::GetPosition()
 {
-	FLOAT distance = 0;
+	return pram.position;
+}
 
-	return distance;
+HFVECTOR4 HFGraphics::DirectinalLight::GetColor()
+{
+	return pram.color;
+}
+
+
+HFVECTOR4 HFGraphics::DirectinalLight::GetDirection()
+{
+	return pram.direction;
+}
+
+void HFGraphics::DirectinalLight::SetPosition(HFVECTOR3 _position)
+{
+	pram.position = _position;
+}
+
+
+void HFGraphics::DirectinalLight::SetColor(HFVECTOR4 _color)
+{
+	pram.color = _color;
+}
+
+void HFGraphics::DirectinalLight::SetDirection(HFVECTOR4 _direction)
+{
+	pram.direction = _direction;
 }
 
 /**********************************************************************************************//**

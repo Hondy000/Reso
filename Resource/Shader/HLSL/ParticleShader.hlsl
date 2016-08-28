@@ -7,14 +7,16 @@ struct VS_IN
 {
 	float3 pos    : POSITION;           // 頂点座標
 	float2 texel  : TEXCOORD;           // テクセル
-	column_major float4x4 mat : MATRIX; // インスタンスごとに設定される行列
+	column_major float4x4 mat : MATRIX; // インスタンスごとに設定される行列	 
+	float4 col : COLOR0; 
 };
 
 // 頂点シェーダーの出力パラメータ
 struct VS_OUT
 {
 	float4 sv_pos : SV_POSITION;
-	float2 texel  : TEXCOORD0;
+	float2 texel  : TEXCOORD0;	
+	float4 col : COLOR0; 
 };
 
 // ************************************************************
@@ -46,6 +48,7 @@ VS_OUT VS_Main(VS_IN In)
 	VS_OUT Out;
 	Out.sv_pos = mul(float4(In.pos, 1.0f), In.mat);
 	Out.texel = In.texel;
+	Out.col = In.col;
 	return Out;
 }
 
@@ -53,18 +56,17 @@ VS_OUT VS_Main(VS_IN In)
 float4 PS_Main(VS_OUT In) : SV_TARGET0
 {
 	float4 Out;
-
-float4 decalmap = g_DecalMap.Sample(g_Sampler, In.texel);
-
-//// 法線ベクトルを 0 ～ 1 範囲を -1 ～ 1 に変換する
-//decalmap.rg = decalmap.rg * 2.0f - 1.0f;
-//decalmap.rb *= -1.0f;
-//
-//// ライティング
-//float diffuse = dot(decalmap.rgb, -g_vecLight.xyz);
-//diffuse = diffuse * 0.5f + 0.5f;
-//
-Out = decalmap;
-
-return Out;
+	
+	float4 decalmap = g_DecalMap.Sample(g_Sampler, In.texel);
+	
+	//// 法線ベクトルを 0 ～ 1 範囲を -1 ～ 1 に変換する
+	//decalmap.rg = decalmap.rg * 2.0f - 1.0f;
+	//decalmap.rb *= -1.0f;
+	//
+	//// ライティング
+	//float diffuse = dot(decalmap.rgb, -g_vecLight.xyz);
+	//diffuse = diffuse * 0.5f + 0.5f;
+	//
+	Out = decalmap * In.col;
+	return Out;
 }

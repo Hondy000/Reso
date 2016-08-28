@@ -21,6 +21,10 @@ std::vector<std::shared_ptr<SubMesh>>& Mesh::GetSubMeshArray(void)
 void Mesh::SetSubMeshArray(const std::vector<std::shared_ptr<SubMesh>>& subMeshArray)
 {
 	m_subMeshArray = subMeshArray;
+	for (int i = 0; i < m_subMeshArray.size();i++)
+	{
+		m_subMeshArray[i]->SetParentMesh(shared_from_this());
+	}
 };
 
 bool Mesh::LoadDiffuseTexture2D(UINT submeshNum, HFString teturePath)

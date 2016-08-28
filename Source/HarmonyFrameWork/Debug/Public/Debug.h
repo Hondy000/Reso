@@ -27,26 +27,35 @@ namespace HFDebug
 
 		void SetConsoleTextGray()
 		{
+#if defined(DEBUG) || defined(_DEBUG)
 			HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(handle, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+#endif
 		}
 
 		void SetConsoleTextRed()
 		{
+#if defined(DEBUG) || defined(_DEBUG)
 			HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | FOREGROUND_RED);
+#endif
 		}
 
 		void SetConsoleTextGreen()
 		{
+#if defined(DEBUG) || defined(_DEBUG)
 			HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
+#endif
 		}
 
 		void SetConsoleTextWhite()
 		{
+#if defined(DEBUG) || defined(_DEBUG)
 			HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 			SetConsoleTextAttribute(handle, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+
+#endif
 		}
 
 
@@ -54,12 +63,12 @@ namespace HFDebug
 		template<typename... Args>
 		void ConsoleLog(const Args&... args)
 		{
-//#if defined(DEBUG) || defined(_DEBUG)
+#if defined(DEBUG) || defined(_DEBUG)
 			std::stringstream sout;
 			UTILITY::ConcatString(sout, args...);
 			std::string out = sout.str();
 			std::cout << (out);
-//#endif
+#endif
 		};
 
 

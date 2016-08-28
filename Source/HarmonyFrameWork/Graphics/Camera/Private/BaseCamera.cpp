@@ -8,6 +8,7 @@
 
 #include "../../RenderDevice/Basic/Public/RendererManager.h"
 #include "..\..\..\Core\Actor\Public\ActorInterface.h"
+#include "..\Public\CameraManager.h"
 
 /**********************************************************************************************//**
  * @fn	BaseCamera::BaseCamera()
@@ -27,6 +28,12 @@
  *
  * @author Kazuyuki
  *===============================================================================================**/
+
+/***********************************************************************************************
+ * Initializes a new instance of the BaseCamera class.
+ *
+ * @author Kazuyuki
+ *************************************************************************************************/
 
 BaseCamera::BaseCamera()
 {
@@ -53,6 +60,14 @@ BaseCamera::BaseCamera()
  * @return true if it succeeds, false if it fails.
  *===============================================================================================**/
 
+/***********************************************************************************************
+ * Initialises this object.
+ *
+ * @author Kazuyuki
+ *
+ * @return true if it succeeds, false if it fails.
+ *************************************************************************************************/
+
 bool BaseCamera::Init(void)
 {
 	HRESULT hr = E_FAIL;
@@ -71,26 +86,13 @@ bool BaseCamera::Init(void)
 	return true;
 }
 
-/**********************************************************************************************//**
- * @fn	bool BaseCamera::Update(void)
- *
- * @brief	Draws this object.
- *
- * @author	Kazuyuki Honda
- * @date	2015/11/04
- *
- * @return	true if it succeeds, false if it fails.
- **************************************************************************************************/
-
-/**=================================================================================================
- * @fn bool BaseCamera::Update(void)
- *
- * @brief Updates this object.
+/***********************************************************************************************
+ * Updates this object.
  *
  * @author Kazuyuki
  *
  * @return true if it succeeds, false if it fails.
- *===============================================================================================**/
+ *************************************************************************************************/
 
 bool BaseCamera::Update(void)
 {
@@ -99,24 +101,15 @@ bool BaseCamera::Update(void)
 	UpdateViewMatrix();
 	UpdateProjectionMatrix();
 
+	CameraManager::GetInstance()->SetSettingCamera(shared_from_this());
 	return true;
 }
 
-/**********************************************************************************************//**
- * @fn	void BaseCamera::UpdateViewMatrix()
- *
- * @brief	Updates the view matrix.
- *
- * @author	Kazuyuki Honda
- **************************************************************************************************/
-
-/**=================================================================================================
- * @fn void BaseCamera::UpdateViewMatrix()
- *
- * @brief Updates the view matrix.
+/***********************************************************************************************
+ * Updates the view matrix.
  *
  * @author Kazuyuki
- *===============================================================================================**/
+ *************************************************************************************************/
 
 void BaseCamera::UpdateViewMatrix()
 {
@@ -152,7 +145,6 @@ void BaseCamera::UpdateViewMatrix()
 	}
 	sRENDER_DEVICE_MANAGER->SetViewPosition(m_cameraPosition);
 
-
 	if (m_wpViewObject.lock() != nullptr)
 	{
 
@@ -177,6 +169,9 @@ void BaseCamera::UpdateViewMatrix()
 	}
 	if (!GetIs2DCamera())
 	{
+		//m_upVector = HFVECTOR3(-1, 0, 0);
+		//m_upVector = m_upVector.Cross(m_cameraPosition- m_distanceFromFollowTarget);
+		
 		HFMatrixLookAtLH(&view, &m_cameraPosition, &m_viewVector, &m_upVector);
 
 		sRENDER_DEVICE_MANAGER->SetTransform(&view, HFTS_VIEW);
@@ -199,6 +194,12 @@ void BaseCamera::UpdateViewMatrix()
  *
  * @author Kazuyuki
  *===============================================================================================**/
+
+/***********************************************************************************************
+ * Updates the projection matrix.
+ *
+ * @author Kazuyuki
+ *************************************************************************************************/
 
 void BaseCamera::UpdateProjectionMatrix()
 {
@@ -253,6 +254,14 @@ void BaseCamera::UpdateProjectionMatrix()
  * @param _val The value.
  *===============================================================================================**/
 
+/***********************************************************************************************
+ * Sets follow object.
+ *
+ * @author Kazuyuki
+ *
+ * @param _val The value.
+ *************************************************************************************************/
+
 void BaseCamera::SetFollowObject(std::shared_ptr<IBaseTask> _val)
 {
 	if (typeid(GetFollowObject()).before(typeid(IActor)))
@@ -288,6 +297,14 @@ void BaseCamera::SetFollowObject(std::shared_ptr<IBaseTask> _val)
  *
  * @param _val The value.
  *===============================================================================================**/
+
+/***********************************************************************************************
+ * Sets view object.
+ *
+ * @author Kazuyuki
+ *
+ * @param _val The value.
+ *************************************************************************************************/
 
 void BaseCamera::SetViewObject(std::shared_ptr<IBaseTask> _val)
 {

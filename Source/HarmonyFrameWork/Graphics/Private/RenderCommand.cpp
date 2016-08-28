@@ -20,7 +20,7 @@
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool RenderCommand::Command()
+bool RenderCommand::Update()
 {
 	// 描画オブジェクトのIDからTransformを取得
 	sRENDER_DEVICE_MANAGER->SetTransform
@@ -29,6 +29,12 @@ bool RenderCommand::Command()
 		HFTS_WORLD
 			);
 	return m_renderObject->RenderSubMesh(m_renderMeshElement);
+}
+
+
+void RenderCommand::Reset()
+{
+
 }
 
 /**********************************************************************************************//**

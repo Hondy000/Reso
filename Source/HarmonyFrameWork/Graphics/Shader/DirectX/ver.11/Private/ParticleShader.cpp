@@ -8,12 +8,19 @@
 #include "..\..\..\..\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\..\..\..\ParticleSystem\Public\BaseEmitter.h"
 #include "..\..\..\..\RenderObject\Public\Mesh.h"
+#include "..\..\..\..\Camera\Public\CameraManager.h"
 
 
 struct IBUFFER0
 {
 	HFMATRIX instanceMatWVP;
 };
+
+struct IBUFFER1
+{
+	HFColor instanceColor;
+};
+
 
 
 struct CBUFFER0
@@ -77,9 +84,8 @@ bool ParticleShader::Setup()
 	HRESULT hr = E_FAIL;
 
 	D3D11_BUFFER_DESC BufferDesc;
-
-
-
+		
+	this->m_pathPriority = HF_FORWARD_RENDERING_SHADER;
 	// create vertex shader
 
 	m_spVertexLayout = std::make_shared<BaseVertexLayout>();
@@ -87,13 +93,15 @@ bool ParticleShader::Setup()
 	D3D11_INPUT_ELEMENT_DESC layout[] = {
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		// 各インスタンスのパラメータ
+		// 入力アセンブラにジオメトリ処理用の行列を追加設定する
 		{ "MATRIX",   0, DXGI_FORMAT_R32G32B32A32_FLOAT, 2,  0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 		{ "MATRIX",   1, DXGI_FORMAT_R32G32B32A32_FLOAT, 2, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 		{ "MATRIX",   2, DXGI_FORMAT_R32G32B32A32_FLOAT, 2, 32, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
-		{ "MATRIX",   3, DXGI_FORMAT_R32G32B32A32_FLOAT, 2, 48, D3D11_INPUT_PER_INSTANCE_DATA, 1 }
+		{ "MATRIX",   3, DXGI_FORMAT_R32G32B32A32_FLOAT, 2, 48, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		// 頂点カラー
+		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 3, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 	};
-	sRENDER_DEVICE_MANAGER->CreateVertexShaderFromFile(m_cpVertexShader, "Resource/Shader/HLSL/ParticleShader.hlsl", "VS_Main", "vs_4_0_level_9_1", m_spVertexLayout->GetMain(), layout,6);
+	sRENDER_DEVICE_MANAGER->CreateVertexShaderFromFile(m_cpVertexShader, "Resource/Shader/HLSL/ParticleShader.hlsl", "VS_Main", "vs_4_0_level_9_1", m_spVertexLayout->GetMain(), layout,7);
 
 
 	// create pixel shader
@@ -185,13 +193,24 @@ bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> subMesh ,std::s
 	// マトリクスをセット
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->VSSetConstantBuffers(bufferNumber, 1, m_constantBuffers[0]->GetAddressOf());
 
-	const UINT stride[3] = { sizeof(HFVECTOR3) , sizeof(HFVECTOR2),sizeof(HFMATRIX) };
-	const UINT offset[3] = { 0,0,0 };
+	const UINT stride[4] = { sizeof(HFVECTOR3) , sizeof(HFVECTOR2),sizeof(HFMATRIX),sizeof(HFColor) };
+	const UINT offset[4] = { 0,0,0,0 };
 
-	const DWORD sematics[] = { HF_SEMANTICS_POSITION , HF_SEMANTICS_TEXCOORD0 , HF_SEMANTICS_MATRIX0 };
-
+	HFGraphics::MeshShaderBufferLayout layout;
+	layout.AddBufferSemantics(0, "POSITION", 0,sizeof(HFVECTOR3),HFGraphics::INPUT_PER_VERTEX_DATA,0 );
+	
+	layout.AddBufferSemantics(1, "TEXCOORD", 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0);
+	
+	layout.AddBufferSemantics(2, "MATRIX", 0, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 0);
+	layout.AddBufferSemantics(2, "MATRIX", 1, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 0);
+	layout.AddBufferSemantics(2, "MATRIX", 2, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 0);
+	layout.AddBufferSemantics(2, "MATRIX", 3, sizeof(HFVECTOR4), HFGraphics::INPUT_PER_INSTANCE_DATA, 0);
+	
+	layout.AddBufferSemantics(3, "COLOR", 0, sizeof(HFColor), HFGraphics::INPUT_PER_INSTANCE_DATA, 0);
+	
 	std::vector<std::shared_ptr<VertexBuffer>> bufferArray;
-	subMesh->GetVertexBuffers(3, sematics, bufferArray);
+	std::vector<bool> boolenArray;
+	subMesh->GetVertexBuffers(layout, bufferArray,boolenArray);
 
 
 
@@ -200,24 +219,39 @@ bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> subMesh ,std::s
 	
 	sRENDER_DEVICE_MANAGER->GetTransform(&view, HFTS_VIEW);
 	sRENDER_DEVICE_MANAGER->GetTransform(&proj, HFTS_PERSPECTIVE);
-	HFMATRIX transpose = ::HFMatrixTranspose(view);
 	world = ::HFMatrixIdentity();
 	auto array = emitter->GetParticleArray();
 	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(bufferArray[2]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	IBUFFER0 *ibuffer0Ptr = (IBUFFER0*)(mappedResource.pData);
 	for (int i = 0 ;i < array.size();i++)
-	{	
-		HFMATRIX inv = view.Invert();
-		inv._41 = 0;
-		inv._42 = 0;
-		inv._43 = 0;
-		ibuffer0Ptr[i].instanceMatWVP = HFMatrixTranspose( array[i]->GetTransform().GetWorldTransform() *inv * view * proj);
-		
+	{
+		HFMATRIX inv;
+		inv = view;
+		inv = view.Transpose();
+		inv._14 = inv._24 = inv._34 = 0;
+		HFMATRIX wvp;
+		wvp =  (
+			array[i]->GetTransform()->GetScalingMatrix() *
+			inv *
+			array[i]->GetTransform()->GetTranslationMatrix() *
+			view * 
+			proj
+			);
+		ibuffer0Ptr[i].instanceMatWVP = (wvp.Transpose());
 	}
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(bufferArray[2]->Get(), 0);
 	  
+	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(bufferArray[3]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	IBUFFER1 *ibuffer1Ptr = (IBUFFER1*)(mappedResource.pData);
+	for (int i = 0; i < array.size(); i++)
+	{
+		ibuffer1Ptr[i].instanceColor = array[i]->GetColor();
+	}
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(bufferArray[3]->Get(), 0);
+
+
 	// 頂点バッファのセット
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < bufferArray.size(); i++)
 	{
 		sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetVertexBuffers(i, 1, bufferArray[i]->GetAddressOf(), &stride[i], &offset[i]);
 
@@ -227,7 +261,7 @@ bool ParticleShader::PreProcessOfRender(std::shared_ptr<SubMesh> subMesh ,std::s
 
 	// プリミティブ タイプおよびデータの順序に関する情報を設定
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
+	sRENDER_DEVICE_MANAGER->SetBlendState( &sRENDER_DEVICE_MANAGER->GetAddBlendDesc(),1,false);
 	// get index count
 	m_indexCount = subMesh->GetIndexCount();
 	m_instanceCount = emitter->GetParticleArray().size();

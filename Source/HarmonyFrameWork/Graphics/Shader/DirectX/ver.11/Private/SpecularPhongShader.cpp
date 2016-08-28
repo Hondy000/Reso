@@ -58,6 +58,7 @@ SpecularPhongShader::~SpecularPhongShader()
 
 bool SpecularPhongShader::Setup()
 {
+	m_pathPriority = HF_FORWARD_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	bool result;
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
@@ -276,7 +277,10 @@ bool SpecularPhongShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, std:
 	cbptr->pos = HFVECTOR4( sRENDER_DEVICE_MANAGER->GetViewPosition().x, sRENDER_DEVICE_MANAGER->GetViewPosition().y, sRENDER_DEVICE_MANAGER->GetViewPosition().z,0);
 	std::shared_ptr< HFGraphics::DirectinalLight  > spLight;
 	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(spLight);
-	cbptr->dire = HFVECTOR4(spLight->GetPram().direction);
+	if(spLight)
+	{
+		cbptr->dire = HFVECTOR4(spLight->GetPram().direction);
+	}
 
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[2]->Get(), 0);
 

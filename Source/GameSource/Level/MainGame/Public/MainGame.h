@@ -1,6 +1,5 @@
 #pragma once
 #include "../../../../HarmonyFrameWork/Core/Level/Public/LevelInterface.h"
-#include "../../../Charactor/Enemy/Public/EnemyActor.h"
 #include "../../../Charactor/Player/Public/PlayerActor.h"
 
 class MainGame

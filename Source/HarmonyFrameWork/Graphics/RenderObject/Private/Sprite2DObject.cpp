@@ -19,21 +19,26 @@ Sprite2DObject::~Sprite2DObject()
 
 bool Sprite2DObject::Init()
 {
-	SetMesh( BasicMeshManager::GetInstance()->Get(HF_BM_SPRITE, 0, 0, 0));
-	GetMesh()->GetSubMeshArray()[0]->SetMaterial(std::make_shared<Material>());
-	GetMesh()->GetSubMeshArray()[0]->GetMaterial()->SetMaterialShader(std::make_shared<DefaultSpriteShader>());
+	if (m_mesh == nullptr)
+	{
+		SetMesh(BasicMeshManager::GetInstance()->Get(HF_BM_SPRITE, 0, 0, 0));
+
+	}
+	if (m_mesh->GetSubMeshArray()[0]->GetMaterial() == nullptr)
+	{
+		GetMesh()->GetSubMeshArray()[0]->SetMaterial(std::make_shared<Material>());
+
+	}
+	if (m_mesh->GetSubMeshArray()[0]->GetMaterial()->GetMaterialShader() == nullptr)
+	{
+		GetMesh()->GetSubMeshArray()[0]->GetMaterial()->SetMaterialShader(std::make_shared<DefaultSpriteShader>());
+
+	}
 	return true;
 }
 
 bool Sprite2DObject::Update()
 {
-
-	std::shared_ptr<RenderCommand> command;
-	command = std::shared_ptr<RenderCommand>(new RenderCommand);
-	command->SetRenderObject(StaticMeshObject::shared_from_this());
-	command->SetRenderPriority(GetMesh()->GetSubMeshArray()[0]->GetMaterial()->GetMaterialShader()->GetPathPriority());
-
-	TaskSystem::GetInstance()->RegisterRenderCommand(command);
 	return true;
 }
 

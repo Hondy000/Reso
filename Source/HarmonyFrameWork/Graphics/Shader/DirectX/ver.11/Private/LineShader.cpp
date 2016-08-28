@@ -129,7 +129,15 @@ bool LineShader::Render()
 
 	// Set the vertex input layout.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetInputLayout(m_spVertexLayout->GetMain().Get());
-						 
+
+	// ハルシェーダーを無効にする。
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->HSSetShader(NULL, NULL, 0);
+
+	// ドメインシェーダーを無効にする。
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->DSSetShader(NULL, NULL, 0);
+
+	// ジオメトリシェーダーを無効にする。
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->GSSetShader(NULL, NULL, 0);
 	// Set the vertex and pixel shaders that will be used to render.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->VSSetShader(m_cpVertexShader.Get(), NULL, 0);
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShader(m_cpPixelShader.Get(), NULL, 0);

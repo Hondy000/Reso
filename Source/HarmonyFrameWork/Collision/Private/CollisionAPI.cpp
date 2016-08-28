@@ -66,13 +66,13 @@ bool isCollisionOfPlaneAndOBB(CollisionPlanesObject::PLANE_INFO *plane, Collisio
 	int i;
 	for (i = 0; i < 3; i++) {
 		HFVECTOR3 Direct = obb->GetDirection(i); // OBBの1つの軸ベクトル
-		r += fabs(HFVec3Dot(&(Direct * obb->GetLength(i)), &PlaneNormal));
+		r += fabs(HFVec3Dot(&HFVECTOR3(Direct * obb->GetLength(i)), &PlaneNormal));
 	}
 
 	// 平面とOBBの距離を算出
 	HFVECTOR3 ObbPos = obb->UpdateCenterPosition();
 	HFVECTOR3 PlanePos = plane->GetCenter();
-	FLOAT s = HFVec3Dot(&(ObbPos - PlanePos), &PlaneNormal);
+	FLOAT s = HFVec3Dot(&HFVECTOR3(ObbPos - PlanePos), &PlaneNormal);
 
 	// 戻し距離を算出
 	if (pushBack != NULL) {

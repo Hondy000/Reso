@@ -8,11 +8,8 @@
 #include "../../../Charactor/Player/Public/PlayerActor.h"
 #include "../../../../HarmonyFrameWork/Core/Task/Public/TaskSystem.h"
 #include "../../../../HarmonyFrameWork/Graphics/Lighting/Public/LightManager.h"
-#include "../../../Charactor/Enemy/Public/EnemyActor.h"
 #include "../Public/MainGame.h"
 #include "..\..\..\..\HarmonyFrameWork\Core\Actor\Public\StaticMeshActor.h"
-#include "..\..\..\Charactor\Enemy\Public\Level1EnemyStates.h"
-#include "..\..\..\Charactor\Enemy\Public\MineState.h"
 #include "..\..\..\..\HarmonyFrameWork\Core\Public\ReflectionSystem.h"
 #include "../../../../HarmonyFrameWork/Utility/Public/HFSyatemTime.h"
 
@@ -30,9 +27,6 @@ void MainGameStartState::Enter()
 {
 	// register reflection
 	REGISTER_TYPE(PlayerActor);
-	REGISTER_TYPE(EnemyActor);
-	REGISTER_TYPE(Level1EnemyAliveBeingState);
-	REGISTER_TYPE(MineUnBootState);
 
 
 	//
@@ -47,8 +41,6 @@ void MainGameStartState::Enter()
 	
 	player->GetTransform()->SetPosition(HFVECTOR3(0, 0, 0));
 
-	std::list<std::shared_ptr<EnemyActor>> m_manageEnemyList;
-	m_wpTask.lock()->RegisterVariable("enemyList", m_manageEnemyList);
 }
 
 /**********************************************************************************************//**
@@ -116,23 +108,6 @@ void MainGameMainState::Enter()
 
 void MainGameMainState::Execute()
 {
-
-	if(m_popCounter->GetGameDeltaSeconds() >= 5)
-	{
-		shared_ptr<EnemyActor> actor = make_shared<EnemyActor>();
-		
-		actor->GetTransform()->SetPosition(HFVECTOR3(0, 0, -100));
-
-		TaskSystem::GetInstance()->RegisterTask("enemy",actor);
-		m_wpTask.lock()->GetVariable<list<shared_ptr<EnemyActor>>>("enemyList")->GetValue()->push_back(actor);
-		m_popCounter->Start();
-	}
-	if(m_endCounter->GetGameDeltaSeconds() > 60)
-	{
-		m_isChangeEndMain = true;
-		m_isChangeState = true;
-	}
-	
 
 }
 

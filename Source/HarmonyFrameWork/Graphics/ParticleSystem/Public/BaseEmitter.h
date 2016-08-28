@@ -7,7 +7,8 @@
 
 class BaseEmitter
 	:
-	virtual public BaseRenderObject
+	virtual public BaseRenderObject,
+	public TransformHolder
 {
 public:
 
@@ -21,20 +22,27 @@ public:
 	}
 	void SetMaxParticle(UINT num);
 
+
+	HFColor GetColor() const
+	{
+		return m_color;
+	}
+
+	void SetColor(HFColor _val)
+	{
+		m_color = _val;
+	}
+
 protected:
 	/** @brief パーティクルのパラメータ. */
 	std::vector<std::shared_ptr<IBaseParticle>> m_particleArray;
 
 	/** @brief パーティクルの数. */
-	UINT m_numParticles;
+	UINT m_numMaxParticles;
 	/** @brief The wait time. */
-	UINT m_waitTime;
+	float m_waitTime;
 	/** @brief The progress time. */
-	UINT m_emittTime;
-	/** @brief Number of particle of out at the times. */
-	UINT m_numParticleOfOutAtATime;
-
-
+	float m_emittTime;
 
 	/** @brief 1秒間のの放出量. */
 	UINT m_emitParticlePerSecond;
@@ -43,6 +51,7 @@ protected:
 	HFVECTOR3 m_emitRange;
 	/** @brief The emit dirction. */
 	HFVECTOR3 m_emitDirction;
+	HFColor m_color;
 	/** @brief The velocity. */
 	FLOAT m_velocity;
 	// パーティクルの寿命

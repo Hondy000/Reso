@@ -5,14 +5,15 @@
 class IActor;
 class ICompornent 
 	:
-	virtual public IBaseTask
+	virtual public IBaseTask,
+	public TransformHolder,
+	public inheritable_enable_shared_from_this<ICompornent>
 {
 public:
 	ICompornent()
 	{
-
-		m_transform = std::make_shared<Transform>();
-		RegisterVariable("m_transform", m_transform);
+		SetTransform(std::make_shared<Transform>());
+		RegisterVariable("m_transform", GetTransform());
 	};
 	virtual ~ICompornent() {};
 	virtual void Destroy() = 0;
@@ -30,8 +31,14 @@ public:
 	void SetParentActor(const std::weak_ptr<IActor>& parentActor) { m_parentActor = parentActor; };
 
 	// Access the Transform
-	const std::shared_ptr<Transform>& GetTransform(void) const		{ return(m_transform);		};
-	void SetTransform(const std::shared_ptr<Transform>& transform)	{ m_transform = transform;	};
+	const std::shared_ptr<Transform>& GetTransform(void) const
+	{
+		return(m_transform);
+	};
+	void SetTransform(const std::shared_ptr<Transform>& transform)
+	{
+		m_transform =(transform);	
+	};
 
 	// Access the IsSyncPositionWithParent
 	bool GetIsSyncPositionWithParent(void) const					{ return(m_isSyncPositionWithParent);						};

@@ -100,6 +100,24 @@ public:
 	{
 		return const_cast<TCHAR*>(m_string.c_str());
 	}
+	bool operator == (HFString& str)
+	{
+		return this->m_string == str.GetString();
+	}
+	bool operator == (const HFString& str)
+	{
+		return this->m_string == str.GetString();
+	}
+
+
+	bool operator != (HFString& str)
+	{
+		return this->m_string != str.GetString();
+	}
+	bool operator != (const HFString& str)
+	{
+		return this->m_string != str.GetString();
+	}
 
 	// •¶Žš—ñ‚Ì˜AŒ‹
 	template<typename... Args>

@@ -5,7 +5,7 @@
 class EmitterActor
 	:
 	public IActor,
-	public BaseEmitter
+	public virtual BaseEmitter
 {
 public:
 	EmitterActor();

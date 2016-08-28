@@ -11,7 +11,6 @@ namespace HFGraphics
 		// singleton
 		LightManager() {};
 		LightManager(LightManager&);
-		LightManager operator=(LightManager);
 
 	public:
 		void Register(std::shared_ptr<BaseLight> spLight);

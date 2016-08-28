@@ -21,6 +21,8 @@
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultMeshShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Input\Public\InputManager.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPhongShader.h"
+#include "../../../../HarmonyFrameWork/Graphics/Lighting/Public/LightTypes.h"
+#include "..\..\..\..\HarmonyFrameWork\Graphics\Lighting\Public\LightManager.h"
 
 using namespace std;
 
@@ -90,6 +92,9 @@ void DemoStartState::Enter( )
 	TaskSystem::GetInstance()->RegisterTask("2Dcamera", camera2D);
 	TaskSystem::GetInstance()->RegisterTask("3Dcamera", camera3D);
 
+	std::shared_ptr<HFGraphics::DirectinalLight> dLight = std::make_shared<HFGraphics::DirectinalLight>();
+	
+	HFGraphics::LightManager::GetInstance()->Register(dLight);
 }
 
 /**********************************************************************************************//**

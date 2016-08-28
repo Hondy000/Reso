@@ -179,3 +179,27 @@ public:
 private:
 
 };
+
+class TransformHolder
+{
+public:
+	TransformHolder()
+	{
+		SetTransform(std::make_shared<Transform>());
+	};
+	virtual ~TransformHolder() {};
+
+	std::shared_ptr<Transform> GetTransform() const
+	{
+		return m_transform;
+	}
+
+	void SetTransform(std::shared_ptr<Transform> _val)
+	{
+		m_transform = _val;
+	}
+
+protected:
+	std::shared_ptr<Transform> m_transform;
+private:
+};

@@ -1,19 +1,12 @@
 ﻿#pragma once
-#include "../../Math/Public/HFMath.h"
+#include "../../Math/Public/HFMath.h"	
+#include "../../Utility/Public/HFString.h"
 #include <string>					
 #include <vector>
 #include <list>
 
 namespace HFGraphics 
 {
-#define HF_SEMANTICS_POSITION (1)
-#define HF_SEMANTICS_NORMAL (HF_SEMANTICS_POSITION << 1)
-#define HF_SEMANTICS_TEXCOORD0 (HF_SEMANTICS_NORMAL << 1)
-#define HF_SEMANTICS_DIFFUSE (HF_SEMANTICS_TEXCOORD0 << 1)
-#define HF_SEMANTICS_AMBIENT (HF_SEMANTICS_DIFFUSE << 1)	  
-#define HF_SEMANTICS_SPECULAR (HF_SEMANTICS_AMBIENT << 1)
-#define HF_SEMANTICS_EMISSIVE (HF_SEMANTICS_SPECULAR << 1)	 
-#define HF_SEMANTICS_MATRIX0 (HF_SEMANTICS_EMISSIVE << 1)
 
 // Directx111のシェーダ識別
 #define HF_D3D11_VERTEX_SHADER (1)
@@ -23,12 +16,173 @@ namespace HFGraphics
 #define HF_D3D11_PIXEL_SHADER (HF_D3D11_GEOMETRY_SHADER << 1)
 #define HF_D3D11_COMPUTE_SHADER (HF_D3D11_PIXEL_SHADER << 1)
 
-#define HF_DEFERRED_RENDERING_SHADER (0)
+#define HF_SHADOW_MAPPING_SHADER (0)		
+#define HF_POST_SHADOW_MAPPING_SHADER (1)
+#define HF_DEFERRED_RENDERING_SHADER ((DWORD_MAX>>1)-1)
 #define HF_LIGHTING_PATH_OF_DEFERRED_RENDERING ((DWORD_MAX>>1))
 #define HF_POST_DEFERRED_RENDERING_SHADER ((DWORD_MAX>>1)+1)	   
 #define HF_FORWARD_RENDERING_SHADER ((DWORD_MAX>>1)+500)					  
 #define HF_2D_RENDERING_SHADER ((DWORD_MAX>>1)+5000)
 
+
+	typedef enum INPUT_CLASSIFICATION
+	{
+		INPUT_PER_VERTEX_DATA = 0,
+		INPUT_PER_INSTANCE_DATA = 1,
+	} INPUT_CLASSIFICATION;
+
+	struct BufferSemantics 
+	{
+		HFString semanticsName;
+		UINT semanticsIndex;
+		UINT alignedByteOffset;
+		INPUT_CLASSIFICATION inputSlotClass;
+		UINT instanceDataStepRate;
+		BufferSemantics()
+		{
+
+		}
+
+		BufferSemantics
+		(
+			HFString _semanticsName,
+			UINT _semanticsIndex,
+			UINT _alignedByteOffset,
+			INPUT_CLASSIFICATION _inputSlotClass,
+			UINT _instanceDataStepRate
+		)
+			:
+			semanticsName(_semanticsName),
+			semanticsIndex(_semanticsIndex),
+			alignedByteOffset(_alignedByteOffset),
+			inputSlotClass(_inputSlotClass),
+			instanceDataStepRate(_instanceDataStepRate)
+		{
+		}
+		BufferSemantics
+		(
+			TCHAR* _semanticsName,
+			UINT _semanticsIndex,
+			UINT _alignedByteOffset,
+			INPUT_CLASSIFICATION _inputSlotClass,
+			UINT _instanceDataStepRate
+		)
+			:
+			semanticsName(_semanticsName),
+			semanticsIndex(_semanticsIndex),
+			alignedByteOffset(_alignedByteOffset),
+			inputSlotClass(_inputSlotClass),
+			instanceDataStepRate(_instanceDataStepRate)
+		{
+		}
+
+
+		bool operator == (BufferSemantics layout)
+		{
+			if( this->semanticsName == layout.semanticsName &&
+				this->semanticsIndex == layout.semanticsIndex &&
+				this->alignedByteOffset == layout.alignedByteOffset &&
+				this->inputSlotClass == layout.inputSlotClass	)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
+
+		bool operator != (BufferSemantics layout)
+		{
+			if (this->semanticsName != layout.semanticsName ||
+				this->semanticsIndex != layout.semanticsIndex ||
+				this->alignedByteOffset != layout.alignedByteOffset ||
+				this->inputSlotClass != layout.inputSlotClass)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	};
+
+	struct BufferLayout
+	{
+		std::vector<BufferSemantics> m_semanticsArray;
+
+		bool operator ==(BufferLayout _layout)
+		{
+			// バッファ内の頂点情報数が一致しているか
+			if(m_semanticsArray.size() == _layout.m_semanticsArray.size())
+			{
+
+				for (int i = 0;i < m_semanticsArray.size();i++)
+				{
+					// 頂点情報の一致を確認
+					if(m_semanticsArray[i] != _layout.m_semanticsArray[i])
+					{
+						// 
+						return false;
+					}
+				}
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+	};
+
+	struct MeshShaderBufferLayout
+	{
+		std::vector<BufferLayout> m_bufferLayoutArray;
+		void AddBufferLayout(BufferLayout _layout)
+		{
+			m_bufferLayoutArray.push_back(_layout);
+		}
+
+		void AddBufferSemantics(UINT _bufferArrayElement,BufferSemantics _semantics)
+		{
+			if(m_bufferLayoutArray.size() <= _bufferArrayElement)
+			{
+				m_bufferLayoutArray.resize(_bufferArrayElement + 1);
+			}
+			m_bufferLayoutArray[_bufferArrayElement].m_semanticsArray.push_back(_semantics);
+	
+		}
+
+		void AddBufferSemantics
+		(
+			UINT _bufferArrayElement,
+			TCHAR* _semanticsName,
+			UINT _semanticsIndex,
+			UINT _alignedByteOffset,
+			INPUT_CLASSIFICATION _inputSlotClass,
+			UINT _instanceDataStepRate
+		)
+		{
+			if (m_bufferLayoutArray.size() <= _bufferArrayElement)
+			{
+				m_bufferLayoutArray.resize(_bufferArrayElement + 1);
+			}
+			m_bufferLayoutArray[_bufferArrayElement].m_semanticsArray.push_back
+				(
+					HFGraphics::BufferSemantics(
+						_semanticsName,
+						_semanticsIndex,
+						_alignedByteOffset,
+						_inputSlotClass,
+						_instanceDataStepRate
+					)
+				);
+
+		}
+	};
 
 	enum class MAPPING_MODE
 	{

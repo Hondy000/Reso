@@ -11,6 +11,7 @@
 #include "..\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h"
 #include "..\HarmonyFrameWork\Debug\Public\Debug.h"
 #include "..\HarmonyFrameWork\Utility\Public\HFSyatemTime.h"
+#include "..\HarmonyFrameWork\Graphics\Shadow\Public\ShadowManager.h"
 bool GameSystem::isEnd = 0;
 
 /**********************************************************************************************//**
@@ -90,7 +91,10 @@ bool GameSystem::Init()
 	InputManager::GetInstance()->Setup();
 	sINPUT->Setup();
 	std::shared_ptr<DeferredRenderingManager> deferredRender = std::make_shared<DeferredRenderingManager>();
-	sTASK_SYSTEM->RegisterTask("deferredRender",deferredRender);
+	sTASK_SYSTEM->RegisterTask("deferredRender", deferredRender);
+	std::shared_ptr<ShadowManager> shadowMap = std::make_shared<ShadowManager>();
+	sTASK_SYSTEM->RegisterTask("shadowMap", shadowMap);
+	shadowMap->SetUpdatePriority(0);
 	m_levelManager->Init();
 #ifdef WINDOWS
 	

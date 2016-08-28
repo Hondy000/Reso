@@ -14,6 +14,7 @@
 #include "..\..\..\..\..\Platform\Windows\BaseWindow.h"
 #include <comdef.h>
 #include "../../../../../Debug/Public/Debug.h"
+#include "..\..\..\..\Texture\Public\BaseTexture2D.h"
 using namespace std;	
 using namespace Microsoft::WRL;
 
@@ -1505,7 +1506,8 @@ EXIT:
  * @return	The new geometry shader from file.
  **************************************************************************************************/
 
-bool DirectX11RenderDeviceManager::CreateGeometryShaderFromFile(ID3D11GeometryShader** pGeometryShader,
+bool DirectX11RenderDeviceManager::CreateGeometryShaderFromFile(
+	Microsoft::WRL::ComPtr<ID3D11GeometryShader>& pGeometryShader,
 	HFString pSrcFile,
 	HFString pFunctionName,
 	HFString pProfile)
@@ -1513,7 +1515,8 @@ bool DirectX11RenderDeviceManager::CreateGeometryShaderFromFile(ID3D11GeometrySh
 	HRESULT hr = E_FAIL;
 	CHAR Profile[256];
 
-	ID3D10Blob* pBlob = NULL;
+	Microsoft::WRL::ComPtr<ID3D10Blob> pBlob;
+	Microsoft::WRL::ComPtr<ID3D10Blob> cpErrorMessage;
 
 	UINT Flag1 = D3D10_SHADER_PACK_MATRIX_COLUMN_MAJOR | D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined(DEBUG) || defined(_DEBUG)
@@ -1536,18 +1539,17 @@ bool DirectX11RenderDeviceManager::CreateGeometryShaderFromFile(ID3D11GeometrySh
 	//}
 
 	// ファイルを元にエフェクトをコンパイルする
-	hr = D3DCompileFromFile((LPCWSTR)pSrcFile, NULL, NULL, pFunctionName, Profile, Flag1, 0, NULL, &pBlob);
+	hr = D3DCompileFromFile((LPCWSTR)pSrcFile, NULL, NULL, pFunctionName, Profile, Flag1, 0, pBlob.GetAddressOf(),cpErrorMessage.GetAddressOf());
 	//hr = D3DX11CompileFromFile(pSrcFile, NULL, NULL, pFunctionName, Profile, Flag1, 0, NULL, &pBlob, NULL, NULL);
 	if (FAILED(hr)) goto EXIT;
 
 	// コンパイル済みシェーダーから、ジオメトリシェーダー オブジェクトを作成する
 	// ID3D11Device::CreateGeometryShader
-	hr = m_cpD3DDevice->CreateGeometryShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), NULL, pGeometryShader);
+	hr = m_cpD3DDevice->CreateGeometryShader(pBlob->GetBufferPointer(), pBlob->GetBufferSize(), NULL, pGeometryShader.GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
 	hr = S_OK;
 EXIT:
-	SAFE_RELEASE(pBlob);
 	return hr;
 }
 
@@ -1600,17 +1602,19 @@ EXIT:
  **************************************************************************************************/
 
 bool DirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromFile(
-	ID3D11GeometryShader** pGeometryShader,
+	Microsoft::WRL::ComPtr< ID3D11GeometryShader>& pGeometryShader,
 	HFString pSrcFile, HFString pFunctionName, HFString pProfile,
 	const D3D11_SO_DECLARATION_ENTRY *pSODeclaration,
 	UINT NumEntries,
 	const UINT *pBufferStrides,
-	UINT NumStrides)
+	UINT NumStrides
+)
 {
 	HRESULT hr = E_FAIL;
 	CHAR Profile[256];
 
-	ID3D10Blob* pBlob = NULL;
+	Microsoft::WRL::ComPtr<ID3D10Blob> pBlob;
+	Microsoft::WRL::ComPtr<ID3D10Blob> cpErrorMessage;
 
 	UINT Flag1 = D3D10_SHADER_PACK_MATRIX_COLUMN_MAJOR | D3D10_SHADER_ENABLE_STRICTNESS;
 #if defined(DEBUG) || defined(_DEBUG)
@@ -1622,9 +1626,12 @@ bool DirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromFile(
 
 	// ファイルを元にエフェクトをコンパイルする
 //	hr = D3DX11CompileFromFile(pSrcFile, NULL, NULL, pFunctionName, Profile, Flag1, 0, NULL, &pBlob, NULL, NULL);
-	hr = D3DCompileFromFile((LPCWSTR)pSrcFile, NULL, NULL, pFunctionName, Profile, Flag1, 0, NULL, &pBlob);
+	hr = D3DCompileFromFile((LPCWSTR)pSrcFile, NULL, NULL, pFunctionName, Profile, Flag1, 0, pBlob.GetAddressOf(),cpErrorMessage.GetAddressOf());
 
-	if (FAILED(hr)) goto EXIT;
+	if (FAILED(hr))
+	{
+		
+	}
 
 	// ストリーム出力するジオメトリシェーダーを作成
 	// ID3D11Device::CreateGeometryShaderWithStreamOutput
@@ -1637,12 +1644,13 @@ bool DirectX11RenderDeviceManager::CreateGeometryShaderWithStreamOutputFromFile(
 		NumStrides,
 		D3D11_SO_NO_RASTERIZED_STREAM,
 		NULL,
-		pGeometryShader);
-	if (FAILED(hr)) goto EXIT;
+		pGeometryShader.GetAddressOf());
+	if (FAILED(hr))
+	{
+		
+	}
 
 	hr = S_OK;
-EXIT:
-	SAFE_RELEASE(pBlob);
 	return hr;
 }
 
@@ -2195,7 +2203,7 @@ EXIT:
  * @return	null if it fails, else the sr view from depth stencil.
  **************************************************************************************************/
 
-ComPtr< ID3D11ShaderResourceView> DirectX11RenderDeviceManager::GetSRViewFromDepthStencil()
+std::shared_ptr<BaseTexture2D> DirectX11RenderDeviceManager::GetSRViewFromDepthStencil()
 {
 	HRESULT hr = E_FAIL;
 	ComPtr<ID3D11ShaderResourceView> pSRView ;
@@ -2203,7 +2211,7 @@ ComPtr< ID3D11ShaderResourceView> DirectX11RenderDeviceManager::GetSRViewFromDep
 
 	if (m_cpDepthStencilView == NULL)
 	{
-		return pSRView;
+		return nullptr;
 	}
 
 	// 深度ステンシルビューの設定を取得する
@@ -2253,12 +2261,23 @@ ComPtr< ID3D11ShaderResourceView> DirectX11RenderDeviceManager::GetSRViewFromDep
 	hr = m_cpD3DDevice->CreateShaderResourceView(pResource.Get(), &SRVDesc, pSRView.GetAddressOf());
 	if (FAILED(hr))
 	{
-		return pSRView;
+		return nullptr;
 	}
 
 	hr = S_OK;
+	ComPtr<ID3D11Texture2D> cpTexture;
+	if (pResource)
+	{
+		pResource.Get()->QueryInterface(
+			__uuidof(ID3D11Texture2D),
+			reinterpret_cast <void**>(cpTexture.GetAddressOf())
+		);
+	}
 
-	return pSRView;
+	std::shared_ptr<BaseTexture2D> tex = std::make_shared<BaseTexture2D>();
+	tex->SetCpTexture(cpTexture);
+	tex->SetSharderResorceView(pSRView);
+	return tex;
 }
 
 /**********************************************************************************************//**

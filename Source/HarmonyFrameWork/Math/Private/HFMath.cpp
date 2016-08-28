@@ -118,114 +118,27 @@ HFVECTOR3::HFVECTOR3(const HFVECTOR3&V)
 	this->z = V.z;
 }
 
-HFVECTOR3::HFVECTOR3(FLOAT x, FLOAT y, FLOAT z)
+HFVECTOR3::HFVECTOR3(const DirectX::XMVECTOR&  V)
 {
-	this->x = x;
-	this->y = y;
-	this->z = z;
+	DirectX::XMStoreFloat3(this, V);
 }
-#ifdef DIRECTXTK	 
-HFVECTOR3::HFVECTOR3(const DirectX::SimpleMath::Vector3&V)
+
+#if DIRECTXTK
+HFVECTOR3::HFVECTOR3(const DirectX::SimpleMath::Vector3& V)
 {
 	this->x = V.x;
 	this->y = V.y;
 	this->z = V.z;
-}
-#endif // DIRECTXTK
-
-bool HFVECTOR3::operator!=(const HFVECTOR3&V) const
-{
-	if (this->x != V.x && this->y != V.y && this->z != V.z)
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-#ifdef DIRECTXTK	   
-HFVECTOR3::operator DirectX::SimpleMath::Vector3()
-{
-	return DirectX::SimpleMath::Vector3(x, y, z);
-}
+};
 #endif
 
-bool HFVECTOR3::operator==(const HFVECTOR3&V) const
+#ifdef NONE_MATH_LIBRARY				 
+HFVECTOR3(float _x, float _y, float _z)
 {
-	if (this->x == V.x && this->y == V.y && this->z == V.z)
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
 }
 
-HFVECTOR3 HFVECTOR3::operator/(FLOAT S) const
-{
-	return HFVECTOR3(x / S, y / S, z / S);
-}
+#endif
 
-HFVECTOR3 HFVECTOR3::operator*(FLOAT S) const
-{
-	return HFVECTOR3(x * S, y * S, z * S);
-}
-
-HFVECTOR3 HFVECTOR3::operator-(const HFVECTOR3&V) const
-{
-	return HFVECTOR3(this->x - V.x, this->y - V.y, this->z - V.z);
-}
-
-HFVECTOR3 HFVECTOR3::operator+(const HFVECTOR3&V) const
-{
-	return HFVECTOR3(this->x + V.x, this->y + V.y, this->z + V.z);
-}
-
-HFVECTOR3 & HFVECTOR3::operator+=(const HFVECTOR3 &V)
-{
-	this->x += V.x;
-	this->y += V.y;
-	this->z += V.z;
-	return *this;
-}
-
-HFVECTOR3 & HFVECTOR3::operator-=(const HFVECTOR3 &V)
-{
-	this->x -= V.x;
-	this->y -= V.y;
-	this->z -= V.z;
-	return *this;
-}
-
-HFVECTOR3 & HFVECTOR3::operator*=(FLOAT S)
-{
-	this->x *= S;
-	this->y *= S;
-	this->z *= S;
-	return *this;
-}
-
-
-HFVECTOR3& HFVECTOR3::operator/=(FLOAT S)
-{
-	this->x /= S;
-	this->y /= S;
-	this->z /= S;
-	return *this;
-}
-
-HFVECTOR3 HFVECTOR3::operator+() const
-{
-	return HFVECTOR3(+x,+y,+z);
-}
-
-HFVECTOR3 HFVECTOR3::operator-() const
-{
-	return HFVECTOR3(-x, -y, -z);
-}
 HFVECTOR4::HFVECTOR4(const HFVECTOR3 & xyz, FLOAT w)
 {
 	this->x = xyz.x;
@@ -1657,7 +1570,7 @@ HFMATRIX*  HFMatrixOrthoOffCenterLH
 
 // inline					 
 
-#ifndef DIRECTXMATH
+#ifndef DIRECTX_MATH
 HFQUATERNION::HFQUATERNION(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
 {
 	this->x = x;
@@ -1665,6 +1578,7 @@ HFQUATERNION::HFQUATERNION(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
 	this->z = z;
 	this->w = w;
 }
+#endif
 
 HFQUATERNION HFQUATERNION::operator*(const HFQUATERNION&right) const
 {
@@ -1682,7 +1596,6 @@ HFQUATERNION HFQUATERNION::operator*(const HFQUATERNION&right) const
 
 	return   ans;
 }
-#endif
 FLOAT HFQuaternionLength
 (const HFQUATERNION *pQ)
 {
