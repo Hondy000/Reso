@@ -3,7 +3,7 @@
 
 #define sTASK_SYSTEM (TaskSystem::GetInstance())
 
-class RenderCommand;
+class BaseGraphicsCommand;
 
 class TaskSystem
 {
@@ -19,8 +19,10 @@ public:
 	}
 
 	bool RegisterTask(const std::string& name, std::shared_ptr<IBaseTask> task);
+	bool RemoveTask(std::shared_ptr<IBaseTask> task);
+	bool RegisterGraphicsCommand(std::shared_ptr<BaseGraphicsCommand> command);
 
-	bool RegisterRenderCommand(std::shared_ptr<RenderCommand> task);
+	bool RemoveGraphicsCommand(std::shared_ptr<BaseGraphicsCommand> command);
 
 	bool Update();
 
@@ -62,6 +64,6 @@ private:
 
 	std::list<std::shared_ptr<IBaseTask>> m_spTaskList;
 	std::unordered_map<std::string,std::shared_ptr<IBaseTask>> m_spTaskMap;
-	std::list<std::shared_ptr<RenderCommand>> m_spDrawList;
+	std::list<std::shared_ptr<BaseGraphicsCommand>> m_spGraphicsCommandList;
 
 };

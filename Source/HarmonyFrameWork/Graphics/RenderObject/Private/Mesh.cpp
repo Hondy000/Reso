@@ -37,12 +37,12 @@ bool Mesh::LoadDiffuseTexture2D(UINT submeshNum, HFString teturePath)
 	
 }
 
-std::weak_ptr<BaseRenderObject> Mesh::GetParentObject() const
+std::weak_ptr<BaseRenderMeshObject> Mesh::GetParentObject() const
 {
 	return m_parentObject;
 }
 
-void Mesh::SetParentObject(std::shared_ptr<BaseRenderObject>& _val)
+void Mesh::SetParentObject(std::shared_ptr<BaseRenderMeshObject>& _val)
 {
 	m_parentObject = _val;
 }

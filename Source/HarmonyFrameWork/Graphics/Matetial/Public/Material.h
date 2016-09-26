@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../Core/Public/Common.h"
 #include "../../../Core/Public/IBaseObject.h"
-class BaseShader;
+class BaseGraphicsShader;
 
 class IBaseTexture;
 
@@ -15,11 +15,11 @@ public:
 	bool LoadDiffuseTexture2D(HFString texturePath);
 	virtual ~Material() {};
 	// Access the MaterialShader
-	const std::shared_ptr<BaseShader>& GetMaterialShader(void) const
+	const std::shared_ptr<BaseGraphicsShader>& GetMaterialShader(void) const
 	{
 		return(m_materialShader);
 	};
-	void SetMaterialShader(std::shared_ptr<BaseShader> materialShader)
+	void SetMaterialShader(std::shared_ptr<BaseGraphicsShader> materialShader)
 	{
 		m_materialShader = materialShader;
 	};
@@ -45,7 +45,7 @@ public:
 	void SetSpecular(const HFVECTOR4& _specular)	{ specular = _specular;	};
 
 protected:
-	std::shared_ptr<BaseShader>	m_materialShader;
+	std::shared_ptr<BaseGraphicsShader>	m_materialShader;
 
 	std::shared_ptr<IBaseTexture> m_diffuseTexture;
 

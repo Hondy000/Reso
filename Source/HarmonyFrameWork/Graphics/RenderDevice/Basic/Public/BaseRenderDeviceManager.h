@@ -17,6 +17,10 @@ typedef struct BASE_DEVICE_INITIALIZE_OPERATION
 {
 }BaseDevInitOP;
 
+// 依存クラス
+class BaseRenderTarget;
+class BaseDepthStencilBuffer;
+
 class BaseRenderDeviceManager
 {
 public:
@@ -54,6 +58,41 @@ public:
 	{
 		m_viewPosition = val;
 	};
+	/**********************************************************************************************//**
+	 * @fn std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetDefaultRenderTarget(void);
+	 *
+	 * @brief デフォルトで使用されるレンダーターゲットを取得.
+	 *
+	 * @author Kazuyuki
+	 *
+	 * @return デフォルトのレンダーターゲット.
+	 **************************************************************************************************/
+	std::shared_ptr<BaseRenderTarget> GetDefaultRenderTarget(void);	   
+	
+	/**********************************************************************************************//**
+	 * @fn std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetMainRenderTarget(void);
+	 *
+	 * @brief Gets main render target.
+	 *
+	 * @author Kazuyuki
+	 *
+	 * @return The main render target.
+	 **************************************************************************************************/
+	std::shared_ptr<BaseRenderTarget> GetMainRenderTarget(void);
+
+	/***********************************************************************************************
+	 * Sets main render target.
+	 *
+	 * @author Kazuyuki
+	 *
+	 * @param _renderTarget The render target.
+	 *************************************************************************************************/
+	void SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget);
+
+	std::shared_ptr<BaseDepthStencilBuffer> GetMainDepthStencil(void);
+	void SetMainDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil);
+
+
 
 	// 管理行列を取得
 	virtual HFVECTOR3 GetViewPosition()
@@ -66,8 +105,11 @@ public:
 	}
 
 protected:
+	/** Array of transforms. */
 	std::vector<HFMATRIX> m_transformArray;
+	/** Size of the screen. */
 	HFVECTOR2 m_screenSize;
+	/** The view position. */
 	HFVECTOR3 m_viewPosition;
 };
 

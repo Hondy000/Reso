@@ -10,7 +10,7 @@ FILE*  HFDebug::Debug::m_fp;
 
 HFDebug::Debug::Debug()
 {
-#ifndef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 	StartConsole();
 #endif
 
@@ -18,7 +18,7 @@ HFDebug::Debug::Debug()
 
 HFDebug::Debug::~Debug()
 {
-#ifndef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 
 	// コンソールの文字色を元に戻す
 	SetConsoleTextGray();
@@ -28,7 +28,7 @@ HFDebug::Debug::~Debug()
 }
 void HFDebug::Debug::StartConsole()
 {
-#ifndef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 	::AllocConsole();            // コンソール表示
 	freopen_s(&m_fp, "CON", "r", stdin);  // 標準入力を割り当てる   
 	freopen_s(&m_fp, "CON", "w", stdout);
@@ -37,7 +37,7 @@ void HFDebug::Debug::StartConsole()
 
 void HFDebug::Debug::EndConsole()
 {
-#ifndef DEBUG
+#if defined(DEBUG) || defined(_DEBUG)
 	fclose(m_fp);
 	::FreeConsole(); // コンソールおしまい		
 #endif

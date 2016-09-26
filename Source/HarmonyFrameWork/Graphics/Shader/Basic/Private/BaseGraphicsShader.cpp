@@ -5,7 +5,7 @@
  **************************************************************************************************/
 
 #include <fstream>
-#include "../Public/BaseShader.h"
+#include "../Public/BaseGraphicsShader.h"
 
 /**********************************************************************************************//**
   * @fn	CBaseShader::CBaseShader()
@@ -16,7 +16,7 @@
   * @date	2015/08/02
   **************************************************************************************************/
 
-BaseShader::BaseShader()
+BaseGraphicsShader::BaseGraphicsShader()
 {
 }
 
@@ -29,7 +29,7 @@ BaseShader::BaseShader()
  * @date	2015/08/02
  **************************************************************************************************/
 
-BaseShader::~BaseShader()
+BaseGraphicsShader::~BaseGraphicsShader()
 {
 }
 
@@ -45,7 +45,7 @@ BaseShader::~BaseShader()
  * @param [in,out]	shaderFilename	If non-null, filename of the shader file.
  **************************************************************************************************/
 
-void BaseShader::OutputShaderErrorMessage
+void BaseGraphicsShader::OutputShaderErrorMessage
 (
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage,
 	TCHAR* shaderFilename)

@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 
 class DefaultSpriteShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 public:
 	DefaultSpriteShader();
@@ -37,6 +37,5 @@ public:
 	 **************************************************************************************************/
 
 	bool PostProcessOfRender() override;
-
-
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 };

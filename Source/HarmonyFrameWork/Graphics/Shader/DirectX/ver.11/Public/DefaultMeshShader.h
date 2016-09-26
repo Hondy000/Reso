@@ -1,15 +1,15 @@
 ﻿#pragma once
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 #include "..\..\..\..\Public\GraphicsTypes.h"
 
 class DefaultMeshShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 public:
 	DefaultMeshShader()
 	{
-		m_pathPriority = HF_POST_DEFERRED_RENDERING_SHADER;
+		m_graphicsPriority = HF_POST_DEFERRED_RENDERING_SHADER;
 	};
 
 	~DefaultMeshShader()
@@ -46,4 +46,5 @@ public:
 	 **************************************************************************************************/
 
 	virtual bool PostProcessOfRender();
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 };

@@ -1,13 +1,13 @@
 #pragma once
 #include "..\..\..\Core\Public\Common.h"
-#include "BaseRenderObject.h"
+#include "BaseRenderMeshObject.h"
 #include "..\..\Public\GraphicsTypes.h"
 
 struct LineData;
 
 class LineObject
 	:
-	public BaseRenderObject
+	public BaseRenderMeshObject
 {
 public:
 	LineObject();

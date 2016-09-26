@@ -81,8 +81,43 @@ void Transform::SetPositionX(FLOAT x)
 	};
 	void Transform::SetEulerDegAngles(const FLOAT x, const FLOAT y, const FLOAT z)
 	{
-		m_rotation = DirectX::SimpleMath::Quaternion::CreateFromYawPitchRoll(HFToRadian(z), HFToRadian(y), HFToRadian(x));
+		HFVECTOR3 _rotation = HFVECTOR3(x, y, z);
+		if (_rotation.x > 360)
+		{
+			_rotation.x -= 360;
 
+		}
+		else if (_rotation.x < -360)
+		{
+			_rotation.x += 360;
+
+		}
+		if (_rotation.y > 360)
+		{
+			_rotation.y -= 360;
+
+		}
+		else if (_rotation.y < -360)
+		{
+			_rotation.y += 360;
+
+		}
+		if (_rotation.z > 360)
+		{
+			_rotation.z -= 360;
+
+		}
+		else if (_rotation.z < -360)
+		{
+			_rotation.z += 360;
+
+		}
+		using namespace DirectX::SimpleMath;
+		Quaternion q1 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(1, 0, 0), HFToRadian(_rotation.x));
+		Quaternion q2 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), HFToRadian(_rotation.y));
+		Quaternion q3 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(0, 0, 1), HFToRadian(_rotation.z));
+		HFQUATERNION q = q1 * q2 * q3;
+		m_rotation = q;
 	};
 	void Transform::SetEulerDegAngles(HFVECTOR3 _rotation)
 	{
@@ -120,7 +155,7 @@ void Transform::SetPositionX(FLOAT x)
 		Quaternion q1 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(1, 0, 0), HFToRadian(_rotation.x));
 		Quaternion q2 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(0, 1, 0), HFToRadian(_rotation.y));
 		Quaternion q3 = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(Vector3(0, 0, 1), HFToRadian(_rotation.z));
-		HFQUATERNION q = q2 * q3;
+		HFQUATERNION q = q1 * q2 * q3;
 		m_rotation = q;
 
 	};

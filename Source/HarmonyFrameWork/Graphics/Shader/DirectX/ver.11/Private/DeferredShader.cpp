@@ -4,10 +4,12 @@
 #include "../../../../RenderDevice/DirectX/ver.11/Public/GeometryBuffers.h"
 #include "..\..\..\..\Matetial\Public\Material.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 DeferredShader::DeferredShader()
 {
-	m_pathPriority = HF_DEFERRED_RENDERING_SHADER;
+	m_graphicsPriority = HF_DEFERRED_RENDERING_SHADER;
 }
 
 /**********************************************************************************************//**
@@ -23,7 +25,7 @@ DeferredShader::DeferredShader()
 
 DeferredShader::DeferredShader(const DeferredShader& other)
 {
-	m_pathPriority = HF_DEFERRED_RENDERING_SHADER;
+	m_graphicsPriority = HF_DEFERRED_RENDERING_SHADER;
 }
 
 /**********************************************************************************************//**
@@ -52,7 +54,7 @@ DeferredShader::~DeferredShader()
 
 bool DeferredShader::Setup()
 {
-	m_pathPriority = HF_DEFERRED_RENDERING_SHADER;
+	m_graphicsPriority = HF_DEFERRED_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	bool result;
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
@@ -291,6 +293,17 @@ bool DeferredShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, std::shar
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetIndexBuffer(mesh->GetIndexBuffer()->Get(), DXGI_FORMAT_R32_UINT, 0);
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	m_indexCount = mesh->GetIndexCount();
+	sRENDER_DEVICE_MANAGER->TurnZBufferOn();
 
 	return true;
+}
+
+void DeferredShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

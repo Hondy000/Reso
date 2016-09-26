@@ -1,9 +1,9 @@
 #pragma once
-#include "..\..\..\Basic\Public\BaseShader.h"
+#include "..\..\..\Basic\Public\BaseGraphicsShader.h"
 
 class GPUParticleShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 private:
 
@@ -93,6 +93,7 @@ public:
 
 	bool PostProcessOfRender();
 
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 private:
 	/** @brief Number of indexes. */
 	int m_instanceCount;

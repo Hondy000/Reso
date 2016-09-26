@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Core/Public/Common.h"
-class BaseRenderObject;
+class BaseRenderMeshObject;
 
 enum BASIC_MESH_TYPE
 {

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../../Core/Public/ManagerInterface.h"
-#include "../../Graphics/Shader/Basic/Public/BaseShader.h"
+#include "../../Graphics/Shader/Basic/Public/BaseGraphicsShader.h"
 #include "Texture2DFactory.h"
 
 #define sTEXTURE2D_MANAGER (Texture2DManager::GetInstance())

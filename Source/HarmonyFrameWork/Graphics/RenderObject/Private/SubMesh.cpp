@@ -2,7 +2,7 @@
 #include "../../Buffer/Public/VertexBuffer.h"
 #include "../../Buffer/Public/IndexBuffer.h"
 #include "../../RenderDevice/Basic/Public/RendererManager.h"
-#include "../../Shader/Basic/Public/BaseShader.h"
+#include "../../Shader/Basic/Public/BaseGraphicsShader.h"
 #include "..\..\..\ResorceManager\Public\Texture2DManager.h"
 #include "../../Public/GraphicsTypes.h"
 

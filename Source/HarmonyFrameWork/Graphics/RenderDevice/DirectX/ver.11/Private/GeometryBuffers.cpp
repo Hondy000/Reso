@@ -181,7 +181,7 @@ bool GeometryBuffers::Setup(int bufferCount, int textureWidth, int textureHeight
 void GeometryBuffers::SetRenderTargets(Microsoft::WRL::ComPtr<ID3D11DeviceContext> deviceContext)
 {
 	// Bind the render target view array and depth stencil buffer to the output render pipeline.
-	deviceContext->OMSetRenderTargets(m_bufferCount, m_renderTargetViewArray.data()->GetAddressOf(), sRENDER_DEVICE_MANAGER->GetCpDepthStencilView().Get());
+	deviceContext->OMSetRenderTargets(m_bufferCount, m_renderTargetViewArray.data()->GetAddressOf(), sRENDER_DEVICE_MANAGER->GetMainDepthStencil()->GetDepthStencilView().Get());
 
 	// Set the viewport.
 	deviceContext->RSSetViewports(1, &m_viewport);

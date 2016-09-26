@@ -12,7 +12,7 @@
 #include "../../../Utility/Public/InlineUtility.h"
 #include "../../../ResorceManager/Public/Texture2DManager.h"
 #include "../../../Core/Task/Public/TaskInterface.h"
-#include "..\..\Public\RenderCommand.h"
+#include "..\..\Public\BaseGraphicsCommand.h"
 #include "..\..\RenderObject\Public\Mesh.h"
 #include "..\..\..\Core\Task\Public\TaskSystem.h"
 #include "..\..\..\ResorceManager\Public\BasicMeshManager.h"

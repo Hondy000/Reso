@@ -6,6 +6,8 @@
 
 #include "../Public/DX11BaseShader.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 /**********************************************************************************************//**
   * @fn	bool CDirectX11BaseShader::Init( const BYTE* pVS, size_t VSSize, const BYTE* pPS, size_t PSSize )
@@ -388,4 +390,14 @@ EXIT:
 bool DX11BaseShader::End()
 {
 	return S_OK;
+}	
+
+void DX11BaseShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

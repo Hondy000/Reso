@@ -11,7 +11,7 @@
 #include "..\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h"
 #include "..\HarmonyFrameWork\Debug\Public\Debug.h"
 #include "..\HarmonyFrameWork\Utility\Public\HFSyatemTime.h"
-#include "..\HarmonyFrameWork\Graphics\Shadow\Public\ShadowManager.h"
+#include "..\HarmonyFrameWork\Graphics\Shadow\Public\ShadowMapActor.h"
 bool GameSystem::isEnd = 0;
 
 /**********************************************************************************************//**
@@ -92,9 +92,6 @@ bool GameSystem::Init()
 	sINPUT->Setup();
 	std::shared_ptr<DeferredRenderingManager> deferredRender = std::make_shared<DeferredRenderingManager>();
 	sTASK_SYSTEM->RegisterTask("deferredRender", deferredRender);
-	std::shared_ptr<ShadowManager> shadowMap = std::make_shared<ShadowManager>();
-	sTASK_SYSTEM->RegisterTask("shadowMap", shadowMap);
-	shadowMap->SetUpdatePriority(0);
 	m_levelManager->Init();
 #ifdef WINDOWS
 	
@@ -144,8 +141,6 @@ void GameSystem::GameMain(void)
 			// ƒŒƒ“ƒ_ƒŠƒ“ƒO
 			sTASK_SYSTEM->Render();
 		}
-
-
 	}
 #ifdef DEBUG
 	sRENDER_DEVICE_MANAGER->GetCpD3DDebug()->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);

@@ -9,6 +9,8 @@
 #include "..\..\..\..\ParticleSystem\Public\BaseEmitter.h"
 #include "..\..\..\..\RenderObject\Public\Mesh.h"
 #include "..\..\..\..\Camera\Public\CameraManager.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 
 struct IBUFFER0
@@ -85,7 +87,7 @@ bool ParticleShader::Setup()
 
 	D3D11_BUFFER_DESC BufferDesc;
 		
-	this->m_pathPriority = HF_FORWARD_RENDERING_SHADER;
+	this->m_graphicsPriority = HF_FORWARD_RENDERING_SHADER;
 	// create vertex shader
 
 	m_spVertexLayout = std::make_shared<BaseVertexLayout>();
@@ -309,3 +311,12 @@ bool ParticleShader::PostProcessOfRender()
 	return true;
 }
 
+void ParticleShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
+}

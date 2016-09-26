@@ -6,6 +6,8 @@
 
 #include <algorithm>
 #include "../Public/LightManager.h"
+#include "..\..\Shadow\Public\ShadowMapActor.h"
+#include "..\..\..\Core\Task\Public\TaskSystem.h"
 
 using namespace std;
 namespace HFGraphics
@@ -13,9 +15,29 @@ namespace HFGraphics
 
 	void LightManager::Register(std::shared_ptr<BaseLight> spLight)
 	{
+
+	//	std::shared_ptr<RenderShadowMapCommand> rsmCommand = std::make_shared<RenderShadowMapCommand>();
+	//	sTASK_SYSTEM->RegisterGraphicsCommand(rsmCommand);
+	//	spLight->GetCommmandArray().push_back(rsmCommand);
 		if (spLight->GetLightType() == LightType::Directional)
 		{
+			// 既に平行光源セット済み
+			if(m_spDirectionalLight)
+			{
+				// コマンドリスト内からシャドウマップ生成コマンドを探す
+		//		for (auto it = m_spDirectionalLight->GetCommmandArray().begin(); it != m_spDirectionalLight->GetCommmandArray().end();)
+		//		{
+		//			if (std::dynamic_pointer_cast<RenderShadowMapCommand>(*it))
+		//			{
+						// システム内のコマンドリストからリムーブ
+		//				sTASK_SYSTEM->RemoveGraphicsCommand(*it);
+		//			}
+
+		//			it++;
+		//		}
+			}
 			m_spDirectionalLight = spLight;
+			ShadowManager::GetInstance()->RegisterLight(spLight);
 			return;
 		}
 

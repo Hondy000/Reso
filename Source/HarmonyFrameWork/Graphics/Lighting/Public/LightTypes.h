@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "../../../Core/Public/Common.h"
+#include "..\..\Public\BaseGraphicsObject.h"
 
 namespace HFGraphics
 {
@@ -50,6 +51,8 @@ namespace HFGraphics
 
 
 	class BaseLight
+		:
+		public BaseGraphicsObject
 	{
 	public:
 		BaseLight(): m_type(LightType::Max)

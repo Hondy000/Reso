@@ -61,6 +61,12 @@ void IBaseTask::UpdateChildTask()
 	}
 }
 
+
+void IBaseTask::Reset()
+{
+
+}
+
 /**=================================================================================================
  * @fn bool IBaseTask::LoadTaskData(const std::string& path)
  *

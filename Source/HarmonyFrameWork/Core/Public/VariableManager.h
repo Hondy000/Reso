@@ -145,7 +145,6 @@ public:
 				return variableIt->second;
 			}
 		}
-		return nullptr;
 	}
 	
 };
@@ -273,6 +272,25 @@ public:
 		}
 	}
 
+
+	template<class T>
+	bool IsRegisterVariable(GLOBAL_ID id, std::string variableName)
+	{
+
+		auto it = m_variableManagersMap.find(typeid(T).name());
+		if (it != m_variableManagersMap.end())
+		{
+			if (std::dynamic_pointer_cast<VariableManager<T>>(it->second))
+			{
+				return true;
+			}
+
+		}
+
+		return false;
+
+	};
+
 	template<class T>
 	std::shared_ptr<Variable<T>> GetVariable(GLOBAL_ID id, std::string variableName)
 	{
@@ -286,8 +304,6 @@ public:
 			}
 			
 		}
-
-		return nullptr;
 
 	};
 

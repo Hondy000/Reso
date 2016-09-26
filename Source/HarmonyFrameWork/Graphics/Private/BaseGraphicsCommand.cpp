@@ -4,8 +4,8 @@
  * @brief	Implements the render command class.
  **************************************************************************************************/
 
-#include "../Public/RenderCommand.h"
-#include "../RenderObject/Public/BaseRenderObject.h"
+#include "../Public/BaseGraphicsCommand.h"
+#include "../RenderObject/Public/BaseRenderMeshObject.h"
 #include "../RenderDevice/Basic/Public/BaseRenderDeviceManager.h"
 #include "../RenderDevice/Basic/Public/RendererManager.h"
 #include "../RenderObject/Public/SubMesh.h"
@@ -20,34 +20,53 @@
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool RenderCommand::Update()
+bool BaseGraphicsCommand::Update()
 {
+	return true;
+}
+
+
+void BaseGraphicsCommand::Reset()
+{
+
+}
+
+ClearRenderTargetViewComand::ClearRenderTargetViewComand()
+{
+
+}
+
+ClearRenderTargetViewComand::~ClearRenderTargetViewComand()
+{
+
+}
+
+bool ClearRenderTargetViewComand::Update()
+{
+	sRENDER_DEVICE_MANAGER->ClearScreen();
+	return true;
+}
+
+bool RenderMeshCommmand::Update()
+{
+
+	UpdateChildTask();
 	// 描画オブジェクトのIDからTransformを取得
 	sRENDER_DEVICE_MANAGER->SetTransform
-		(
-		&VariableManagersManager::GetInstance()->GetVariable<Transform>(m_renderObject->GetGlobalID(), "m_transform")->GetValue()->GetWorldTransform(),
+	(
+		&VariableManagersManager::GetInstance()->GetVariable<Transform>(m_graphicsObject->GetGlobalID(), "m_transform")->GetValue()->GetWorldTransform(),
 		HFTS_WORLD
-			);
-	return m_renderObject->RenderSubMesh(m_renderMeshElement);
+	);
+	return m_graphicsObject->RenderSubMesh(m_renderMeshElement);
 }
 
-
-void RenderCommand::Reset()
+void RenderMeshCommmand::Reset()
 {
 
 }
 
-/**********************************************************************************************//**
- * @fn	void RenderCommand::SetRenderObject(const std::shared_ptr<BaseRenderObject> renderObject)
- *
- * @brief	Sets render object.
- *
- * @author	Kazuyuki Honda
- *
- * @param	renderObject	The render object.
- **************************************************************************************************/
-
-void RenderCommand::SetRenderObject(const std::shared_ptr<BaseRenderObject> renderObject)
+void RenderMeshCommmand::SetRenderObject(const std::shared_ptr<BaseRenderMeshObject> renderObject)
 {
-	m_renderObject = renderObject;
-};
+
+	m_graphicsObject = renderObject;
+}

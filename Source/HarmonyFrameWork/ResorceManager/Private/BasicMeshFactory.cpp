@@ -125,15 +125,17 @@ shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 	staticMesh->GetSubMeshArray()[CREATE_ELEMENT] = make_shared<SubMesh>();
 
 	vector<HFVECTOR3> positionArray;
+	vector<HFVECTOR3> normalArray;
 	vector<HFVECTOR2> uvArray;
 
-	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers().resize(2);
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers().resize(3);
 	for (int i = 0; i < staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers().size();i++)
 	{
 		staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[i] = make_shared<VertexBuffer>();
 	}
 	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetSemantics(0, HFGraphics::BufferSemantics("POSITION", 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
-	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(0, HFGraphics::BufferSemantics("TEXCOORD", 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetSemantics(0, HFGraphics::BufferSemantics("NORMAL", 0, sizeof(HFVECTOR3), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
+	staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[2]->SetSemantics(0, HFGraphics::BufferSemantics("TEXCOORD", 0, sizeof(HFVECTOR2), HFGraphics::INPUT_PER_VERTEX_DATA, 0));
 
 	positionArray.resize(4);
 	positionArray[0] = HFVECTOR3(-1,  1, 0);
@@ -146,6 +148,18 @@ shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 		return nullptr;
 	}
 
+	normalArray.resize(4);
+
+	normalArray[0] = HFVECTOR3(0, 0, -1);
+	normalArray[1] = HFVECTOR3(0, 0, -1);
+	normalArray[2] = HFVECTOR3(0, 0, -1);;
+	normalArray[3] = HFVECTOR3(0, 0, -1);
+
+	if ((!staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[1]->SetData(normalArray.data(), sizeof(HFVECTOR3), normalArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
+	{
+		return nullptr;
+	}
+
 	uvArray.resize(4);
 
 	uvArray[0] = HFVECTOR2(-1,  1);
@@ -153,7 +167,7 @@ shared_ptr<Mesh> BasicMeshFactory::CreateQuad(UINT partition1, UINT partition2)
 	uvArray[2] = HFVECTOR2(-1, -1);
 	uvArray[3] = HFVECTOR2( 1, -1);
 
-	if((!staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[0]->SetData(uvArray.data(), sizeof(HFVECTOR2), uvArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
+	if((!staticMesh->GetSubMeshArray()[CREATE_ELEMENT]->GetVertexBuffers()[2]->SetData(uvArray.data(), sizeof(HFVECTOR2), uvArray.size(), VertexBuffer::ACCESS_FLAG::WRITEONLY)))
 	{
 		return nullptr;
 	}

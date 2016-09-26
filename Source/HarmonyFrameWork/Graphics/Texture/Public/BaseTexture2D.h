@@ -27,8 +27,14 @@ public:
 	}
 
 	// Access the CpTexture
-	const Microsoft::WRL::ComPtr<ID3D11Texture2D>& GetCpTexture(void) const		{ return(m_cpTexture);		};
-	void SetCpTexture(const Microsoft::WRL::ComPtr<ID3D11Texture2D>& cpTexture)	{ m_cpTexture = cpTexture;	};
+	Microsoft::WRL::ComPtr<ID3D11Texture2D>& GetCpTexture(void)
+	{
+		return(m_cpTexture);
+	};
+	void SetCpTexture(const Microsoft::WRL::ComPtr<ID3D11Texture2D>& cpTexture)
+	{
+		m_cpTexture = cpTexture;
+	};
 
 protected:
 #ifdef DIRECTX11

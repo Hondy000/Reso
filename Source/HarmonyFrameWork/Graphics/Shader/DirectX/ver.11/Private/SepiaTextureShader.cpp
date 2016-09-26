@@ -3,6 +3,8 @@
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "..\..\..\..\Public\GraphicsTypes.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 using namespace std;
 
@@ -17,7 +19,7 @@ SepiaTextureShader::~SepiaTextureShader()
 
 bool SepiaTextureShader::Setup()
 {
-	m_pathPriority = HF_2D_RENDERING_SHADER;
+	m_graphicsPriority = HF_2D_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;
@@ -178,4 +180,14 @@ bool SepiaTextureShader::PostProcessOfRender()
 	sRENDER_DEVICE_MANAGER->SetBackCullingState();
 
 	return hr;
+}
+
+void SepiaTextureShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

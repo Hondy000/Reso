@@ -1,10 +1,10 @@
 #pragma once
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 struct MeshData;
 
 class DX11BaseShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 public:
 
@@ -52,6 +52,7 @@ public:
 	// 描画終了処理
 	virtual bool End();
 
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 protected:
 	// 動的シェーダーリンケージ( サンプルではピクセルシェーダーのみ )用の定数バッファ定義
 	// この並び順はシェーダーソース内で宣言している定数バッファの並び順と同じくなるようにすること
