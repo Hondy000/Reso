@@ -4,6 +4,8 @@
 #include "../../../../Buffer/Public/ConstantBuffer.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 /**********************************************************************************************//**
 																								* @fn	DeferredLineShader::DeferredLineShader()
@@ -48,7 +50,7 @@ LineShader::~LineShader()
 
 bool LineShader::Setup()
 {
-	m_pathPriority = HF_FORWARD_RENDERING_SHADER;
+	m_graphicsPriority = HF_FORWARD_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;
@@ -215,4 +217,14 @@ bool LineShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_
 	m_indexCount = shape->GetIndexCount();
 	sRENDER_DEVICE_MANAGER->SetBackBufferRenderTarget();
 	return true;
+}
+
+void LineShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

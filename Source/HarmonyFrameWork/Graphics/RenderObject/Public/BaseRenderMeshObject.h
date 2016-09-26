@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "../../../Core/Task/Public/TaskInterface.h"
 #include "../../../Math/Public/Transform.h"
+#include "..\..\Public\BaseGraphicsObject.h"
 
 namespace HFGraphics{
 	struct MeshData;
@@ -9,23 +10,26 @@ namespace HFGraphics{
 class Mesh;
 class Material;
 class IBaseTexture;
-class BaseShader;
-class RenderCommand;
+class BaseGraphicsShader;
+class BaseGraphicsCommand;
 
-class BaseRenderObject
+
+// メッシュやシェーダーを包括し描画に使用するオブジェクト
+class BaseRenderMeshObject
 	:
 	virtual public IBaseTask,
-	public inheritable_enable_shared_from_this<BaseRenderObject>
+	public BaseGraphicsObject,
+	public inheritable_enable_shared_from_this<BaseRenderMeshObject>
 {
 public:
-	BaseRenderObject()
+	BaseRenderMeshObject()
 		:
 		m_enableRender(true)
 	{
 	}
 
 
-	virtual~BaseRenderObject()
+	virtual~BaseRenderMeshObject()
 	{
 	}
 	virtual bool Init() = 0;
@@ -50,17 +54,13 @@ public:
 	void SetMaterialDiffuseTexture(UINT submeshNum,std::shared_ptr<IBaseTexture> texture);
 	const std::shared_ptr<IBaseTexture>& GetMaterialDiffuseTexture(UINT submeshNum);
 
-	void SetMaterialShader(UINT submeshNum, std::shared_ptr<BaseShader> shader);
-	const std::shared_ptr<BaseShader>& GetMaterialShader(UINT submeshNum);
+	void SetMaterialShader(UINT submeshNum, std::shared_ptr<BaseGraphicsShader> shader);
+	const std::shared_ptr<BaseGraphicsShader>& GetMaterialShader(UINT submeshNum);
 
 	bool LoadDiffuseTexture2D(UINT submeshNum, HFString teturePath);
-
-	std::vector<std::shared_ptr<RenderCommand>> GetCommmandArray();
 	protected:
 	std::shared_ptr<Mesh> m_mesh;
 	bool m_enableRender;
-	std::vector<std::shared_ptr<RenderCommand>> m_commmandArray;
-
 
 public:
 };

@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 
 class DeferredShader;
 
 class LineShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 private:
 	struct MatrixBufferType
@@ -41,6 +41,7 @@ public:
 
 
 	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 	/**********************************************************************************************//**
 	 * @fn	bool Render();
 	 *

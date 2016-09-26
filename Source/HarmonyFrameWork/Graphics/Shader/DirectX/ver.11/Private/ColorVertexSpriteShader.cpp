@@ -3,6 +3,8 @@
 #include "..\Public\ColorVertexSpriteShader.h"
 #include "..\..\..\..\Public\GraphicsTypes.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
 
 using namespace std;
 
@@ -16,7 +18,7 @@ ColorVertexShader::~ColorVertexShader()
 
 bool ColorVertexShader::Setup()
 {
-	m_pathPriority = HF_2D_RENDERING_SHADER;
+	m_graphicsPriority = HF_2D_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	bool result;
@@ -178,4 +180,14 @@ bool ColorVertexShader::PostProcessOfRender()
 	sRENDER_DEVICE_MANAGER->SetBackCullingState();
 
 	return hr;
+}
+
+void ColorVertexShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

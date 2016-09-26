@@ -168,7 +168,7 @@ public:
 	 * @author Kazuyuki
 	 *===============================================================================================**/
 
-	virtual void Reset() = 0;
+	virtual void Reset();
 
 	/**=================================================================================================
 	 * @fn virtual bool LoadTaskData(const std::string& path);
@@ -298,6 +298,14 @@ public:
 
 	void SetTaskName(const std::string& name);
 
+
+	template<typename T>
+	bool IsRegisterVariable(const std::string& variableName)
+	{
+		return VariableManagersManager::GetInstance()->IsRegisterVariable<T>(m_globalID, variableName);
+	};
+
+
 	/**********************************************************************************************//**
 	 * @fn	template<typename T> std::shared_ptr<Variable<T>> GetVariable(const std::string& variableName)
 	 *
@@ -336,7 +344,6 @@ public:
 		{
 			return res->second;
 		}
-		return nullptr;
 	};
 	public:
 
@@ -496,3 +503,21 @@ public:
 
 };
 
+
+// 関数呼び出しタスク
+class BaseFuncTask
+	:
+	public IBaseTask
+{
+public:
+	BaseFuncTask() {};
+	virtual ~BaseFuncTask() {};
+	void Reset() {};
+	bool Update()
+	{
+
+		return true;
+	};
+protected:
+private:
+};

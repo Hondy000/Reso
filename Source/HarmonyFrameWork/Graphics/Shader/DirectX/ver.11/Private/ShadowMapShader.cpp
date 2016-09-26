@@ -2,7 +2,9 @@
 #include "..\..\..\..\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
 #include "..\..\..\..\Lighting\Public\LightManager.h"
-#include "..\..\..\..\RenderObject\Public\BaseRenderObject.h"
+#include "..\..\..\..\RenderObject\Public\BaseRenderMeshObject.h"
+#include "..\Public\ColorVertexSpriteShader.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
 
 struct CBUFFER
 {
@@ -23,7 +25,7 @@ ShadowMapShader::~ShadowMapShader()
 
 bool ShadowMapShader::Setup()
 {
-	m_pathPriority = HF_SHADOW_MAPPING_SHADER;
+	m_graphicsPriority = HF_SHADOW_MAPPING_SHADER;
 	m_constantBuffers.resize(1);
 	m_constantBuffers[0] = std::make_shared<ConstantBuffer>();
 	m_spVertexLayout = std::make_shared<BaseVertexLayout>();
@@ -56,7 +58,7 @@ void ShadowMapShader::Destroy()
 
 }
 
-bool ShadowMapShader::PreProcessOfRender(std::shared_ptr<BaseRenderObject> shape)
+bool ShadowMapShader::PreProcessOfRender(std::shared_ptr<BaseRenderMeshObject> shape)
 {
 	return true;
 }
@@ -99,9 +101,9 @@ bool ShadowMapShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::sh
 
 	std::shared_ptr<HFGraphics::DirectinalLight> dlight;
 	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(dlight);
-	view = HFMATRIX::CreateLookAt(dlight->GetPram().position, HFVECTOR3(0, 0, 0), HFVECTOR3(0, 1, 0));
+	view = HFMATRIX::CreateLookAt(dlight->GetPram().position, HFVECTOR3(0,0,0), HFVECTOR3(0, 1, 0));
 
-	proj = HFMATRIX::CreateOrthographic((float)50, (float)50, 0.1f, 800.0f);
+	proj = HFMATRIX::CreateOrthographic((float)32, (float)18, 0.1f, 800.0f);
 	// Lock the constant buffer so it can be written to.
 	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(m_constantBuffers[0]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
@@ -162,3 +164,7 @@ bool ShadowMapShader::PostProcessOfRender()
 	return true;
 }
 
+void ShadowMapShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+
+}

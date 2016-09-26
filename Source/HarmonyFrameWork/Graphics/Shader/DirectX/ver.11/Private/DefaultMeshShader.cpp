@@ -4,11 +4,13 @@
 #include "../../../../Buffer/Public/ConstantBuffer.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "../../../../RenderObject/Public/SubMesh.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 bool DefaultMeshShader::Setup()
 {
 	HRESULT hr;
-	this->m_pathPriority = HF_FORWARD_RENDERING_SHADER;
+	this->m_graphicsPriority = HF_FORWARD_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 
 	D3D11_INPUT_ELEMENT_DESC layput[2];
@@ -145,3 +147,12 @@ bool DefaultMeshShader::PostProcessOfRender()
 	return bool();
 }
 
+void DefaultMeshShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
+}

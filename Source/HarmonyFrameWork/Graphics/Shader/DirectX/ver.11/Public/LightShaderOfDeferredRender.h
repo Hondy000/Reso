@@ -4,7 +4,7 @@
 #ifndef _LightShader_H_
 #define _LightShader_H_
 
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 #include "../../../../Lighting/Public/LightTypes.h"
 #include "../../../../RenderDevice/DirectX/ver.11/Public/GeometryBuffers.h"
 
@@ -16,7 +16,7 @@ struct MeshData;
 ////////////////////////////////////////////////////////////////////////////////
 class LightShaderOfDeferredRender
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 public:
 
@@ -102,6 +102,7 @@ private:
 		HFMATRIX,
 		HFVECTOR3);
 
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 private:
 
 	std::shared_ptr<GeometryBuffers> m_spDefferBuffers;

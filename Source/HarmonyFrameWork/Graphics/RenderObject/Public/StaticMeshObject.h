@@ -5,7 +5,7 @@
  **************************************************************************************************/
 
 #pragma once
-#include "BaseRenderObject.h"
+#include "BaseRenderMeshObject.h"
 
 /**********************************************************************************************//**
  * @class	StaticMeshObject StaticMeshObject.h
@@ -21,7 +21,7 @@
 
 class StaticMeshObject
 	:
-	public BaseRenderObject
+	public BaseRenderMeshObject
 {
 public:
 	StaticMeshObject() {};

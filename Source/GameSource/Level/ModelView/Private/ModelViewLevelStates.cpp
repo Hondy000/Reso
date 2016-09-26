@@ -19,15 +19,18 @@
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DeferredShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\ForwardDiffuseOnlyMeshShader.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\SpecularPerVertexShader.h"
-#include "..\..\..\..\HarmonyFrameWork\Graphics\Shadow\Public\ShadowManager.h"
+#include "..\..\..\..\HarmonyFrameWork\Graphics\Shadow\Public\ShadowMapActor.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\GeometryBuffers.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultSpriteShader.h"
 
 using namespace std;
 void ModelViewLevelStartState::Enter()
 {
+
+
 	shared_ptr<HFGraphics::DirectinalLight> directionalLight = make_shared<HFGraphics::DirectinalLight>();
-	directionalLight->SetDirection(HFVECTOR4(1, -1, 1, 1));
+	directionalLight->SetDirection(HFVECTOR4(0, -1, 0, 1));
+	
 	HFGraphics::LightManager::GetInstance()->Register(directionalLight);
 	int num = 0;
 	for (int i = 0; i < 3;i++)
@@ -45,28 +48,30 @@ void ModelViewLevelStartState::Enter()
 				phongSpecularMesh->GetSubMeshMaterial(0)->SetSpecular(HFVECTOR4(1, 1, 0.4, 1.0));
 				//phongSpecularMesh->SetMaterialShader(0, std::make_shared<SpecularPhongShader>());
 
-				phongSpecularMesh->GetTransform()->SetPosition(HFVECTOR3(-5 + i * 5, -0 + j * 5, 0 + k * 5));
+				phongSpecularMesh->GetTransform()->SetPosition(HFVECTOR3(i * 5, j * 5,  k * 5));
 				sTASK_SYSTEM->RegisterTask(std::string("model") + std::to_string(num) , phongSpecularMesh);
 				phongSpecularMesh->LoadDiffuseTexture2D(0, "Resource/Texture/XA-20_Razorback_Strike_Fighter_P01.png");
+				
+				ShadowManager::GetInstance()->RegisterMesh(phongSpecularMesh,phongSpecularMesh->GetTransform());
 
 			}
 		}
 	}
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3+1; i++)
 	{
-		for (int j = 0; j < 2; j++)
+		for (int j = 0; j < 3+1; j++)
 		{
-			for (int k = 0; k < 2; k++)
+			for (int k = 0; k < 3+1; k++)
 			{
 				num++;
 				shared_ptr<HFGraphics::PointLight> point = make_shared<HFGraphics::PointLight>();
 	
-				point->SetPosition(HFVECTOR4(-2.5 + i * 5, 2.5 + j * 5, 2.5 + k * 5,0));
-				point->SetRange(5);
-				point->SetFalloff(0.1);
-				point->SetAtttention(0.1);
-				point->SetColor(HFVECTOR4(1, 1, 1, 1));
+				point->SetPosition(HFVECTOR4(-2.5 + i * 5, -2.5 + j * 5, -2.5 + k * 5,0));
+				point->SetRange(10);
+				point->SetFalloff(0.8);
+				point->SetAtttention(0.8);
+				point->SetColor(HFVECTOR4((0.0 + (i % 3)*0.5 ), (0.0 + (j % 3)*0.5), (0.0 + (k % 3)*0.5), 1));
 				HFGraphics::LightManager::GetInstance()->Register(point);
 			}
 		}
@@ -107,9 +112,11 @@ void ModelViewLevelStartState::Enter()
 	TaskSystem::GetInstance()->RegisterTask("3Dcamera", camera3D);
 
 
+	// デバッグ 
+
+	// アルベド表示スプライト
 	std::shared_ptr<Sprite2DActor> sprite0 = std::make_shared<Sprite2DActor>();
 	
-
 	sprite0->GetTransform()->SetScale(100, 100, 0);
 	sprite0->GetTransform()->SetPosition(-100, -100, 0);
 	
@@ -118,6 +125,7 @@ void ModelViewLevelStartState::Enter()
 	TaskSystem::GetInstance()->RegisterTask("sprite0", sprite0);
 
 
+	// アルベド表示スプライト
 	std::shared_ptr<Sprite2DActor> sprite1 = std::make_shared<Sprite2DActor>();
 
 
@@ -157,8 +165,21 @@ void ModelViewLevelStartState::Enter()
 	sprite4->GetTransform()->SetPosition(-900, -100, 0);
 
 	sprite4->SetMaterialDiffuseTexture(0, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(5));
+	sprite4->SetMaterialDiffuseTexture(0, sRENDER_DEVICE_MANAGER->GetSRViewFromDepthStencil());
 
 	TaskSystem::GetInstance()->RegisterTask("sprite4", sprite4);
+
+	// 地面生成
+	std::shared_ptr<StaticMeshActor> groundMesh = std::make_shared<StaticMeshActor>();
+	groundMesh->SetMesh(BasicMeshFactory::GetInstance()->Create(HF_BM_QUAD, 0, 0, 0));
+	groundMesh->SetMaterialShader(0, std::make_shared<DeferredShader>());
+	groundMesh->GetTransform()->SetEulerDegAngles(90,0,0);
+	groundMesh->GetTransform()->SetScale(HFVECTOR3(20, 20, 20));
+	groundMesh->GetTransform()->SetPosition(HFVECTOR3(0, -2, 0));
+	groundMesh->SetMaterialDiffuseTexture(0,Texture2DManager::GetInstance()->Get("Resource/Texture/DefaultWhite.png"));
+	groundMesh->GetSubMeshMaterial(0)->SetDiffuse(HFVECTOR4(0.5f, 0.5f, 0.5f, 1));
+	groundMesh->GetSubMeshMaterial(0)->SetSpecular(HFVECTOR4(0.5f, 0.5f, 0.5f, 1));
+	sTASK_SYSTEM->RegisterTask("groundMesh", groundMesh);
 }
 
 void ModelViewLevelStartState::Execute()

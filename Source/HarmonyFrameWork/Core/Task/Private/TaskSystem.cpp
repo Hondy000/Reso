@@ -6,12 +6,12 @@
 
 #include "../Public/TaskSystem.h"
 #include "../../../Graphics/RenderDevice/Basic/Public/RendererManager.h"  
-#include "../../../Graphics/Public/RenderCommand.h"
+#include "../../../Graphics/Public/BaseGraphicsCommand.h"
 #include "../../Actor/Public/ActorInterface.h"
 #include "../../../Debug/Public/Debug.h"
-#include "../../../Graphics/RenderObject/Public/BaseRenderObject.h"
+#include "../../../Graphics/RenderObject/Public/BaseRenderMeshObject.h"
 #include "../../../Input/Public/InputManager.h"
-#include "..\..\..\Graphics\Shader\Basic\Public\BaseShader.h"
+#include "..\..\..\Graphics\Shader\Basic\Public\BaseGraphicsShader.h"
 
 using namespace std;
 
@@ -40,7 +40,7 @@ bool TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask
 		m_spTaskList.push_back(task);
 		task->Init();
 		task->SetTaskName(name);
-		std::shared_ptr<BaseRenderObject>render = std::dynamic_pointer_cast<BaseRenderObject>(task);
+		std::shared_ptr<BaseRenderMeshObject>render = std::dynamic_pointer_cast<BaseRenderMeshObject>(task);
 		if(render)
 		{
 			render->Setup();
@@ -49,6 +49,22 @@ bool TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask
 	}
 	return false;
 }
+
+bool TaskSystem::RemoveTask(std::shared_ptr<IBaseTask> task)
+{
+	for (auto it = m_spTaskList.begin(); it != m_spTaskList.end();)
+	{
+		if (*it == task)
+		{
+			it = m_spTaskList.erase(it);
+			return true;
+			continue;
+		}
+		it++;
+	}
+	return false;
+}
+
 
 /**********************************************************************************************//**
  * @fn	bool TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
@@ -62,10 +78,25 @@ bool TaskSystem::RegisterTask(const std::string& name, std::shared_ptr<IBaseTask
  * @return	true if it succeeds, false if it fails.
  **************************************************************************************************/
 
-bool TaskSystem::RegisterRenderCommand(std::shared_ptr<RenderCommand> task)
+bool TaskSystem::RegisterGraphicsCommand(std::shared_ptr<BaseGraphicsCommand> task)
 {
-	m_spDrawList.push_back(task);
+	m_spGraphicsCommandList.push_back(task);
 	return true;
+}
+
+bool TaskSystem::RemoveGraphicsCommand(std::shared_ptr<BaseGraphicsCommand> command)
+{
+	for (auto it = m_spGraphicsCommandList.begin(); it != m_spGraphicsCommandList.end();)
+	{
+		if (*it == command)
+		{
+			it = m_spGraphicsCommandList.erase(it);
+			return true;
+			continue;
+		}
+		it++;
+	}
+	return false;
 }
 
 /**********************************************************************************************//**
@@ -136,19 +167,19 @@ void TaskSystem::UpdateActorsPreviousTransform()
 
 bool TaskSystem::Render()
 {
-	m_spDrawList.sort([](const std::shared_ptr<RenderCommand>& commmandA,const std::shared_ptr<RenderCommand>& commmandB) 
+	m_spGraphicsCommandList.sort([](const std::shared_ptr<BaseGraphicsCommand>& commmandA,const std::shared_ptr<BaseGraphicsCommand>& commmandB) 
 	{
 		// 昇順ソート
 		return(
-			commmandA->GetRenderObject()->GetMaterialShader(commmandA->GetRenderMeshElement())->GetPathPriority() 
+			commmandA->GetRenderPriority() 
 			<
-			commmandB->GetRenderObject()->GetMaterialShader(commmandB->GetRenderMeshElement())->GetPathPriority());
+			commmandB->GetRenderPriority());
 	});
 
 	sRENDER_DEVICE_MANAGER->ClearScreen();
 	sRENDER_DEVICE_MANAGER->BeginRender();
 
-	for (auto it = m_spDrawList.begin(); it != m_spDrawList.end(); it++)
+	for (auto it = m_spGraphicsCommandList.begin(); it != m_spGraphicsCommandList.end(); it++)
 	{
 
 		(*it)->Update();

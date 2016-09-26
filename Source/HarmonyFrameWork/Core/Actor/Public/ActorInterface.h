@@ -21,13 +21,17 @@ public:
 	void SortTaskByPriority();
 	bool UpdateAllTask();
 	// Access the Transform
-	const std::shared_ptr< Transform>& GetTransform(void) const
+	const std::shared_ptr<Transform>& GetTransform(void) const
 	{
 		return(m_transform);
 	};
 	void SetTransform(const std::shared_ptr< Transform>& transform)
 	{
-		m_transform =(transform);
+		m_transform = (transform);
+		if(IsRegisterVariable<Transform>("m_transform"))
+		{
+			GetVariable<Transform>("m_transform")->SetValue(m_transform);
+		}
 	};
 
 	// Access the PreviousTransform

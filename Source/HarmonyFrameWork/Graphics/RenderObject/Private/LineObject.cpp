@@ -5,10 +5,10 @@
  *===============================================================================================**/
 
 #include "..\Public\LineObject.h"
-#include "..\..\Public\RenderCommand.h"
+#include "..\..\Public\BaseGraphicsCommand.h"
 #include "..\Public\Mesh.h"
 #include "..\..\..\Core\Task\Public\TaskSystem.h"
-#include "..\..\Shader\Basic\Public\BaseShader.h"
+#include "..\..\Shader\Basic\Public\BaseGraphicsShader.h"
 #include "..\..\Public\GraphicsTypes.h"
 #include "..\..\Buffer\Public\VertexBuffer.h"
 #include "..\..\Shader\DirectX\ver.11\Public\LineShader.h"

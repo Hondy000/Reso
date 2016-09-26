@@ -4,17 +4,17 @@
 #ifndef _DEFERREDSHADERCLASS_H_
 #define _DEFERREDSHADERCLASS_H_
 
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 
 struct MeshData;
-class BaseRenderObject;
+class BaseRenderMeshObject;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class name: DeferredShaderClass
 ////////////////////////////////////////////////////////////////////////////////
 class DeferredShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 private:
 	struct MatrixBufferType
@@ -69,6 +69,7 @@ public:
 
 
 	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 	/**********************************************************************************************//**
 	 * @fn	virtual bool Render() = 0;
 	 *

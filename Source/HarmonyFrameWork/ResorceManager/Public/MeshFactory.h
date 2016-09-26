@@ -2,7 +2,7 @@
 #include "../../Core/Public/FactoryInterface.h"					 
 #include "../../Graphics/Public/GraphicsTypes.h"
 #include "../../Graphics/RenderObject/Public/Mesh.h"
-class BaseRenderObject;
+class BaseRenderMeshObject;
 struct HFGraphics::MeshData;
 
 

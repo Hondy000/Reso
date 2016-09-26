@@ -5,11 +5,11 @@
 *===============================================================================================**/
 
 #pragma once
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 
 class MonotoneTextureShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 public:
 	MonotoneTextureShader();
@@ -77,4 +77,5 @@ public:
 	bool PostProcessOfRender() override;
 
 
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 };

@@ -5,7 +5,7 @@
  **************************************************************************************************/
 
 #include "../Public/ActorInterface.h"
-#include "../../../Graphics/RenderObject/Public/BaseRenderObject.h"
+#include "../../../Graphics/RenderObject/Public/BaseRenderMeshObject.h"
 
 using namespace std;
 
@@ -43,9 +43,9 @@ IActor::~IActor()
 
 bool IActor::Init()
 {
-	SetTransform(std::make_shared<Transform>());
+	m_transform = (std::make_shared<Transform>());
 	
-	RegisterVariable("m_transform", GetTransform());
+	RegisterVariable("m_transform", m_transform);
 	// ‰Šú‰»ƒ^ƒXƒN‚ð“o˜^
 
 
@@ -92,7 +92,7 @@ bool IActor::RegisterCompornent(const std::string& compornentName, std::shared_p
 		compornent->SetParentActor(shared_from_this());
 		m_compornentMap.insert(compornentPair);
 		m_taskList.push_back(compornent);
-		std::shared_ptr<BaseRenderObject>render = std::dynamic_pointer_cast<BaseRenderObject>(compornent);
+		std::shared_ptr<BaseRenderMeshObject>render = std::dynamic_pointer_cast<BaseRenderMeshObject>(compornent);
 		if (render)
 		{
 			render->Setup();

@@ -1,9 +1,9 @@
 #pragma once
-#include "..\..\..\Basic\Public\BaseShader.h"
+#include "..\..\..\Basic\Public\BaseGraphicsShader.h"
 
 class ColorVertexShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 public:
 	ColorVertexShader();
@@ -12,31 +12,40 @@ public:
 	void Destroy();
 
 	bool PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::shared_ptr<Material>materials);
-	/**********************************************************************************************//**
-																									* @fn	virtual bool CBaseShader::Render() = 0;
-																									*
-																									* @brief	Renders this object.
-																									*
-																									* @author	Kazuyuki Honda
-																									* @date	2015/11/03
-																									*
-																									* @return	A bool.
-																									**************************************************************************************************/
+
+	/***********************************************************************************************
+	 * Renders this object.
+	 *
+	 * @author Kazuyuki Honda
+	 * @date 2015/11/03
+	 *
+	 * @return A bool.
+	 *************************************************************************************************/
 
 	bool Render();
 
-	/**********************************************************************************************//**
-																									* @fn	virtual bool CBaseShader::PostRenderProcess() = 0;
-																									*
-																									* @brief	Posts the render process.
-																									*
-																									* @author	Kazuyuki Honda
-																									* @date	2015/11/04
-																									*
-																									* @return	A bool.
-																									**************************************************************************************************/
+	/***********************************************************************************************
+	 * Posts the render process.
+	 *
+	 * @author Kazuyuki Honda
+	 * @date 2015/11/04
+	 *
+	 * @return A bool.
+	 *************************************************************************************************/
 
 	bool PostProcessOfRender() override;
+
+	/***********************************************************************************************
+	 * シェーダを実行するグラフィックスコマンドを生成し登録.
+	 *
+	 * @author Kazuyuki
+	 *
+	 * @param parameter1 The first parameter.
+	 *
+	 * @return true if it succeeds, false if it fails.
+	 *************************************************************************************************/
+
+	virtual void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 
 
 };

@@ -4,6 +4,8 @@
 #include "..\Public\SpecularPerVertexShader.h"
 #include "..\..\..\..\Lighting\Public\LightManager.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "../../../../Public/BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 struct CBUFFER2
 {
@@ -13,7 +15,7 @@ struct CBUFFER2
 
 SpecularPerVertexShader::SpecularPerVertexShader()
 {
-	m_pathPriority = HF_FORWARD_RENDERING_SHADER;
+	m_graphicsPriority = HF_FORWARD_RENDERING_SHADER;
 }
 
 /**********************************************************************************************//**
@@ -29,7 +31,7 @@ SpecularPerVertexShader::SpecularPerVertexShader()
 
 SpecularPerVertexShader::SpecularPerVertexShader(const SpecularPerVertexShader& other)
 {
-	m_pathPriority = HF_FORWARD_RENDERING_SHADER;
+	m_graphicsPriority = HF_FORWARD_RENDERING_SHADER;
 }
 
 /**********************************************************************************************//**
@@ -58,7 +60,7 @@ SpecularPerVertexShader::~SpecularPerVertexShader()
 
 bool SpecularPerVertexShader::Setup()
 {
-	m_pathPriority = HF_FORWARD_RENDERING_SHADER;
+	m_graphicsPriority = HF_FORWARD_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	bool result;
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage;
@@ -311,4 +313,14 @@ bool SpecularPerVertexShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, 
 	m_indexCount = mesh->GetIndexCount();
 
 	return true;
+}
+
+void SpecularPerVertexShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

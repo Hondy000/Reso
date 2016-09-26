@@ -16,6 +16,7 @@
 #include "../../../../../ResorceManager/Public/DDSTextureLoader.h"
 #include "../../../../../Utility/Public/HFString.h"
 #include "../../../../Texture/Public/BaseTexture2D.h"
+#include "DX11DepthStencilView.h"
 
 
 /**********************************************************************************************//**
@@ -67,25 +68,6 @@ public:
 	bool Setup(void);
 
 	/**********************************************************************************************//**
-	 * @fn	void SetHWnd(HWND wnd)
-	 *
-	 * @brief	Sets h window.
-	 *
-	 * @author	Kazuyuki Honda
-	 * @date	2015/07/19
-	 *
-	 * @param	wnd	Handle of the window.
-	 **************************************************************************************************/
-	 // デバックウィンドウに出力
-	void CONSOLE_LOG(TCHAR* pMsg1, TCHAR* pMsg2, TCHAR* pMsg3)
-	{
-#if defined(DEBUG) || defined(_DEBUG)
-		TCHAR s[256];
-		_stprintf_s(s, _T("■□■ %s [ %s ] ⇒ %s\n"), pMsg1, pMsg2, pMsg3);
-		OutputDebugString(s);
-#endif
-	///< .
-	};
 
 	/**********************************************************************************************//**
 	 * @fn	void CDirectX11RenderDeviceManager::SetHWnd(HWND wnd)
@@ -992,6 +974,9 @@ public:
 		return(m_cpD3DDebug);
 	};
 
+
+	std::shared_ptr<DX11DepthStencilView>& GetMainDepthStencil();
+
 private:
 
 	/**********************************************************************************************//**
@@ -1023,6 +1008,9 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_cpRenderTargetView;
 	/** @brief	The cp depth stencil view. */
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_cpDepthStencilView;
+
+	/** The sp main depth stencil. */
+	std::shared_ptr<DX11DepthStencilView> m_spMainDepthStencil;
 	/** @brief	Information describing the display mode. */
 	std::vector<DXGI_MODE_DESC> m_DisplayModeDesc;
 
@@ -1056,4 +1044,5 @@ private:
 	D3D11_RASTERIZER_DESC m_rasterStateDesc;
 	//FLOAT near,far;
 	std::shared_ptr<GeometryBuffers> m_spDeferredBuffer;
+	std::shared_ptr<BaseTexture2D> m_depthMap;
 };

@@ -9,7 +9,8 @@
 
 class SubMesh;
 class Material;
-
+class BaseGraphicsCommand;
+class BaseRenderMeshObject;
 
 /**********************************************************************************************//**
  * @class	CBaseShader CBaseShader.h Source\HarmonyFrame\Graphics\Shader\Basic\CBaseShader.h
@@ -20,7 +21,7 @@ class Material;
  * @date	2015/11/03
  **************************************************************************************************/
 
-class BaseShader
+class BaseGraphicsShader
 	:
 	public IBaseObject
 {
@@ -35,7 +36,7 @@ public:
 	 * @date	2015/11/03
 	 **************************************************************************************************/
 
-	BaseShader();
+	BaseGraphicsShader();
 
 	/**********************************************************************************************//**
 	 * @fn	virtual CBaseShader::~CBaseShader();
@@ -46,7 +47,7 @@ public:
 	 * @date	2015/11/03
 	 **************************************************************************************************/
 
-	virtual ~BaseShader();
+	virtual ~BaseGraphicsShader();
 	virtual void OutputShaderErrorMessage(
 		Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage,
 		TCHAR* shaderFilename);
@@ -66,6 +67,18 @@ public:
 
 	virtual bool Setup() = 0;
 	virtual void Destroy() = 0;
+
+	/***********************************************************************************************
+	 * シェーダを実行するグラフィックスコマンドを生成し登録.
+	 *
+	 * @author Kazuyuki
+	 *
+	 * @param parameter1 The first parameter.
+	 *
+	 * @return true if it succeeds, false if it fails.
+	 *************************************************************************************************/
+
+	virtual void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject,UINT element) = 0;
 
 	/**********************************************************************************************//**
 	 * @fn	virtual bool CBaseShader::PreRenderProcess() = 0;
@@ -113,11 +126,11 @@ public:
 	// Access the PathPriority
 	const DWORD& GetPathPriority(void) const
 	{
-		return(m_pathPriority);
+		return(m_graphicsPriority);
 	};
 	void SetPathPriority(const DWORD& pathPriority)
 	{
-		m_pathPriority = pathPriority;
+		m_graphicsPriority = pathPriority;
 	};
 
 protected:
@@ -127,7 +140,7 @@ protected:
 	std::shared_ptr<BaseVertexLayout> m_spVertexLayout;		// シェーダごとに必要な頂点情報
 	int m_indexCount;
 
-	DWORD m_pathPriority;	// DeferredRendering後のパスか？
+	DWORD m_graphicsPriority;	// DeferredRendering後のパスか？
 
 #ifdef DIRECTX11
 	Microsoft::WRL::ComPtr<ID3D11PixelShader> m_cpPixelShader;

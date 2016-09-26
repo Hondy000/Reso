@@ -2,12 +2,12 @@
 #include "../../../Core/Task/Public/TaskInterface.h"
 #include "../../Buffer/Public/ConstantBuffer.h"
 #include "../../Texture/Public/BaseTexture2D.h"
-#include "../../RenderObject/Public/BaseRenderObject.h"
+#include "../../RenderObject/Public/BaseRenderMeshObject.h"
 #include "BaseParticle.h"
 
 class BaseEmitter
 	:
-	virtual public BaseRenderObject,
+	virtual public BaseRenderMeshObject,
 	public TransformHolder
 {
 public:

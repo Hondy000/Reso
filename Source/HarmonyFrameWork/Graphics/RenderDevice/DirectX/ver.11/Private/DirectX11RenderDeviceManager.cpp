@@ -15,6 +15,7 @@
 #include <comdef.h>
 #include "../../../../../Debug/Public/Debug.h"
 #include "..\..\..\..\Texture\Public\BaseTexture2D.h"
+#include "..\Public\DX11DepthStencilView.h"
 using namespace std;	
 using namespace Microsoft::WRL;
 
@@ -44,7 +45,7 @@ DirectX11RenderDeviceManager::~DirectX11RenderDeviceManager()
 {
 	m_cpRenderTargetView.Reset();
 	m_cpD3DDebug.Reset();
-	m_cpDepthStencilView.Reset();
+	m_spMainDepthStencil->GetDepthStencilView().Reset();
 	m_cpImmediateContext.Reset();
 	m_cpD3DDevice.Reset();
 }
@@ -152,7 +153,7 @@ bool DirectX11RenderDeviceManager::InitD3D11(
 	// ターゲットビューの設定
 	m_cpImmediateContext->OMSetRenderTargets(1,
 		m_cpRenderTargetView.GetAddressOf(),
-		m_cpDepthStencilView.Get());
+		m_spMainDepthStencil->GetDepthStencilView().Get());
 
 	// ビューポート作成
 	hr = CreateViewport();
@@ -220,9 +221,9 @@ void DirectX11RenderDeviceManager::ClearScreen(void)
 	m_cpImmediateContext->ClearRenderTargetView(m_cpRenderTargetView.Get(), ClearColor);
 
 	// 深度バッファをクリア
-	if (m_cpDepthStencilView)
+	if (m_spMainDepthStencil->GetDepthStencilView())
 	{
-		m_cpImmediateContext->ClearDepthStencilView(m_cpDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		m_cpImmediateContext->ClearDepthStencilView(m_spMainDepthStencil->GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
 	if (m_spDeferredBuffer)
@@ -511,8 +512,6 @@ EXIT:
 bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 {
 	HRESULT hr = E_FAIL;
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = NULL;
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> pDepthBuffer = NULL;
 
 	// D3D11_TEXTURE2D_DESC
 	D3D11_TEXTURE2D_DESC descDS;
@@ -542,7 +541,7 @@ bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 	descDS.Height = chainDesc.BufferDesc.Height;  // バックバッファと同じにする。
 	descDS.MipLevels = 1;                            // ミップマップを作成しない
 	descDS.ArraySize = 1;                            // テクスチャーの配列数
-	descDS.Format = D3D11USER_DEPTH_FORMAT;       // フォーマット
+	descDS.Format = DXGI_FORMAT_R32_TYPELESS;       // フォーマット
 	descDS.SampleDesc.Count = chainDesc.SampleDesc.Count;   // バックバッファと同じにする。
 	descDS.SampleDesc.Quality = chainDesc.SampleDesc.Quality; // バックバッファと同じにする。
 	descDS.Usage = D3D11_USAGE_DEFAULT;          // GPU による読み取りおよび書き込みアクセスを必要とするリソース。
@@ -555,7 +554,9 @@ bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 
 	// 深度バッファ用のテクスチャー作成
 	// CreateTexture2D
-	hr = m_cpD3DDevice->CreateTexture2D(&descDS, NULL, pDepthBuffer.GetAddressOf());
+	m_depthMap = std::make_shared<BaseTexture2D>();
+
+	hr = m_cpD3DDevice->CreateTexture2D(&descDS, NULL, m_depthMap->GetCpTexture().GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
 	::ZeroMemory(&descDSV, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
@@ -588,13 +589,19 @@ bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 	}
 
 	// マルチサンプルを使用していない場合
-	else                              descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-
+	else
+	{
+		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	}          
+		
 	descDSV.Texture2D.MipSlice = 0;
 
 	// 深度ステンシルビューを作成
+	
+	m_spMainDepthStencil = make_shared<DX11DepthStencilView>();
+
 	// CreateDepthStencilView
-	hr = m_cpD3DDevice->CreateDepthStencilView(pDepthBuffer.Get(), &descDSV, m_cpDepthStencilView.GetAddressOf());
+	hr = m_cpD3DDevice->CreateDepthStencilView(m_depthMap->GetCpTexture().Get(), &descDSV, m_spMainDepthStencil->GetDepthStencilView().GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
 	CONSOLE_LOG(_T("深度バッファビュー作成"), _T(""), _T("完了\n"));
@@ -762,7 +769,27 @@ bool DirectX11RenderDeviceManager::SetDefaultDepthStencilState()
 	dsState.DepthEnable = TRUE;
 	dsState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	dsState.DepthFunc = D3D11_COMPARISON_LESS;
-	dsState.StencilEnable = FALSE;
+	dsState.StencilEnable = TRUE;
+
+	dsState.DepthEnable = true;
+	dsState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsState.DepthFunc = D3D11_COMPARISON_LESS;
+	dsState.StencilEnable = true;
+	dsState.StencilReadMask = 0xFF;
+	dsState.StencilWriteMask = 0xFF;
+
+
+	// Stencil operations if pixel is front-facing.
+	dsState.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsState.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	dsState.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsState.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Stencil operations if pixel is back-facing.
+	dsState.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	dsState.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	dsState.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	dsState.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 
 	hr = m_cpD3DDevice->CreateDepthStencilState(&dsState, m_depthStencilState.GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
@@ -868,7 +895,7 @@ bool DirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT
 	if (FAILED(hr)) goto EXIT;
 
 	// ターゲットビューの設定
-	m_cpImmediateContext->OMSetRenderTargets(1, m_cpRenderTargetView.GetAddressOf(), m_cpDepthStencilView.Get());
+	m_cpImmediateContext->OMSetRenderTargets(1, m_cpRenderTargetView.GetAddressOf(), m_spMainDepthStencil->GetDepthStencilView().Get());
 
 	CONSOLE_LOG(_T("表示モード変更の最適化処理"), _T(""), _T("完了\n"));
 
@@ -1846,8 +1873,13 @@ void DirectX11RenderDeviceManager::SetConstantBuffers(DWORD shaderFlag,UINT star
 
 }
 
-void DirectX11RenderDeviceManager::
-OutputShaderErrorMessage(
+
+std::shared_ptr<DX11DepthStencilView>& DirectX11RenderDeviceManager::GetMainDepthStencil()
+{
+	return m_spMainDepthStencil;
+}
+
+void DirectX11RenderDeviceManager::OutputShaderErrorMessage(
 	Microsoft::WRL::ComPtr<ID3D10Blob> errorMessage,
 	TCHAR* shaderFilename)
 {
@@ -2209,14 +2241,14 @@ std::shared_ptr<BaseTexture2D> DirectX11RenderDeviceManager::GetSRViewFromDepthS
 	ComPtr<ID3D11ShaderResourceView> pSRView ;
 	ComPtr<ID3D11Resource> pResource;
 
-	if (m_cpDepthStencilView == NULL)
+	if (m_spMainDepthStencil->GetDepthStencilView() == NULL)
 	{
 		return nullptr;
 	}
 
 	// 深度ステンシルビューの設定を取得する
 	D3D11_DEPTH_STENCIL_VIEW_DESC DSVDesc;
-	m_cpDepthStencilView->GetDesc(&DSVDesc);
+	m_spMainDepthStencil->GetDepthStencilView()->GetDesc(&DSVDesc);
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
 	::ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
@@ -2255,7 +2287,7 @@ std::shared_ptr<BaseTexture2D> DirectX11RenderDeviceManager::GetSRViewFromDepthS
 	SRVDesc.Texture2D.MipLevels = 1;
 
 	// 深度ステンシルビューからリソースを取得
-	m_cpDepthStencilView->GetResource(pResource.GetAddressOf());
+	m_spMainDepthStencil->GetDepthStencilView()->GetResource(pResource.GetAddressOf());
 
 	// シェーダーリソースビューを作成する
 	hr = m_cpD3DDevice->CreateShaderResourceView(pResource.Get(), &SRVDesc, pSRView.GetAddressOf());
@@ -2265,19 +2297,8 @@ std::shared_ptr<BaseTexture2D> DirectX11RenderDeviceManager::GetSRViewFromDepthS
 	}
 
 	hr = S_OK;
-	ComPtr<ID3D11Texture2D> cpTexture;
-	if (pResource)
-	{
-		pResource.Get()->QueryInterface(
-			__uuidof(ID3D11Texture2D),
-			reinterpret_cast <void**>(cpTexture.GetAddressOf())
-		);
-	}
-
-	std::shared_ptr<BaseTexture2D> tex = std::make_shared<BaseTexture2D>();
-	tex->SetCpTexture(cpTexture);
-	tex->SetSharderResorceView(pSRView);
-	return tex;
+	m_depthMap->SetSharderResorceView(pSRView);
+	return m_depthMap;
 }
 
 /**********************************************************************************************//**
@@ -2423,7 +2444,12 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> DirectX11RenderDeviceManager::G
 void DirectX11RenderDeviceManager::SetBackBufferRenderTarget()
 {
 	// Bind the render target view and depth stencil buffer to the output render pipeline.
-	m_cpImmediateContext->OMSetRenderTargets(1, m_cpRenderTargetView.GetAddressOf(), m_cpDepthStencilView.Get());
+	m_cpImmediateContext->OMSetRenderTargets
+	(
+		1,
+		m_cpRenderTargetView.GetAddressOf(),
+		m_spMainDepthStencil->GetDepthStencilView().Get()
+	);
 	return;
 }
 

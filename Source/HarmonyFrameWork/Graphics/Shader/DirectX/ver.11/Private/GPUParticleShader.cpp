@@ -3,6 +3,8 @@
 #include "..\..\..\..\Public\GraphicsTypes.h"
 #include "..\..\..\..\RenderDevice\Basic\Public\RendererManager.h"
 #include "..\..\..\..\..\Utility\Public\HFString.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 
 // ’¸“_’è‹`
@@ -477,4 +479,14 @@ bool GPUParticleShader::Render()
 bool GPUParticleShader::PostProcessOfRender()
 {
 	return true;
+}
+
+void GPUParticleShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

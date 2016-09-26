@@ -1,10 +1,10 @@
 #pragma once
-#include "..\..\RenderObject\Public\BaseRenderObject.h"
+#include "..\..\RenderObject\Public\BaseRenderMeshObject.h"
 #include "..\..\..\Core\Actor\Public\ActorInterface.h"
 
 class ShadowRenderObject
 	:
-	public BaseRenderObject,
+	public BaseRenderMeshObject,
 	public IActor
 {
 public:

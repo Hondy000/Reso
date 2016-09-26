@@ -5,6 +5,8 @@
 #include "..\..\..\..\Matetial\Public\Material.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
 #include "..\..\..\..\RenderDevice\DirectX\ver.11\Public\GeometryBuffers.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 
 using namespace std;
 
@@ -19,7 +21,7 @@ DefaultSpriteShader::~DefaultSpriteShader()
 
 bool DefaultSpriteShader::Setup()
 {
-	m_pathPriority = HF_2D_RENDERING_SHADER;
+	m_graphicsPriority = HF_2D_RENDERING_SHADER;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	// Initialize the vertex and pixel shaders.
 	HRESULT result;
@@ -156,7 +158,7 @@ bool DefaultSpriteShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std
 
 	
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 1, materials->GetDiffuseTexture()->GetSharderResorceView().GetAddressOf());
-
+	sRENDER_DEVICE_MANAGER->TurnZBufferOff();
 	return hr;
 }
 
@@ -182,6 +184,17 @@ bool DefaultSpriteShader::PostProcessOfRender()
 	HRESULT hr;
 	hr = E_FAIL;
 	sRENDER_DEVICE_MANAGER->SetBackCullingState();
+	sRENDER_DEVICE_MANAGER->TurnZBufferOn();
 
 	return hr;
+}
+
+void DefaultSpriteShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

@@ -5,7 +5,7 @@
  **************************************************************************************************/
 
 #pragma once
-#include "../../../Basic/Public/BaseShader.h"
+#include "../../../Basic/Public/BaseGraphicsShader.h"
 
 /**********************************************************************************************//**
   * @class	SimplePolygon3DShader SimplePolygon3DShader.h
@@ -19,7 +19,7 @@
 
 class SimplePolygon3DShader
 	:
-	public BaseShader
+	public BaseGraphicsShader
 {
 public:
 
@@ -72,5 +72,5 @@ public:
 	 **************************************************************************************************/
 
 	virtual bool PostProcessOfRender();
-
+	void CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element);
 };

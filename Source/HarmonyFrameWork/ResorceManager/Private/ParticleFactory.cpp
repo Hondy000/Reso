@@ -1,7 +1,7 @@
 #include "..\Public\ParticleFactory.h"
 #include "..\..\Graphics\RenderObject\Public\Mesh.h"
 #include "..\..\Graphics\Buffer\Public\VertexBuffer.h"
-#include "..\..\Graphics\Shader\Basic\Public\BaseShader.h"
+#include "..\..\Graphics\Shader\Basic\Public\BaseGraphicsShader.h"
 #include "..\..\Graphics\Buffer\Public\IndexBuffer.h"
 #include "..\..\Graphics\Shader\DirectX\ver.11\Public\ParticleShader.h"
 using namespace std;

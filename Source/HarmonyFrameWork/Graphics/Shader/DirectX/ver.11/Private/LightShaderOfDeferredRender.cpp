@@ -4,6 +4,9 @@
 #include "../../../../Lighting/Public/LightManager.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
 #include "../../../../Public/GraphicsTypes.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
+#include "..\..\..\..\Shadow\Public\ShadowMapActor.h"
 
 using namespace std;
 
@@ -19,7 +22,7 @@ using namespace std;
 LightShaderOfDeferredRender::LightShaderOfDeferredRender()
 	
 {
-	m_pathPriority = HF_LIGHTING_PATH_OF_DEFERRED_RENDERING;
+	m_graphicsPriority = HF_LIGHTING_PATH_OF_DEFERRED_RENDERING;
 }
 
 /**********************************************************************************************//**
@@ -63,7 +66,7 @@ LightShaderOfDeferredRender::~LightShaderOfDeferredRender()
 
 bool LightShaderOfDeferredRender::Setup()
 {
-	m_pathPriority = HF_LIGHTING_PATH_OF_DEFERRED_RENDERING;
+	m_graphicsPriority = HF_LIGHTING_PATH_OF_DEFERRED_RENDERING;
 	m_spVertexLayout = std::shared_ptr<BaseVertexLayout>(new BaseVertexLayout);
 	sRENDER_DEVICE_MANAGER->SetupGeometryBuffer();
 	// Initialize the vertex and pixel shaders.
@@ -159,6 +162,7 @@ bool LightShaderOfDeferredRender::PreProcessOfRender(std::shared_ptr<SubMesh> sh
 	sRENDER_DEVICE_MANAGER->ZBufferNotWriteNotEnable();
 
 	sRENDER_DEVICE_MANAGER->SetSolidRasterize();
+	sRENDER_DEVICE_MANAGER->TurnZBufferOff();
 
 	return true;
 }
@@ -221,6 +225,8 @@ bool LightShaderOfDeferredRender::PostProcessOfRender()
 
 	//sRENDER_DEVICE_MANAGER->GetImmediateContext()->OMSetRenderTargets(1, pView, NULL); 
 	//sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->CleanUpRenderTargets();
+	
+	sRENDER_DEVICE_MANAGER->TurnZBufferOn();
 	return S_OK;
 }
 
@@ -413,6 +419,16 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(4, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(4)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(5, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(5)->GetSharderResorceView().GetAddressOf());
 
+	std::vector<std::shared_ptr<BaseTexture2D>> shadowMapTextures;
+	ShadowManager::GetInstance()->GetShadowMapTextures(shadowMapTextures);
+
+	for (auto i= 0;i < shadowMapTextures.size();i++)
+	{
+		if(shadowMapTextures[i])
+		{
+			sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(6 + i, 1, shadowMapTextures[i]->GetSharderResorceView().GetAddressOf());
+		}
+	}
 	// Lock the light constant buffer so it can be written to.
 	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(m_constantBuffers[1]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
@@ -516,7 +532,17 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	// Unlock the constant buffer.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[2]->Get(), 0);
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetConstantBuffers(2, 1, m_constantBuffers[2]->GetAddressOf());
-
+	sRENDER_DEVICE_MANAGER->ZBufferNotWriteNotEnable();
 
 	return true;
+}					
+
+void LightShaderOfDeferredRender::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
 }

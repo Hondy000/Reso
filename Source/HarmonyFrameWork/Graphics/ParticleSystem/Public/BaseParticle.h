@@ -5,7 +5,7 @@
  *===============================================================================================**/
 
 #pragma once
-#include "../../RenderObject/Public/BaseRenderObject.h"
+#include "../../RenderObject/Public/BaseRenderMeshObject.h"
 
 /**=================================================================================================
  * @class IBaseParticle BaseParticle.h

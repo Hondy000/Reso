@@ -2,12 +2,14 @@
 #include "../Public/SimplePolygon3DShader.h"
 #include "../../../../RenderDevice/Basic/Public/RendererManager.h"
 #include "../../../../VertexLayout/Public/BaseVertexLayout.h"
-#include "../../../../RenderObject/Public/BaseRenderObject.h"
+#include "../../../../RenderObject/Public/BaseRenderMeshObject.h"
 #include "../../../../Texture/Public/BaseTexture2D.h"
 #include "../../../../RenderDevice/Basic/Public/BaseRenderDeviceManager.h"
 #include "../../../../RenderDevice/DirectX/ver.11/Public/DirectX11RenderDeviceManager.h"
 #include "..\..\..\..\Matetial\Public\Material.h"
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
+#include "..\..\..\..\Public\BaseGraphicsCommand.h"
+#include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
 using namespace std;
 
 bool SimplePolygon3DShader::Setup()
@@ -131,3 +133,12 @@ bool SimplePolygon3DShader::PostProcessOfRender()
 	return bool();
 }
 
+void SimplePolygon3DShader::CreateAndRegisterGraphicsCommand(std::shared_ptr<BaseRenderMeshObject> renderObject, UINT element)
+{
+	std::shared_ptr<RenderMeshCommmand> rmCommand = std::make_shared<RenderMeshCommmand>();
+	rmCommand->SetRenderMeshElement(element);
+	rmCommand->SetRenderObject(renderObject);
+	rmCommand->SetGraphicsPriority(m_graphicsPriority);
+
+	sTASK_SYSTEM->RegisterGraphicsCommand(rmCommand);
+}

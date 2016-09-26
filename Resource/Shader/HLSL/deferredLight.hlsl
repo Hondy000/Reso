@@ -299,17 +299,17 @@ class cAllLight : iBaseLight
 		outputColor = saturate(colors * lightIntensity) ;
 		// *float4(1.0f, 1.0f, 1.0f, 1.0f);
 
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 64; i++)
 		{
 			lightDir = pointLight[i].position.xyz - positions.xyz;
 			float len = (length(lightDir));
-			float LD = abs(normalize(lightDir));
+			float LD = -(normalize(lightDir));
 			float at = pow(max((1.0f / len) * pointLight[i].attenuation, 0), pointLight[i].falloff);
 			outputColor.xyz += colors.xyz * max(pointLight[i].color.xyz * at * step(len, pointLight[i].range) * dot(LD, normals), 0);
 
 		}
 
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 64; i++)
 		{
 			lightDir = spotLight[i].position.xyz - positions.xyz;
 			float len = length(lightDir);
@@ -400,31 +400,34 @@ class cSpecular : iBaseLight
 		//スペキュラーカラーを加算する
 		outputColor = diffuseColor * colors + S;
 
-		for (int i = 0; i < 8; i++)
+		// pointLight
+		for (int i = 0; i < 64; i++)
 		{
+			// 光源と対象の差分を算出
 			lightDir = pointLight[i].position.xyz - positions.xyz;
-			float len = length(lightDir);
-			float LD = normalize(lightDir);
+			// 光源との距離を算出
+			float len = (length(lightDir));
+			// 光源方向を算出
+			// 減衰を算出
 			float at = pow(max((1.0f / len) * pointLight[i].attenuation, 0), pointLight[i].falloff);
-						 
 
 			//float4 diffuseColor = max(0, dot(N, lightDir)) + ambient;
 
-			// *float4(1.0f, 1.0f, 1.0f, 1.0f);
 			//頂点 -> ライト位置ベクトル + 頂点 -> 視点ベクトル(注意１)	  
 			lightDir = normalize(lightDir.xyz);
-			H = normalize(lightDir + (V));
+		
+
 			R = reflect(V, N);
-			R = normalize(R);
-
-
 			S = pow(max(0.0f, dot(lightDir, R)), 50) * 3 * specular;
 			S = saturate(S);
-			outputColor.xyz += colors.xyz * max(pointLight[i].color.xyz * at * step(len, pointLight[i].range) * dot(LD, normals), 0)+S * step(len, pointLight[i].range);
+			//	outputColor.xyz += colors.xyz * max(pointLight[i].color.xyz * at * step(len, pointLight[i].range) *  saturate(dot(LD, normals)), 0)+S * step(len, pointLight[i].range);
+			outputColor.xyz += colors.xyz * max(((pointLight[i].color.xyz *  at * step(len, pointLight[i].range)) ) * dot(lightDir, normals), 0) + at * (S * step(len, pointLight[i].range));
 
 		}
 
-		for (int i = 0; i < 8; i++)
+
+		// spotLight
+		for (int i = 0; i < 64; i++)
 		{
 			lightDir = spotLight[i].position.xyz - positions.xyz;
 			float len = length(lightDir);
