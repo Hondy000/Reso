@@ -111,6 +111,8 @@ protected:
 	HFVECTOR2 m_screenSize;
 	/** The view position. */
 	HFVECTOR3 m_viewPosition;
+	std::shared_ptr<BaseDepthStencilBuffer> m_depthBuffer;
+	std::shared_ptr<BaseRenderTarget> m_renderTarget;
 };
 
 #endif

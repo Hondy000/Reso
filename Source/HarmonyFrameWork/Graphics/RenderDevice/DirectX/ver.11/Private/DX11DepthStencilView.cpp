@@ -13,9 +13,6 @@ DX11DepthStencilView::~DX11DepthStencilView()
 }
 
 Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DX11DepthStencilView::Create(
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthStencilView,
-	std::shared_ptr<BaseTexture2D> _texture2d,
-	DXGI_SWAP_CHAIN_DESC desc,
 	float width, 
 	float height,
 	DWORD format
@@ -23,6 +20,10 @@ Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DX11DepthStencilView::Create(
 {
 
 	HRESULT hr = E_FAIL;
+
+
+	DXGI_SWAP_CHAIN_DESC desc;
+	hr = sRENDER_DEVICE_MANAGER->GetSpSwapChain()->GetCpSwapChain()->GetDesc(&desc);
 
 	// D3D11_TEXTURE2D_DESC
 	D3D11_TEXTURE2D_DESC descDS;
@@ -55,9 +56,9 @@ Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DX11DepthStencilView::Create(
 
 													 // 深度バッファ用のテクスチャー作成
 													 // CreateTexture2D
-	_texture2d = std::make_shared<BaseTexture2D>();
+	m_depthMap = std::make_shared<BaseTexture2D>();
 
-	hr = sRENDER_DEVICE->CreateTexture2D(&descDS, NULL, _texture2d->GetCpTexture().GetAddressOf());
+	hr = sRENDER_DEVICE->CreateTexture2D(&descDS, NULL, m_depthMap->GetCpTexture().GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
 	::ZeroMemory(&descDSV, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
@@ -100,7 +101,7 @@ Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DX11DepthStencilView::Create(
 	// 深度ステンシルビューを作成								
 
 	// CreateDepthStencilView
-	hr = sRENDER_DEVICE->CreateDepthStencilView(_texture2d->GetCpTexture().Get(), &descDSV, _depthStencilView.GetAddressOf());
+	hr = sRENDER_DEVICE->CreateDepthStencilView(m_depthMap->GetCpTexture().Get(), &descDSV, m_cpDepthStencilView.GetAddressOf());
 	if (FAILED(hr)) goto EXIT;
 
 	CONSOLE_LOG(_T("深度バッファビュー作成"), _T(""), _T("完了\n"));
@@ -109,7 +110,7 @@ Microsoft::WRL::ComPtr<ID3D11DepthStencilView> DX11DepthStencilView::Create(
 
 EXIT:
 
-	return _depthStencilView;
+	return m_cpDepthStencilView;
 }
 
 Microsoft::WRL::ComPtr<ID3D11DepthStencilView>& DX11DepthStencilView::GetDepthStencilView()

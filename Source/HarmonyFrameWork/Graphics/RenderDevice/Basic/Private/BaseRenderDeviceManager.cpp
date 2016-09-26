@@ -28,7 +28,7 @@ BaseRenderDeviceManager::BaseRenderDeviceManager()
 
 std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetDefaultRenderTarget(void)
 {
-
+	return m_renderTarget;
 }
 
 std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetMainRenderTarget(void)
@@ -38,15 +38,15 @@ std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetMainRenderTarget(v
 
 void BaseRenderDeviceManager::SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget)
 {
-
+	m_renderTarget = _renderTarget;
 }
 
 std::shared_ptr<BaseDepthStencilBuffer> BaseRenderDeviceManager::GetMainDepthStencil(void)
 {
-
+	return m_depthBuffer;
 }
 
 void BaseRenderDeviceManager::SetMainDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil)
 {
-
+	m_depthBuffer = _depthStencil;
 }

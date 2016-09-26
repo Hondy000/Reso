@@ -32,10 +32,8 @@ public:
 	DX11DepthStencilView();
 	~DX11DepthStencilView();
 
-	static Microsoft::WRL::ComPtr<ID3D11DepthStencilView> Create(
-		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _depthStencilView,
-		std::shared_ptr<BaseTexture2D> _depthMap,
-		DXGI_SWAP_CHAIN_DESC desc,
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> Create
+	(
 		float width,
 		float height,
 		DWORD format

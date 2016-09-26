@@ -79,7 +79,9 @@ RenderShadowMapCommand::RenderShadowMapCommand()
 
 	m_depthBuffer = std::make_shared<DX11DepthStencilView>();
 	std::dynamic_pointer_cast<DX11DepthStencilView>(m_depthBuffer)->Create(
-		sRENDER_DEVICE_MANAGER
+		sRENDER_DEVICE_MANAGER->GetScreenSize().x,
+		sRENDER_DEVICE_MANAGER->GetScreenSize().y,
+		DXGI_FORMAT_R32_TYPELESS
 	);
 #endif
 }
