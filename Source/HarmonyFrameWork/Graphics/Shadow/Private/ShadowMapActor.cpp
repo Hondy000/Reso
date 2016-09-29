@@ -51,8 +51,22 @@ bool ShadowManager::RegisterLight(std::shared_ptr<HFGraphics::BaseLight> spLight
 	key.first = spLight;
 	key.second = std::make_shared<RenderShadowMapCommand>();   // シャドウマップ生成コマンドを生成してセット
 	key.second->SetRenderPriority(HF_SHADOW_MAPPING_SHADER);   // パスプライオリティをセット
+	key.second->SetLight(spLight);
 	spLight->GetCommmandArray().push_back(key.second);
 	m_shadowMapSet.insert(key);
+	switch(key.second->GetLight()->GetLightType())
+	{
+	case HFGraphics::LightType::Directional:
+		m_spDirectionalLightPair = key;
+		break;
+	case HFGraphics::LightType::Point:
+		m_spPointLightPairList.push_back(key);
+		break;
+	case HFGraphics::LightType::Spot: 
+		m_spSpotLightPairList.push_back(key);
+		break;
+	default: break;
+	}
 	auto res = m_shadowMapSet.insert(key);
 	if (res.second)
 	{
@@ -72,6 +86,15 @@ void ShadowManager::GetShadowMapTextures(std::vector< std::shared_ptr<BaseTextur
 	}
 }
 
+std::shared_ptr<BaseTexture2D> ShadowManager::GetShadowMapTextureOfDirectionalight()
+{
+	if(m_spDirectionalLightPair.first)
+	{
+		return m_spDirectionalLightPair.second->GetShadowMapTexture();
+	}
+	return nullptr;
+}
+
 RenderShadowMapCommand::RenderShadowMapCommand()
 {
 	// シャドウ書き込み用のデプスバッファ生成
@@ -83,7 +106,11 @@ RenderShadowMapCommand::RenderShadowMapCommand()
 		sRENDER_DEVICE_MANAGER->GetScreenSize().y,
 		DXGI_FORMAT_R32_TYPELESS
 	);
-#endif
+#endif					  
+	sRENDER_DEVICE_MANAGER->SetMainUseDepthStencil(m_depthBuffer);
+	m_shadowMapTexture = sRENDER_DEVICE_MANAGER->GetSRViewFromDepthStencil();
+	sRENDER_DEVICE_MANAGER->SetMainUseDepthStencil(sRENDER_DEVICE_MANAGER->GetDefaultDepthStencil());
+
 }
 
 RenderShadowMapCommand::~RenderShadowMapCommand()
@@ -92,7 +119,8 @@ RenderShadowMapCommand::~RenderShadowMapCommand()
 
 bool RenderShadowMapCommand::Update()
 {
-
+	sRENDER_DEVICE_MANAGER->SetMainUseDepthStencil(m_depthBuffer);
+	sRENDER_DEVICE_MANAGER->ClearScreen();
 	for (auto it = ShadowManager::GetInstance()->GetShadowMapList().begin(); it != ShadowManager::GetInstance()->GetShadowMapList().end();)
 	{
 		for(INT i = 0;i < (*it)->GetMesh()->GetSubMeshArray().size();i++)
@@ -105,8 +133,10 @@ bool RenderShadowMapCommand::Update()
 		
 		it++;
 	}
+	
 	m_shadowMapTexture = sRENDER_DEVICE_MANAGER->GetSRViewFromDepthStencil();
-	sRENDER_DEVICE_MANAGER->ClearScreen();
+	sRENDER_DEVICE_MANAGER->SetMainUseDepthStencil(sRENDER_DEVICE_MANAGER->GetDefaultDepthStencil());
+
 	return true;
 }
 

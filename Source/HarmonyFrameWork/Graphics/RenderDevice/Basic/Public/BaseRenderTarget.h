@@ -6,5 +6,6 @@ public:
 	BaseRenderTarget();
 	virtual~BaseRenderTarget();
 protected:
+
 private:
 };

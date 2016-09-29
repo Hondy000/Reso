@@ -32,22 +32,31 @@ public:
 	DX11DepthStencilView();
 	~DX11DepthStencilView();
 
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> Create
+	bool Create
 	(
 		float width,
 		float height,
 		DWORD format
 	);
 
+	void LogConsoleOfCreateDepthStencilTextureDesc(D3D11_TEXTURE2D_DESC _DX11Texture2DDesc);
+	void LogConsoleOfCreateDepthStencilViewDesc(D3D11_DEPTH_STENCIL_VIEW_DESC _DX11DepthStencilViewDesc);
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>& GetDepthStencilView();
 	void SetDepthStencilView(Microsoft::WRL::ComPtr<ID3D11DepthStencilView>& _val);
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& GetDepthStencilState();
 	void SetDepthStencilState(Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& _val);
+
+	std::shared_ptr<BaseTexture2D> GetDepthMap() const
+	{
+		return m_depthMap;
+	}
+
 private:
 	/** The cp depth stencil view. */
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_cpDepthStencilView;
 	/** State of the cp depth stencil. */
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> m_cpDepthStencilState;
+	/** @brief	The depth map. */
 	std::shared_ptr<BaseTexture2D> m_depthMap;
 
 };

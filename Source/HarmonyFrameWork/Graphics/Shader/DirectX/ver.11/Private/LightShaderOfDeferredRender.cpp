@@ -395,14 +395,17 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 		return false;
 	}
 
-	// Get a pointer to the data in the constant buffer.
+	// WVP行列
 	dataPtr = (MatrixBufferType*)mappedResource.pData;
 
-	// Copy the matrices into the constant buffer.
+	
 	dataPtr->WVP = WVP;
 
-	// Unlock the constant buffer.
+	
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[0]->Get(), 0);
+
+
+
 
 	// Set the position of the constant buffer in the vertex shader.
 	bufferNumber = 0;
@@ -414,7 +417,7 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	// Set shader texture resources in the pixel shader.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(0, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(0)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(1, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(1)->GetSharderResorceView().GetAddressOf());
-	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(2, 1,sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(2)->GetSharderResorceView().GetAddressOf());
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(2, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(2)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(3, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(3)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(4, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(4)->GetSharderResorceView().GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(5, 1, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(5)->GetSharderResorceView().GetAddressOf());
@@ -504,6 +507,25 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	}
 
 
+	// シャドウマップ変換行列
+	if (spLight)
+	{
+		HFMATRIX lightProj, lightView, bias;
+
+		bias = HFMATRIX(
+			 0.5f, 0.0f, 0.0f, 0.0f,
+			 0.0f, -0.5f, 0.0f, 0.0f,
+			 0.0f, 0.0f, 1.0f, 0.0f,
+			 0.5f, 0.5f, 0.0f, 1.0f);
+		lightView = HFMATRIX::CreateLookAt(spLight->GetPram().position, HFVECTOR3(0, 0, 0), HFVECTOR3(0, 1, 0));
+
+		lightProj = HFMATRIX::CreateOrthographic((float)32, (float)18, 0.1f, 800.0f);
+		dataPtr2->lightMatrix = lightView*lightProj*worldMatrix*viewMatrix*projectionMatrix * bias;
+
+	}
+	
+
+
 	// Unlock the constant buffer.
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[1]->Get(), 0);
 
@@ -518,7 +540,7 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 
 
 	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(m_constantBuffers[2]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	if (FAILED(result))
+	if (FAILED(result))							 
 	{
 		return false;
 	}

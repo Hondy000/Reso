@@ -28,25 +28,29 @@ BaseRenderDeviceManager::BaseRenderDeviceManager()
 
 std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetDefaultRenderTarget(void)
 {
-	return m_renderTarget;
+	return m_defaultRenderTarget;
+}
+std::shared_ptr<BaseDepthStencilBuffer> BaseRenderDeviceManager::GetDefaultDepthStencil(void)
+{
+	return m_defaultDepthStencilBuffer;
 }
 
 std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetMainRenderTarget(void)
 {
-	return std::shared_ptr<BaseRenderTarget>();
+	return m_usingRenderTarget;
 }
 
 void BaseRenderDeviceManager::SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget)
 {
-	m_renderTarget = _renderTarget;
+	m_usingRenderTarget = _renderTarget;
 }
 
-std::shared_ptr<BaseDepthStencilBuffer> BaseRenderDeviceManager::GetMainDepthStencil(void)
+std::shared_ptr<BaseDepthStencilBuffer> BaseRenderDeviceManager::GetMainUseDepthStencil(void)
 {
-	return m_depthBuffer;
+	return m_usingDepthStencilBuffer;
 }
 
-void BaseRenderDeviceManager::SetMainDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil)
+void BaseRenderDeviceManager::SetMainUseDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil)
 {
-	m_depthBuffer = _depthStencil;
+	m_usingDepthStencilBuffer = _depthStencil;
 }

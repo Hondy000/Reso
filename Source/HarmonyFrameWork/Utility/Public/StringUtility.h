@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+
+#define STR(var) #var   //ˆø”‚É‚µ‚½•Ï”‚ğ•Ï”–¼‚ğ¦‚·•¶š—ñƒŠƒeƒ‰ƒ‹‚Æ‚µ‚Ä•Ô‚·ƒ}ƒNƒŠÖ”
+
 namespace UTILITY
 {
 

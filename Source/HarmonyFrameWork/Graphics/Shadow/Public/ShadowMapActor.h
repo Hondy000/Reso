@@ -76,15 +76,6 @@ public:
 	{
 		return m_shadowRenderObjectList;
 	}
-	std::shared_ptr<HFGraphics::BaseLight> GetLight() const
-	{
-		return m_spLight;
-	}
-
-	void SetLight(std::shared_ptr<HFGraphics::BaseLight> _val)
-	{
-		m_spLight = _val;
-	}
 
 	std::shared_ptr<BaseGraphicsShader> GetShadowMapShader() const
 	{
@@ -97,11 +88,19 @@ public:
 	}
 
 
+	std::shared_ptr<BaseTexture2D> GetShadowMapTextureOfDirectionalight();
+
 private:
 
 	ShadowManager();
 	std::unordered_map<std::shared_ptr<HFGraphics::BaseLight>, std::shared_ptr<RenderShadowMapCommand>> m_shadowMapSet;
 	std::list<std::shared_ptr<ShadowRenderObject>> m_shadowRenderObjectList;
-	std::shared_ptr<HFGraphics::BaseLight> m_spLight;
 	std::shared_ptr<BaseGraphicsShader> m_shadowMapShader;
+
+	// コマンドとのペア
+	std::pair<std::shared_ptr<HFGraphics::BaseLight>, std::shared_ptr<RenderShadowMapCommand>> m_spDirectionalLightPair;
+	// リスト
+	std::list<std::pair<std::shared_ptr<HFGraphics::BaseLight>, std::shared_ptr<RenderShadowMapCommand>>> m_spPointLightPairList;
+	std::list<std::pair<std::shared_ptr<HFGraphics::BaseLight>, std::shared_ptr<RenderShadowMapCommand>>> m_spSpotLightPairList;
+
 };

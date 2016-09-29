@@ -17,6 +17,7 @@
 #include "../../../../../Utility/Public/HFString.h"
 #include "../../../../Texture/Public/BaseTexture2D.h"
 #include "DX11DepthStencilView.h"
+#include "DX11RenderTargetView.h"
 
 
 /**********************************************************************************************//**
@@ -856,6 +857,31 @@ public:
 
 	void ZBufferNotWriteNotEnable();
 
+	/***************************************************************************************************//*
+	 * @fn	void DirectX11RenderDeviceManager::SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget);
+	 *
+	 * @brief	Sets main render target.
+	 *
+	 * @author	Hondy
+	 * @date	2016/09/29
+	 *
+	 * @param	_renderTarget	The render target.
+	 *****************************************************************************************************/
+	
+	void SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget);
+
+	/***************************************************************************************************//*
+	 * @fn	void DirectX11RenderDeviceManager::SetMainUseDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil);
+	 *
+	 * @brief	Sets main use depth stencil.
+	 *
+	 * @author	Hondy
+	 * @date	2016/09/29
+	 *
+	 * @param	_depthStencil	The depth stencil.
+	 *****************************************************************************************************/
+	void SetMainUseDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil);
+	
 	/**********************************************************************************************//**
 	 * @fn	Microsoft::WRL::ComPtr< ID3D11Device > CDirectX11RenderDeviceManager::GetDevice(void) const
 	 *
@@ -1004,13 +1030,21 @@ private:
 	Microsoft::WRL::ComPtr< ID3D11Debug> m_cpD3DDebug;
 	/** @brief	Direct3D11 デバイスコンテキスト。. */
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext>    m_cpImmediateContext;
-	/** @brief	レンダリングターゲットビュー. */
-	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_cpRenderTargetView;
 	/** @brief	The cp depth stencil view. */
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_cpDepthStencilView;
 
 	/** The sp main depth stencil. */
-	std::shared_ptr<DX11DepthStencilView> m_spMainDepthStencil;
+	std::shared_ptr<DX11DepthStencilView> m_usingDX11DepthStencilBuffer;		 
+
+	/** @brief	Buffer for depth data. */
+	std::shared_ptr<DX11DepthStencilView> m_defaultDX11DepthStencilBuffer;
+	/** @brief	The render target. */
+	std::shared_ptr<DX11RenderTargetView> m_defaultDX11RenderTarget;
+	/** @brief	The render target. */
+	std::shared_ptr<DX11RenderTargetView> m_usingDX11RenderTarget;
+
+
+
 	/** @brief	Information describing the display mode. */
 	std::vector<DXGI_MODE_DESC> m_DisplayModeDesc;
 
@@ -1044,5 +1078,4 @@ private:
 	D3D11_RASTERIZER_DESC m_rasterStateDesc;
 	//FLOAT near,far;
 	std::shared_ptr<GeometryBuffers> m_spDeferredBuffer;
-	std::shared_ptr<BaseTexture2D> m_depthMap;
 };

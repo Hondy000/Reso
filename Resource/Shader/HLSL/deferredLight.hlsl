@@ -61,6 +61,8 @@ Texture2DMS <float4, 8> ambientTexture : register(t3);
 Texture2DMS <float4, 8> emissiveTexture : register(t4);
 Texture2DMS <float4, 8> specularTexture : register(t5);
 
+Texture2DMS <float4, 8> shadowMapOfDirectionalLightTexture : register(t6);
+
 
 
 SamplerState SampleTypePoint : register(s0);
@@ -333,6 +335,8 @@ class cSpecular : iBaseLight
 	// スポットライト
 	SpotLight spotLight[64];
 
+	float4x4 lightMatrix;
+
 	// 色を計算する
 	float4 GetColor(PixelInputType input)
 	{
@@ -351,6 +355,10 @@ class cSpecular : iBaseLight
 		float2	pixsize;
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
+		
+		// Depth取得
+		float depth = shadowMapOfDirectionalLightTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+
 		// アルベドを取得
 		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 

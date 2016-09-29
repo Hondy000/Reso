@@ -78,7 +78,7 @@ bool ShadowMapShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::sh
 			Viewport[0].TopLeftX = 0;
 			Viewport[0].TopLeftY = 0;
 			Viewport[0].Width = (FLOAT)sRENDER_DEVICE_MANAGER->GetScreenSize().x;
-			Viewport[0].Height = (FLOAT)sRENDER_DEVICE_MANAGER->GetScreenSize().y;
+			Viewport[0].Height = (FLOAT)sRENDER_DEVICE_MANAGER->GetScreenSize().x;
 			Viewport[0].MinDepth = 0.0f;
 			Viewport[0].MaxDepth = 1.0f;
 			sRENDER_DEVICE_MANAGER->GetImmediateContext()->RSSetViewports(1, Viewport);
@@ -103,7 +103,7 @@ bool ShadowMapShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::sh
 	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(dlight);
 	view = HFMATRIX::CreateLookAt(dlight->GetPram().position, HFVECTOR3(0,0,0), HFVECTOR3(0, 1, 0));
 
-	proj = HFMATRIX::CreateOrthographic((float)32, (float)18, 0.1f, 800.0f);
+	proj = HFMATRIX::CreateOrthographic((float)32, (float)32, 0.1f, 800.0f);
 	// Lock the constant buffer so it can be written to.
 	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(m_constantBuffers[0]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))
@@ -161,6 +161,15 @@ bool ShadowMapShader::Render()
 bool ShadowMapShader::PostProcessOfRender()
 {
 	sRENDER_DEVICE_MANAGER->GetSRViewFromDepthStencil();
+	D3D11_VIEWPORT Viewport[1];
+	Viewport[0].TopLeftX = 0;
+	Viewport[0].TopLeftY = 0;
+	Viewport[0].Width = (FLOAT)sRENDER_DEVICE_MANAGER->GetScreenSize().x;
+	Viewport[0].Height = (FLOAT)sRENDER_DEVICE_MANAGER->GetScreenSize().y;
+	Viewport[0].MinDepth = 0.0f;
+	Viewport[0].MaxDepth = 1.0f;
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->RSSetViewports(1, Viewport);
+
 	return true;
 }
 

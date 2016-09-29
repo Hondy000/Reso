@@ -64,6 +64,8 @@ private:
 		HFVECTOR4 lightDirection6;
 		HFGraphics::POINT_LIGHT_PRAM pointLightArray2[64];
 		HFGraphics::SPOT_LIGHT_PRAM spotLightArray2[64];
+
+		HFMATRIX lightMatrix;
 	}CBUFFER0;
 
 	typedef struct CBUFFER1

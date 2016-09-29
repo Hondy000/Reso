@@ -164,8 +164,7 @@ void ModelViewLevelStartState::Enter()
 	sprite4->GetTransform()->SetScale(100, 100, 0);
 	sprite4->GetTransform()->SetPosition(-900, -100, 0);
 
-	sprite4->SetMaterialDiffuseTexture(0, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(5));
-	sprite4->SetMaterialDiffuseTexture(0, sRENDER_DEVICE_MANAGER->GetSRViewFromDepthStencil());
+	sprite4->SetMaterialDiffuseTexture(0, ShadowManager::GetInstance()->GetShadowMapTextureOfDirectionalight());
 
 	TaskSystem::GetInstance()->RegisterTask("sprite4", sprite4);
 

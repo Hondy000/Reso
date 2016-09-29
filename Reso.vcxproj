@@ -105,6 +105,7 @@
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DirectX11SwapChain.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DirectX11RenderDeviceManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DX11DepthStencilView.h" />
+    <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\DX11RenderTargetView.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\GeometryBuffers.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Public\DeferredRenderingManager.h" />
     <ClInclude Include="Source\HarmonyFrameWork\Graphics\RenderObject\Public\BaseRenderMeshObject.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DirectX11SwapChain.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DirectX11RenderDeviceManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DX11DepthStencilView.cpp" />
+    <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\DX11RenderTargetView.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Private\GeometryBuffers.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\Rendering\DeferredRendering\Private\DeferredRenderingManager.cpp" />
     <ClCompile Include="Source\HarmonyFrameWork\Graphics\RenderObject\Private\BaseRenderMeshObject.cpp" />

@@ -43,9 +43,9 @@ DirectX11RenderDeviceManager::DirectX11RenderDeviceManager()
 
 DirectX11RenderDeviceManager::~DirectX11RenderDeviceManager()
 {
-	m_cpRenderTargetView.Reset();
+	m_usingDX11RenderTarget->GetRenderTargetView().Reset();
 	m_cpD3DDebug.Reset();
-	m_spMainDepthStencil->GetDepthStencilView().Reset();
+	m_usingDX11DepthStencilBuffer->GetDepthStencilView().Reset();
 	m_cpImmediateContext.Reset();
 	m_cpD3DDevice.Reset();
 }
@@ -152,8 +152,8 @@ bool DirectX11RenderDeviceManager::InitD3D11(
 
 	// ターゲットビューの設定
 	m_cpImmediateContext->OMSetRenderTargets(1,
-		m_cpRenderTargetView.GetAddressOf(),
-		m_spMainDepthStencil->GetDepthStencilView().Get());
+		m_usingDX11RenderTarget->GetRenderTargetView().GetAddressOf(),
+		m_usingDX11DepthStencilBuffer->GetDepthStencilView().Get());
 
 	// ビューポート作成
 	hr = CreateViewport();
@@ -218,12 +218,12 @@ void DirectX11RenderDeviceManager::ClearScreen(void)
 	FLOAT ClearColor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 	// バックバッファをクリア
-	m_cpImmediateContext->ClearRenderTargetView(m_cpRenderTargetView.Get(), ClearColor);
+	m_cpImmediateContext->ClearRenderTargetView(m_usingDX11RenderTarget->GetRenderTargetView().Get(), ClearColor);
 
 	// 深度バッファをクリア
-	if (m_spMainDepthStencil->GetDepthStencilView())
+	if (m_usingDX11DepthStencilBuffer->GetDepthStencilView())
 	{
-		m_cpImmediateContext->ClearDepthStencilView(m_spMainDepthStencil->GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+		m_cpImmediateContext->ClearDepthStencilView(m_usingDX11DepthStencilBuffer->GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
 
 	if (m_spDeferredBuffer)
@@ -477,23 +477,16 @@ EXIT:
 bool DirectX11RenderDeviceManager::CreateRenderTargetView()
 {
 	HRESULT hr = E_FAIL;
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBuffer = NULL;
 
-	CONSOLE_LOG(_T("レンダリングターゲットビュー作成"), _T(""), _T("開始\n"));
+	m_defaultDX11RenderTarget = std::make_shared<DX11RenderTargetView>();
+	if(m_defaultDX11RenderTarget->CreateFromBackBuffer())
+	{
+		m_usingRenderTarget = m_defaultDX11RenderTarget;
+		m_defaultRenderTarget = m_defaultDX11RenderTarget;
+		m_usingDX11RenderTarget = m_defaultDX11RenderTarget;
 
-	// スワップチェーンからバックバッファを取得する
-	hr = m_spSwapChain->GetCpSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer);
-	if (FAILED(hr)) goto EXIT;
-
-	// レンダリングターゲットビューの作成
-	// CreateRenderTargetView
-	hr = m_cpD3DDevice->CreateRenderTargetView(pBackBuffer.Get(), NULL, m_cpRenderTargetView.GetAddressOf());
-	if (FAILED(hr)) goto EXIT;
-
-	CONSOLE_LOG(_T("レンダリングターゲットビュー作成"), _T(""), _T("完了\n"));
-
-	hr = S_OK;
-EXIT:
+		hr = S_OK;
+	}
 
 	return hr;
 }
@@ -513,102 +506,19 @@ bool DirectX11RenderDeviceManager::CreateDepthStencilView()
 {
 	HRESULT hr = E_FAIL;
 
-	// D3D11_TEXTURE2D_DESC
-	D3D11_TEXTURE2D_DESC descDS;
-
-	// D3D11_DEPTH_STENCIL_VIEW_DESC
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
-
-	if (m_UseDepthBuffer == FALSE)
-	{
-		hr = S_OK;
-		goto EXIT;
-	}
-
-	//if (m_SwapChain == NULL) goto EXIT;
-
-	CONSOLE_LOG(_T("深度バッファビュー作成 開始\n"));
-
+	m_usingDX11DepthStencilBuffer = std::make_shared<DX11DepthStencilView>();
 	DXGI_SWAP_CHAIN_DESC chainDesc;
-
-	// スワップチェーンの設定を取得する
-	// GetDesc
 	hr = m_spSwapChain->GetCpSwapChain()->GetDesc(&chainDesc);
-	if (FAILED(hr)) goto EXIT;
-
-	::ZeroMemory(&descDS, sizeof(D3D11_TEXTURE2D_DESC));
-	descDS.Width = chainDesc.BufferDesc.Width;   // バックバッファと同じにする。
-	descDS.Height = chainDesc.BufferDesc.Height;  // バックバッファと同じにする。
-	descDS.MipLevels = 1;                            // ミップマップを作成しない
-	descDS.ArraySize = 1;                            // テクスチャーの配列数
-	descDS.Format = DXGI_FORMAT_R32_TYPELESS;       // フォーマット
-	descDS.SampleDesc.Count = chainDesc.SampleDesc.Count;   // バックバッファと同じにする。
-	descDS.SampleDesc.Quality = chainDesc.SampleDesc.Quality; // バックバッファと同じにする。
-	descDS.Usage = D3D11_USAGE_DEFAULT;          // GPU による読み取りおよび書き込みアクセスを必要とするリソース。
-
-	//   descDS.BindFlags          = D3D11_BIND_DEPTH_STENCIL;     // ステンシルバッファ
-	descDS.BindFlags = D3D11_BIND_DEPTH_STENCIL |    // 深度ステンシルバッファとして作成する
-		D3D11_BIND_SHADER_RESOURCE;   // シェーダーリソースビューとして作成する
-	descDS.CPUAccessFlags = 0;                            // CPU アクセスが不要。
-	descDS.MiscFlags = 0;                            // その他のフラグも設定しない。
-
-	// 深度バッファ用のテクスチャー作成
-	// CreateTexture2D
-	m_depthMap = std::make_shared<BaseTexture2D>();
-
-	hr = m_cpD3DDevice->CreateTexture2D(&descDS, NULL, m_depthMap->GetCpTexture().GetAddressOf());
-	if (FAILED(hr)) goto EXIT;
-
-	::ZeroMemory(&descDSV, sizeof(D3D11_DEPTH_STENCIL_VIEW_DESC));
-
-	// テクスチャー作成時に指定したフォーマットと互換性があり、深度ステンシルビューとして指定できるフォーマットを指定する
-	//   descDSV.Format = descDS.Format;
-	switch (descDS.Format)
+	m_usingDX11DepthStencilBuffer->Create(chainDesc.BufferDesc.Width, chainDesc.BufferDesc.Height, DXGI_FORMAT_R32_TYPELESS);
+	if (
+		m_usingDX11DepthStencilBuffer->Create(chainDesc.BufferDesc.Width, chainDesc.BufferDesc.Height, DXGI_FORMAT_R32_TYPELESS)
+		)
 	{
-		// 8ビットフォーマットは使用できない？
-	case DXGI_FORMAT_R8_TYPELESS:
-		descDSV.Format = DXGI_FORMAT_R8_UNORM;
-		break;
-	case DXGI_FORMAT_R16_TYPELESS:
-		descDSV.Format = DXGI_FORMAT_D16_UNORM;
-		break;
-	case DXGI_FORMAT_R32_TYPELESS:
-		descDSV.Format = DXGI_FORMAT_D32_FLOAT;
-		break;
-	case DXGI_FORMAT_R24G8_TYPELESS:
-		descDSV.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-		break;
-	default:
-		descDSV.Format = descDS.Format;
+		m_defaultDepthStencilBuffer = m_usingDX11DepthStencilBuffer;
+		m_defaultDX11DepthStencilBuffer = m_usingDX11DepthStencilBuffer;
+		m_usingDepthStencilBuffer = m_usingDX11DepthStencilBuffer;
+		hr = S_OK;
 	}
-
-	// マルチサンプルを使用している場合
-	if (chainDesc.SampleDesc.Count > 1)
-	{
-		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-	}
-
-	// マルチサンプルを使用していない場合
-	else
-	{
-		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	}          
-		
-	descDSV.Texture2D.MipSlice = 0;
-
-	// 深度ステンシルビューを作成
-	
-	m_spMainDepthStencil = make_shared<DX11DepthStencilView>();
-
-	// CreateDepthStencilView
-	hr = m_cpD3DDevice->CreateDepthStencilView(m_depthMap->GetCpTexture().Get(), &descDSV, m_spMainDepthStencil->GetDepthStencilView().GetAddressOf());
-	if (FAILED(hr)) goto EXIT;
-
-	CONSOLE_LOG(_T("深度バッファビュー作成"), _T(""), _T("完了\n"));
-
-	hr = S_OK;
-
-EXIT:
 
 	return hr;
 }
@@ -876,7 +786,7 @@ bool DirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT
 	CONSOLE_LOG(_T("ターゲットビューを解除"), _T(""), _T("開始\n"));
 
 	m_cpImmediateContext->OMSetRenderTargets(0, NULL, NULL);
-	m_cpRenderTargetView.ReleaseAndGetAddressOf();
+	m_usingDX11RenderTarget->GetRenderTargetView().ReleaseAndGetAddressOf();
 
 	CONSOLE_LOG(_T("ターゲットビューを解除"), _T(""), _T("完了\n"));
 
@@ -895,7 +805,7 @@ bool DirectX11RenderDeviceManager::ChangeWindowModeOptimization(UINT Width, UINT
 	if (FAILED(hr)) goto EXIT;
 
 	// ターゲットビューの設定
-	m_cpImmediateContext->OMSetRenderTargets(1, m_cpRenderTargetView.GetAddressOf(), m_spMainDepthStencil->GetDepthStencilView().Get());
+	m_cpImmediateContext->OMSetRenderTargets(1, m_usingDX11RenderTarget->GetRenderTargetView().GetAddressOf(), m_usingDX11DepthStencilBuffer->GetDepthStencilView().Get());
 
 	CONSOLE_LOG(_T("表示モード変更の最適化処理"), _T(""), _T("完了\n"));
 
@@ -1876,7 +1786,7 @@ void DirectX11RenderDeviceManager::SetConstantBuffers(DWORD shaderFlag,UINT star
 
 std::shared_ptr<DX11DepthStencilView>& DirectX11RenderDeviceManager::GetMainDepthStencil()
 {
-	return m_spMainDepthStencil;
+	return m_usingDX11DepthStencilBuffer;
 }
 
 void DirectX11RenderDeviceManager::OutputShaderErrorMessage(
@@ -2241,14 +2151,14 @@ std::shared_ptr<BaseTexture2D> DirectX11RenderDeviceManager::GetSRViewFromDepthS
 	ComPtr<ID3D11ShaderResourceView> pSRView ;
 	ComPtr<ID3D11Resource> pResource;
 
-	if (m_spMainDepthStencil->GetDepthStencilView() == NULL)
+	if (m_usingDX11DepthStencilBuffer->GetDepthStencilView() == NULL)
 	{
 		return nullptr;
 	}
 
 	// 深度ステンシルビューの設定を取得する
 	D3D11_DEPTH_STENCIL_VIEW_DESC DSVDesc;
-	m_spMainDepthStencil->GetDepthStencilView()->GetDesc(&DSVDesc);
+	m_usingDX11DepthStencilBuffer->GetDepthStencilView()->GetDesc(&DSVDesc);
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
 	::ZeroMemory(&SRVDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
@@ -2287,7 +2197,7 @@ std::shared_ptr<BaseTexture2D> DirectX11RenderDeviceManager::GetSRViewFromDepthS
 	SRVDesc.Texture2D.MipLevels = 1;
 
 	// 深度ステンシルビューからリソースを取得
-	m_spMainDepthStencil->GetDepthStencilView()->GetResource(pResource.GetAddressOf());
+	m_usingDX11DepthStencilBuffer->GetDepthStencilView()->GetResource(pResource.GetAddressOf());
 
 	// シェーダーリソースビューを作成する
 	hr = m_cpD3DDevice->CreateShaderResourceView(pResource.Get(), &SRVDesc, pSRView.GetAddressOf());
@@ -2297,8 +2207,8 @@ std::shared_ptr<BaseTexture2D> DirectX11RenderDeviceManager::GetSRViewFromDepthS
 	}
 
 	hr = S_OK;
-	m_depthMap->SetSharderResorceView(pSRView);
-	return m_depthMap;
+	m_usingDX11DepthStencilBuffer->GetDepthMap()->SetSharderResorceView(pSRView);
+	return m_usingDX11DepthStencilBuffer->GetDepthMap();
 }
 
 /**********************************************************************************************//**
@@ -2447,8 +2357,8 @@ void DirectX11RenderDeviceManager::SetBackBufferRenderTarget()
 	m_cpImmediateContext->OMSetRenderTargets
 	(
 		1,
-		m_cpRenderTargetView.GetAddressOf(),
-		m_spMainDepthStencil->GetDepthStencilView().Get()
+		m_usingDX11RenderTarget->GetRenderTargetView().GetAddressOf(),
+		m_usingDX11DepthStencilBuffer->GetDepthStencilView().Get()
 	);
 	return;
 }
@@ -2573,4 +2483,22 @@ void DirectX11RenderDeviceManager::ZBufferNotWriteNotEnable()
 {
 	m_cpImmediateContext->OMSetDepthStencilState(m_notWriteDepthStencilState.Get(), 1);
 	return;
+}
+
+void DirectX11RenderDeviceManager::SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget)
+{
+	m_usingRenderTarget = _renderTarget;
+	m_usingDX11RenderTarget =std::dynamic_pointer_cast<DX11RenderTargetView>(_renderTarget);
+}
+
+void DirectX11RenderDeviceManager::SetMainUseDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil)
+{
+	m_usingDepthStencilBuffer = _depthStencil;
+	m_usingDX11DepthStencilBuffer = std::dynamic_pointer_cast<DX11DepthStencilView>(_depthStencil);
+	m_cpImmediateContext->OMSetRenderTargets
+	(
+		1,
+		m_usingDX11RenderTarget->GetRenderTargetView().GetAddressOf(),
+		m_usingDX11DepthStencilBuffer->GetDepthStencilView().Get()
+	);
 }

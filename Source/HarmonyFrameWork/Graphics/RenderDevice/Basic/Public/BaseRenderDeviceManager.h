@@ -67,7 +67,9 @@ public:
 	 *
 	 * @return デフォルトのレンダーターゲット.
 	 **************************************************************************************************/
-	std::shared_ptr<BaseRenderTarget> GetDefaultRenderTarget(void);	   
+	std::shared_ptr<BaseRenderTarget> GetDefaultRenderTarget(void);
+
+	std::shared_ptr<BaseDepthStencilBuffer> GetDefaultDepthStencil(void);
 	
 	/**********************************************************************************************//**
 	 * @fn std::shared_ptr<BaseRenderTarget> BaseRenderDeviceManager::GetMainRenderTarget(void);
@@ -87,18 +89,57 @@ public:
 	 *
 	 * @param _renderTarget The render target.
 	 *************************************************************************************************/
-	void SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget);
+	virtual void SetMainRenderTarget(std::shared_ptr<BaseRenderTarget> _renderTarget);
 
-	std::shared_ptr<BaseDepthStencilBuffer> GetMainDepthStencil(void);
-	void SetMainDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil);
+	/***************************************************************************************************//*
+	 * @fn	std::shared_ptr<BaseDepthStencilBuffer> BaseRenderDeviceManager::GetMainDepthStencil(void);
+	 *
+	 * @brief	Gets main depth stencil.
+	 *
+	 * @author	Hondy
+	 * @date	2016/09/27
+	 *
+	 * @return	The main depth stencil.
+	 *****************************************************************************************************/
+	std::shared_ptr<BaseDepthStencilBuffer> GetMainUseDepthStencil(void);
 
+	/***************************************************************************************************//*
+	 * @fn	void BaseRenderDeviceManager::SetMainDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil);
+	 *
+	 * @brief	Sets main depth stencil.
+	 *
+	 * @author	Hondy
+	 * @date	2016/09/27
+	 *
+	 * @param	_depthStencil	The depth stencil.
+	 *****************************************************************************************************/
+	virtual void SetMainUseDepthStencil(std::shared_ptr<BaseDepthStencilBuffer> _depthStencil);
 
-
-	// 管理行列を取得
+	/***************************************************************************************************//*
+	 * @fn	virtual HFVECTOR3 BaseRenderDeviceManager::GetViewPosition()
+	 *
+	 * @brief	管理行列を取得.
+	 *
+	 * @author	Hondy
+	 * @date	2016/09/27
+	 *
+	 * @return	The view position.
+	 *****************************************************************************************************/
 	virtual HFVECTOR3 GetViewPosition()
 	{
 		return m_viewPosition;
 	};
+
+	/***************************************************************************************************//*
+	 * @fn	virtual HFVECTOR2 BaseRenderDeviceManager::GetScreenSize()
+	 *
+	 * @brief	Gets screen size.
+	 *
+	 * @author	Hondy
+	 * @date	2016/09/27
+	 *
+	 * @return	The screen size.
+	 *****************************************************************************************************/
 	virtual HFVECTOR2 GetScreenSize()
 	{
 		return m_screenSize;
@@ -111,8 +152,14 @@ protected:
 	HFVECTOR2 m_screenSize;
 	/** The view position. */
 	HFVECTOR3 m_viewPosition;
-	std::shared_ptr<BaseDepthStencilBuffer> m_depthBuffer;
-	std::shared_ptr<BaseRenderTarget> m_renderTarget;
+	/** @brief	Buffer for depth data. */
+	std::shared_ptr<BaseDepthStencilBuffer> m_defaultDepthStencilBuffer;
+	/** @brief	Buffer for depth data. */
+	std::shared_ptr<BaseDepthStencilBuffer> m_usingDepthStencilBuffer;
+	/** @brief	The render target. */
+	std::shared_ptr<BaseRenderTarget> m_defaultRenderTarget;
+	/** @brief	The render target. */
+	std::shared_ptr<BaseRenderTarget> m_usingRenderTarget;
 };
 
 #endif
