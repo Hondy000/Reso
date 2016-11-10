@@ -356,6 +356,8 @@ class cSpecular : iBaseLight
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
 		
+		// DepthŽæ“¾
+		float depth = shadowMapOfDirectionalLightTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
 		// ƒAƒ‹ƒxƒh‚ðŽæ“¾
 		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
@@ -492,6 +494,6 @@ float4 LightPixelShader(PixelInputType input) : SV_TARGET
 {
 	float4 outputColor;
 
-	outputColor = g_abstractLight.GetColor(input);
-	return outputColor;
+outputColor = g_abstractLight.GetColor(input);
+return outputColor;
 }

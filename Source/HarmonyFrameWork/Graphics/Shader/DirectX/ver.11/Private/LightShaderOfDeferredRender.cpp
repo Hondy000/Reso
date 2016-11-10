@@ -314,8 +314,8 @@ bool LightShaderOfDeferredRender::InitializeShader
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	// Create the texture sampler state.
-	HRESULT hr = sRENDER_DEVICE->CreateSamplerState(&samplerDesc, m_cpSamplerState.GetAddressOf());
-	if (FAILED(hr))
+	result = sRENDER_DEVICE->CreateSamplerState(&samplerDesc, m_cpSamplerState.GetAddressOf());
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -329,8 +329,8 @@ bool LightShaderOfDeferredRender::InitializeShader
 	matrixBufferDesc.StructureByteStride = 0;
 
 	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
-	hr = sRENDER_DEVICE->CreateBuffer(&matrixBufferDesc, NULL, m_constantBuffers[0]->GetAddressOf());
-	if (FAILED(hr))
+	result = sRENDER_DEVICE->CreateBuffer(&matrixBufferDesc, NULL, m_constantBuffers[0]->GetAddressOf());
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -344,8 +344,8 @@ bool LightShaderOfDeferredRender::InitializeShader
 	lightBufferDesc.StructureByteStride = 0;
 
 	// Create the constant buffer pointer so we can access the pixel shader constant buffer from within this class.
-	hr = sRENDER_DEVICE->CreateBuffer(&lightBufferDesc, NULL, m_constantBuffers[1]->GetAddressOf());
-	if (FAILED(hr))
+	result = sRENDER_DEVICE->CreateBuffer(&lightBufferDesc, NULL, m_constantBuffers[1]->GetAddressOf());
+	if (FAILED(result))
 	{
 		return false;
 	}
@@ -445,9 +445,6 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	// Copy the lighting variables into the constant buffer.  
 	std::shared_ptr< HFGraphics::DirectinalLight  > spLight;
 	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(spLight);
-	vector<shared_ptr<HFGraphics::PointLight>> pointLightArray;
-	sLIGHT_MANAGER->GetPointLight(pointLightArray, HFVECTOR3(worldMatrix._41, worldMatrix._42, worldMatrix._43), 64);
-
 	if (spLight)
 	{
 		dataPtr2->lightDirection0 = HFVECTOR4(spLight->GetPram().direction);
@@ -457,14 +454,6 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 		dataPtr2->lightDirection4 = HFVECTOR4(spLight->GetPram().direction);
 		::ZeroMemory(&dataPtr2->pointLight0, sizeof(HFGraphics::POINT_LIGHT_PRAM));
 
-		if (pointLightArray[0] != nullptr)
-		{
-			dataPtr2->pointLight0.attenuation = pointLightArray[0]->GetPram().attenuation;
-			dataPtr2->pointLight0.color = pointLightArray[0]->GetPram().color;
-			dataPtr2->pointLight0.falloff = pointLightArray[0]->GetPram().falloff;
-			dataPtr2->pointLight0.position = pointLightArray[0]->GetPram().position;
-			dataPtr2->pointLight0.range = pointLightArray[0]->GetPram().range;
-		}
 
 		dataPtr2->lightDirection5 = HFVECTOR4(spLight->GetPram().direction);
 		::ZeroMemory(&dataPtr2->spotLight0, sizeof(HFGraphics::SPOT_LIGHT_PRAM));
@@ -472,11 +461,13 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 
 	}
 
+	vector<shared_ptr<HFGraphics::PointLight>> pointLightArray;
+	sLIGHT_MANAGER->GetPointLight(pointLightArray, HFVECTOR3(worldMatrix._41, worldMatrix._42, worldMatrix._43), 64);
 	for (int i = 0; i < 64; i++)
 	{
 		::ZeroMemory(&dataPtr2->pointLightArray[i], sizeof(HFGraphics::POINT_LIGHT_PRAM));
 
-		if (pointLightArray[i] != nullptr)
+		if (pointLightArray[i])
 		{
 			dataPtr2->pointLightArray[i].attenuation = pointLightArray[i]->GetPram().attenuation;
 			dataPtr2->pointLightArray[i].color = pointLightArray[i]->GetPram().color;
@@ -514,6 +505,25 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	{
 		dataPtr2->lightDirection6 = HFVECTOR4(spLight->GetPram().direction);
 	}
+
+
+	// シャドウマップ変換行列
+	if (spLight)
+	{
+		HFMATRIX lightProj, lightView, bias;
+
+		bias = HFMATRIX(
+			 0.5f, 0.0f, 0.0f, 0.0f,
+			 0.0f, -0.5f, 0.0f, 0.0f,
+			 0.0f, 0.0f, 1.0f, 0.0f,
+			 0.5f, 0.5f, 0.0f, 1.0f);
+		lightView = HFMATRIX::CreateLookAt(spLight->GetPram().position, HFVECTOR3(0, 0, 0), HFVECTOR3(0, 1, 0));
+
+		lightProj = HFMATRIX::CreateOrthographic((float)32, (float)18, 0.1f, 800.0f);
+		dataPtr2->lightMatrix = lightView*lightProj*worldMatrix*viewMatrix*projectionMatrix * bias;
+
+	}
+	
 
 
 	// Unlock the constant buffer.

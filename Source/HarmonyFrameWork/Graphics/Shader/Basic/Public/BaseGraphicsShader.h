@@ -150,7 +150,6 @@ protected:
 	Microsoft::WRL::ComPtr<ID3D11ComputeShader> m_cpComputeShader;
 	std::vector<Microsoft::WRL::ComPtr<ID3D11GeometryShader>> m_cpGeometryShaders;
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_cpSamplerState;
-	std::vector< Microsoft::WRL::ComPtr<ID3D11SamplerState>> m_cpSamplerStateArray;
 	// 動的シェーダーリンク
 	// ID3D11ClassLinkage
 	Microsoft::WRL::ComPtr< ID3D11ClassLinkage> m_cpPSClassLinkage;
