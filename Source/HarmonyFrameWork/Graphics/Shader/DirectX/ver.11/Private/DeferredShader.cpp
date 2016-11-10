@@ -6,6 +6,7 @@
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
 #include "..\..\..\..\Public\BaseGraphicsCommand.h"
 #include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
+#include "../../../../../Debug/Public/Debug.h"
 
 DeferredShader::DeferredShader()
 {
@@ -133,6 +134,31 @@ bool DeferredShader::Setup()
 		return false;
 	}
 
+	m_cpSamplerStateArray.resize(1);
+	D3D11_SAMPLER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	desc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	desc.BorderColor[0] = 1.0f;
+	desc.BorderColor[1] = 1.0f;
+	desc.BorderColor[2] = 1.0f;
+	desc.BorderColor[3] = 1.0f;
+	desc.ComparisonFunc = D3D11_COMPARISON_LESS_EQUAL;
+	desc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	desc.MaxAnisotropy = 1;
+	desc.MipLODBias = 0;
+	desc.MinLOD = -FLT_MAX;
+	desc.MaxLOD = +FLT_MAX;
+	
+	 // サンプラーステートを生成.
+	HRESULT hr = sRENDER_DEVICE->CreateSamplerState(&desc, m_cpSamplerStateArray[0].GetAddressOf());
+	if (FAILED(hr))
+	{
+	        HFDebug::Debug::GetInstance()->Log("Error : ID3D11Device::CreateSamplerState() Failed.");
+	        return false;
+	}
+
 	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
 	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -197,6 +223,8 @@ bool DeferredShader::Render()
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShader(m_cpPixelShader.Get(), NULL, 0);
 
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetSamplers(0, 1, m_cpSamplerState.GetAddressOf());
+
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetSamplers(0, 1, m_cpSamplerStateArray[0].GetAddressOf());
 
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	

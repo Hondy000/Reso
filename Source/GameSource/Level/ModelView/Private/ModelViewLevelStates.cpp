@@ -58,11 +58,11 @@ void ModelViewLevelStartState::Enter()
 		}
 	}
 
-	for (int i = 0; i < 3+1; i++)
+	for (int i = 0; i < 1; i++)
 	{
-		for (int j = 0; j < 3+1; j++)
+		for (int j = 0; j < 1; j++)
 		{
-			for (int k = 0; k < 3+1; k++)
+			for (int k = 0; k < 16; k++)
 			{
 				num++;
 				shared_ptr<HFGraphics::PointLight> point = make_shared<HFGraphics::PointLight>();
@@ -72,7 +72,7 @@ void ModelViewLevelStartState::Enter()
 				point->SetFalloff(0.8);
 				point->SetAtttention(0.8);
 				point->SetColor(HFVECTOR4((0.0 + (i % 3)*0.5 ), (0.0 + (j % 3)*0.5), (0.0 + (k % 3)*0.5), 1));
-				HFGraphics::LightManager::GetInstance()->Register(point);
+				//HFGraphics::LightManager::GetInstance()->Register(point);
 			}
 		}
 	}
