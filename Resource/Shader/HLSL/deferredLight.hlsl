@@ -409,7 +409,7 @@ class cSpecular : iBaseLight
 		outputColor = diffuseColor * colors + S;
 
 		// pointLight
-		for (int i = 0; i < 64; i++)
+		for (int i = 0; i < 1; i++)
 		{
 			// ŒõŒ¹‚Æ‘ÎÛ‚Ì·•ª‚ðŽZo
 			lightDir = pointLight[i].position.xyz - positions.xyz;

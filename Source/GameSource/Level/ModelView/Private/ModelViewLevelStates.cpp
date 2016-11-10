@@ -77,6 +77,29 @@ void ModelViewLevelStartState::Enter()
 		}
 	}
 
+
+
+
+
+
+	for (int i = 0; i < 3 + 1; i++)
+	{
+		for (int j = 0; j < 3 + 1; j++)
+		{
+			for (int k = 0; k < 3 + 1; k++)
+			{
+				num++;
+				shared_ptr<HFGraphics::SpotLight> point = make_shared<HFGraphics::SpotLight>();
+				HFGraphics::SPOT_LIGHT_PRAM par;
+				point->SetPram(HFVECTOR4(-2.5 + i * 5, -2.5 + j * 5, -2.5 + k * 5, 0));
+				point->SetRange(10);
+				point->SetFalloff(0.8);
+				point->SetAtttention(0.8);
+				point->SetColor(HFVECTOR4((0.0 + (i % 3)*0.5), (0.0 + (j % 3)*0.5), (0.0 + (k % 3)*0.5), 1));
+				HFGraphics::LightManager::GetInstance()->Register(point);
+			}
+		}
+	}
 	//sTASK_SYSTEM->RegisterTask("simpleMesh", simpleMesh);
 
 	shared_ptr<StaticMeshActor> colorSprite = make_shared<StaticMeshActor>();
