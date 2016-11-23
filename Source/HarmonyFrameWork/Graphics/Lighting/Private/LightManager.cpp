@@ -102,7 +102,7 @@ namespace HFGraphics
 		{
 			if (i < lightCount)
 			{
-				shared_ptr<PointLight> point = static_pointer_cast<PointLight>(*it);
+				shared_ptr<PointLight> point = dynamic_pointer_cast<PointLight>(*it);
 				
 				if(point)
 				{
@@ -136,7 +136,7 @@ namespace HFGraphics
 		{
 			if (i < lightCount)
 			{
-				shared_ptr<SpotLight> spot = static_pointer_cast<SpotLight>(*it);
+				shared_ptr<SpotLight> spot = dynamic_pointer_cast<SpotLight>(*it);
 
 				if (spot)
 				{

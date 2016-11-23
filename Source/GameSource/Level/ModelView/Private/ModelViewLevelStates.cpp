@@ -33,11 +33,11 @@ void ModelViewLevelStartState::Enter()
 	
 	HFGraphics::LightManager::GetInstance()->Register(directionalLight);
 	int num = 0;
-	for (int i = 0; i < 3;i++)
+	for (int i = 0; i < 4;i++)
 	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 4; j++)
 		{
-			for (int k = 0; k < 3; k++)
+			for (int k = 0; k < 4; k++)
 			{
 				num++;
 				shared_ptr<StaticMeshActor> phongSpecularMesh = make_shared<StaticMeshActor>();
@@ -58,44 +58,32 @@ void ModelViewLevelStartState::Enter()
 		}
 	}
 
-	for (int i = 0; i < 3+1; i++)
+
+	shared_ptr<HFGraphics::DirectinalLight> dLight = make_shared<HFGraphics::DirectinalLight>();
+
+	dLight->SetDirection(HFVECTOR4(0, -1, 1, 0));
+	dLight->SetPosition(HFVECTOR3(0, 50, 0));
+	dLight->SetColor(HFVECTOR4(1,1,1,1));
+
+	HFGraphics::LightManager::GetInstance()->Register(dLight);
+
+	for (int i = 0; i < 1; i++)
 	{
-		for (int j = 0; j < 3+1; j++)
+		for (int j = 0; j < 3; j++)
 		{
-			for (int k = 0; k < 3+1; k++)
-			{
-				num++;
-				shared_ptr<HFGraphics::PointLight> point = make_shared<HFGraphics::PointLight>();
-	
-				point->SetPosition(HFVECTOR4(-2.5 + i * 5, -2.5 + j * 5, -2.5 + k * 5,0));
-				point->SetRange(10);
-				point->SetFalloff(0.8);
-				point->SetAtttention(0.8);
-				point->SetColor(HFVECTOR4((0.0 + (i % 3)*0.5 ), (0.0 + (j % 3)*0.5), (0.0 + (k % 3)*0.5), 1));
-				HFGraphics::LightManager::GetInstance()->Register(point);
-			}
-		}
-	}
-
-
-
-
-
-
-	for (int i = 0; i < 3 + 1; i++)
-	{
-		for (int j = 0; j < 3 + 1; j++)
-		{
-			for (int k = 0; k < 3 + 1; k++)
+			for (int k = 0; k < 1; k++)
 			{
 				num++;
 				shared_ptr<HFGraphics::SpotLight> point = make_shared<HFGraphics::SpotLight>();
 				HFGraphics::SPOT_LIGHT_PRAM par;
-				point->SetPram(HFVECTOR4(-2.5 + i * 5, -2.5 + j * 5, -2.5 + k * 5, 0));
 				point->SetRange(10);
-				point->SetFalloff(0.8);
-				point->SetAtttention(0.8);
-				point->SetColor(HFVECTOR4((0.0 + (i % 3)*0.5), (0.0 + (j % 3)*0.5), (0.0 + (k % 3)*0.5), 1));
+				point->SetFalloff(10);
+				point->SetAtttention(10);
+				point->SetColor(HFVECTOR4(1, 1, 1, 1));
+				point->SetDirection(HFVECTOR4(0, 0, 1, 0)); 
+				point->SetPosition(HFVECTOR4(5*j, 0, 0,0));
+
+				point->SetPHI(HFToRadian(12));
 				HFGraphics::LightManager::GetInstance()->Register(point);
 			}
 		}

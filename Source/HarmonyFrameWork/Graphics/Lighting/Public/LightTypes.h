@@ -190,7 +190,7 @@ namespace HFGraphics
 	public:
 		SpotLight()
 			:
-			BaseLight(LightType::Directional)
+			BaseLight(LightType::Spot)
 		{
 
 		};
@@ -201,7 +201,42 @@ namespace HFGraphics
 
 		// Access the Pram
 		const SPOT_LIGHT_PRAM& GetPram(void) const	{ return(pram);	};
-		void SetPram(const SPOT_LIGHT_PRAM& _pram)	{ pram = _pram;	};
+		void SetPram(const SPOT_LIGHT_PRAM& _pram) { pram = _pram; };
+
+		void SetPosition(const HFVECTOR4& position)
+		{
+			pram.position = position;
+		}
+
+		void SetColor(const HFVECTOR4& color)
+		{
+			pram.color = color;
+		}		
+
+
+		void SetDirection(const HFVECTOR4 direction)
+		{
+			pram.direction = direction;
+		}
+
+		void SetFalloff(const FLOAT falloff)
+		{
+			pram.falloff = falloff;
+		}
+		void SetAtttention(const FLOAT attention)
+		{
+			pram.attenuation = attention;
+		}
+		void SetRange(const FLOAT range)
+		{
+			pram.range = range;
+		}
+
+
+		void SetPHI(const FLOAT phi)
+		{
+			pram.phi = phi;
+		}
 
 	private:
 		SPOT_LIGHT_PRAM pram;

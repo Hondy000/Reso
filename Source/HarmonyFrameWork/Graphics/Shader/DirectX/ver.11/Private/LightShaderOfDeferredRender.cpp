@@ -497,6 +497,16 @@ bool LightShaderOfDeferredRender::SetShaderParameters
 	{
 		::ZeroMemory(&dataPtr2->spotLightArray[i], sizeof(HFGraphics::SPOT_LIGHT_PRAM));
 
+		if (spotLightArray[i])
+		{
+			dataPtr2->spotLightArray2[i].attenuation = spotLightArray[i]->GetPram().attenuation;
+			dataPtr2->spotLightArray2[i].color = spotLightArray[i]->GetPram().color;
+			dataPtr2->spotLightArray2[i].falloff = spotLightArray[i]->GetPram().falloff;
+			dataPtr2->spotLightArray2[i].position = spotLightArray[i]->GetPram().position;
+			dataPtr2->spotLightArray2[i].range = spotLightArray[i]->GetPram().range;
+			dataPtr2->spotLightArray2[i].phi = spotLightArray[i]->GetPram().phi;
+			dataPtr2->spotLightArray2[i].direction = spotLightArray[i]->GetPram().direction;
+		}
 
 	}
 

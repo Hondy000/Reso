@@ -238,11 +238,12 @@ class cSpotLight : iBaseLight
 
 		lightDir = light.position.xyz - positions.xyz;
 		float len = length(lightDir);
-		float LD = normalize(light.direction.xyz);
+		float3 LD = normalize(light.direction.xyz);
 		float dif = (1.0f / len) * light.attenuation;
 		float d2 = -dot(LD, normalize(lightDir));
 		float a = 1.0f - sin(light.phi);
-		float at = (1 - pow(max(a / 2, 0), light.falloff)) * step(d2, a);
+		float at = 0;
+		at = (1 - pow(max(a / d2, 0), light.falloff)) * !step(d2, a);
 		outputColor.xyz += colors.xyz * max(light.color.xyz * at  *dif * step(len, light.range) * dot(normalize(lightDir), normals), 0);
 
 
@@ -409,7 +410,7 @@ class cSpecular : iBaseLight
 		outputColor = diffuseColor * colors + S;
 
 		// pointLight
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 0; i++)
 		{
 			// ŒõŒ¹‚Æ‘ÎÛ‚Ì·•ª‚ðŽZo
 			lightDir = pointLight[i].position.xyz - positions.xyz;
@@ -435,17 +436,32 @@ class cSpecular : iBaseLight
 
 
 		// spotLight
+//		for (int i = 0; i < 64; i++)
+//		{
+//			lightDir = spotLight[i].position.xyz - positions.xyz;
+//			float len = length(lightDir);
+//			float LD = normalize(spotLight[i].direction.xyz);
+//			float dif = (1.0f / len) * spotLight[i].attenuation;
+//			float d2 = -dot(LD, normalize(lightDir));
+//			float a = 1.0f - sin(spotLight[i].phi);
+//			float at = (1 - pow(max(a / 2, 0), spotLight[i].falloff)) * step(d2, a);
+//			outputColor.xyz += colors.xyz * max(spotLight[i].color.xyz * at  *dif * step(len, spotLight[i].range) * dot(normalize(lightDir), normals), 0);
+//		}
+
 		for (int i = 0; i < 64; i++)
 		{
 			lightDir = spotLight[i].position.xyz - positions.xyz;
 			float len = length(lightDir);
-			float LD = normalize(spotLight[i].direction.xyz);
+			float3 LD = normalize(spotLight[i].direction.xyz);
 			float dif = (1.0f / len) * spotLight[i].attenuation;
 			float d2 = -dot(LD, normalize(lightDir));
 			float a = 1.0f - sin(spotLight[i].phi);
-			float at = (1 - pow(max(a / 2, 0), spotLight[i].falloff)) * step(d2, a);
+			float at = 0;
+			at = (1 - pow(max(a / d2, 0), spotLight[i].falloff)) * !step(d2, a);
 			outputColor.xyz += colors.xyz * max(spotLight[i].color.xyz * at  *dif * step(len, spotLight[i].range) * dot(normalize(lightDir), normals), 0);
+
 		}
+
 		return outputColor;
 	}
 };
