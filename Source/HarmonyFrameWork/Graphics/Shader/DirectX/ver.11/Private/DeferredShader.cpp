@@ -6,6 +6,9 @@
 #include "..\..\..\..\RenderObject\Public\SubMesh.h"
 #include "..\..\..\..\Public\BaseGraphicsCommand.h"
 #include "..\..\..\..\..\Core\Task\Public\TaskSystem.h"
+#include "../../../../Lighting/Public/LightTypes.h"
+#include "../../../../Lighting/Public/LightManager.h"
+#include "../../../../Shadow/Public/ShadowMapActor.h"
 
 DeferredShader::DeferredShader()
 {
@@ -66,6 +69,7 @@ bool DeferredShader::Setup()
 	D3D11_BUFFER_DESC matrixBufferDesc;
 	D3D11_BUFFER_DESC materialBufferDesc;
 
+	m_constantBuffers.push_back(std::shared_ptr<ConstantBuffer>(new ConstantBuffer));
 	m_constantBuffers.push_back(std::shared_ptr<ConstantBuffer>(new ConstantBuffer));
 	m_constantBuffers.push_back(std::shared_ptr<ConstantBuffer>(new ConstantBuffer));
 
@@ -133,6 +137,30 @@ bool DeferredShader::Setup()
 		return false;
 	}
 
+	m_cpSamplerStateArray.resize(1);
+
+	// シャドウマップ用のサンプラー作成
+	samplerDesc.Filter = D3D11_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.MipLODBias = 0.0f;
+	samplerDesc.MaxAnisotropy = 1;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_LESS_EQUAL;
+	samplerDesc.BorderColor[0] = 1.0;
+	samplerDesc.BorderColor[1] = 1.0;
+	samplerDesc.BorderColor[2] = 1.0;
+	samplerDesc.BorderColor[3] = 1.0;
+	samplerDesc.MinLOD = -FLT_MAX;
+	samplerDesc.MaxLOD = +FLT_MAX;
+
+	// Create the texture sampler state.
+	result = sRENDER_DEVICE->CreateSamplerState(&samplerDesc, m_cpSamplerStateArray[0].GetAddressOf());
+	if (FAILED(result))
+	{
+		return false;
+	}
+
 	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
 	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -154,6 +182,7 @@ bool DeferredShader::Setup()
 	materialBufferDesc.StructureByteStride = 0;
 	result = sRENDER_DEVICE->CreateBuffer(&materialBufferDesc, NULL, m_constantBuffers[1]->GetAddressOf());
 
+	m_constantBuffers[2]->SetData(NULL, sizeof(LightMatrixBuffer), 1, BaseBuffer::ACCESS_FLAG::WRITEONLY);
 
 	return S_OK;
 }
@@ -197,6 +226,8 @@ bool DeferredShader::Render()
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShader(m_cpPixelShader.Get(), NULL, 0);
 
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetSamplers(0, 1, m_cpSamplerState.GetAddressOf());
+
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetSamplers(1, 1, m_cpSamplerStateArray[0].GetAddressOf());
 
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	
@@ -269,6 +300,39 @@ bool DeferredShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, std::shar
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[1]->Get(), 0);
 
 
+	LightMatrixBuffer *lightBufferPtr;
+
+	std::shared_ptr< HFGraphics::DirectinalLight  > spLight;
+	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(spLight);
+	// ライト行列更新
+	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(m_constantBuffers[2]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result))
+	{
+		return false;
+	}
+
+	lightBufferPtr = (LightMatrixBuffer*)mappedResource.pData;
+
+	// シャドウマップ変換行列
+	if (spLight)
+	{
+		HFMATRIX lightProj, lightView, bias;
+
+		bias = HFMATRIX(
+			0.5f, 0.0f, 0.0f, 0.0f,
+			0.0f, -0.5f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.0f, 1.0f);
+		lightView = HFMATRIX::CreateLookAt(HFVECTOR3(0, 1, -1), HFVECTOR3(0, 0, 0), HFVECTOR3(0, 1, 0));
+
+		lightProj = HFMATRIX::CreateOrthographic((float)16, (float)9, 0.1f, 800.0f);
+		lightBufferPtr->lightMatrix = lightView * lightProj *bias;
+
+	}
+
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->Unmap(m_constantBuffers[2]->Get(), 0);
+	sRENDER_DEVICE_MANAGER->GetImmediateContext()->VSSetConstantBuffers(1, 1, m_constantBuffers[2]->GetAddressOf());
+
 
 	bufferNumber = 0;
 
@@ -279,6 +343,18 @@ bool DeferredShader::PreProcessOfRender(std::shared_ptr<SubMesh> mesh, std::shar
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->VSSetConstantBuffers(bufferNumber, 1, m_constantBuffers[0]->GetAddressOf());
 	sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetConstantBuffers(0, 1, m_constantBuffers[1]->GetAddressOf());
 
+	// シャドウマップ
+
+	std::vector<std::shared_ptr<BaseTexture2D>> shadowMapTextures;
+	ShadowManager::GetInstance()->GetShadowMapTextures(shadowMapTextures);
+
+	for (auto i = 0; i < shadowMapTextures.size(); i++)
+	{
+		if (shadowMapTextures[i])
+		{
+			sRENDER_DEVICE_MANAGER->GetImmediateContext()->PSSetShaderResources(1, 1, shadowMapTextures[i]->GetSharderResorceView().GetAddressOf());
+		}
+	}
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer>  buffers[3];
 	buffers[0] = mesh->GetVertexBuffers()[0]->GetBuffer();

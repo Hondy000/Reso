@@ -6,7 +6,6 @@ struct PixelInputType
 {
 	float4 position : SV_POSITION;
 	float2 tex : TEXCOORD0;
-	float4 shadowTex : TEXCOORD1;
 };
 interface iBaseLight
 {
@@ -61,14 +60,13 @@ Texture2DMS <float4, 8> normalTexture : register(t2);
 Texture2DMS <float4, 8> ambientTexture : register(t3);
 Texture2DMS <float4, 8> emissiveTexture : register(t4);
 Texture2DMS <float4, 8> specularTexture : register(t5);
+Texture2DMS <float4, 8> shadowMapTexture : register(t6);
 
-Texture2D <float4> shadowMapOfDirectionalLightTexture : register(t6);
 
 
 
 SamplerState SampleTypePoint : register(s0);
 
-SamplerComparisonState ShadowSmp : register(s1);
 
 
 class cDeferredLight :iBaseLight
@@ -191,7 +189,7 @@ class cPointLight :iBaseLight
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
 
-		outputColor = saturate(colors * lightIntensity) ;
+		outputColor = saturate(colors * lightIntensity);
 
 
 		lightDir = light.position.xyz - positions.xyz;
@@ -302,7 +300,7 @@ class cAllLight : iBaseLight
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
 
-		outputColor = saturate(colors * lightIntensity) ;
+		outputColor = saturate(colors * lightIntensity);
 		// *float4(1.0f, 1.0f, 1.0f, 1.0f);
 
 		for (int i = 0; i < 64; i++)
@@ -359,7 +357,7 @@ class cSpecular : iBaseLight
 		float2	pixsize;
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
-			
+
 
 		// アルベドを取得
 		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
@@ -376,34 +374,10 @@ class cSpecular : iBaseLight
 
 		specular = specularTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
-
-		float4 shadowTex = mul(lightMatrix, float4(positions));
-		// Depth取得
-		//float depth = shadowMapOfDirectionalLightTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
-		float4 SdwCoord = shadowTex;
-
-		float3 shadowCoord = SdwCoord.xyz / SdwCoord.w;
-		
-		     // 最大深度傾斜を求める.
-		float  maxDepthSlope = max(abs(ddx(shadowCoord.z)), abs(ddy(shadowCoord.z)));
-		
-		float  shadowThreshold = 1.0f;      // シャドウにするかどうかの閾値です.
-		float  bias = 0.01f;     // 固定バイアスです.
-		float  slopeScaledBias = 0.0001f;     // 深度傾斜.
-		float  depthBiasClamp = 0.0001f;      // バイアスクランプ値.
-		
-		float  shadowBias = bias + slopeScaledBias * maxDepthSlope;
-		shadowBias = min(shadowBias, depthBiasClamp);
-		
-		float3 shadowColor = float3(0.25f, 0.25f, 0.25f);
-		shadowThreshold = shadowMapOfDirectionalLightTexture.SampleCmpLevelZero(ShadowSmp, shadowCoord.xy, shadowCoord.z - shadowBias);
-		shadowColor = lerp(shadowColor, float3(1.0f, 1.0f, 1.0f), shadowThreshold);
-
-
-
 		lightDir = normalize(-lightDirection.xyz);
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
+
 
 		outputColor = saturate(colors * lightIntensity);
 		float3 N = normalize(normals.xyz);
@@ -416,7 +390,7 @@ class cSpecular : iBaseLight
 		//ライトベクトルと法線ベクトルの内積を計算し、計算結果の色の最低値を環境光( m_Ambient )に制限する
 		//float4 diffuseColor =  ambient * max(0.0, dot(lightDir, normals));
 		//float4 diffuseColor = min(max(ambient, dot(N, lightDir)) + emissive, 1.0f);	 	
-	//	float4 diffuseColor = min(max(0, dot(N, lightDir)), 1.0f) + ambient;
+		//	float4 diffuseColor = min(max(0, dot(N, lightDir)), 1.0f) + ambient;
 		float4 diffuseColor = ambient + 1 * max(0.0, dot(lightDir, N));
 		//float4 diffuseColor = max(0, dot(N, lightDir)) + ambient;
 
@@ -428,13 +402,10 @@ class cSpecular : iBaseLight
 
 
 		//スペキュラーカラーを計算する(注意２)
-		float4 S = pow(max(0.0f, dot(lightDir, R)), 50)*3 * specular;
+		float4 S = pow(max(0.0f, dot(lightDir, R)), 50) * 3 * specular;
 		S = saturate(S);
 		//スペキュラーカラーを加算する
 		outputColor = diffuseColor * colors + S;
-		outputColor.x *= shadowColor.x;
-		outputColor.y *= shadowColor.y;
-		outputColor.z *= shadowColor.z;
 
 		// pointLight
 		for (int i = 0; i < 0; i++)
@@ -451,29 +422,29 @@ class cSpecular : iBaseLight
 
 			//頂点 -> ライト位置ベクトル + 頂点 -> 視点ベクトル(注意１)	  
 			lightDir = normalize(lightDir.xyz);
-		
+
 
 			R = reflect(V, N);
 			S = pow(max(0.0f, dot(lightDir, R)), 50) * 3 * specular;
 			S = saturate(S);
 			//	outputColor.xyz += colors.xyz * max(pointLight[i].color.xyz * at * step(len, pointLight[i].range) *  saturate(dot(LD, normals)), 0)+S * step(len, pointLight[i].range);
-			outputColor.xyz += colors.xyz * max(((pointLight[i].color.xyz *  at * step(len, pointLight[i].range)) ) * dot(lightDir, normals), 0) + at * (S * step(len, pointLight[i].range));
+			outputColor.xyz += colors.xyz * max(((pointLight[i].color.xyz *  at * step(len, pointLight[i].range))) * dot(lightDir, normals), 0) + at * (S * step(len, pointLight[i].range));
 
 		}
 
 
 		// spotLight
-//		for (int i = 0; i < 64; i++)
-//		{
-//			lightDir = spotLight[i].position.xyz - positions.xyz;
-//			float len = length(lightDir);
-//			float LD = normalize(spotLight[i].direction.xyz);
-//			float dif = (1.0f / len) * spotLight[i].attenuation;
-//			float d2 = -dot(LD, normalize(lightDir));
-//			float a = 1.0f - sin(spotLight[i].phi);
-//			float at = (1 - pow(max(a / 2, 0), spotLight[i].falloff)) * step(d2, a);
-//			outputColor.xyz += colors.xyz * max(spotLight[i].color.xyz * at  *dif * step(len, spotLight[i].range) * dot(normalize(lightDir), normals), 0);
-//		}
+		//		for (int i = 0; i < 64; i++)
+		//		{
+		//			lightDir = spotLight[i].position.xyz - positions.xyz;
+		//			float len = length(lightDir);
+		//			float LD = normalize(spotLight[i].direction.xyz);
+		//			float dif = (1.0f / len) * spotLight[i].attenuation;
+		//			float d2 = -dot(LD, normalize(lightDir));
+		//			float a = 1.0f - sin(spotLight[i].phi);
+		//			float at = (1 - pow(max(a / 2, 0), spotLight[i].falloff)) * step(d2, a);
+		//			outputColor.xyz += colors.xyz * max(spotLight[i].color.xyz * at  *dif * step(len, spotLight[i].range) * dot(normalize(lightDir), normals), 0);
+		//		}
 
 		for (int i = 0; i < 64; i++)
 		{
@@ -543,6 +514,6 @@ float4 LightPixelShader(PixelInputType input) : SV_TARGET
 {
 	float4 outputColor;
 
-	outputColor = g_abstractLight.GetColor(input);
-	return outputColor;
+outputColor = g_abstractLight.GetColor(input);
+return outputColor;
 }

@@ -45,6 +45,11 @@ private:
 		//	HFVECTOR4 specular;
 		//	HFVECTOR4 emissive;
 	};
+	struct LightMatrixBuffer
+	{
+		HFMATRIX lightMatrix;
+	};
+
 
 public:
 	DeferredShader();

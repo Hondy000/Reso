@@ -49,7 +49,7 @@ void ModelViewLevelStartState::Enter()
 				phongSpecularMesh->GetSubMeshMaterial(0)->SetSpecular(HFVECTOR4(1, 1, 0.4, 1.0));
 				//phongSpecularMesh->SetMaterialShader(0, std::make_shared<SpecularPhongShader>());
 
-				phongSpecularMesh->GetTransform()->SetPosition(HFVECTOR3(i , j,  k));
+				phongSpecularMesh->GetTransform()->SetPosition(HFVECTOR3(i, j, k));
 				phongSpecularMesh->GetTransform()->SetScale(HFVECTOR3(0.1, 0.1, 0.1));
 				sTASK_SYSTEM->RegisterTask(std::string("model") + std::to_string(num) , phongSpecularMesh);
 				phongSpecularMesh->LoadDiffuseTexture2D(0, "Resource/Texture/XA-20_Razorback_Strike_Fighter_P01.png");
@@ -177,7 +177,7 @@ void ModelViewLevelStartState::Enter()
 	sprite4->GetTransform()->SetScale(100, 100, 0);
 	sprite4->GetTransform()->SetPosition(-900, -100, 0);
 
-	sprite4->SetMaterialDiffuseTexture(0, ShadowManager::GetInstance()->GetShadowMapTextureOfDirectionalight());
+	sprite4->SetMaterialDiffuseTexture(0, sRENDER_DEVICE_MANAGER->GetGeometryBuffer()->GetShaderResourceView(6));
 
 	TaskSystem::GetInstance()->RegisterTask("sprite4", sprite4);
 
