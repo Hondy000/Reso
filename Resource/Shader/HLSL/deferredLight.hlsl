@@ -6,6 +6,7 @@ struct PixelInputType
 {
 	float4 position : SV_POSITION;
 	float2 tex : TEXCOORD0;
+	float4 shadowTex : TEXCOORD1;
 };
 interface iBaseLight
 {
@@ -61,11 +62,13 @@ Texture2DMS <float4, 8> ambientTexture : register(t3);
 Texture2DMS <float4, 8> emissiveTexture : register(t4);
 Texture2DMS <float4, 8> specularTexture : register(t5);
 
-Texture2DMS <float4, 8> shadowMapOfDirectionalLightTexture : register(t6);
+Texture2D <float4> shadowMapOfDirectionalLightTexture : register(t6);
 
 
 
 SamplerState SampleTypePoint : register(s0);
+
+SamplerComparisonState ShadowSmp : register(s1);
 
 
 class cDeferredLight :iBaseLight
@@ -356,9 +359,7 @@ class cSpecular : iBaseLight
 		float2	pixsize;
 		int sampleCnt;
 		colorTexture.GetDimensions(pixsize.x, pixsize.y, sampleCnt);
-		
-		// Depth取得
-		float depth = shadowMapOfDirectionalLightTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+			
 
 		// アルベドを取得
 		colors = colorTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
@@ -376,12 +377,35 @@ class cSpecular : iBaseLight
 		specular = specularTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
 
 
-		lightDir =normalize(-lightDirection.xyz);
+		float4 shadowTex = mul(lightMatrix, float4(positions));
+		// Depth取得
+		//float depth = shadowMapOfDirectionalLightTexture.Load(uint2(input.tex.x*pixsize.x, input.tex.y*pixsize.y), 0);
+		float4 SdwCoord = shadowTex;
+
+		float3 shadowCoord = SdwCoord.xyz / SdwCoord.w;
+		
+		     // 最大深度傾斜を求める.
+		float  maxDepthSlope = max(abs(ddx(shadowCoord.z)), abs(ddy(shadowCoord.z)));
+		
+		float  shadowThreshold = 1.0f;      // シャドウにするかどうかの閾値です.
+		float  bias = 0.01f;     // 固定バイアスです.
+		float  slopeScaledBias = 0.0001f;     // 深度傾斜.
+		float  depthBiasClamp = 0.0001f;      // バイアスクランプ値.
+		
+		float  shadowBias = bias + slopeScaledBias * maxDepthSlope;
+		shadowBias = min(shadowBias, depthBiasClamp);
+		
+		float3 shadowColor = float3(0.25f, 0.25f, 0.25f);
+		shadowThreshold = shadowMapOfDirectionalLightTexture.SampleCmpLevelZero(ShadowSmp, shadowCoord.xy, shadowCoord.z - shadowBias);
+		shadowColor = lerp(shadowColor, float3(1.0f, 1.0f, 1.0f), shadowThreshold);
+
+
+
+		lightDir = normalize(-lightDirection.xyz);
 
 		lightIntensity = saturate(dot(normals.xyz, lightDir));
 
 		outputColor = saturate(colors * lightIntensity);
-
 		float3 N = normalize(normals.xyz);
 		//ライト方向で入力されるので、頂点 -> ライト位置とするために逆向きに変換する。なおアプリケーションで必ず正規化すること
 		float3 V = normalize(positions.xyz - g_cameraPosition.xyz);
@@ -408,6 +432,9 @@ class cSpecular : iBaseLight
 		S = saturate(S);
 		//スペキュラーカラーを加算する
 		outputColor = diffuseColor * colors + S;
+		outputColor.x *= shadowColor.x;
+		outputColor.y *= shadowColor.y;
+		outputColor.z *= shadowColor.z;
 
 		// pointLight
 		for (int i = 0; i < 0; i++)
@@ -461,7 +488,7 @@ class cSpecular : iBaseLight
 			outputColor.xyz += colors.xyz * max(spotLight[i].color.xyz * at  *dif * step(len, spotLight[i].range) * dot(normalize(lightDir), normals), 0);
 
 		}
-
+		//outputColor = float4(shadowColor, 1);
 		return outputColor;
 	}
 };
@@ -479,6 +506,13 @@ cbuffer cbBuffer1 : register(b0)
 {
 	// 列優先
 	column_major float4x4 g_matWVP : packoffset(c0);   // ワールド × ビュー × 射影 行列
+};
+
+// 頂点シェーダーで使用する定数バッファ
+cbuffer cbBuffer2 : register(b1)
+{
+	// 列優先
+	column_major float4x4 lightMatrix : packoffset(c1);   // ワールド × ビュー × 射影 行列
 };
 
 // 使用するクラスを選択するための定数バッファ
@@ -502,7 +536,6 @@ PixelInputType LightVertexShader(VertexInputType input)
 	output.position = mul(float4(input.position, 1.0f), g_matWVP);
 
 	output.tex = input.tex;
-
 	return output;
 }
 
@@ -510,6 +543,6 @@ float4 LightPixelShader(PixelInputType input) : SV_TARGET
 {
 	float4 outputColor;
 
-outputColor = g_abstractLight.GetColor(input);
-return outputColor;
+	outputColor = g_abstractLight.GetColor(input);
+	return outputColor;
 }

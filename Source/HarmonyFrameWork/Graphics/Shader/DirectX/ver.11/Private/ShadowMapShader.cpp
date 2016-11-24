@@ -101,9 +101,9 @@ bool ShadowMapShader::PreProcessOfRender(std::shared_ptr<SubMesh> shape, std::sh
 
 	std::shared_ptr<HFGraphics::DirectinalLight> dlight;
 	HFGraphics::LightManager::GetInstance()->GetDirectionalLight(dlight);
-	view = HFMATRIX::CreateLookAt(dlight->GetPram().position, HFVECTOR3(0,0,0), HFVECTOR3(0, 1, 0));
+	view = HFMATRIX::CreateLookAt(HFVECTOR3(0,1,-1), HFVECTOR3(0,0,0), HFVECTOR3(0, 1, 0));
 
-	proj = HFMATRIX::CreateOrthographic((float)32, (float)32, 0.1f, 800.0f);
+	proj = HFMATRIX::CreateOrthographic((float)16, (float)9 , 0.1f, 800.0f);
 	// Lock the constant buffer so it can be written to.
 	result = sRENDER_DEVICE_MANAGER->GetImmediateContext()->Map(m_constantBuffers[0]->Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 	if (FAILED(result))

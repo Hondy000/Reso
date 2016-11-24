@@ -72,6 +72,14 @@ private:
 	{
 		HFVECTOR4 cameraPosition;
 	}CBUFFER1;
+
+
+	typedef struct CBUFFER2
+	{
+		HFMATRIX lightMatrix;
+	}CBUFFER2;
+
+
 public:
 	LightShaderOfDeferredRender();
 	LightShaderOfDeferredRender(const LightShaderOfDeferredRender&);

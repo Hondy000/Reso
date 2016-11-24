@@ -22,6 +22,7 @@
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shadow\Public\ShadowMapActor.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\RenderDevice\DirectX\ver.11\Public\GeometryBuffers.h"
 #include "..\..\..\..\HarmonyFrameWork\Graphics\Shader\DirectX\ver.11\Public\DefaultSpriteShader.h"
+#include "..\..\..\..\HarmonyFrameWork\Utility\Public\HFSyatemTime.h"
 
 using namespace std;
 void ModelViewLevelStartState::Enter()
@@ -29,7 +30,7 @@ void ModelViewLevelStartState::Enter()
 
 
 	shared_ptr<HFGraphics::DirectinalLight> directionalLight = make_shared<HFGraphics::DirectinalLight>();
-	directionalLight->SetDirection(HFVECTOR4(0, -1, 0, 1));
+	directionalLight->SetDirection(HFVECTOR4(0, -1, 1, 1));
 	
 	HFGraphics::LightManager::GetInstance()->Register(directionalLight);
 	int num = 0;
@@ -48,7 +49,8 @@ void ModelViewLevelStartState::Enter()
 				phongSpecularMesh->GetSubMeshMaterial(0)->SetSpecular(HFVECTOR4(1, 1, 0.4, 1.0));
 				//phongSpecularMesh->SetMaterialShader(0, std::make_shared<SpecularPhongShader>());
 
-				phongSpecularMesh->GetTransform()->SetPosition(HFVECTOR3(i * 5, j * 5,  k * 5));
+				phongSpecularMesh->GetTransform()->SetPosition(HFVECTOR3(i , j,  k));
+				phongSpecularMesh->GetTransform()->SetScale(HFVECTOR3(0.1, 0.1, 0.1));
 				sTASK_SYSTEM->RegisterTask(std::string("model") + std::to_string(num) , phongSpecularMesh);
 				phongSpecularMesh->LoadDiffuseTexture2D(0, "Resource/Texture/XA-20_Razorback_Strike_Fighter_P01.png");
 				
@@ -184,7 +186,7 @@ void ModelViewLevelStartState::Enter()
 	groundMesh->SetMesh(BasicMeshFactory::GetInstance()->Create(HF_BM_QUAD, 0, 0, 0));
 	groundMesh->SetMaterialShader(0, std::make_shared<DeferredShader>());
 	groundMesh->GetTransform()->SetEulerDegAngles(90,0,0);
-	groundMesh->GetTransform()->SetScale(HFVECTOR3(20, 20, 20));
+	groundMesh->GetTransform()->SetScale(HFVECTOR3(100, 100, 100));
 	groundMesh->GetTransform()->SetPosition(HFVECTOR3(0, -2, 0));
 	groundMesh->SetMaterialDiffuseTexture(0,Texture2DManager::GetInstance()->Get("Resource/Texture/DefaultWhite.png"));
 	groundMesh->GetSubMeshMaterial(0)->SetDiffuse(HFVECTOR4(0.5f, 0.5f, 0.5f, 1));
@@ -202,27 +204,27 @@ void ModelViewLevelStartState::Execute()
 
 	if (sINPUT->IsHoldKeyboard(DIK_SPACE))
 	{
-		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 0.1, 0));
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 3, 0)* HFSyatemTime::GetInstance()->GetRealityDeltaSeconds());
 	}
 	if (sINPUT->IsHoldKeyboard(DIK_LSHIFT))
 	{
-		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 0.1, 0));
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 3, 0)* HFSyatemTime::GetInstance()->GetRealityDeltaSeconds());
 	}
 	if (sINPUT->IsHoldKeyboard(DIK_RIGHT))
 	{
-		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0.1, 0, 0));
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(3, 0, 0)* HFSyatemTime::GetInstance()->GetRealityDeltaSeconds());
 	}
 	if (sINPUT->IsHoldKeyboard(DIK_LEFT))
 	{
-		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0.1, 0, 0));
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(3, 0, 0)* HFSyatemTime::GetInstance()->GetRealityDeltaSeconds());
 	}
 	if (sINPUT->IsHoldKeyboard(DIK_UP))
 	{
-		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 0, 0.1));
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() + HFVECTOR3(0, 0, 3)* HFSyatemTime::GetInstance()->GetRealityDeltaSeconds());
 	}
 	if (sINPUT->IsHoldKeyboard(DIK_DOWN))
 	{
-		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 0, 0.1));
+		camera3D->SetCameraPosition(camera3D->GetCameraPosition() - HFVECTOR3(0, 0, 3)* HFSyatemTime::GetInstance()->GetRealityDeltaSeconds());
 	}
 
 	
